@@ -10,7 +10,7 @@ import org.firstinspires.ftc.robotcore.external.navigation.AxesOrder;
 import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
 import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
 
-public class RobotNormalDrive extends LinearOpMode {
+public class RobotNormalDrive extends ConfigureRobot {
 
     BNO055IMU imu;
 
@@ -19,12 +19,14 @@ public class RobotNormalDrive extends LinearOpMode {
     Orientation angles;
     Acceleration gravity;
 
+    boolean Configured = false;
+
     ConfigureRobot Config = new ConfigureRobot();
 
     public void runOpMode() throws InterruptedException {
     }
 
-    public boolean MoveEncoderTicks(double NumbCM, boolean Configured) {
+    public void MoveEncoderTicks(double NumbCM) {
 
         telemetry.addLine("(2) About to check for configured");
         if (!Configured)
@@ -113,11 +115,9 @@ public class RobotNormalDrive extends LinearOpMode {
         Motors[4].setPower(0);
 
         telemetry.addLine("(8) Robot should have moved");
-
-        return Configured;
     }
 
-    public boolean TurnUsingIMU(int Degrees, boolean Configured) //DO NOT TURN CLOSE TO A 180; INSTEAD JUST TURN UP TO 90 AND GO SIDEWAYS OR BACKWARDS
+    public void TurnUsingIMU(int Degrees) //DO NOT TURN CLOSE TO A 180; INSTEAD JUST TURN UP TO 90 AND GO SIDEWAYS OR BACKWARDS
     {
         //TURNING RIGHT IS POSITIVE!!!
 
@@ -237,7 +237,5 @@ public class RobotNormalDrive extends LinearOpMode {
                 Motors[3].setPower(-.2);
             }
         }
-
-        return Configured;
     }
 }

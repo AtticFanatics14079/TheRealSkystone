@@ -18,10 +18,10 @@ public class TestingClassReferences extends LinearOpMode {
         //vera.SetMotorPower(.5);
 
         telemetry.addLine("(1) About to enter MoveEncoderTicks in RobotNormalDrive");
-        Configured = jon.MoveEncoderTicks(20, Configured);
+        jon.MoveEncoderTicks(20);
 
         //vera.SidewaysMovement(30, Configured);
 
-        Configured = jon.TurnUsingIMU(80, Configured); //TURNING RIGHT IS POSITIVE!!!
+        jon.TurnUsingIMU(80); //TURNING RIGHT IS POSITIVE!!!
     }
 }

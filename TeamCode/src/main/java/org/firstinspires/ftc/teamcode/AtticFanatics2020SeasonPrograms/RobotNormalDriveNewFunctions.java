@@ -6,7 +6,7 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 
 import org.firstinspires.ftc.robotcore.external.navigation.Acceleration;
 
-public class RobotNormalDriveNewFunctions extends LinearOpMode {
+public class RobotNormalDriveNewFunctions extends ConfigureRobot {
 
     BNO055IMU imu;
 
@@ -17,10 +17,12 @@ public class RobotNormalDriveNewFunctions extends LinearOpMode {
 
     ConfigureRobot Config = new ConfigureRobot();
 
+    boolean Configured;
+
     public void runOpMode() throws InterruptedException {
     }
 
-    public boolean MoveEncoderTicks(double NumbCM, boolean Configured) {
+    public void MoveEncoderTicks(double NumbCM) {
 
         telemetry.addLine("(2) About to check for configured");
         if (!Configured) {
@@ -96,11 +98,9 @@ public class RobotNormalDriveNewFunctions extends LinearOpMode {
         }
 
         telemetry.addLine("(8) Robot should have moved, then stopped");
-
-        return Configured;
     }
 
-    public boolean TurnEncoderTicks(double Degrees, boolean Configured) //TURNING RIGHT IS POSITIVE!!! Also this is NOT using IMU, test both to compare.
+    public void TurnEncoderTicks(double Degrees) //TURNING RIGHT IS POSITIVE!!! Also this is NOT using IMU, test both to compare.
     {
         if (!Configured)
         {
@@ -144,7 +144,5 @@ public class RobotNormalDriveNewFunctions extends LinearOpMode {
                 }
             }
         }
-
-        return Configured;
     }
 }
