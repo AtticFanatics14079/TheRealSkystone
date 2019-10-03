@@ -6,7 +6,6 @@ import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 public class TeleOpTest extends OpMode {
 
     RobotTeleOpDrive Drive = new RobotTeleOpDrive();
-    boolean Configured = false;
 
     @Override
     public void init() {
@@ -15,6 +14,6 @@ public class TeleOpTest extends OpMode {
 
     @Override
     public void loop() {
-        Configured = Drive.Move(Configured);
+        Drive.Move();
     }
 }

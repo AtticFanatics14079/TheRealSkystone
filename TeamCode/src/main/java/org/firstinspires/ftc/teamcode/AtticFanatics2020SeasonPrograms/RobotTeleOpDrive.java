@@ -1,19 +1,18 @@
 package org.firstinspires.ftc.teamcode.AtticFanatics2020SeasonPrograms;
 
-import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 
 public class RobotTeleOpDrive extends ConfigureRobot {
 
     DcMotor[] Motors = new DcMotor[5];
 
-    ConfigureRobot Config = new ConfigureRobot();
+    boolean Configured;
 
-    public boolean Move(boolean Configured)
+    public boolean Move()
     {
         if (!Configured)
         {
-            Motors = Config.Configure(Motors);
+            Motors = Configure(Motors);
             Configured = true;
         }
         while(gamepad1.right_stick_x < -0.1 || gamepad1.right_stick_x > 0.1)

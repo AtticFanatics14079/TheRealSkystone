@@ -56,17 +56,16 @@ public class ConfigureRobot extends LinearOpMode {
         Motors[3].setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         Motors[4].setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
-        Motors[2].setDirection(DcMotor.Direction.REVERSE);
+        Motors[3].setDirection(DcMotor.Direction.REVERSE);
         Motors[4].setDirection(DcMotor.Direction.REVERSE);
 
-        composeTelemetry();
-
-        imu.startAccelerationIntegration(new Position(), new Velocity(), 1000);
+        imu = hardwareMap.get(BNO055IMU.class, "imu");
+        imu.initialize(new BNO055IMU.Parameters());
 
         return Motors;
         }
 
-    void composeTelemetry () {
+    /*void composeTelemetry () {
 
         // At the beginning of each telemetry update, grab a bunch of data
         // from the IMU that we will then display in separate lines.
@@ -141,7 +140,7 @@ public class ConfigureRobot extends LinearOpMode {
     String formatDegrees(double degrees){
         return String.format(Locale.getDefault(), "%.1f", AngleUnit.DEGREES.normalize(degrees));
     }
-
+    */
     @Override
     public void runOpMode() throws InterruptedException {
     }
