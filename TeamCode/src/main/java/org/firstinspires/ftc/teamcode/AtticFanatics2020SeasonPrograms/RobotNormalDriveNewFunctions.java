@@ -22,15 +22,15 @@ public class RobotNormalDriveNewFunctions extends ConfigureRobot {
 
     public void MoveEncoderTicks(double NumbCM) {
 
-        telemetry.addLine("(2) About to check for configured");
+        //telemetry.addLine("(2) About to check for configured");
         if (!Configured) {
-            telemetry.addLine("(3) About to configure");
-            Configure(Motors);
+            //telemetry.addLine("(3) About to configure");
+            //Configure(Motors);
             Configured = true;
         }
 
-        telemetry.addLine("(6) Configured, resetting motor encoders");
-        ResetMotorEncoders(Motors[1], Motors[2], Motors[3], Motors[4]);
+        //telemetry.addLine("(6) Configured, resetting motor encoders");
+        //ResetMotorEncoders(Motors);
 
         double HeadingAdjust = angles.firstAngle;
 
@@ -39,7 +39,7 @@ public class RobotNormalDriveNewFunctions extends ConfigureRobot {
         //Mess with numbers, as different circumference.
         double Ticks = 36.1275 * NumbCM;
 
-        telemetry.addLine("(8) About to run");
+        //telemetry.addLine("(8) About to run");
         if (NumbCM > 0) {
             Motors[1].setPower(1);
             Motors[2].setPower(1);
@@ -64,7 +64,7 @@ public class RobotNormalDriveNewFunctions extends ConfigureRobot {
     {
         if (!Configured)
         {
-            Configure(Motors);
+            //Configure(Motors);
             Configured = true;
         }
 

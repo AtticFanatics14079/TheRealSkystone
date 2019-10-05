@@ -2,8 +2,12 @@ package org.firstinspires.ftc.teamcode.AtticFanatics2020SeasonPrograms;
 
 import com.qualcomm.hardware.bosch.BNO055IMU;
 import com.qualcomm.hardware.bosch.JustLoggingAccelerationIntegrator;
+import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.DcMotorSimple;
+import com.qualcomm.robotcore.hardware.HardwareMap;
 
 import org.firstinspires.ftc.robotcore.external.Func;
 import org.firstinspires.ftc.robotcore.external.navigation.Acceleration;
@@ -16,27 +20,33 @@ import org.firstinspires.ftc.robotcore.external.navigation.Velocity;
 
 import java.util.Locale;
 
-public class ConfigureRobot extends LinearOpMode {
+@Disabled
+public class ConfigureRobot {
 
     BNO055IMU imu;
 
     Orientation angles;
     Acceleration gravity;
 
-    public void ResetMotorEncoders(DcMotor Motor1, DcMotor Motor2, DcMotor Motor3, DcMotor Motor4){
-        Motor1.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        Motor2.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        Motor3.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        Motor4.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        Motor1.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        Motor2.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        Motor3.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        Motor4.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+    DcMotor[] Motors = new DcMotor[5];
+
+    boolean Configured = false;
+
+    public void ResetMotorEncoders(HardwareMap ahwMap){
+        Motors[1].setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        Motors[2].setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        Motors[3].setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        Motors[4].setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        Motors[1].setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        Motors[2].setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        Motors[3].setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        Motors[4].setMode(DcMotor.RunMode.RUN_USING_ENCODER);
     }
 
-    public DcMotor[] Configure(DcMotor[] Motors)
+    public HardwareMap Configure(HardwareMap ahwMap)
     {
-        telemetry.addLine("(4) Entered Configure function");
+        HardwareMap hwMap = ahwMap;
+
         BNO055IMU.Parameters parameters = new BNO055IMU.Parameters();
         parameters.angleUnit = BNO055IMU.AngleUnit.DEGREES;
         parameters.accelUnit = BNO055IMU.AccelUnit.METERS_PERSEC_PERSEC;
@@ -45,103 +55,22 @@ public class ConfigureRobot extends LinearOpMode {
         parameters.loggingTag = "IMU";
         parameters.accelerationIntegrationAlgorithm = new JustLoggingAccelerationIntegrator();
 
-        telemetry.addLine("(5) About to hardwareMap");
-        Motors[1] = hardwareMap.get(DcMotor.class, "motor_1");
-        Motors[2] = hardwareMap.get(DcMotor.class, "motor_2");
-        Motors[3] = hardwareMap.get(DcMotor.class, "motor_3");
-        Motors[4] = hardwareMap.get(DcMotor.class, "motor_4");
+        Motors[1] = hwMap.get(DcMotor.class, "back_left_motor");
+        Motors[2] = hwMap.get(DcMotor.class, "front_left_motor");
+        Motors[3] = hwMap.get(DcMotor.class, "front_right_motor");
+        Motors[4] = hwMap.get(DcMotor.class, "back_right_motor");
 
         Motors[1].setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         Motors[2].setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         Motors[3].setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         Motors[4].setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
-        Motors[3].setDirection(DcMotor.Direction.REVERSE);
-        Motors[4].setDirection(DcMotor.Direction.REVERSE);
+        Motors[3].setDirection(DcMotorSimple.Direction.REVERSE);
+        Motors[4].setDirection(DcMotorSimple.Direction.REVERSE);
 
-        imu = hardwareMap.get(BNO055IMU.class, "imu");
+        imu = hwMap.get(BNO055IMU.class, "imu");
         imu.initialize(new BNO055IMU.Parameters());
 
-        return Motors;
+        return hwMap;
         }
-
-    /*void composeTelemetry () {
-
-        // At the beginning of each telemetry update, grab a bunch of data
-        // from the IMU that we will then display in separate lines.
-        telemetry.addAction(new Runnable() {
-            @Override
-            public void run() {
-                // Acquiring the angles is relatively expensive; we don't want
-                // to do that in each of the three items that need that info, as that's
-                // three times the necessary expense.
-                angles = imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
-                gravity = imu.getGravity();
-            }
-        });
-
-        telemetry.addLine()
-                .addData("status", new Func<String>() {
-                    @Override
-                    public String value() {
-                        return imu.getSystemStatus().toShortString();
-                    }
-                })
-                .addData("calib", new Func<String>() {
-                    @Override
-                    public String value() {
-                        return imu.getCalibrationStatus().toString();
-                    }
-                });
-
-        telemetry.addLine()
-                .addData("heading", new Func<String>() {
-                    @Override
-                    public String value() {
-                        return formatAngle(angles.angleUnit, angles.firstAngle); //I believe this is what we want starting with angles.angleUnit
-                    }
-                })
-                .addData("roll", new Func<String>() {
-                    @Override
-                    public String value() {
-                        return formatAngle(angles.angleUnit, angles.secondAngle); //I believe this is what we want starting with angles.angleUnit
-                    }
-                })
-                .addData("pitch", new Func<String>() {
-                    @Override
-                    public String value() {
-                        return formatAngle(angles.angleUnit, angles.thirdAngle); //I believe this is what we want starting with angles.angleUnit
-                    }
-                });
-
-        telemetry.addLine()
-                .addData("grvty", new Func<String>() {
-                    @Override
-                    public String value() {
-                        return gravity.toString(); //Returns the gravity as the string value
-                    }
-                })
-                .addData("mag", new Func<String>() {
-                    @Override
-                    public String value() {
-                        return String.format(Locale.getDefault(), "%.3f",
-                                Math.sqrt(gravity.xAccel * gravity.xAccel
-                                        + gravity.yAccel * gravity.yAccel
-                                        + gravity.zAccel * gravity.zAccel));
-                    }
-
-                });
-    }
-
-    String formatAngle(AngleUnit angleUnit, double angle) {
-        return formatDegrees(AngleUnit.DEGREES.fromUnit(angleUnit, angle));
-    }
-
-    String formatDegrees(double degrees){
-        return String.format(Locale.getDefault(), "%.1f", AngleUnit.DEGREES.normalize(degrees));
-    }
-    */
-    @Override
-    public void runOpMode() throws InterruptedException {
-    }
 }

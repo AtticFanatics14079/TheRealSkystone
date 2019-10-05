@@ -28,16 +28,16 @@ public class RobotNormalDrive extends ConfigureRobot {
 
     public void MoveEncoderTicks(double NumbCM) {
 
-        telemetry.addLine("(2) About to check for configured");
+        //telemetry.addLine("(2) About to check for configured");
         if (!Configured)
         {
-            telemetry.addLine("(3) About to configure");
-            Motors = Config.Configure(Motors);
+            //telemetry.addLine("(3) About to configure");
+            //Motors = Config.Configure(Motors);
             Configured = true;
         }
 
-        telemetry.addLine("(6) Configured, resetting motor encoders");
-        Config.ResetMotorEncoders(Motors[1], Motors[2], Motors[3], Motors[4]);
+        //telemetry.addLine("(6) Configured, resetting motor encoders");
+        //Config.ResetMotorEncoders(Motors);
 
         angles = imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
 
@@ -45,7 +45,7 @@ public class RobotNormalDrive extends ConfigureRobot {
 
         double TurnAmount;
 
-        telemetry.addLine("(7) About to set motors to Run_To_Position");
+        //telemetry.addLine("(7) About to set motors to Run_To_Position");
         Motors[1].setMode(DcMotor.RunMode.RUN_TO_POSITION);
         Motors[2].setMode(DcMotor.RunMode.RUN_TO_POSITION);
         Motors[3].setMode(DcMotor.RunMode.RUN_TO_POSITION);
@@ -59,7 +59,7 @@ public class RobotNormalDrive extends ConfigureRobot {
         Motors[3].setTargetPosition((int) Ticks);
         Motors[4].setTargetPosition((int) Ticks);
 
-        telemetry.addLine("(8) About to run");
+        //telemetry.addLine("(8) About to run");
         if (Motors[1].getTargetPosition() > 0) {
             Motors[1].setPower(1);
             Motors[2].setPower(1);
@@ -73,9 +73,9 @@ public class RobotNormalDrive extends ConfigureRobot {
         }
 
         while (Motors[1].isBusy() || Motors[2].isBusy() || Motors[3].isBusy() || Motors[4].isBusy()) {
-            telemetry.update();
+            //telemetry.update();
             TurnAmount = angles.firstAngle - HeadingAdjust;
-            telemetry.addLine("This is about to use IMU, I doubt the IMU will work");
+            //telemetry.addLine("This is about to use IMU, I doubt the IMU will work");
             if (TurnAmount > .3 && Motors[1].getPower() > 0) {
                 Motors[2].setPower(1);
                 Motors[4].setPower(1);
@@ -114,7 +114,7 @@ public class RobotNormalDrive extends ConfigureRobot {
         Motors[3].setPower(0);
         Motors[4].setPower(0);
 
-        telemetry.addLine("(8) Robot should have moved");
+        //telemetry.addLine("(8) Robot should have moved");
     }
 
     public void TurnUsingIMU(int Degrees) //DO NOT TURN CLOSE TO A 180; INSTEAD JUST TURN UP TO 90 AND GO SIDEWAYS OR BACKWARDS
@@ -123,11 +123,11 @@ public class RobotNormalDrive extends ConfigureRobot {
 
         if (!Configured)
         {
-            Motors = Config.Configure(Motors);
+            //Motors = Config.Configure(Motors);
             Configured = true;
         }
 
-        Config.ResetMotorEncoders(Motors[1], Motors[2], Motors[3], Motors[4]);
+        //Config.ResetMotorEncoders(Motors);
 
         angles = imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
 
@@ -161,10 +161,10 @@ public class RobotNormalDrive extends ConfigureRobot {
         }
 
         while (Motors[1].isBusy() || Motors[2].isBusy() || Motors[3].isBusy() || Motors[4].isBusy()) {
-            telemetry.update();
+            //telemetry.update();
         }
 
-        while (opModeIsActive()) {
+        /*while (opModeIsActive()) {
 
             telemetry.update();
 
@@ -237,5 +237,7 @@ public class RobotNormalDrive extends ConfigureRobot {
                 Motors[3].setPower(-.2);
             }
         }
+
+         */
     }
 }

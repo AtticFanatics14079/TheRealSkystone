@@ -1,11 +1,13 @@
 package org.firstinspires.ftc.teamcode.AtticFanatics2020SeasonPrograms;
 
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
+import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.Gamepad;
 
 @com.qualcomm.robotcore.eventloop.opmode.TeleOp(name = "TeleOp Test 9/29/19", group = "Sensor")
 public class TeleOpTest extends OpMode {
 
-    RobotTeleOpDrive Drive = new RobotTeleOpDrive();
+    MecanumTeleOpDrive Drive = new MecanumTeleOpDrive();
 
     @Override
     public void init() {
@@ -14,6 +16,6 @@ public class TeleOpTest extends OpMode {
 
     @Override
     public void loop() {
-        Drive.Move();
+        Drive.Move(hardwareMap, gamepad1, gamepad2);
     }
 }

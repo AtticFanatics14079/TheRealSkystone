@@ -3,25 +3,36 @@ package org.firstinspires.ftc.teamcode.AtticFanatics2020SeasonPrograms;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
-@Autonomous(name = "TestingClassReferences")
+@Autonomous(name = "Testing Mecanum Drive")
 public class TestingClassReferences extends LinearOpMode {
-
-    boolean Configured = false;
 
     //The next line instantiates a supplementary class. The "Vera" variable can be any name as long as it is referenced by the same name later, but we're keepin it this way for now gang cause Vera carried this one.
     //RobotMecanum vera = new RobotMecanum();
-    RobotNormalDrive jon = new RobotNormalDrive();
+    MecanumDrive Drive = new MecanumDrive();
 
     @Override
     public void runOpMode() throws InterruptedException {
 
+        waitForStart();
+
         //vera.SetMotorPower(.5);
 
-        telemetry.addLine("(1) About to enter MoveEncoderTicks in RobotNormalDrive");
-        jon.MoveEncoderTicks(20);
+        Drive.MoveEncoderTicks(100, 0, 1, hardwareMap);
+
+        while (opModeIsActive())
+        {
+            telemetry.addData("Motors[1].getCurrentPosition", Drive.Motors[1].getCurrentPosition());
+            telemetry.addData("Motors[2].getCurrentPosition", Drive.Motors[2].getCurrentPosition());
+            telemetry.addData("Motors[3].getCurrentPosition", Drive.Motors[3].getCurrentPosition());
+            telemetry.addData("Motors[4].getCurrentPosition", Drive.Motors[4].getCurrentPosition());
+            telemetry.update();
+        }
+
+        //Drive.MoveEncoderTicks(20, 1, 0, hardwareMap);
 
         //vera.SidewaysMovement(30, Configured);
 
-        jon.TurnUsingIMU(80); //TURNING RIGHT IS POSITIVE!!!
+        //Drive.TurnDegrees(90); //TURNING LEFT IS POSITIVE!!!
+        //Drive.TurnDegrees(-90); //TURNING LEFT IS POSITIVE!!!
     }
 }
