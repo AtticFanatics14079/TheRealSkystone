@@ -15,7 +15,7 @@ public class MecanumTeleOpDrive extends ConfigureRobot {
             Configured = true;
         }
 
-        setPower(-G1.left_stick_x, G1.left_stick_y, G1.right_stick_x);
+        setPower(G1.left_stick_x, G1.left_stick_y, G1.right_stick_x);
 
         //Other checks go here
     }

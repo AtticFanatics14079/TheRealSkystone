@@ -40,13 +40,13 @@ public class MecanumDrive extends ConfigureRobot {
         //No IMU implementation yet
         //This is assuming every movement has opposite sides (1+3, 2+4) moving equal and no skidding (so prob wont work)
 
-        while((Motors[1].getPower() != 0 || Motors[4].getPower() != 0) & (Motors[3].getPower() != 0 || Motors[2].getPower() != 0)) {
+        while((Motors[1].getPower() != 0 || Motors[2].getPower() != 0) & (Motors[3].getPower() != 0 || Motors[4].getPower() != 0)) {
             for(int Counter = 1; Counter <= 4; ++Counter)
             {
                 if(Math.abs(Motors[Counter].getCurrentPosition()) >= Math.abs(Ticks))
                 {
                     Motors[Counter].setPower(0);
-                    if((Motors[1].getPower() == 0 || Motors[4].getPower() == 0) & (Motors[3].getPower() == 0 || Motors[2].getPower() == 0))
+                    if((Motors[1].getPower() == 0 || Motors[2].getPower() == 0) & (Motors[3].getPower() == 0 || Motors[4].getPower() == 0))
                     {
                         setPower(0, 0, 0);
                         break;
