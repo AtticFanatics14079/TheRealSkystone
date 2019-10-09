@@ -21,7 +21,7 @@ import org.firstinspires.ftc.robotcore.external.navigation.Velocity;
 import java.util.Locale;
 
 @Disabled
-public class ConfigureRobot {
+public class Configure {
 
     BNO055IMU imu;
 

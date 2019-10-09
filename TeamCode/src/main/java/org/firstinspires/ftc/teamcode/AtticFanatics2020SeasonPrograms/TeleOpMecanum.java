@@ -1,11 +1,9 @@
 package org.firstinspires.ftc.teamcode.AtticFanatics2020SeasonPrograms;
 
-import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
-import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.Gamepad;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
-public class MecanumTeleOpDrive extends ConfigureRobot {
+public class TeleOpMecanum extends Configure {
 
     public void Move(HardwareMap ahwMap, Gamepad G1, Gamepad G2)
     {

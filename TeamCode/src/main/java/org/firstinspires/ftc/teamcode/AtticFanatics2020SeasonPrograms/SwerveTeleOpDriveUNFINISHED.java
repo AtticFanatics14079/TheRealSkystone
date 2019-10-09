@@ -2,7 +2,7 @@ package org.firstinspires.ftc.teamcode.AtticFanatics2020SeasonPrograms;
 
 import com.qualcomm.robotcore.hardware.DcMotor;
 
-public class SwerveTeleOpDriveUNFINISHED extends ConfigureRobot {
+public class SwerveTeleOpDriveUNFINISHED extends Configure {
 
     DcMotor[] Motors = new DcMotor[5];
 

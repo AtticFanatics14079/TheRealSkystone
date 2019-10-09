@@ -1,7 +1,6 @@
 package org.firstinspires.ftc.teamcode.AtticFanatics2020SeasonPrograms;
 
 import com.qualcomm.hardware.bosch.BNO055IMU;
-import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 
 import org.firstinspires.ftc.robotcore.external.navigation.Acceleration;
@@ -10,7 +9,7 @@ import org.firstinspires.ftc.robotcore.external.navigation.AxesOrder;
 import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
 import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
 
-public class RobotNormalDrive extends ConfigureRobot {
+public class NormalDrive extends Configure {
 
     BNO055IMU imu;
 
@@ -21,7 +20,7 @@ public class RobotNormalDrive extends ConfigureRobot {
 
     boolean Configured = false;
 
-    ConfigureRobot Config = new ConfigureRobot();
+    Configure Config = new Configure();
 
     public void runOpMode() throws InterruptedException {
     }
