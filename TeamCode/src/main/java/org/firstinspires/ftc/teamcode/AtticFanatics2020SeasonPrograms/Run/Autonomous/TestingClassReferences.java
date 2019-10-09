@@ -1,7 +1,9 @@
-package org.firstinspires.ftc.teamcode.AtticFanatics2020SeasonPrograms;
+package org.firstinspires.ftc.teamcode.AtticFanatics2020SeasonPrograms.Run.Autonomous;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
+
+import org.firstinspires.ftc.teamcode.AtticFanatics2020SeasonPrograms.Referenced.Autonomous.MecanumDrive;
 
 @Autonomous(name = "Testing Mecanum Drive")
 public class TestingClassReferences extends LinearOpMode {

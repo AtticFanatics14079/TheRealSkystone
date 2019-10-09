@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.AtticFanatics2020SeasonPrograms;
+package org.firstinspires.ftc.teamcode.AtticFanatics2020SeasonPrograms.Run.Autonomous;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
@@ -6,8 +6,8 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
-@Autonomous(name="TESTING Set Target Position and IsBusy")
-public class TESTINGCurrentPosition extends LinearOpMode {
+@Autonomous(name="TESTING Set Target Position")
+public class TESTINGSetTargetPosition extends LinearOpMode {
 
     DcMotor[] Motors = new DcMotor[5];
 
@@ -41,7 +41,7 @@ public class TESTINGCurrentPosition extends LinearOpMode {
 
         while(opModeIsActive())
         {
-            telemetry.addData("Time Ran: ", TimeRan);
+            telemetry.addData("Runtime: ", TimeRan);
             telemetry.update();
         }
     }
@@ -56,22 +56,37 @@ public class TESTINGCurrentPosition extends LinearOpMode {
         Motors[2].setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         Motors[3].setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         Motors[4].setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        Motors[1].setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+
+        Motors[1].setTargetPosition(4000);
+        Motors[2].setTargetPosition(4000);
+        Motors[3].setTargetPosition(4000);
+
+        Motors[1].setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        Motors[2].setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        Motors[3].setMode(DcMotor.RunMode.RUN_TO_POSITION);
 
         Motors[1].setPower(1);
         Motors[2].setPower(1);
         Motors[3].setPower(1);
 
-        while(Motors[1].getPower() != 0 || Motors[2].getPower() != 0 || Motors[3].getPower() != 0)
+        while(opModeIsActive() & Motors[1].isBusy() & Motors[2].isBusy() & Motors[3].isBusy())
         {
-            for(int Counter = 1; Counter <= 4; ++Counter)
+            /*if(Math.abs(Motors[1].getCurrentPosition() - 4000) < 2 & Math.abs(Motors[2].getCurrentPosition() - 4000) < 2 & Math.abs(Motors[3].getCurrentPosition() - 4000) < 2)
             {
-                if(Math.abs(Motors[Counter].getCurrentPosition()) >= Math.abs(4000 - 150))
-                    Motors[Counter].setPower(0);
-                telemetry.addData("Motors[1].getCurrentPosition: ", Motors[1].getCurrentPosition());
-                telemetry.addData("Motors[2].getCurrentPosition: ", Motors[2].getCurrentPosition());
-                telemetry.addData("Motors[3].getCurrentPosition: ", Motors[3].getCurrentPosition());
-                telemetry.update();
+                Motors[1].setPower(0);
+                Motors[2].setPower(0);
+                Motors[3].setPower(0);
+
+                break;
             }
+             */
+
+
+            telemetry.addData("Motors[1].getCurrentPosition: ", Motors[1].getCurrentPosition());
+            telemetry.addData("Motors[2].getCurrentPosition: ", Motors[2].getCurrentPosition());
+            telemetry.addData("Motors[3].getCurrentPosition: ", Motors[3].getCurrentPosition());
+            telemetry.update();
         }
 
         Motors[1].setPower(0);

@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.AtticFanatics2020SeasonPrograms;
+package org.firstinspires.ftc.teamcode.AtticFanatics2020SeasonPrograms.Referenced;
 
 import com.qualcomm.hardware.bosch.BNO055IMU;
 import com.qualcomm.hardware.bosch.JustLoggingAccelerationIntegrator;
@@ -23,14 +23,14 @@ import java.util.Locale;
 @Disabled
 public class Configure {
 
-    BNO055IMU imu;
+    public BNO055IMU imu;
 
-    Orientation angles;
-    Acceleration gravity;
+    public Orientation angles;
+    public Acceleration gravity;
 
-    DcMotor[] Motors = new DcMotor[5];
+    public DcMotor[] Motors = new DcMotor[5];
 
-    boolean Configured = false;
+    public boolean Configured = false;
 
     public void ResetMotorEncoders(HardwareMap ahwMap){
         Motors[1].setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);

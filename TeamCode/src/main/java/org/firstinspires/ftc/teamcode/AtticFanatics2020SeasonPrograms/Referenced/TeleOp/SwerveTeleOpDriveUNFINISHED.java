@@ -1,6 +1,8 @@
-package org.firstinspires.ftc.teamcode.AtticFanatics2020SeasonPrograms;
+package org.firstinspires.ftc.teamcode.AtticFanatics2020SeasonPrograms.Referenced.TeleOp;
 
 import com.qualcomm.robotcore.hardware.DcMotor;
+
+import org.firstinspires.ftc.teamcode.AtticFanatics2020SeasonPrograms.Referenced.Configure;
 
 public class SwerveTeleOpDriveUNFINISHED extends Configure {
 
