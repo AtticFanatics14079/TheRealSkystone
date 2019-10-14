@@ -15,13 +15,16 @@ public class TeleOpMecanum extends Configure {
             Configured = true;
         }
 
-        setPower(G1.left_stick_x, G1.left_stick_y, G1.right_stick_x);
+
+        if(Math.abs(G1.left_stick_x) >= 0.1 & Math.abs(G1.left_stick_y) < 0.1)
+            setPower(G1.left_stick_x, 0, 0);
+        else setPower(G1.left_stick_x, G1.left_stick_y, G1.right_stick_x);
 
         //Other checks go here
     }
 
     //The following method is code from Team 16072's virtual_robot program. Small changes are only to make it fit our format, the bulk of the method was written by them.
-    void setPower(double px, double py, double pa){
+    public void setPower(double px, double py, double pa){
         double p1 = -px + py - pa;
         double p2 = px + py + -pa;
         double p3 = -px + py + pa;

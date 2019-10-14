@@ -1,5 +1,6 @@
 package org.firstinspires.ftc.teamcode.AtticFanatics2020SeasonPrograms.Referenced.Autonomous;
 
+import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
 import org.firstinspires.ftc.robotcore.external.navigation.Acceleration;
@@ -8,6 +9,8 @@ import org.firstinspires.ftc.robotcore.external.navigation.AxesOrder;
 import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
 import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
 import org.firstinspires.ftc.teamcode.AtticFanatics2020SeasonPrograms.Referenced.Configure;
+
+//This Class contains SetPower, MoveEncoderTicks, and TurnDegrees, for MECANUM
 
 public class MecanumDrive extends Configure {
 
@@ -31,18 +34,34 @@ public class MecanumDrive extends Configure {
 
         //Mess with numbers, as different circumference.
         double Ticks = 36.1275 * NumbCM;
+        Motors[1].setTargetPosition((int)Ticks);
+        Motors[2].setTargetPosition((int)Ticks);
+        Motors[3].setTargetPosition((int)Ticks);
+        Motors[4].setTargetPosition((int)Ticks);
+
+        Motors[1].setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        Motors[2].setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        Motors[3].setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        Motors[4].setMode(DcMotor.RunMode.RUN_TO_POSITION);
 
         HeadingAdjust = imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
 
         setPower(SidewaysPower, ForwardPower, 0f);
 
+        while((Motors[1].isBusy() || Motors[2].isBusy()|| Motors[3].isBusy() || Motors[4].isBusy())){
+
+        }
+        setPower(0,0,0);
+
+        ResetMotorEncoders(ahwMap);
+
         //No IMU implementation yet
         //This is assuming every movement has opposite sides (1+3, 2+4) moving equal and no skidding (so prob wont work)
 
-        while((Motors[1].getPower() != 0 || Motors[2].getPower() != 0) & (Motors[3].getPower() != 0 || Motors[4].getPower() != 0)) {
+        /*while((Motors[1].getPower() != 0 || Motors[2].getPower() != 0) & (Motors[3].getPower() != 0 || Motors[4].getPower() != 0)) {
             for(int Counter = 1; Counter <= 4; ++Counter)
             {
-                if(Math.abs(Motors[Counter].getCurrentPosition()) >= Math.abs(Ticks))
+                if(Math.abs(Motors[Counter].getCurrentPosition()) >= Math.abs(Ticks-100))
                 {
                     Motors[Counter].setPower(0);
                     if((Motors[1].getPower() == 0 || Motors[2].getPower() == 0) & (Motors[3].getPower() == 0 || Motors[4].getPower() == 0))
@@ -53,6 +72,7 @@ public class MecanumDrive extends Configure {
                 }
             }
         }
+         */
 
         CurrentOrientation = imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
 

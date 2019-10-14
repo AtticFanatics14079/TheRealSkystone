@@ -19,7 +19,7 @@ public class TestingClassReferences extends LinearOpMode {
 
         //vera.SetMotorPower(.5);
 
-        Drive.MoveEncoderTicks(100, 0, 1, hardwareMap);
+        Drive.MoveEncoderTicks(100, 1, 0, hardwareMap);
 
         while (opModeIsActive())
         {

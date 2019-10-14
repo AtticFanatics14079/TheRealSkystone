@@ -65,8 +65,8 @@ public class Configure {
         Motors[3].setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         Motors[4].setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
-        Motors[3].setDirection(DcMotorSimple.Direction.REVERSE);
-        Motors[4].setDirection(DcMotorSimple.Direction.REVERSE);
+        Motors[3].setDirection(DcMotor.Direction.REVERSE);
+        Motors[4].setDirection(DcMotor.Direction.REVERSE);
 
         imu = hwMap.get(BNO055IMU.class, "imu");
         imu.initialize(new BNO055IMU.Parameters());
