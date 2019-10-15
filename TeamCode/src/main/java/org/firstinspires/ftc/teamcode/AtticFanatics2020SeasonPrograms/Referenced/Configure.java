@@ -26,7 +26,6 @@ public class Configure {
     public BNO055IMU imu;
 
     public Orientation angles;
-    public Acceleration gravity;
 
     public DcMotor[] Motors = new DcMotor[5];
 
