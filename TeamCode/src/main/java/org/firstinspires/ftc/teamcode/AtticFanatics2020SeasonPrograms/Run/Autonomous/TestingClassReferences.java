@@ -5,6 +5,7 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
 import org.firstinspires.ftc.teamcode.AtticFanatics2020SeasonPrograms.Referenced.Autonomous.MecanumDrive;
 
+
 @Autonomous(name = "Testing Mecanum Drive")
 public class TestingClassReferences extends LinearOpMode {
 
@@ -19,8 +20,9 @@ public class TestingClassReferences extends LinearOpMode {
 
         //vera.SetMotorPower(.5);
 
-        Drive.MoveEncoderTicks(100, 1, 0, hardwareMap);
-
+        Drive.MoveEncoderTicks(80, 0, 1, hardwareMap);
+        Drive.MoveEncoderTicks(250, -1, 0, hardwareMap);
+        //Drive.TurnDegrees(90, hardwareMap); DOES NOT WORK: "NULL POINTER EXCEPTION"
         while (opModeIsActive())
         {
             telemetry.addData("Motors[1].getCurrentPosition", Drive.Motors[1].getCurrentPosition());

@@ -3,19 +3,22 @@ package org.firstinspires.ftc.teamcode.AtticFanatics2020SeasonPrograms.Reference
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
-import org.firstinspires.ftc.robotcore.external.navigation.Acceleration;
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.AxesOrder;
 import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
 import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
+import org.firstinspires.ftc.teamcode.AtticFanatics2020SeasonPrograms.AngleUtils;
 import org.firstinspires.ftc.teamcode.AtticFanatics2020SeasonPrograms.Referenced.Configure;
+
 
 //This Class contains SetPower, MoveEncoderTicks, and TurnDegrees, for MECANUM
 
 public class MecanumDrive extends Configure {
 
-    Acceleration gravity;
     Orientation HeadingAdjust, CurrentOrientation;
+
+    static final double TICKS_PER_CM = 30.5;
+    //static final double INERTIA_TICKS = 100;
 
     boolean Configured = false;
 
@@ -33,22 +36,18 @@ public class MecanumDrive extends Configure {
         ResetMotorEncoders(ahwMap);
 
         //Mess with numbers, as different circumference.
-        double Ticks = 36.1275 * NumbCM;
-        Motors[1].setTargetPosition((int)Ticks);
-        Motors[2].setTargetPosition((int)Ticks);
-        Motors[3].setTargetPosition((int)Ticks);
-        Motors[4].setTargetPosition((int)Ticks);
+        double Ticks = TICKS_PER_CM * NumbCM;
 
-        Motors[1].setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        Motors[2].setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        Motors[3].setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        Motors[4].setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        Motors[1].setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        Motors[2].setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        Motors[3].setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        Motors[4].setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
         HeadingAdjust = imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
 
         setPower(SidewaysPower, ForwardPower, 0f);
 
-        while((Motors[1].isBusy() || Motors[2].isBusy()|| Motors[3].isBusy() || Motors[4].isBusy())){
+        while(Math.abs(Motors[1].getCurrentPosition()) < Ticks){
 
         }
         setPower(0,0,0);
@@ -72,7 +71,7 @@ public class MecanumDrive extends Configure {
                 }
             }
         }
-         */
+
 
         CurrentOrientation = imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
 
@@ -80,12 +79,14 @@ public class MecanumDrive extends Configure {
             TurnDegrees(CurrentOrientation.firstAngle - HeadingAdjust.firstAngle, ahwMap);
 
         setPower(0, 0, 0);
+
+         */
     }
 
     public void TurnDegrees(double Degrees, HardwareMap ahwMap)
     {
         //TURNING LEFT IS POSITIVE!!!
-
+        double currentHeading = 0;
         if (!Configured)
         {
             //Motors = Config.Configure(Motors);
@@ -97,15 +98,11 @@ public class MecanumDrive extends Configure {
         //Mess with numbers if different circumference.
         double Ticks = Degrees * 19.8;
 
-        setPower(0, 0, Degrees);
+        setPower(0, 0, 0.5f);
 
-        while((Motors[1].getPower() != 0 || Motors[3].getPower() != 0) & (Motors[2].getPower() != 0 || Motors[4].getPower() != 0))
-        {
-            for(int Counter = 1; Counter <= 4; ++Counter)
-            {
-                if(Math.abs(Motors[Counter].getCurrentPosition()) >= Math.abs(Ticks))
-                    Motors[Counter].setPower(0);
-            }
+        while (true){
+            CurrentOrientation = imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
+            if (AngleUtils.normalizeDegrees(CurrentOrientation.firstAngle - currentHeading) >= Degrees) break;
         }
 
         setPower(0, 0, 0);
