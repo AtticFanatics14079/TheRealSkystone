@@ -16,18 +16,22 @@ public class TestingClassReferences extends LinearOpMode {
     public void runOpMode() throws InterruptedException {
 
         waitForStart();
-
         //vera.SetMotorPower(.5);
 
-        Drive.MoveEncoderTicks(100, 0, 1, hardwareMap);
+//        Drive.MoveEncoderTicks(80, 0, 1, hardwareMap);
+       // Drive.MoveEncoderTicks(250, -1, 0, hardwareMap);
 
+        Drive.TurnDegrees(90, hardwareMap); //FINALLY WORKS
         while (opModeIsActive())
         {
+
             telemetry.addData("Motors[1].getCurrentPosition", Drive.Motors[1].getCurrentPosition());
             telemetry.addData("Motors[2].getCurrentPosition", Drive.Motors[2].getCurrentPosition());
             telemetry.addData("Motors[3].getCurrentPosition", Drive.Motors[3].getCurrentPosition());
             telemetry.addData("Motors[4].getCurrentPosition", Drive.Motors[4].getCurrentPosition());
             telemetry.update();
+
+
         }
 
         //Drive.MoveEncoderTicks(20, 1, 0, hardwareMap);

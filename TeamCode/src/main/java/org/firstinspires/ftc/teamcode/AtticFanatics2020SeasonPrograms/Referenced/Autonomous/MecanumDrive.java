@@ -1,18 +1,26 @@
 package org.firstinspires.ftc.teamcode.AtticFanatics2020SeasonPrograms.Referenced.Autonomous;
 
+import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
-import org.firstinspires.ftc.robotcore.external.navigation.Acceleration;
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.AxesOrder;
 import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
 import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
 import org.firstinspires.ftc.teamcode.AtticFanatics2020SeasonPrograms.Referenced.Configure;
 
+import util.AngleUtils;
+
+
+//This Class contains SetPower, MoveEncoderTicks, and TurnDegrees, for MECANUM
+
 public class MecanumDrive extends Configure {
 
-    Acceleration gravity;
     Orientation HeadingAdjust, CurrentOrientation;
+
+    static final double TICKS_PER_CM = 30.5;
+    //static final double INERTIA_TICKS = 100;
+    static final double TURN_OFFSET = 10;
 
     boolean Configured = false;
 
@@ -30,19 +38,26 @@ public class MecanumDrive extends Configure {
         ResetMotorEncoders(ahwMap);
 
         //Mess with numbers, as different circumference.
-        double Ticks = 36.1275 * NumbCM;
+        double Ticks = TICKS_PER_CM * NumbCM;
 
         HeadingAdjust = imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
 
         setPower(SidewaysPower, ForwardPower, 0f);
 
-        //No IMU implementation yet
-        //This is assuming every movement has opposite sides (1+3, 2+4) moving equal and no skidding (so prob wont work)
+        while(Math.abs(Motors[1].getCurrentPosition()) < Ticks){ //This is assuming every movement has opposite sides (1+3, 2+4) moving equal and no skidding (so prob wont work)
 
-        while((Motors[1].getPower() != 0 || Motors[2].getPower() != 0) & (Motors[3].getPower() != 0 || Motors[4].getPower() != 0)) {
+        }
+        setPower(0,0,0);
+
+        ResetMotorEncoders(ahwMap);
+
+        //No IMU implementation yet
+
+
+        /*while((Motors[1].getPower() != 0 || Motors[2].getPower() != 0) & (Motors[3].getPower() != 0 || Motors[4].getPower() != 0)) {
             for(int Counter = 1; Counter <= 4; ++Counter)
             {
-                if(Math.abs(Motors[Counter].getCurrentPosition()) >= Math.abs(Ticks))
+                if(Math.abs(Motors[Counter].getCurrentPosition()) >= Math.abs(Ticks-100))
                 {
                     Motors[Counter].setPower(0);
                     if((Motors[1].getPower() == 0 || Motors[2].getPower() == 0) & (Motors[3].getPower() == 0 || Motors[4].getPower() == 0))
@@ -54,12 +69,15 @@ public class MecanumDrive extends Configure {
             }
         }
 
+
         CurrentOrientation = imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
 
         if(Math.abs(CurrentOrientation.firstAngle - HeadingAdjust.firstAngle) > 2)
             TurnDegrees(CurrentOrientation.firstAngle - HeadingAdjust.firstAngle, ahwMap);
 
         setPower(0, 0, 0);
+
+         */
     }
 
     public void TurnDegrees(double Degrees, HardwareMap ahwMap)
@@ -68,24 +86,22 @@ public class MecanumDrive extends Configure {
 
         if (!Configured)
         {
-            //Motors = Config.Configure(Motors);
+            Configure(ahwMap);
             Configured = true;
         }
+        double currentHeading = imu.getAngularOrientation().firstAngle;
 
         ResetMotorEncoders(ahwMap);
 
         //Mess with numbers if different circumference.
-        double Ticks = Degrees * 19.8;
+        //double Ticks = Degrees * (19.8);
 
-        setPower(0, 0, Degrees);
+        setPower(0, 0, 0.5f);
 
-        while((Motors[1].getPower() != 0 || Motors[3].getPower() != 0) & (Motors[2].getPower() != 0 || Motors[4].getPower() != 0))
-        {
-            for(int Counter = 1; Counter <= 4; ++Counter)
-            {
-                if(Math.abs(Motors[Counter].getCurrentPosition()) >= Math.abs(Ticks))
-                    Motors[Counter].setPower(0);
-            }
+        while (true){
+            CurrentOrientation = imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
+            System.out.println(CurrentOrientation.firstAngle);
+            if (Math.abs(AngleUtils.normalizeDegrees(CurrentOrientation.firstAngle)) >= Degrees-8) break; //THIS DOESN'T WORK FOR ANGlES OVER 180
         }
 
         setPower(0, 0, 0);
