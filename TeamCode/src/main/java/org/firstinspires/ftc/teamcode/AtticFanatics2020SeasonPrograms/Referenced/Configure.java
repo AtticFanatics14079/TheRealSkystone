@@ -2,23 +2,14 @@ package org.firstinspires.ftc.teamcode.AtticFanatics2020SeasonPrograms.Reference
 
 import com.qualcomm.hardware.bosch.BNO055IMU;
 import com.qualcomm.hardware.bosch.JustLoggingAccelerationIntegrator;
-import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.Disabled;
-import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
-import org.firstinspires.ftc.robotcore.external.Func;
-import org.firstinspires.ftc.robotcore.external.navigation.Acceleration;
-import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
-import org.firstinspires.ftc.robotcore.external.navigation.AxesOrder;
-import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
-import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
-import org.firstinspires.ftc.robotcore.external.navigation.Position;
-import org.firstinspires.ftc.robotcore.external.navigation.Velocity;
 
-import java.util.Locale;
+import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
+
 
 @Disabled
 public class Configure {
@@ -32,6 +23,7 @@ public class Configure {
     public boolean Configured = false;
 
     public void ResetMotorEncoders(HardwareMap ahwMap){
+
         Motors[1].setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         Motors[2].setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         Motors[3].setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
@@ -59,10 +51,10 @@ public class Configure {
         Motors[3] = hwMap.get(DcMotor.class, "front_right_motor");
         Motors[4] = hwMap.get(DcMotor.class, "back_right_motor");
 
-        Motors[1].setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        Motors[2].setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        Motors[3].setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        Motors[4].setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        //Motors[1].setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        //Motors[2].setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        //Motors[3].setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        //Motors[4].setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
         Motors[3].setDirection(DcMotor.Direction.REVERSE);
         Motors[4].setDirection(DcMotor.Direction.REVERSE);
