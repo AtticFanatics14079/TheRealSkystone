@@ -92,7 +92,7 @@ public class MecanumDrive extends Configure {
         ResetMotorEncoders(ahwMap);
 
         //Mess with numbers if different circumference.
-        //double Ticks = Degrees * (19.8);
+        double Ticks = Degrees * (19.8);
 
         setPower(0, 0, 0.5f);
 
