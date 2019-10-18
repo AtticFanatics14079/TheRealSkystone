@@ -78,7 +78,7 @@ public class MecanumDrive extends Configure {
          */
     }
 
-    public void TurnDegrees(double Degrees, HardwareMap ahwMap)
+    public void TurnDegreesImu(double Degrees, HardwareMap ahwMap)
     {
         //TURNING LEFT IS POSITIVE!!!
 
@@ -106,6 +106,15 @@ public class MecanumDrive extends Configure {
         }
 
         setPower(0, 0, 0);
+    }
+    public void TurnDegreesEncoder(double Degrees, HardwareMap ahwMap){
+        if(!Configured){
+            Configure(ahwMap);
+            Configured = true;
+        }
+        double currentHeading = imu.getAngularOrientation().firstAngle;
+
+        ResetMotorEncoders(ahwMap);
     }
 
     //The following method is code from Team 16072's virtual_robot program. Small changes are only to make it fit our format, the bulk of the method was written by them.
