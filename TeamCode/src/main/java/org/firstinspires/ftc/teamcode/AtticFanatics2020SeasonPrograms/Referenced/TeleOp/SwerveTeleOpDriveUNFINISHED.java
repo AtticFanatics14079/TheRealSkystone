@@ -1,6 +1,8 @@
 package org.firstinspires.ftc.teamcode.AtticFanatics2020SeasonPrograms.Referenced.TeleOp;
 
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.Gamepad;
+import com.qualcomm.robotcore.hardware.HardwareMap;
 
 import org.firstinspires.ftc.teamcode.AtticFanatics2020SeasonPrograms.Referenced.Configure;
 
@@ -10,27 +12,27 @@ public class SwerveTeleOpDriveUNFINISHED extends Configure {
 
     boolean Configured;
 
-    /*public boolean Move()
+    public boolean Move(HardwareMap hwMap, Gamepad G1, Gamepad G2)
     {
         if (!Configured)
         {
-            Motors = Configure(Motors);
+            Configure(hwMap);
             Configured = true;
         }
-        while(gamepad1.right_stick_x < -0.1 || gamepad1.right_stick_x > 0.1)
+        while(G1.right_stick_x != 0)
         {
-            double SignedDistance = DistanceFromCenter(true);
-            if(gamepad1.right_stick_x < 0)
+            double SignedDistance = DistanceFromCenter(true, G1, G2);
+            if(G1.right_stick_x < 0)
                 SignedDistance *= -1;
             Motors[1].setPower(SignedDistance);
             Motors[2].setPower(-SignedDistance);
             Motors[3].setPower(SignedDistance);
             Motors[4].setPower(-SignedDistance);
         }
-        while(gamepad1.right_stick_x > -0.1 || gamepad1.right_stick_x < 0.1)
+        while(G1.right_stick_x == 0)
         {
-            double SignedDistance = DistanceFromCenter(true);
-            if(gamepad1.right_stick_y < 0)
+            double SignedDistance = DistanceFromCenter(true, G1, G2);
+            if(G1.left_stick_y < 0)
                 SignedDistance *= -1;
             Motors[1].setPower(SignedDistance);
             Motors[2].setPower(SignedDistance);
@@ -41,18 +43,12 @@ public class SwerveTeleOpDriveUNFINISHED extends Configure {
         return Configured;
     }
 
-    @Override
-    public void runOpMode() throws InterruptedException {
-
-    }
-
-    public double DistanceFromCenter(boolean LeftStick)
+    public double DistanceFromCenter(boolean LeftStick, Gamepad G1, Gamepad G2)
     {
         double Sqrt;
         if(LeftStick)
-            Sqrt = Math.sqrt(gamepad1.left_stick_y * gamepad1.left_stick_y + gamepad1.left_stick_x * gamepad1.left_stick_x);
-        else Sqrt = Math.sqrt(gamepad1.right_stick_y * gamepad1.right_stick_y + gamepad1.right_stick_y * gamepad1.right_stick_y);
+            Sqrt = Math.sqrt(G1.left_stick_y * G1.left_stick_y + G1.left_stick_x * G1.left_stick_x);
+        else Sqrt = Math.sqrt(G1.right_stick_y * G1.right_stick_y + G1.right_stick_y * G1.right_stick_y);
         return Sqrt;
     }
-     */
 }

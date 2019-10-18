@@ -17,7 +17,6 @@ public class NormalDrive extends Configure {
     DcMotor[] Motors = new DcMotor[5];
 
     Orientation angles;
-    Acceleration gravity;
 
     boolean Configured = false;
 

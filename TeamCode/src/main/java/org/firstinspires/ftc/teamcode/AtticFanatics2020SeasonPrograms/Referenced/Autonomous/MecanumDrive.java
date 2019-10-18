@@ -44,7 +44,7 @@ public class MecanumDrive extends Configure {
 
         setPower(SidewaysPower, ForwardPower, 0f);
 
-        while(Math.abs(Motors[1].getCurrentPosition()) < Ticks){ //This is assuming every movement has opposite sides (1+3, 2+4) moving equal and no skidding (so prob wont work)
+        while((Motors[1].isBusy() || Motors[2].isBusy()|| Motors[3].isBusy() || Motors[4].isBusy())){
 
         }
         setPower(0,0,0);
@@ -53,15 +53,13 @@ public class MecanumDrive extends Configure {
 
         //No IMU implementation yet
 
-
         /*while((Motors[1].getPower() != 0 || Motors[2].getPower() != 0) & (Motors[3].getPower() != 0 || Motors[4].getPower() != 0)) {
             for(int Counter = 1; Counter <= 4; ++Counter)
             {
                 if(Math.abs(Motors[Counter].getCurrentPosition()) >= Math.abs(Ticks-100))
                 {
                     Motors[Counter].setPower(0);
-                    if((Motors[1].getPower() == 0 || Motors[2].getPower() == 0) & (Motors[3].getPower() == 0 || Motors[4].getPower() == 0))
-                    {
+                    if ((Motors[1].getPower() == 0 || Motors[2].getPower() == 0) & (Motors[3].getPower() == 0 || Motors[4].getPower() == 0)) {
                         setPower(0, 0, 0);
                         break;
                     }
@@ -98,10 +96,13 @@ public class MecanumDrive extends Configure {
 
         setPower(0, 0, 0.5f);
 
-        while (true){
-            CurrentOrientation = imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
-            System.out.println(CurrentOrientation.firstAngle);
-            if (Math.abs(AngleUtils.normalizeDegrees(CurrentOrientation.firstAngle)) >= Degrees-8) break; //THIS DOESN'T WORK FOR ANGlES OVER 180
+        while((Motors[1].getPower() != 0 || Motors[3].getPower() != 0) & (Motors[2].getPower() != 0 || Motors[4].getPower() != 0))
+        {
+            for(int Counter = 1; Counter <= 4; ++Counter)
+            {
+                if(Math.abs(Motors[Counter].getCurrentPosition()) >= Math.abs(Ticks))
+                    Motors[Counter].setPower(0);
+            }
         }
 
         setPower(0, 0, 0);

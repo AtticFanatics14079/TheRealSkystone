@@ -15,6 +15,7 @@ public class TeleOpMecanum extends Configure {
             Configured = true;
         }
 
+        setPower(G1.left_stick_x, G1.left_stick_y, G1.right_stick_x);
 
         if(Math.abs(G1.left_stick_x) >= 0.1 & Math.abs(G1.left_stick_y) < 0.1)
             setPower(G1.left_stick_x, 0, 0);

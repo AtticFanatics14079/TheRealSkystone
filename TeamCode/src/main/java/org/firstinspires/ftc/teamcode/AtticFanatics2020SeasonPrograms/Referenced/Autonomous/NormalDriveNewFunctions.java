@@ -12,9 +12,6 @@ public class NormalDriveNewFunctions extends Configure {
 
     DcMotor[] Motors;
 
-    //Orientation angles;
-    Acceleration gravity;
-
     boolean Configured;
 
     public void runOpMode() throws InterruptedException {
