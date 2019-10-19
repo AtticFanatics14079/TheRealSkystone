@@ -17,8 +17,8 @@ buildscript {
 // google() repository beginning with version 3.2 of the Android Gradle Plugin
 allprojects {
     repositories {
-        maven { url 'https://jitpack.io' } // this line!
         google()
         jcenter()
+        maven { url 'https://jitpack.io' }
     }
 }
