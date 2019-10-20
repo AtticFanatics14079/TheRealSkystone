@@ -4,7 +4,7 @@ package org.firstinspires.ftc.teamcode.AtticFanatics2020SeasonPrograms.Run.TeleO
 
         import org.firstinspires.ftc.teamcode.AtticFanatics2020SeasonPrograms.Referenced.TeleOp.TeleOpMecanum;
 
-@com.qualcomm.robotcore.eventloop.opmode.TeleOp(name = "Skystone TeleOp", group = "Sensor")
+@com.qualcomm.robotcore.eventloop.opmode.TeleOp(name = "Drive the Robot(Auto)", group = "Sensor")
 public class SkystoneTeleOp extends OpMode {
 
     TeleOpMecanum Drive = new TeleOpMecanum();

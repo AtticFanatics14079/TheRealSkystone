@@ -107,15 +107,7 @@ public class MecanumDrive extends Configure {
 
         setPower(0, 0, 0);
     }
-    public void TurnDegreesEncoder(double Degrees, HardwareMap ahwMap){
-        if(!Configured){
-            Configure(ahwMap);
-            Configured = true;
-        }
-        double currentHeading = imu.getAngularOrientation().firstAngle;
 
-        ResetMotorEncoders(ahwMap);
-    }
 
     //The following method is code from Team 16072's virtual_robot program. Small changes are only to make it fit our format, the bulk of the method was written by them.
     void setPower(double px, double py, double pa){

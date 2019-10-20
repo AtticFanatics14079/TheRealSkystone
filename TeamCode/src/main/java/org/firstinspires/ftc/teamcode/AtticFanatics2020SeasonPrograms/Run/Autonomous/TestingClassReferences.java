@@ -2,6 +2,7 @@ package org.firstinspires.ftc.teamcode.AtticFanatics2020SeasonPrograms.Run.Auton
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
+import com.qualcomm.robotcore.hardware.HardwareMap;
 
 import org.firstinspires.ftc.teamcode.AtticFanatics2020SeasonPrograms.Referenced.Autonomous.MecanumDrive;
 
@@ -21,7 +22,7 @@ public class TestingClassReferences extends LinearOpMode {
 //        Drive.MoveEncoderTicks(80, 0, 1, hardwareMap);
        // Drive.MoveEncoderTicks(250, -1, 0, hardwareMap);
 
-        Drive.TurnDegrees(90, hardwareMap); //FINALLY WORKS
+        Drive.TurnDegreesImu(90, hardwareMap); //FINALLY WORKS
         while (opModeIsActive())
         {
 
