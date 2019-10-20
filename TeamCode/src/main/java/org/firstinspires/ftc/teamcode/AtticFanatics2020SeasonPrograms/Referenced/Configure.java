@@ -6,6 +6,7 @@ import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.HardwareMap;
+import com.qualcomm.robotcore.hardware.Servo;
 
 
 import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
@@ -19,6 +20,10 @@ public class Configure {
     public Orientation angles;
 
     public DcMotor[] Motors = new DcMotor[5];
+
+    public Servo Gripper;
+
+    public Servo RotateGripper;
 
     public boolean Configured = false;
 
@@ -50,11 +55,14 @@ public class Configure {
         Motors[2] = hwMap.get(DcMotor.class, "front_left_motor");
         Motors[3] = hwMap.get(DcMotor.class, "front_right_motor");
         Motors[4] = hwMap.get(DcMotor.class, "back_right_motor");
+        Gripper = hwMap.get(Servo.class, "gripper");
+        RotateGripper = hwMap.get(Servo.class, "rotate_gripper");
 
-        //Motors[1].setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        //Motors[2].setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        //Motors[3].setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        //Motors[4].setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+
+        Motors[1].setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        Motors[2].setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        Motors[3].setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        Motors[4].setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
         Motors[3].setDirection(DcMotor.Direction.REVERSE);
         Motors[4].setDirection(DcMotor.Direction.REVERSE);
