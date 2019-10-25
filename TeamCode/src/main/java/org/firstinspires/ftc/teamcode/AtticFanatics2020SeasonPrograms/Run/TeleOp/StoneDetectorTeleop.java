@@ -3,12 +3,14 @@ package org.firstinspires.ftc.teamcode.AtticFanatics2020SeasonPrograms.Run.TeleO
 
 import com.disnodeteam.dogecv.detectors.DogeCVDetector;
 import com.disnodeteam.dogecv.detectors.skystone.SkystoneDetector;
+import com.disnodeteam.dogecv.detectors.skystone.StoneDetector;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
 import org.openftc.easyopencv.OpenCvCamera;
 import org.openftc.easyopencv.OpenCvCameraRotation;
 import org.openftc.easyopencv.OpenCvInternalCamera;
+import com.disnodeteam.dogecv.detectors.skystone.StoneDetector;
 
 import java.util.Locale;
 
@@ -20,9 +22,9 @@ import java.util.Locale;
  */
 @TeleOp(group="DogeCV")
 
-public class DogeCVExample extends LinearOpMode {
+public class StoneDetectorTeleop extends LinearOpMode {
     private OpenCvCamera phoneCam;
-    private SkystoneDetector skyStoneDetector;
+    private  StoneDetector skyStoneDetector;
 
     @Override
     public void runOpMode() {
@@ -50,7 +52,7 @@ public class DogeCVExample extends LinearOpMode {
          * of a frame from the camera. Note that switching pipelines on-the-fly
          * (while a streaming session is in flight) *IS* supported.
          */
-        skyStoneDetector = new SkystoneDetector();
+        skyStoneDetector = new StoneDetector();
         phoneCam.setPipeline(skyStoneDetector);
 
         /*
@@ -76,8 +78,8 @@ public class DogeCVExample extends LinearOpMode {
             /*
              * Send some stats to the telemetry
              */
-            telemetry.addData("Stone Position X", skyStoneDetector.getScreenPosition().x);
-            telemetry.addData("Stone Position Y", skyStoneDetector.getScreenPosition().y);
+          //  telemetry.addData("Stone Position X", skyStoneDetector.getScreenPosition().x);
+          //  telemetry.addData("Stone Position Y", skyStoneDetector.getScreenPosition().y);
             telemetry.addData("Frame Count", phoneCam.getFrameCount());
             telemetry.addData("FPS", String.format(Locale.US, "%.2f", phoneCam.getFps()));
             telemetry.addData("Total frame time ms", phoneCam.getTotalFrameTimeMs());
