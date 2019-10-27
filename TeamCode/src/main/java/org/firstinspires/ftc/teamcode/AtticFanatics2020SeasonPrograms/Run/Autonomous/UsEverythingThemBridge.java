@@ -41,7 +41,7 @@ public class UsEverythingThemBridge extends LinearOpMode {
         robot.MoveEncoderTicks(50,0,1,hardwareMap);
         //drop
         robot.GrabDrop(true,hardwareMap);
-        //grab
+        //grab foundation
 
         //pull back
         robot.MoveEncoderTicks(50,0,-1,hardwareMap);
