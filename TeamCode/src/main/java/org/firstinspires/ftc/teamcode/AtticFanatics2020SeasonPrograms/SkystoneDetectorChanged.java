@@ -10,8 +10,9 @@ import com.disnodeteam.dogecv.scoring.RatioScorer;
 import com.disnodeteam.dogecv.scoring.DogeCVScorer;
 import com.disnodeteam.dogecv.detectors.DogeCVDetector;
 
-import org.firstinspires.ftc.teamcode.AtticFanatics2020SeasonPrograms.Run.TeleOp.DogeCVExample;
+import org.firstinspires.ftc.teamcode.AtticFanatics2020SeasonPrograms.Run.TeleOp.SkyStoneVuforiaDetectorTeleop;
 
+import org.firstinspires.ftc.teamcode.AtticFanatics2020SeasonPrograms.Run.TeleOp.SkyStoneVuforiaDetectorTeleop;
 import org.opencv.core.Mat;
 import org.opencv.core.MatOfPoint;
 import org.opencv.core.Point;
@@ -38,7 +39,7 @@ public class SkystoneDetectorChanged extends DogeCVDetector {
     public Point screenPosition = new Point(); // Screen position of the mineral
     public Rect foundRect = new Rect(); // Found rect
 
-    public DogeCVExample Example = new DogeCVExample();
+    public SkyStoneVuforiaDetectorTeleop Example = new SkyStoneVuforiaDetectorTeleop();
 
     public Mat rawImage = new Mat();
     public Mat workingMat = new Mat();

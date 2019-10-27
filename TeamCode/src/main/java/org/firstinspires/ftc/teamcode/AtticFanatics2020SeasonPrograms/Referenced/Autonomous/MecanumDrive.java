@@ -2,6 +2,7 @@ package org.firstinspires.ftc.teamcode.AtticFanatics2020SeasonPrograms.Reference
 
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.HardwareMap;
+import com.qualcomm.robotcore.util.Hardware;
 
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.AxesOrder;
@@ -26,7 +27,32 @@ public class MecanumDrive extends Configure {
 
     public void runOpMode() throws InterruptedException {
     }
+    public void ExtendGripper(double NumbCm,  HardwareMap hardmap){
+        if (!Configured)
+        {
+            Configure(hardmap);
+            Configured = true;
+        }
+        ResetMotorEncoders(hardmap);
+        double Ticks = TICKS_PER_CM * NumbCm;
+        ExtendyGripper.setTargetPosition((int)Ticks);
+        ExtendyGripper.setPower(1);
+        while(ExtendyGripper.isBusy()){
 
+        }
+        ExtendyGripper.setPower(0);
+    }
+    public void setGrip (double position, HardwareMap hardmap){
+        RotateGripper.setPosition(position);
+    }
+    public void GrabDrop(boolean open, HardwareMap hardmap){
+        if(open){
+            Gripper.setPosition(.6);
+        }
+        else if(!open){
+            Gripper.setPosition(.1);
+        }
+    }
     public void MoveEncoderTicks(double NumbCM, double SidewaysPower, double ForwardPower, HardwareMap ahwMap) {
 
         if (!Configured)
@@ -41,7 +67,7 @@ public class MecanumDrive extends Configure {
         double Ticks = TICKS_PER_CM * NumbCM;
 
         HeadingAdjust = imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
-
+        SetTargetPosition(Motors,Ticks,ahwMap);
         setPower(SidewaysPower, ForwardPower, 0f);
 
         while((Motors[1].isBusy() || Motors[2].isBusy()|| Motors[3].isBusy() || Motors[4].isBusy())){
