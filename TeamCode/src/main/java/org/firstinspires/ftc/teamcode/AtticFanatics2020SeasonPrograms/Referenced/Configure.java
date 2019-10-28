@@ -46,14 +46,14 @@ public class Configure {
         Motors[4].setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         ExtendyGripper.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
     }
-    public void RunToPosition(){
+    public void RunToPosition(HardwareMap ahwMap){
         Motors[1].setMode(DcMotor.RunMode.RUN_TO_POSITION);
         Motors[2].setMode(DcMotor.RunMode.RUN_TO_POSITION);
         Motors[3].setMode(DcMotor.RunMode.RUN_TO_POSITION);
         Motors[4].setMode(DcMotor.RunMode.RUN_TO_POSITION);
     }
 
-    public void SetTargetPosition(double Ticks){
+    public void SetTargetPosition(double Ticks, HardwareMap ahwMap){
         Motors[1].setTargetPosition((int)Ticks);
         Motors[2].setTargetPosition((int)Ticks);
         Motors[3].setTargetPosition((int)Ticks);

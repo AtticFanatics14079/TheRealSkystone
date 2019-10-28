@@ -72,7 +72,7 @@ public class MecanumDrive extends Configure {
 
         setPower(SidewaysPower, ForwardPower, 0f);
 
-        while(Motors[1].getCurrentPosition()<Ticks && Motors[2].getCurrentPosition()<Ticks && Motors[3].getCurrentPosition()<Ticks && Motors[4].getCurrentPosition()<Ticks){
+        while(Math.abs(Motors[1].getCurrentPosition())<Ticks && Math.abs(Motors[2].getCurrentPosition())<Ticks && Math.abs(Motors[3].getCurrentPosition())<Ticks && Math.abs(Motors[4].getCurrentPosition())<Ticks){
 
         }
         setPower(0,0,0);
@@ -143,7 +143,7 @@ public class MecanumDrive extends Configure {
             Configured = true;
         }
         ResetMotorEncoders(ahwMap);
-        RunToPosition();
+        RunToPosition(ahwMap);
         double Ticks = Degrees*TICKS_PER_DEGREE;
         Motors[1].setTargetPosition(-1*(int)Ticks);
         Motors[2].setTargetPosition(-1*(int)Ticks);
