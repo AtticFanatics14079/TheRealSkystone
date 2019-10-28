@@ -20,6 +20,7 @@ public class MecanumDrive extends Configure {
     Orientation HeadingAdjust, CurrentOrientation;
 
     static final double TICKS_PER_CM = 30.5;
+    static final double TICKS_PER_DEGREE = 23.6;
     //static final double INERTIA_TICKS = 100;
     static final double TURN_OFFSET = 10;
 
@@ -63,14 +64,15 @@ public class MecanumDrive extends Configure {
 
         ResetMotorEncoders(ahwMap);
 
+
         //Mess with numbers, as different circumference.
         double Ticks = TICKS_PER_CM * NumbCM;
 
-        HeadingAdjust = imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
-        SetTargetPosition(Motors,Ticks,ahwMap);
+        //HeadingAdjust = imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
+
         setPower(SidewaysPower, ForwardPower, 0f);
 
-        while((Motors[1].isBusy() || Motors[2].isBusy()|| Motors[3].isBusy() || Motors[4].isBusy())){
+        while(Motors[1].getCurrentPosition()<Ticks && Motors[2].getCurrentPosition()<Ticks && Motors[3].getCurrentPosition()<Ticks && Motors[4].getCurrentPosition()<Ticks){
 
         }
         setPower(0,0,0);
@@ -132,6 +134,30 @@ public class MecanumDrive extends Configure {
         }
 
         setPower(0, 0, 0);
+    }
+    public void TurnDegreesEncoder(double Degrees, HardwareMap ahwMap)
+    {
+        if (!Configured)
+        {
+            Configure(ahwMap);
+            Configured = true;
+        }
+        ResetMotorEncoders(ahwMap);
+        RunToPosition();
+        double Ticks = Degrees*TICKS_PER_DEGREE;
+        Motors[1].setTargetPosition(-1*(int)Ticks);
+        Motors[2].setTargetPosition(-1*(int)Ticks);
+        Motors[3].setTargetPosition((int)Ticks);
+        Motors[4].setTargetPosition((int)Ticks);
+        setPower(0,0,1);
+
+
+        while((Motors[1].isBusy() || Motors[2].isBusy()|| Motors[3].isBusy() || Motors[4].isBusy())){
+
+        }
+        setPower(0,0,0);
+
+        ResetMotorEncoders(ahwMap);
     }
 
 
