@@ -13,7 +13,7 @@ public class JustFoundation extends LinearOpMode {
         robot.setGrip(.1,hardwareMap);
         waitForStart();
         //strafe left
-        robot.MoveEncoderTicks(-45,1,0,hardwareMap);
+        robot.MoveEncoderTicks(45,-1,0,hardwareMap);
         //Forward
         robot.MoveEncoderTicks(125,0,1,hardwareMap);
 
