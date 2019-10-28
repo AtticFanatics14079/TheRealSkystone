@@ -27,7 +27,7 @@ public class Configure {
 
     public DcMotor ExtendyGripper;
 
-   public DcMotor[] Scissor = new DcMotor[2];
+    public DcMotor Scissor1;
 
     public boolean Configured = false;
 
@@ -59,7 +59,7 @@ public class Configure {
         Motors[2].setTargetPosition((int)Ticks);
         Motors[3].setTargetPosition((int)Ticks);
         Motors[4].setTargetPosition((int)Ticks);
-        ExtendyGripper.setTargetPosition((int)Ticks);
+
     }
 
     public HardwareMap Configure(HardwareMap ahwMap)

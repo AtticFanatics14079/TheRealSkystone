@@ -26,6 +26,25 @@ public class MecanumDrive extends Configure {
 
     boolean Configured = false;
 
+    public void MoveScissor (int level, HardwareMap ahwMap){
+
+        Scissor1.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        Scissor1.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+
+        int ticks = 1;
+        switch (level){
+            case 1: ticks = 1; break;
+            case 2: break;
+        }
+        Scissor1.setTargetPosition(ticks);
+        Scissor1.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        Scissor1.setPower(1);
+        while(Scissor1.isBusy()){
+
+        }
+        Scissor1.setPower(0);
+    }
+
     public void runOpMode() throws InterruptedException {
     }
     public void ExtendGripper(double NumbCm,  HardwareMap hardmap){
@@ -36,8 +55,9 @@ public class MecanumDrive extends Configure {
         }
         ResetMotorEncoders(hardmap);
         double Ticks = TICKS_PER_CM * NumbCm;
-        ExtendyGripper.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+
         ExtendyGripper.setTargetPosition((int)Ticks);
+        ExtendyGripper.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         ExtendyGripper.setPower(1);
         while(ExtendyGripper.isBusy()){
 
