@@ -36,6 +36,7 @@ public class MecanumDrive extends Configure {
         }
         ResetMotorEncoders(hardmap);
         double Ticks = TICKS_PER_CM * NumbCm;
+        ExtendyGripper.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         ExtendyGripper.setTargetPosition((int)Ticks);
         ExtendyGripper.setPower(1);
         while(ExtendyGripper.isBusy()){
