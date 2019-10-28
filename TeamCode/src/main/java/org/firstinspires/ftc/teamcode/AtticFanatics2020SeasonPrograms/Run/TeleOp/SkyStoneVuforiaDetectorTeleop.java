@@ -344,18 +344,21 @@ public class SkyStoneVuforiaDetectorTeleop extends LinearOpMode {
 
             // Provide feedback as to where the robot is located (if we know).
             String positionSkystone = "";
+            int pathNum;
             if (targetVisible) {
                 // express position (translation) of robot in inches.
                 VectorF translation = lastLocation.getTranslation();
                 telemetry.addData("Pos (in)", "{X, Y, Z} = %.1f, %.1f, %.1f",
                         translation.get(0) / mmPerInch, translation.get(1) / mmPerInch, translation.get(2) / mmPerInch);
 
-                double xPosition = translation.get(0);
-                if(xPosition < -10){
+                double xPosition = translation.get(1);
+                if(xPosition < 0){
                     positionSkystone = "left";
+                    pathNum = 0;
 
                 }else{
                     positionSkystone = "center";
+                    pathNum = 1;
                 }
 
 
@@ -368,6 +371,7 @@ public class SkyStoneVuforiaDetectorTeleop extends LinearOpMode {
             else {
                 telemetry.addData("Visible Target", "none");
                 positionSkystone = "right";
+                pathNum = 2;
             }
             telemetry.addData("Skystone Position ", positionSkystone);
             telemetry.update();
