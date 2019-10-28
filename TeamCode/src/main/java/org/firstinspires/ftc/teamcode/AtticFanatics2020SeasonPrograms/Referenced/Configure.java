@@ -25,7 +25,7 @@ public class Configure {
 
     public Servo RotateGripper;
 
-    public DcMotor ExtendyGripper;
+    public DcMotor ExtendGripper;
 
    public DcMotor[] Scissor = new DcMotor[2];
 
@@ -39,12 +39,12 @@ public class Configure {
         Motors[2].setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         Motors[3].setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         Motors[4].setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        ExtendyGripper.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        ExtendGripper.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         Motors[1].setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         Motors[2].setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         Motors[3].setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         Motors[4].setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        ExtendyGripper.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        ExtendGripper.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
     }
     public void RunToPosition(HardwareMap ahwMap){
         Motors[1].setMode(DcMotor.RunMode.RUN_TO_POSITION);
@@ -78,7 +78,7 @@ public class Configure {
         Motors[4] = hwMap.get(DcMotor.class, "back_right_motor");
         Gripper = hwMap.get(Servo.class, "gripper");
         RotateGripper = hwMap.get(Servo.class, "rotate_gripper");
-        ExtendyGripper = hwMap.get(DcMotor.class, "extend_gripper");
+        ExtendGripper = hwMap.get(DcMotor.class, "extend_gripper");
 
 
         Motors[1].setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);

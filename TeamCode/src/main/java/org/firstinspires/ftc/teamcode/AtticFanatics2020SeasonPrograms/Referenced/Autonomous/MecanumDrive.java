@@ -26,8 +26,6 @@ public class MecanumDrive extends Configure {
 
     boolean Configured = false;
 
-    public void runOpMode() throws InterruptedException {
-    }
     public void ExtendGripper(double NumbCm,  HardwareMap hardmap){
         if (!Configured)
         {
@@ -36,16 +34,14 @@ public class MecanumDrive extends Configure {
         }
         ResetMotorEncoders(hardmap);
         double Ticks = TICKS_PER_CM * NumbCm;
-        ExtendyGripper.setTargetPosition((int)Ticks);
-        ExtendyGripper.setPower(1);
-        while(ExtendyGripper.isBusy()){
+        ExtendGripper.setTargetPosition((int)Ticks);
+        ExtendGripper.setPower(1);
+        while(ExtendGripper.isBusy()){
 
         }
-        ExtendyGripper.setPower(0);
+        ExtendGripper.setPower(0);
     }
-    public void setGrip (double position, HardwareMap hardmap){
-        RotateGripper.setPosition(position);
-    }
+
     public void GrabDrop(boolean open, HardwareMap hardmap){
         if(open){
             Gripper.setPosition(.6);
@@ -54,6 +50,7 @@ public class MecanumDrive extends Configure {
             Gripper.setPosition(.1);
         }
     }
+
     public void MoveEncoderTicks(double NumbCM, double SidewaysPower, double ForwardPower, HardwareMap ahwMap) {
 
         if (!Configured)
@@ -68,7 +65,7 @@ public class MecanumDrive extends Configure {
         //Mess with numbers, as different circumference.
         double Ticks = TICKS_PER_CM * NumbCM;
 
-        //HeadingAdjust = imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
+        HeadingAdjust = imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
 
         setPower(SidewaysPower, ForwardPower, 0f);
 
@@ -95,15 +92,14 @@ public class MecanumDrive extends Configure {
             }
         }
 
+    */
 
         CurrentOrientation = imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
 
         if(Math.abs(CurrentOrientation.firstAngle - HeadingAdjust.firstAngle) > 2)
-            TurnDegrees(CurrentOrientation.firstAngle - HeadingAdjust.firstAngle, ahwMap);
+            TurnDegreesEncoder(CurrentOrientation.firstAngle - HeadingAdjust.firstAngle, ahwMap);
 
         setPower(0, 0, 0);
-
-         */
     }
 
     public void TurnDegreesImu(double Degrees, HardwareMap ahwMap)
