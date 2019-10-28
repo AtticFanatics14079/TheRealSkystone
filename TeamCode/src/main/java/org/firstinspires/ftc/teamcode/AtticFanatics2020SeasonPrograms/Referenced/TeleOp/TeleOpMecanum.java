@@ -26,6 +26,8 @@ public class TeleOpMecanum extends Configure {
 
         if(G1.x) RotateGripper.setPosition(RotateGripper.getPosition() + 0.005);
         else if(G1.y) RotateGripper.setPosition(RotateGripper.getPosition() - 0.005);
+
+        //Add other
     }
 
     //The following method is code from Team 16072's virtual_robot program. Small changes are only to make it fit our format, the bulk of the method was written by them.

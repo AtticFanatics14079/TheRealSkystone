@@ -42,6 +42,8 @@ import org.firstinspires.ftc.robotcore.external.navigation.VuforiaTrackable;
 import org.firstinspires.ftc.robotcore.external.navigation.VuforiaTrackableDefaultListener;
 import org.firstinspires.ftc.robotcore.external.navigation.VuforiaTrackables;
 
+import org.firstinspires.ftc.teamcode.AtticFanatics2020SeasonPrograms.SkystoneDetectorChanged;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -94,6 +96,8 @@ public class SkyStoneVuforiaDetectorTeleop extends LinearOpMode {
     //
     private static final VuforiaLocalizer.CameraDirection CAMERA_CHOICE = BACK;
     private static final boolean PHONE_IS_PORTRAIT = false  ;
+
+    public static SkystoneDetectorChanged SkystoneDetect = new SkystoneDetectorChanged();
 
     /*
      * IMPORTANT: You need to obtain your own license key to use Vuforia. The string below with which
@@ -350,25 +354,26 @@ public class SkyStoneVuforiaDetectorTeleop extends LinearOpMode {
                 telemetry.addData("Pos (in)", "{X, Y, Z} = %.1f, %.1f, %.1f",
                         translation.get(0) / mmPerInch, translation.get(1) / mmPerInch, translation.get(2) / mmPerInch);
 
-                double xPosition = translation.get(0);
-                if(xPosition < -10){
+                double xPosition = translation.get(1);
+
+                if(xPosition + 250 > 10){
                     positionSkystone = "left";
 
-                }else{
-                    positionSkystone = "center";
+                }else if(xPosition + 250 < -10){
+                    positionSkystone = "right";
                 }
+                else positionSkystone = "center";
 
-
-
+                telemetry.addData("X Position: ", xPosition);
 
                 // express the rotation of the robot in degrees.
                 Orientation rotation = Orientation.getOrientation(lastLocation, EXTRINSIC, XYZ, DEGREES);
                 telemetry.addData("Rot (deg)", "{Roll, Pitch, Heading} = %.0f, %.0f, %.0f", rotation.firstAngle, rotation.secondAngle, rotation.thirdAngle);
             }
-            else {
-                telemetry.addData("Visible Target", "none");
-                positionSkystone = "right";
-            }
+            //else {
+              //  telemetry.addData("Visible Target", "none");
+                //positionSkystone = "right";
+            //}
             telemetry.addData("Skystone Position ", positionSkystone);
             telemetry.update();
         }
