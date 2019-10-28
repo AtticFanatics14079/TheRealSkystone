@@ -21,7 +21,11 @@ public class TeleOpMecanum extends Configure {
             setPower(G1.left_stick_x, 0, 0);
         else setPower(G1.left_stick_x, G1.left_stick_y, G1.right_stick_x);
 
-        //Other checks go here
+        if(G1.a) Gripper.setPosition(.6);
+        else if(G1.b) Gripper.setPosition(.1);
+
+        if(G1.x) RotateGripper.setPosition(RotateGripper.getPosition() + 0.005);
+        else if(G1.y) RotateGripper.setPosition(RotateGripper.getPosition() - 0.005);
     }
 
     //The following method is code from Team 16072's virtual_robot program. Small changes are only to make it fit our format, the bulk of the method was written by them.

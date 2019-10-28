@@ -1,11 +1,15 @@
 package org.firstinspires.ftc.teamcode.AtticFanatics2020SeasonPrograms.Run.TeleOp;
 
 
-import com.disnodeteam.dogecv.detectors.DogeCVDetector;
-import com.disnodeteam.dogecv.detectors.skystone.SkystoneDetector;
+import org.firstinspires.ftc.teamcode.AtticFanatics2020SeasonPrograms.SkystoneDetectorChanged;
+
+import com.disnodeteam.dogecv.filters.DogeCVColorFilter;
+import com.disnodeteam.dogecv.filters.GrayscaleFilter;
+import com.disnodeteam.dogecv.scoring.DogeCVScorer;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
+import org.opencv.core.Mat;
 import org.openftc.easyopencv.OpenCvCamera;
 import org.openftc.easyopencv.OpenCvCameraRotation;
 import org.openftc.easyopencv.OpenCvInternalCamera;
@@ -22,7 +26,11 @@ import java.util.Locale;
 
 public class SkystoneDetectorAnthony extends LinearOpMode {
     private OpenCvCamera phoneCam;
-    private SkystoneDetector skyStoneDetector;
+    private SkystoneDetectorChanged skyStoneDetector;
+    private Mat blackMask = new Mat();
+    public DogeCVColorFilter blackFilter = new GrayscaleFilter(0, 25);
+    private Mat workingMat = new Mat();
+    private DogeCVScorer scorer;
 
     @Override
     public void runOpMode() {
@@ -50,7 +58,7 @@ public class SkystoneDetectorAnthony extends LinearOpMode {
          * of a frame from the camera. Note that switching pipelines on-the-fly
          * (while a streaming session is in flight) *IS* supported.
          */
-        skyStoneDetector = new SkystoneDetector();
+        skyStoneDetector = new SkystoneDetectorChanged();
         phoneCam.setPipeline(skyStoneDetector);
 
         /*
@@ -84,7 +92,14 @@ public class SkystoneDetectorAnthony extends LinearOpMode {
             telemetry.addData("Pipeline time ms", phoneCam.getPipelineTimeMs());
             telemetry.addData("Overhead time ms", phoneCam.getOverheadTimeMs());
             telemetry.addData("Theoretical max FPS", phoneCam.getCurrentPipelineMaxFps());
-            //telemetry.addData("isFound:", DogeCVDetector.i);
+            telemetry.addData("bestDifference: ", skyStoneDetector.ReturnBestDifference());
+            telemetry.addData("Found: ", skyStoneDetector.ReturnFound());
+            telemetry.addData("Best Rectangle: ", skyStoneDetector.IsBestRect());
+
+            telemetry.addData("Best Rectangle t1(x, y): ", skyStoneDetector.bestRect.tl());
+
+            telemetry.addData("Best Rectangle t1(x, y): ", skyStoneDetector.bestRect.br());
+
             telemetry.update();
 
             /*

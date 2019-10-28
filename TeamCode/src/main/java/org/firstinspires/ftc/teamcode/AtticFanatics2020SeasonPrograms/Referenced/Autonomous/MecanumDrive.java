@@ -2,6 +2,7 @@ package org.firstinspires.ftc.teamcode.AtticFanatics2020SeasonPrograms.Reference
 
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.HardwareMap;
+import com.qualcomm.robotcore.util.Hardware;
 
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.AxesOrder;
@@ -19,6 +20,7 @@ public class MecanumDrive extends Configure {
     Orientation HeadingAdjust, CurrentOrientation;
 
     static final double TICKS_PER_CM = 30.5;
+    static final double TICKS_PER_DEGREE = 23.6;
     //static final double INERTIA_TICKS = 100;
     static final double TURN_OFFSET = 10;
 
@@ -26,7 +28,32 @@ public class MecanumDrive extends Configure {
 
     public void runOpMode() throws InterruptedException {
     }
+    public void ExtendGripper(double NumbCm,  HardwareMap hardmap){
+        if (!Configured)
+        {
+            Configure(hardmap);
+            Configured = true;
+        }
+        ResetMotorEncoders(hardmap);
+        double Ticks = TICKS_PER_CM * NumbCm;
+        ExtendyGripper.setTargetPosition((int)Ticks);
+        ExtendyGripper.setPower(1);
+        while(ExtendyGripper.isBusy()){
 
+        }
+        ExtendyGripper.setPower(0);
+    }
+    public void setGrip (double position, HardwareMap hardmap){
+        RotateGripper.setPosition(position);
+    }
+    public void GrabDrop(boolean open, HardwareMap hardmap){
+        if(open){
+            Gripper.setPosition(.6);
+        }
+        else if(!open){
+            Gripper.setPosition(.1);
+        }
+    }
     public void MoveEncoderTicks(double NumbCM, double SidewaysPower, double ForwardPower, HardwareMap ahwMap) {
 
         if (!Configured)
@@ -37,14 +64,15 @@ public class MecanumDrive extends Configure {
 
         ResetMotorEncoders(ahwMap);
 
+
         //Mess with numbers, as different circumference.
         double Ticks = TICKS_PER_CM * NumbCM;
 
-        HeadingAdjust = imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
+        //HeadingAdjust = imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
 
         setPower(SidewaysPower, ForwardPower, 0f);
 
-        while((Motors[1].isBusy() || Motors[2].isBusy()|| Motors[3].isBusy() || Motors[4].isBusy())){
+        while(Math.abs(Motors[1].getCurrentPosition())<Ticks && Math.abs(Motors[2].getCurrentPosition())<Ticks && Math.abs(Motors[3].getCurrentPosition())<Ticks && Math.abs(Motors[4].getCurrentPosition())<Ticks){
 
         }
         setPower(0,0,0);
@@ -106,6 +134,30 @@ public class MecanumDrive extends Configure {
         }
 
         setPower(0, 0, 0);
+    }
+    public void TurnDegreesEncoder(double Degrees, HardwareMap ahwMap)
+    {
+        if (!Configured)
+        {
+            Configure(ahwMap);
+            Configured = true;
+        }
+        ResetMotorEncoders(ahwMap);
+        RunToPosition(ahwMap);
+        double Ticks = Degrees*TICKS_PER_DEGREE;
+        Motors[1].setTargetPosition(-1*(int)Ticks);
+        Motors[2].setTargetPosition(-1*(int)Ticks);
+        Motors[3].setTargetPosition((int)Ticks);
+        Motors[4].setTargetPosition((int)Ticks);
+        setPower(0,0,1);
+
+
+        while((Motors[1].isBusy() || Motors[2].isBusy()|| Motors[3].isBusy() || Motors[4].isBusy())){
+
+        }
+        setPower(0,0,0);
+
+        ResetMotorEncoders(ahwMap);
     }
 
 
