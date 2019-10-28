@@ -1,0 +1,22 @@
+Driving (Controller 1):
+Left Stick = Move
+Right Stick = Rotate
+Two Speeds (switch between them with a button)
+    Full Speed
+    1/4 Speed (For foundation or other fine adjustments)
+Ramp up speed (increase power by a proportional amount to the analog input on the controller; whenever stick is at 0 set power to 0 immediately)
+    Ramping up speed will make driving more natural and will help a lot with preventing the skyscraper from tipping
+    Maybe we want do ramp down speed for the slower speed too
+    Acceleration kills the tower, not speed
+
+Everything Else (Controller 2):
+Gripper: A/B for Open/Close (set values)
+Rotate Gripper: Triggers for Rotate (Put the servo in CR mode, and run it at speed equal to analog input; one trigger for each direction)
+Extend Arm: DPad Left/Right (With set increments of extension amount) (We need to detect each PRESS at a time, not true while it's pressed)
+Raise Scissor: DPad Up/Down (With set increments based on level of skyscraper) (Not sure if scissor lift speed is constant throughout range of motion)
+Foundation Hooks: X/Y = Open/Close with set values
+
+Maybe later (but not for this first scrimmage):
+Button to press that will look for block and pick it up automatically (rotate bot until stone is in middle, extend arm and pick up, with known orientation)
+Automate last step of placing the block (Extend arm, lower a bit, open hand)
+Automate moving foundation out into one button
