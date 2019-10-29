@@ -1,16 +1,18 @@
 package org.firstinspires.ftc.teamcode.AtticFanatics2020SeasonPrograms.Run.Autonomous;
 
+import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
 import org.firstinspires.ftc.teamcode.AtticFanatics2020SeasonPrograms.Referenced.Autonomous.MecanumDrive;
 
 //WE ARE STARTING IN THE MIDDLE OF THE TILE THAT IS ABOVE THE RED DEPOT
-public class TwoSkystones extends LinearOpMode {
+@Autonomous(name = "PlaceSkystonesUnmovedF", group = "AutoOpModes")
+public class PlaceSkystonesUnmovedF extends LinearOpMode {
     MecanumDrive robot = new MecanumDrive();
 
     @Override
     public void runOpMode() throws InterruptedException{
-        robot.setGrip(.1,hardwareMap);
+        //robot.setGrip(.1,hardwareMap);
         waitForStart();
         //Forward, then look for skystone.
         robot.MoveEncoderTicks(70,0,1,hardwareMap);
@@ -97,18 +99,6 @@ public class TwoSkystones extends LinearOpMode {
         //Extend
         //Open Hand
 
-        //Drive up to foundation, Grip it, Drive back into wall
-        robot.MoveEncoderTicks(15,0,1,hardwareMap);
-        sleep(500);
-        //Foundation hooks down
-        robot.MoveEncoderTicks(90,0,-1,hardwareMap);
-        sleep(500);
-        //Foundation hooks up
-        System.out.println("Foundation moved");
-
-        //Under Bridge, on Neutral Side
-        robot.MoveEncoderTicks(70,1,0,hardwareMap);
-        robot.MoveEncoderTicks(70,0,1,hardwareMap);
-        robot.MoveEncoderTicks(65,1,0,hardwareMap);
+        robot.MoveEncoderTicks(150,0.95,0.05,hardwareMap);
     }
 }
