@@ -44,8 +44,6 @@ public class MecanumDrive extends Configure {
         }
         Scissor1.setPower(0);
     }
-    }
-    public void runOpMode() throws InterruptedException {
 
     public void ExtendGripper(double NumbCm,  HardwareMap hardmap){
         if (!Configured)

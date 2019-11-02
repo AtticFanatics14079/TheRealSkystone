@@ -10,7 +10,7 @@ public class JustFoundation extends LinearOpMode {
 
     @Override
     public void runOpMode() throws InterruptedException{
-        robot.setGrip(.1,hardwareMap);
+        //robot.setGrip(.1,hardwareMap);
         waitForStart();
         //strafe left
         robot.MoveEncoderTicks(45,-1,0,hardwareMap);

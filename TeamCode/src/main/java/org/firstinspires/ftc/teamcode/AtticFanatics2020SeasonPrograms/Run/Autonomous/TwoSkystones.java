@@ -10,7 +10,7 @@ public class TwoSkystones extends LinearOpMode {
 
     @Override
     public void runOpMode() throws InterruptedException{
-        robot.setGrip(.1,hardwareMap);
+        //robot.setGrip(.1,hardwareMap);
         waitForStart();
         //Forward, then look for skystone.
         robot.MoveEncoderTicks(70,0,1,hardwareMap);

@@ -51,7 +51,7 @@ public class Configure {
         Motors[2].setMode(DcMotor.RunMode.RUN_TO_POSITION);
         Motors[3].setMode(DcMotor.RunMode.RUN_TO_POSITION);
         Motors[4].setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        ExtendyGripper.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        ExtendGripper.setMode(DcMotor.RunMode.RUN_TO_POSITION);
     }
 
     public void SetTargetPosition(double Ticks, HardwareMap ahwMap){

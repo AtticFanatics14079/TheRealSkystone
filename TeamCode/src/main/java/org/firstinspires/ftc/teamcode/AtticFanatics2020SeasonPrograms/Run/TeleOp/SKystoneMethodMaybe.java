@@ -42,6 +42,7 @@ import org.firstinspires.ftc.robotcore.external.navigation.VuforiaLocalizer;
 import org.firstinspires.ftc.robotcore.external.navigation.VuforiaTrackable;
 import org.firstinspires.ftc.robotcore.external.navigation.VuforiaTrackableDefaultListener;
 import org.firstinspires.ftc.robotcore.external.navigation.VuforiaTrackables;
+import org.firstinspires.ftc.teamcode.AtticFanatics2020SeasonPrograms.Referenced.Configure;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -55,8 +56,8 @@ import static org.firstinspires.ftc.robotcore.external.navigation.VuforiaLocaliz
 
 @Disabled
 
-public class SKystoneMethodMaybe {
-    HardwareMap hardwareMap;
+public class SKystoneMethodMaybe extends Configure {
+    HardwareMap hwMap;
 
     private static final VuforiaLocalizer.CameraDirection CAMERA_CHOICE = BACK;
     private static final boolean PHONE_IS_PORTRAIT = false  ;
@@ -91,6 +92,11 @@ public class SKystoneMethodMaybe {
     private float phoneYRotate    = 0;
     private float phoneZRotate    = 0;
 
+    public void PassHWMap(HardwareMap ahwMap)
+    {
+        hwMap = ahwMap;
+    }
+
     public int getSkystonePosition() {
         /*
          * Configure Vuforia by creating a Parameter object, and passing it to the Vuforia engine.
@@ -98,10 +104,10 @@ public class SKystoneMethodMaybe {
          * If no camera monitor is desired, use the parameter-less constructor instead (commented out below).
          */
         int pathNum = -2;
-        int cameraMonitorViewId = hardwareMap.appContext.getResources().getIdentifier("cameraMonitorViewId", "id", hardwareMap.appContext.getPackageName());
+        int cameraMonitorViewId = hwMap.appContext.getResources().getIdentifier("cameraMonitorViewId", "id", hwMap.appContext.getPackageName());
         VuforiaLocalizer.Parameters parameters = new VuforiaLocalizer.Parameters(cameraMonitorViewId);
 
-        // VuforiaLocalizer.Parameters parameters = new VuforiaLocalizer.Parameters();
+        //VuforiaLocalizer.Parameters parameters = new VuforiaLocalizer.Parameters();
 
         parameters.vuforiaLicenseKey = VUFORIA_KEY;
         parameters.cameraDirection   = CAMERA_CHOICE;
@@ -172,7 +178,7 @@ public class SKystoneMethodMaybe {
 
         targetsSkyStone.activate();
 
-        while (pathNum != -2) {
+        while (pathNum == -2) {
 
             // check all the trackable targets to see which one (if any) is visible.
             targetVisible = false;
