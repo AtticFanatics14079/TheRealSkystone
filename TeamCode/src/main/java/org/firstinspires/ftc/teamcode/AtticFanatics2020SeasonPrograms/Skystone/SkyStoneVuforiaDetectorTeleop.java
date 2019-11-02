@@ -42,7 +42,7 @@ import org.firstinspires.ftc.robotcore.external.navigation.VuforiaTrackable;
 import org.firstinspires.ftc.robotcore.external.navigation.VuforiaTrackableDefaultListener;
 import org.firstinspires.ftc.robotcore.external.navigation.VuforiaTrackables;
 
-import org.firstinspires.ftc.teamcode.AtticFanatics2020SeasonPrograms.SkystoneDetectorChanged;
+import org.firstinspires.ftc.teamcode.AtticFanatics2020SeasonPrograms.Skystone.SkystoneDetectorChanged;
 
 import java.util.ArrayList;
 import java.util.List;

@@ -39,19 +39,19 @@ public class Configure {
         Motors[2].setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         Motors[3].setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         Motors[4].setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        ExtendGripper.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        //ExtendGripper.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         Motors[1].setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         Motors[2].setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         Motors[3].setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         Motors[4].setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        ExtendGripper.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        //ExtendGripper.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
     }
     public void RunToPosition(HardwareMap ahwMap){
         Motors[1].setMode(DcMotor.RunMode.RUN_TO_POSITION);
         Motors[2].setMode(DcMotor.RunMode.RUN_TO_POSITION);
         Motors[3].setMode(DcMotor.RunMode.RUN_TO_POSITION);
         Motors[4].setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        ExtendGripper.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        //ExtendGripper.setMode(DcMotor.RunMode.RUN_TO_POSITION);
     }
 
     public void SetTargetPosition(double Ticks, HardwareMap ahwMap){
@@ -81,7 +81,6 @@ public class Configure {
         Gripper = hwMap.get(Servo.class, "gripper");
         RotateGripper = hwMap.get(Servo.class, "rotate_gripper");
         ExtendGripper = hwMap.get(DcMotor.class, "extend_gripper");
-
 
         Motors[1].setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         Motors[2].setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);

@@ -19,7 +19,7 @@ public class MecanumDrive extends Configure {
 
     Orientation HeadingAdjust, CurrentOrientation;
 
-    static final double TICKS_PER_CM = 30.5;
+    static final double TICKS_PER_CM = 12;
     static final double TICKS_PER_DEGREE = 23.6;
     //static final double INERTIA_TICKS = 100;
     static final double TURN_OFFSET = 10;
@@ -158,12 +158,14 @@ public class MecanumDrive extends Configure {
             Configured = true;
         }
         ResetMotorEncoders(ahwMap);
-        RunToPosition(ahwMap);
         double Ticks = Degrees*TICKS_PER_DEGREE;
         Motors[1].setTargetPosition(-1*(int)Ticks);
         Motors[2].setTargetPosition(-1*(int)Ticks);
         Motors[3].setTargetPosition((int)Ticks);
         Motors[4].setTargetPosition((int)Ticks);
+        RunToPosition(ahwMap);
+
+
         setPower(0,0,1);
 
 
