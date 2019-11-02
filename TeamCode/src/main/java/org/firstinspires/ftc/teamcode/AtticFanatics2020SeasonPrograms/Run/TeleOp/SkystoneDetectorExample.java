@@ -24,7 +24,7 @@ import java.util.Locale;
  */
 @TeleOp(group="DogeCV")
 
-public class SkystoneDetectorAnthony extends LinearOpMode {
+public class SkystoneDetectorExample extends LinearOpMode {
     private OpenCvCamera phoneCam;
     private SkystoneDetectorChanged skyStoneDetector;
     private Mat blackMask = new Mat();
