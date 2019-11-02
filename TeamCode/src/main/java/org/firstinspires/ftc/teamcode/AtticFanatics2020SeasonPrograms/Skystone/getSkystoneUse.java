@@ -11,14 +11,14 @@ import org.firstinspires.ftc.teamcode.AtticFanatics2020SeasonPrograms.Skystone.S
 @TeleOp(name="getSkystoneUse")
 
 public class getSkystoneUse extends LinearOpMode {
-    MecanumDrive robot = new MecanumDrive();
+    //MecanumDrive robot = new MecanumDrive();
     SKystoneMethodMaybe camera = new SKystoneMethodMaybe();
     @Override
     public void runOpMode() throws InterruptedException{
-        robot.setGrip(.1,hardwareMap);
+        //robot.setGrip(.1,hardwareMap);
         waitForStart();
         //Forward, then look for skystone.
-        robot.MoveEncoderTicks(70,0,1,hardwareMap);
+        //robot.MoveEncoderTicks(70,0,1,hardwareMap);
         int skysposition;
         skysposition = camera.getSkystonePosition();
         switch (skysposition){
@@ -26,7 +26,7 @@ public class getSkystoneUse extends LinearOpMode {
             case 1: System.out.println((" it IS Mid")); break;
             case 2: System.out.println(" it IS Right"); break;
         }
-        robot.MoveEncoderTicks(-70,0,-1,hardwareMap);
+        //robot.MoveEncoderTicks(-70,0,-1,hardwareMap);
 
     }
 }
