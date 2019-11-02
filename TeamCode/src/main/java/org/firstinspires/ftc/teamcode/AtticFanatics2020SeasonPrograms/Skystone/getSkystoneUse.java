@@ -1,10 +1,10 @@
-package org.firstinspires.ftc.teamcode.AtticFanatics2020SeasonPrograms.Run.Autonomous;
+package org.firstinspires.ftc.teamcode.AtticFanatics2020SeasonPrograms.Skystone;
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
 import org.firstinspires.ftc.teamcode.AtticFanatics2020SeasonPrograms.Referenced.Autonomous.MecanumDrive;
-import org.firstinspires.ftc.teamcode.AtticFanatics2020SeasonPrograms.Run.TeleOp.SKystoneMethodMaybe;
+import org.firstinspires.ftc.teamcode.AtticFanatics2020SeasonPrograms.Skystone.SKystoneMethodMaybe;
 
 //WE ARE STARTING IN THE MIDDLE OF THE TILE THAT IS ABOVE THE RED DEPOT
 

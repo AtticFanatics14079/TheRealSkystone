@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.AtticFanatics2020SeasonPrograms;
+package org.firstinspires.ftc.teamcode.AtticFanatics2020SeasonPrograms.Skystone;
 
 import com.disnodeteam.dogecv.DogeCV;
 import com.disnodeteam.dogecv.filters.DogeCVColorFilter;
@@ -10,9 +10,8 @@ import com.disnodeteam.dogecv.scoring.RatioScorer;
 import com.disnodeteam.dogecv.scoring.DogeCVScorer;
 import com.disnodeteam.dogecv.detectors.DogeCVDetector;
 
-import org.firstinspires.ftc.teamcode.AtticFanatics2020SeasonPrograms.Run.TeleOp.SkyStoneVuforiaDetectorTeleop;
+import org.firstinspires.ftc.teamcode.AtticFanatics2020SeasonPrograms.Skystone.SkyStoneVuforiaDetectorTeleop;
 
-import org.firstinspires.ftc.teamcode.AtticFanatics2020SeasonPrograms.Run.TeleOp.SkyStoneVuforiaDetectorTeleop;
 import org.opencv.core.Mat;
 import org.opencv.core.MatOfPoint;
 import org.opencv.core.Point;

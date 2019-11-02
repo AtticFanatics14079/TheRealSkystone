@@ -27,12 +27,10 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package org.firstinspires.ftc.teamcode.AtticFanatics2020SeasonPrograms.Run.TeleOp;
+package org.firstinspires.ftc.teamcode.AtticFanatics2020SeasonPrograms.Skystone;
 
-import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
-import com.qualcomm.robotcore.hardware.HardwareMap;
 
 import org.firstinspires.ftc.robotcore.external.ClassFactory;
 import org.firstinspires.ftc.robotcore.external.matrices.OpenGLMatrix;
@@ -53,10 +51,10 @@ import static org.firstinspires.ftc.robotcore.external.navigation.AxesReference.
 import static org.firstinspires.ftc.robotcore.external.navigation.VuforiaLocalizer.CameraDirection.BACK;
 
 
-@Disabled
+@TeleOp(name="SKYSTONE Vuforia Nav", group ="Concept")
 
-public class SKystoneMethodMaybe {
-    HardwareMap hardwareMap;
+public class DeleteJazzSkyStoneDetection extends LinearOpMode {
+
 
     private static final VuforiaLocalizer.CameraDirection CAMERA_CHOICE = BACK;
     private static final boolean PHONE_IS_PORTRAIT = false  ;
@@ -91,13 +89,12 @@ public class SKystoneMethodMaybe {
     private float phoneYRotate    = 0;
     private float phoneZRotate    = 0;
 
-    public int getSkystonePosition() {
+    @Override public void runOpMode() {
         /*
          * Configure Vuforia by creating a Parameter object, and passing it to the Vuforia engine.
          * We can pass Vuforia the handle to a camera preview resource (on the RC phone);
          * If no camera monitor is desired, use the parameter-less constructor instead (commented out below).
          */
-        int pathNum = -2;
         int cameraMonitorViewId = hardwareMap.appContext.getResources().getIdentifier("cameraMonitorViewId", "id", hardwareMap.appContext.getPackageName());
         VuforiaLocalizer.Parameters parameters = new VuforiaLocalizer.Parameters(cameraMonitorViewId);
 
@@ -171,17 +168,16 @@ public class SKystoneMethodMaybe {
         // Tap the preview window to receive a fresh image.
 
         targetsSkyStone.activate();
-
-        while (pathNum != -2) {
+        while (!isStopRequested()) {
 
             // check all the trackable targets to see which one (if any) is visible.
             targetVisible = false;
             for (VuforiaTrackable trackable : allTrackables) {
                 if (((VuforiaTrackableDefaultListener)trackable.getListener()).isVisible()) {
-                    System.out.println("Visible Target" + trackable.getName());
+                    telemetry.addData("Visible Target", trackable.getName());
 
                     if(trackable.getName().equals("Stone Target")){
-                        System.out.println("Skystone is visible");
+                        telemetry.addLine("Skystone is visible");
                     }
 
                     targetVisible = true;
@@ -198,11 +194,12 @@ public class SKystoneMethodMaybe {
 
             // Provide feedback as to where the robot is located (if we know).
             String positionSkystone = "";
-
+            int pathNum;
             if (targetVisible) {
                 // express position (translation) of robot in inches.
                 VectorF translation = lastLocation.getTranslation();
-                System.out.println(("Pos (in) and {X, Y, Z} = %.1f, %.1f, %.1f") + translation.get(0) / mmPerInch + translation.get(1) / mmPerInch + translation.get(2) / mmPerInch);
+                telemetry.addData("Pos (in)", "{X, Y, Z} = %.1f, %.1f, %.1f",
+                        translation.get(0) / mmPerInch, translation.get(1) / mmPerInch, translation.get(2) / mmPerInch);
 
                 double xPosition = translation.get(1);
                 if(xPosition < 0){
@@ -219,21 +216,18 @@ public class SKystoneMethodMaybe {
 
                 // express the rotation of the robot in degrees.
                 Orientation rotation = Orientation.getOrientation(lastLocation, EXTRINSIC, XYZ, DEGREES);
-               // telemetry.addData("Rot (deg)", "{Roll, Pitch, Heading} = %.0f, %.0f, %.0f", rotation.firstAngle, rotation.secondAngle, rotation.thirdAngle);
+                telemetry.addData("Rot (deg)", "{Roll, Pitch, Heading} = %.0f, %.0f, %.0f", rotation.firstAngle, rotation.secondAngle, rotation.thirdAngle);
             }
             else {
-                System.out.println("Visible Target: none");
+                telemetry.addData("Visible Target", "none");
                 positionSkystone = "right";
                 pathNum = 2;
             }
-            System.out.println(("Skystone Position: " + positionSkystone));
-           // telemetry.update();
+            telemetry.addData("Skystone Position ", positionSkystone);
+            telemetry.update();
         }
 
         // Disable Tracking when we are done;
         targetsSkyStone.deactivate();
-        return pathNum;
-
     }
-
 }
