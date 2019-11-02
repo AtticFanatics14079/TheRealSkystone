@@ -60,10 +60,10 @@ public class SKystoneMethodMaybe extends Configure {
     HardwareMap hwMap;
 
     private static final VuforiaLocalizer.CameraDirection CAMERA_CHOICE = BACK;
-    private static final boolean PHONE_IS_PORTRAIT = false  ;
+    private static final boolean PHONE_IS_PORTRAIT = true  ;
 
     private static final String VUFORIA_KEY =
-            "AcZJwA3/////AAABmb6AM3k1hkSnsGWrryRhRLQCrOez+E99u24y3SgIGlOjWUvGXDqPV0zKyc0F3doTGrWj9oSItlnrlNrTTFiqOE5U4JXeiOazV7ZpECzfSA/8XylXnksGO2Srtq+agqx+uNpwWBO6dbdJKTwWgNgYehamWdqRKxmmDirCwz76U80QfpdLt45zI32+VqD/Z61MTGdNCvP89+LUUaUPFk5KMznJKOD7ZcfmJemzrYeNLDR7sTsX9I927do5O5LzV4BOPqDnx5lJkBjO+UclTYjzZHfc8EGC9+ozbTZXdF5135B9jqQAFqK+Mq+XE5yjyiS34pyQpPLNsnvGI+uM+WuEh7nyhLRr8VPogPgjPkfu16WQ";
+            "AfWIP9D/////AAABmZBwnGQlPkPHv40rNwcYrvUFRvmN0r9z3brgRsKWCj5G0cvHvrdzm0dmXNZfl9w5jpMEcitNca0p2Quo1M0ilwP6DSZR2PckEq5OZA7G1eAHf2wk7LnLwaQveO3eQSafnvlSwLDX0xsARjs27KeCFGD+iH/CdOQCoa8BLP9ZvzC0IRLX/ZtYhipJyeOs9BTs3sHzXceHYOHcwHNELu207btO72oj7NymkNRSLiotfXnm5lWPnf4UD6fL6Kz85nF1XoMdey07I/LjX8UZpFM1bTUfMPDtzvfnwOQqJg3xFC/vmlvpmENWyVfIxOqhGBhiTFj7XodlvmgQONJqYHRZsTPyNOfk+wEqwg3aztHTUFIP";
 
     // Since ImageTarget trackables use mm to specifiy their dimensions, we must use mm for all the physical dimension.
     // We will define some constants and conversions here
