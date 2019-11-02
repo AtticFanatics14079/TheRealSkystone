@@ -1,11 +1,15 @@
 package org.firstinspires.ftc.teamcode.AtticFanatics2020SeasonPrograms.Run.Autonomous;
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
+import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
 import org.firstinspires.ftc.teamcode.AtticFanatics2020SeasonPrograms.Referenced.Autonomous.MecanumDrive;
 import org.firstinspires.ftc.teamcode.AtticFanatics2020SeasonPrograms.Run.TeleOp.SKystoneMethodMaybe;
 
 //WE ARE STARTING IN THE MIDDLE OF THE TILE THAT IS ABOVE THE RED DEPOT
+
+@TeleOp(name="getSkystoneUse")
+
 public class getSkystoneUse extends LinearOpMode {
     MecanumDrive robot = new MecanumDrive();
     SKystoneMethodMaybe camera = new SKystoneMethodMaybe();
