@@ -229,5 +229,6 @@ public class DeleteJazzSkyStoneDetection extends LinearOpMode {
 
         // Disable Tracking when we are done;
         targetsSkyStone.deactivate();
+
     }
 }
