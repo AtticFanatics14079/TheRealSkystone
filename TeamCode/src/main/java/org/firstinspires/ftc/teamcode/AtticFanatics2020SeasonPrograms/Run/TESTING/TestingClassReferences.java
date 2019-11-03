@@ -22,7 +22,7 @@ public class TestingClassReferences extends LinearOpMode {
 //        Drive.MoveEncoderTicks(80, 0, 1, hardwareMap);
        // Drive.MoveEncoderTicks(250, -1, 0, hardwareMap);
 
-        Drive.TurnDegreesImu(90, hardwareMap); //FINALLY WORKS
+        Drive.TurnDegreesCurrentPos(90, hardwareMap); //FINALLY WORKS
         while (opModeIsActive())
         {
 
