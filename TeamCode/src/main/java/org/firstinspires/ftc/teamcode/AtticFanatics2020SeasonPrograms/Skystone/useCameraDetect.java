@@ -1,8 +1,9 @@
 package org.firstinspires.ftc.teamcode.AtticFanatics2020SeasonPrograms.Skystone;
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
+import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.HardwareMap;
-
+@TeleOp(name="CameraDetect", group ="Concept")
 public class useCameraDetect extends LinearOpMode {
     @Override
     public void runOpMode() throws InterruptedException {
