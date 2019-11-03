@@ -11,5 +11,11 @@ public class useCameraDetect extends LinearOpMode {
         waitForStart();
         int finalposition;
         finalposition = camera.getSkystone(hardwareMap);
+
+        switch (finalposition){
+            case 0: System.out.println("Path 0"); break;
+            case 1: System.out.println("Path 1"); break;
+            case 2: System.out.println("Path 2"); break;
+        }
     }
 }
