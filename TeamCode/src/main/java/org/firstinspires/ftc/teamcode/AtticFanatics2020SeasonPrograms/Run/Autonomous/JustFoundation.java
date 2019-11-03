@@ -7,8 +7,8 @@ import org.firstinspires.ftc.teamcode.AtticFanatics2020SeasonPrograms.Referenced
 
 
 //WE ARE STARTING AT BOTTOM EDGE OF TILE ONE BELOW BLUE BUILDING SITE
-@Autonomous(name = "JustFoundation", group = "AutoOpModes")
-public class JustFoundation extends LinearOpMode {
+//@Autonomous(name = "JustFoundation", group = "AutoOpModes")
+/*public class JustFoundation extends LinearOpMode {
     MecanumDrive robot = new MecanumDrive();
 
     @Override
@@ -29,3 +29,4 @@ public class JustFoundation extends LinearOpMode {
         robot.StrafeEncoderTicks(140,1,hardwareMap);
     }
 }
+*/
