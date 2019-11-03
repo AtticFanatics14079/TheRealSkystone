@@ -12,7 +12,7 @@ import org.firstinspires.ftc.teamcode.AtticFanatics2020SeasonPrograms.Skystone.S
 @TeleOp(name="getSkystoneUse")
 
 public class getSkystoneUse extends OpMode {
-    MecanumDrive robot = new MecanumDrive();
+    //MecanumDrive robot = new MecanumDrive();
     SKystoneMethodMaybe camera = new SKystoneMethodMaybe();
     int skysposition;
 

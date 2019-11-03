@@ -15,7 +15,7 @@ public class PlaceSkystonesMovedF extends LinearOpMode {
         //robot.setGrip(.1,hardwareMap);
         waitForStart();
         //Forward, then look for skystone.
-        robot.MoveEncoderTicks(70,0,1,hardwareMap);
+        robot.MoveEncoderTicks(70,1,hardwareMap);
         int SkystonePosition = (int)(3*(Math.random())); // Random for now, replace with actual detection later
         //int SkystonePosition = 2;
         System.out.println(SkystonePosition);
@@ -23,7 +23,7 @@ public class PlaceSkystonesMovedF extends LinearOpMode {
         //Strafe in front of skystone, pick it up
         //Turn left, drive to foundation
         if(SkystonePosition == 0){ // left
-            robot.MoveEncoderTicks(20,-1,0,hardwareMap);
+            robot.StrafeEncoderTicks(20,-1,hardwareMap);
             sleep(1000);
             //Extend Gripper
             //Open Hand
@@ -31,8 +31,8 @@ public class PlaceSkystonesMovedF extends LinearOpMode {
             //Close Hand
             //Retract
             //Raise
-            robot.TurnDegreesEncoder(-90,hardwareMap);
-            robot.MoveEncoderTicks(140,0,1,hardwareMap);
+            robot.TurnDegreesCurrentPos(-90,hardwareMap);
+            robot.MoveEncoderTicks(140,1,hardwareMap);
         } else if(SkystonePosition == 1){ // center
             sleep(1000);
             //Extend Gripper
@@ -41,10 +41,10 @@ public class PlaceSkystonesMovedF extends LinearOpMode {
             //Close Hand
             //Retract
             //Raise
-            robot.TurnDegreesEncoder(-90,hardwareMap);
-            robot.MoveEncoderTicks(160,0,1,hardwareMap);
+            robot.TurnDegreesCurrentPos(-90,hardwareMap);
+            robot.MoveEncoderTicks(160,1,hardwareMap);
         } else if(SkystonePosition ==2){ // right
-            robot.MoveEncoderTicks(20,1,0,hardwareMap);
+            robot.StrafeEncoderTicks(20,1,hardwareMap);
             sleep(1000);
             //Extend Gripper
             //Open Hand
@@ -53,7 +53,7 @@ public class PlaceSkystonesMovedF extends LinearOpMode {
             //Retract
             //Raise
             robot.TurnDegreesEncoder(-90,hardwareMap);
-            robot.MoveEncoderTicks(180,0,1,hardwareMap);
+            robot.MoveEncoderTicks(180,1,hardwareMap);
         }
         //Might want to turn left+turn back with extension, if robot is not far enough to the left
         sleep(1000);
@@ -64,13 +64,13 @@ public class PlaceSkystonesMovedF extends LinearOpMode {
 
         //Drive to second skystone, turn to face it, pick it up
         if(SkystonePosition == 0){
-            robot.MoveEncoderTicks(215,0,1,hardwareMap);
+            robot.MoveEncoderTicks(215,1,hardwareMap);
         }
         else if(SkystonePosition == 1){
-            robot.MoveEncoderTicks(235,0,1,hardwareMap);
+            robot.MoveEncoderTicks(235,1,hardwareMap);
         }
         else if(SkystonePosition == 2){
-            robot.MoveEncoderTicks(255,0,1,hardwareMap);
+            robot.MoveEncoderTicks(255,1,hardwareMap);
         }
         robot.TurnDegreesEncoder(-90,hardwareMap);
         sleep(1000);
@@ -83,13 +83,13 @@ public class PlaceSkystonesMovedF extends LinearOpMode {
         //Turn, Drive to foundation with second skystone, drop it off
         robot.TurnDegreesEncoder(-90,hardwareMap);
         if(SkystonePosition == 0){
-            robot.MoveEncoderTicks(210,0,1,hardwareMap);
+            robot.MoveEncoderTicks(210,1,hardwareMap);
         }
         else if(SkystonePosition == 1){
-            robot.MoveEncoderTicks(230,0,1,hardwareMap);
+            robot.MoveEncoderTicks(230,1,hardwareMap);
         }
         else if(SkystonePosition == 2){
-            robot.MoveEncoderTicks(250,0,1,hardwareMap);
+            robot.MoveEncoderTicks(250,1,hardwareMap);
         }
         System.out.println("Arrived at foundation");
         System.out.println("Dropped 2nd Skystone");
@@ -97,6 +97,6 @@ public class PlaceSkystonesMovedF extends LinearOpMode {
         //Extend
         //Open Hand
 
-        robot.MoveEncoderTicks(50,0.1,-1,hardwareMap);
+        //robot.MoveEncoderTicks(50,0.1,-1,hardwareMap); // Not sure if this mean strafe, assuming that for now.
     }
 }
