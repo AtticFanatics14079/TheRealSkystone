@@ -202,7 +202,7 @@ public class CameraDetect {
                 // express position (translation) of robot in inches.
                 VectorF translation = lastLocation.getTranslation();
                // telemetry.addData("Pos (in)", "{X, Y, Z} = %.1f, %.1f, %.1f",
-                   System.out.println(     translation.get(0) / mmPerInch + translation.get(1) / mmPerInch + translation.get(2) / mmPerInch));
+                  // System.out.println(     translation.get(0) / mmPerInch + translation.get(1) / mmPerInch + translation.get(2) / mmPerInch));
 
                 double xPosition = translation.get(1);
                 if(xPosition < 0){
