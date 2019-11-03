@@ -1,7 +1,7 @@
 package org.firstinspires.ftc.teamcode.AtticFanatics2020SeasonPrograms.Run.TeleOp;
 
 
-import org.firstinspires.ftc.teamcode.AtticFanatics2020SeasonPrograms.SkystoneDetectorChanged;
+import org.firstinspires.ftc.teamcode.AtticFanatics2020SeasonPrograms.Skystone.SkystoneDetectorChanged;
 
 import com.disnodeteam.dogecv.filters.DogeCVColorFilter;
 import com.disnodeteam.dogecv.filters.GrayscaleFilter;

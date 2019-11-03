@@ -39,19 +39,19 @@ public class Configure {
         Motors[2].setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         Motors[3].setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         Motors[4].setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        ExtendGripper.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        //ExtendGripper.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         Motors[1].setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         Motors[2].setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         Motors[3].setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         Motors[4].setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        ExtendGripper.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        //ExtendGripper.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
     }
     public void RunToPosition(HardwareMap ahwMap){
         Motors[1].setMode(DcMotor.RunMode.RUN_TO_POSITION);
         Motors[2].setMode(DcMotor.RunMode.RUN_TO_POSITION);
         Motors[3].setMode(DcMotor.RunMode.RUN_TO_POSITION);
         Motors[4].setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        ExtendGripper.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        //ExtendGripper.setMode(DcMotor.RunMode.RUN_TO_POSITION);
     }
 
     public void SetTargetPosition(double Ticks, HardwareMap ahwMap){
@@ -59,14 +59,13 @@ public class Configure {
         Motors[2].setTargetPosition((int)Ticks);
         Motors[3].setTargetPosition((int)Ticks);
         Motors[4].setTargetPosition((int)Ticks);
-
     }
 
     public HardwareMap Configure(HardwareMap ahwMap)
     {
         HardwareMap hwMap = ahwMap;
 
-        BNO055IMU.Parameters parameters = new BNO055IMU.Parameters();
+        /*BNO055IMU.Parameters parameters = new BNO055IMU.Parameters();
         parameters.angleUnit = BNO055IMU.AngleUnit.DEGREES;
         parameters.accelUnit = BNO055IMU.AccelUnit.METERS_PERSEC_PERSEC;
         parameters.calibrationDataFile = "BNO055IMUCalibration.json"; // see the calibration sample opmode
@@ -74,6 +73,8 @@ public class Configure {
         parameters.loggingTag = "IMU";
         parameters.accelerationIntegrationAlgorithm = new JustLoggingAccelerationIntegrator();
 
+
+         */
         Motors[1] = hwMap.get(DcMotor.class, "back_left_motor");
         Motors[2] = hwMap.get(DcMotor.class, "front_left_motor");
         Motors[3] = hwMap.get(DcMotor.class, "front_right_motor");
@@ -81,7 +82,6 @@ public class Configure {
         Gripper = hwMap.get(Servo.class, "gripper");
         RotateGripper = hwMap.get(Servo.class, "rotate_gripper");
         ExtendGripper = hwMap.get(DcMotor.class, "extend_gripper");
-
 
         Motors[1].setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         Motors[2].setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
@@ -91,8 +91,8 @@ public class Configure {
         Motors[3].setDirection(DcMotor.Direction.REVERSE);
         Motors[4].setDirection(DcMotor.Direction.REVERSE);
 
-        imu = hwMap.get(BNO055IMU.class, "imu");
-        imu.initialize(new BNO055IMU.Parameters());
+        //imu = hwMap.get(BNO055IMU.class, "imu");
+        //imu.initialize(new BNO055IMU.Parameters());
 
         return hwMap;
         }
