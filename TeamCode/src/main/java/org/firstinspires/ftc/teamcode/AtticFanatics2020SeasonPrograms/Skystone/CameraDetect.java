@@ -33,6 +33,7 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.HardwareMap;
+import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.robotcore.external.ClassFactory;
 import org.firstinspires.ftc.robotcore.external.matrices.OpenGLMatrix;
@@ -89,8 +90,10 @@ public class CameraDetect  {
     private float phoneXRotate    = 0;
     private float phoneYRotate    = 0;
     private float phoneZRotate    = 0;
+    ElapsedTime time;
 
      public int getSkystone(HardwareMap hwmap) {
+         time = new ElapsedTime();
          HardwareMap hardwareMap = hwmap;
          int pathNum = -2;
         /*
@@ -206,7 +209,7 @@ public class CameraDetect  {
                   // System.out.println(     translation.get(0) / mmPerInch + translation.get(1) / mmPerInch + translation.get(2) / mmPerInch));
 
                 double xPosition = translation.get(1);
-                if(xPosition < 0){
+                if(xPosition < 100){
                     positionSkystone = "left";
                     pathNum = 0;
                     System.out.println(pathNum + positionSkystone);
@@ -224,7 +227,7 @@ public class CameraDetect  {
                 Orientation rotation = Orientation.getOrientation(lastLocation, EXTRINSIC, XYZ, DEGREES);
               //  telemetry.addData("Rot (deg)", "{Roll, Pitch, Heading} = %.0f, %.0f, %.0f", rotation.firstAngle, rotation.secondAngle, rotation.thirdAngle);
             }
-            else {
+            else if(time.seconds() > 30){
                 System.out.println("Visible Target: none");
                 positionSkystone = "right";
                 pathNum = 2;
@@ -236,6 +239,7 @@ public class CameraDetect  {
 
         // Disable Tracking when we are done;
         targetsSkyStone.deactivate();
+        System.out.println(time);
         return pathNum;
     }
 }
