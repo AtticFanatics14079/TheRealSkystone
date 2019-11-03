@@ -91,7 +91,7 @@ public class CameraDetect {
 
      public int getSkystone(HardwareMap hwmap) {
          HardwareMap hardwareMap = hwmap;
-         int pathNum;
+         int pathNum = -2;
         /*
          * Configure Vuforia by creating a Parameter object, and passing it to the Vuforia engine.
          * We can pass Vuforia the handle to a camera preview resource (on the RC phone);
@@ -170,16 +170,17 @@ public class CameraDetect {
         // Tap the preview window to receive a fresh image.
 
         targetsSkyStone.activate();
-        while (!isStopRequested()) {
+        while (pathNum == -2) {
 
             // check all the trackable targets to see which one (if any) is visible.
             targetVisible = false;
             for (VuforiaTrackable trackable : allTrackables) {
                 if (((VuforiaTrackableDefaultListener)trackable.getListener()).isVisible()) {
-                    telemetry.addData("Visible Target", trackable.getName());
+                  //  telemetry.addData("Visible Target", trackable.getName());
+
 
                     if(trackable.getName().equals("Stone Target")){
-                        telemetry.addLine("Skystone is visible");
+                        System.out.println("Skystone is visible");
                     }
 
                     targetVisible = true;
@@ -200,17 +201,19 @@ public class CameraDetect {
             if (targetVisible) {
                 // express position (translation) of robot in inches.
                 VectorF translation = lastLocation.getTranslation();
-                telemetry.addData("Pos (in)", "{X, Y, Z} = %.1f, %.1f, %.1f",
-                        translation.get(0) / mmPerInch, translation.get(1) / mmPerInch, translation.get(2) / mmPerInch);
+               // telemetry.addData("Pos (in)", "{X, Y, Z} = %.1f, %.1f, %.1f",
+                   System.out.println(     translation.get(0) / mmPerInch + translation.get(1) / mmPerInch + translation.get(2) / mmPerInch));
 
                 double xPosition = translation.get(1);
                 if(xPosition < 0){
                     positionSkystone = "left";
                     pathNum = 0;
+                    System.out.println(pathNum + positionSkystone);
 
                 }else{
                     positionSkystone = "center";
                     pathNum = 1;
+                    System.out.println(pathNum + positionSkystone);
                 }
 
 
@@ -218,15 +221,16 @@ public class CameraDetect {
 
                 // express the rotation of the robot in degrees.
                 Orientation rotation = Orientation.getOrientation(lastLocation, EXTRINSIC, XYZ, DEGREES);
-                telemetry.addData("Rot (deg)", "{Roll, Pitch, Heading} = %.0f, %.0f, %.0f", rotation.firstAngle, rotation.secondAngle, rotation.thirdAngle);
+              //  telemetry.addData("Rot (deg)", "{Roll, Pitch, Heading} = %.0f, %.0f, %.0f", rotation.firstAngle, rotation.secondAngle, rotation.thirdAngle);
             }
             else {
-                telemetry.addData("Visible Target", "none");
+                System.out.println("Visible Target: none");
                 positionSkystone = "right";
                 pathNum = 2;
+                System.out.println(pathNum + positionSkystone);
             }
-            telemetry.addData("Skystone Position ", positionSkystone);
-            telemetry.update();
+            System.out.println("Skystone Position " + positionSkystone);
+           // telemetry.update();
         }
 
         // Disable Tracking when we are done;
