@@ -11,8 +11,8 @@ public class CalibrateTicksMovement extends LinearOpMode {
     @Override
     public void runOpMode() throws InterruptedException {
         waitForStart();
-        //robot.StrafeEncoderTicks(183,1, hardwareMap); // halfway
-        robot.TurnDegreesCurrentPos(1440,hardwareMap); // four full rotations
+        robot.StrafeEncoderTicks(183,1, hardwareMap); // halfway
+        //robot.TurnDegreesCurrentPos(1440,hardwareMap); // four full rotations
 
         telemetry.addData("Motor 1 Position: ", robot.Motors[1].getCurrentPosition());
         telemetry.addData("Motor 2 Position: ", robot.Motors[2].getCurrentPosition());

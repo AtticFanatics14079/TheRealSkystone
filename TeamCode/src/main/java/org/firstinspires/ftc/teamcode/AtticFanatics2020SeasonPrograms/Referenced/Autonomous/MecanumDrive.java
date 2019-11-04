@@ -64,7 +64,7 @@ public class MecanumDrive extends Configure {
         }
     }
 
-    public void MoveEncoderTicks(double NumbCM, double ForwardPower, HardwareMap ahwMap) {
+    public void MoveEncoderTicks(double NumbCM, double ForwardPower, HardwareMap ahwMap) { //POSITIVE POWER IS FORWARD!!!
 
         if (!Configured)
         {
