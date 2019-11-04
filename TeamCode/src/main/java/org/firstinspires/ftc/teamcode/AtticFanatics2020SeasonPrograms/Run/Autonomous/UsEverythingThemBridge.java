@@ -57,7 +57,7 @@ public class UsEverythingThemBridge extends LinearOpMode {
         }
 
         //Turn Right, drop block
-        robot.TurnDegreesCurrentPos(90,hardwareMap);
+        robot.TurnDegreesCurrentPos(-90,hardwareMap);
         sleep(1000);
         //Extend
         //Open Hand
