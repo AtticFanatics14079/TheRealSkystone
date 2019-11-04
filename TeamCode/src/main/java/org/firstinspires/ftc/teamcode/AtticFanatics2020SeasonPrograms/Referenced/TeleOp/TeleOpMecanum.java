@@ -7,9 +7,9 @@ import org.firstinspires.ftc.teamcode.AtticFanatics2020SeasonPrograms.Referenced
 
 public class TeleOpMecanum extends Configure {
 
-    private final double INPUT_RAMP_DIFF = 0.001, EXTEND_LIMIT_FORWARD = 500000000, EXTEND_LIMIT_BACK = -500000000;
+    private final double INPUT_RAMP_DIFF = 0.005, EXTEND_LIMIT_FORWARD = 500000000, EXTEND_LIMIT_BACK = -500000000;
 
-    public double RampDiff = INPUT_RAMP_DIFF; //Declare equal to the limits the extender should be extended to
+    public double RampDiff = 0.1; //Declare equal to the limits the extender should be extended to
 
     public void Move(HardwareMap ahwMap, Gamepad G1, Gamepad G2)
     {
@@ -46,8 +46,9 @@ public class TeleOpMecanum extends Configure {
             RampDiff = INPUT_RAMP_DIFF;
             return;
         }
-        setPower((px/10 + RampDiff)/SpeedDiv, (py/10  + RampDiff) / SpeedDiv, (pa/10 +  + RampDiff) + SpeedDiv);
-        RampDiff += INPUT_RAMP_DIFF;
+        setPower((px * RampDiff)/SpeedDiv, (py * RampDiff) / SpeedDiv, (pa * RampDiff) / SpeedDiv);
+        if(RampDiff < 1)
+            RampDiff += INPUT_RAMP_DIFF;
     }
 
     //The following method is code from Team 16072's virtual_robot program. Small changes are only to make it fit our format, the bulk of the method was written by them.
