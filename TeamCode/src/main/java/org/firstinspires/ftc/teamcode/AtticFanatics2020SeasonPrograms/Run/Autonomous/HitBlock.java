@@ -2,12 +2,14 @@ package org.firstinspires.ftc.teamcode.AtticFanatics2020SeasonPrograms.Run.Auton
 
 import android.graphics.Camera;
 
+import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
 import org.firstinspires.ftc.teamcode.AtticFanatics2020SeasonPrograms.Referenced.Autonomous.MecanumDrive;
 import org.firstinspires.ftc.teamcode.AtticFanatics2020SeasonPrograms.Referenced.Configure;
 import org.firstinspires.ftc.teamcode.AtticFanatics2020SeasonPrograms.Skystone.CameraDetect;
 
+@Autonomous(name = "Hit Block")
 public class HitBlock extends LinearOpMode {
 
     public void runOpMode() throws InterruptedException {

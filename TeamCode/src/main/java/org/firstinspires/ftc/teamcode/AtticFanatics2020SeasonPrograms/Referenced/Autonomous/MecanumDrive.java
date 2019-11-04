@@ -1,18 +1,10 @@
 package org.firstinspires.ftc.teamcode.AtticFanatics2020SeasonPrograms.Referenced.Autonomous;
 
-import android.text.method.TimeKeyListener;
-
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.HardwareMap;
-import com.qualcomm.robotcore.util.Hardware;
 
-import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
-import org.firstinspires.ftc.robotcore.external.navigation.AxesOrder;
-import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
 import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
 import org.firstinspires.ftc.teamcode.AtticFanatics2020SeasonPrograms.Referenced.Configure;
-
-import util.AngleUtils;
 
 
 //This Class contains SetPower, MoveEncoderTicks, and TurnDegrees, for MECANUM
@@ -133,8 +125,7 @@ public class MecanumDrive extends Configure {
 
     public void StrafeEncoderTicks(double NumbCM, double SidewaysPower, HardwareMap ahwMap) //POSITIVE POWER IS TO THE RIGHT!!!
     {
-        if (!Configured)
-        {
+        if (!Configured) {
             Configure(ahwMap);
             Configured = true;
         }
@@ -189,6 +180,8 @@ public class MecanumDrive extends Configure {
                     Motors[Counter].setPower(0);
             }
         }
+
+        ResetMotorEncoders(ahwMap);
 
         setPower(0, 0, 0);
     }
