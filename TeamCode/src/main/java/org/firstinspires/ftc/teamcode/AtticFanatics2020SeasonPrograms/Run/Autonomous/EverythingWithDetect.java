@@ -7,14 +7,13 @@ import org.firstinspires.ftc.teamcode.AtticFanatics2020SeasonPrograms.Referenced
 import org.firstinspires.ftc.teamcode.AtticFanatics2020SeasonPrograms.Skystone.CameraDetect;
 
 //WE ARE STARTING IN THE MIDDLE OF THE TILE THAT IS ABOVE THE RED DEPOT
-@Autonomous(name = "EverythingWithDetect", group = "AutoOpModes")
+@Autonomous(name = "EverythingRandomDetect", group = "AutoOpModes")
 public class EverythingWithDetect extends LinearOpMode {
     MecanumDrive robot = new MecanumDrive();
-
+    CameraDetect camera = new CameraDetect();
     @Override
     public void runOpMode() throws InterruptedException{
         //robot.setGrip(.1,hardwareMap);
-        CameraDetect camera = new CameraDetect();
         waitForStart();
         //Forward, then look for skystone.
         robot.StrafeEncoderTicks(70,1, hardwareMap);
@@ -59,7 +58,7 @@ public class EverythingWithDetect extends LinearOpMode {
         }
 
         //Turn Right, drop block
-        robot.TurnDegreesCurrentPos(90,hardwareMap);
+        robot.TurnDegreesCurrentPos(-90,hardwareMap);
         sleep(1000);
         //Extend
         //Open Hand
@@ -105,7 +104,7 @@ public class EverythingWithDetect extends LinearOpMode {
         robot.MoveEncoderTicks(15,1,hardwareMap);
         sleep(500);
         //Foundation hooks down
-        robot.MoveEncoderTicks(-90,-1,hardwareMap);
+        robot.MoveEncoderTicks(90,-1,hardwareMap);
         sleep(500);
         //Foundation hooks up
         System.out.println("Foundation moved");
