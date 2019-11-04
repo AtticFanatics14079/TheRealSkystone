@@ -23,7 +23,7 @@ public class PlaceSkystonesMovedF extends LinearOpMode {
         //Strafe in front of skystone, pick it up
         //Turn left, drive to foundation
         if(SkystonePosition == 0){ // left
-            robot.StrafeEncoderTicks(20,-1,hardwareMap);
+            robot.StrafeEncoderTicks(-20,-1,hardwareMap);
             sleep(1000);
             //Extend Gripper
             //Open Hand

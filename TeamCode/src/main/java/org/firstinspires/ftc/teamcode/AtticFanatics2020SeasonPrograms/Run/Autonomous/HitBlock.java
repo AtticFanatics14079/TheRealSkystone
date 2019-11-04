@@ -23,7 +23,7 @@ public class HitBlock extends LinearOpMode {
         sposition = camera.getSkystone(hardwareMap);
         telemetry.addData("xPosition: ", camera.getxPosition());
         switch(sposition){
-            case 0: robot.StrafeEncoderTicks(30, 1, hardwareMap);
+            case 0: robot.StrafeEncoderTicks(-30, -1, hardwareMap);
             telemetry.addLine("left"); break;
             case 1: robot.StrafeEncoderTicks(15,1,hardwareMap);
             telemetry.addLine("mid"); break;
