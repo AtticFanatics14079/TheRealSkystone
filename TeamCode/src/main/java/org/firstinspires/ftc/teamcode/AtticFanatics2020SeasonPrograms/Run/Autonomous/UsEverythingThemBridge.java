@@ -94,7 +94,7 @@ public class UsEverythingThemBridge extends LinearOpMode {
             robot.StrafeEncoderTicks(330,1,hardwareMap);
         }
         System.out.println("Arrived at foundation");
-        robot.TurnDegreesEncoder(90,hardwareMap);
+        robot.TurnDegreesEncoder(-90,hardwareMap);
         System.out.println("Dropped 2nd Skystone");
         //Extend
         //Open Hand
