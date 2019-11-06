@@ -13,6 +13,7 @@ public class PlaceSkystonesUnmovedF extends LinearOpMode {
     @Override
     public void runOpMode() throws InterruptedException{
         //robot.setGrip(.1,hardwareMap);
+        robot.Configure(hardwareMap);
         waitForStart();
         //Forward, then look for skystone.
         robot.StrafeEncoderTicks(70,1,hardwareMap);

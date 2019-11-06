@@ -16,6 +16,7 @@ public class HitBlock extends LinearOpMode {
         CameraDetect camera = new CameraDetect();
         MecanumDrive robot = new MecanumDrive();
         int sposition;
+        robot.Configure(hardwareMap);
         waitForStart();
         robot.MoveEncoderTicks(79,1, hardwareMap);
         sposition = camera.getSkystone(hardwareMap);

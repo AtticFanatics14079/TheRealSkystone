@@ -14,13 +14,17 @@ public class JustFoundation extends LinearOpMode {
     @Override
     public void runOpMode() throws InterruptedException{
         //robot.setGrip(.1,hardwareMap);
+        robot.Configure(hardwareMap);
+        robot.FoundationLeft.setPosition(0);
+        robot.FoundationRight.setPosition(0);
         waitForStart();
         //strafe left
         robot.StrafeEncoderTicks(45,-1,hardwareMap);
         //Forward, will ram foundation a little bit
         robot.MoveEncoderTicks(85,1,hardwareMap);
 
-        //grab foundation
+        robot.FoundationLeft.setPosition(1);
+        robot.FoundationRight.setPosition(1);
         sleep(1500);
         //back to wall,
         robot.MoveEncoderTicks(85,-1,hardwareMap);

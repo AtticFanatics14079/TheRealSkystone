@@ -4,16 +4,15 @@ import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
 import org.firstinspires.ftc.teamcode.AtticFanatics2020SeasonPrograms.Referenced.Autonomous.MecanumDrive;
-import org.firstinspires.ftc.teamcode.AtticFanatics2020SeasonPrograms.Referenced.Configure;
 
-@Autonomous(name = "CalibrateTicksMove", group = "AutoOpModes")
-public class CalibrateTicksMovement extends LinearOpMode {
+@Autonomous(name = "StrafeCalibrate", group = "AutoOpModes")
+public class CalibrateTicksStrafing extends LinearOpMode {
     MecanumDrive robot = new MecanumDrive();
     @Override
     public void runOpMode() throws InterruptedException {
         robot.Configure(hardwareMap);
         waitForStart();
-        robot.MoveEncoderTicks(57.79,1, hardwareMap); // halfway
+        robot.StrafeEncoderTicks(57.79,1, hardwareMap); // halfway
         //robot.TurnDegreesCurrentPos(1440,hardwareMap); // four full rotations
 
         telemetry.addData("Motor 1 Position: ", robot.Motors[1].getCurrentPosition());

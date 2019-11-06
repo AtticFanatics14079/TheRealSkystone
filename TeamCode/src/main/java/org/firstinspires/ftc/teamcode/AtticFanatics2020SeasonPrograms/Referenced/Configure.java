@@ -25,6 +25,10 @@ public class Configure {
 
     public Servo RotateGripper;
 
+    public Servo FoundationLeft;
+
+    public Servo FoundationRight;
+
     public DcMotor ExtendGripper;
 
     public DcMotor Scissor1;
@@ -61,11 +65,28 @@ public class Configure {
         Motors[4].setTargetPosition((int)Ticks);
     }
 
+    public void SetZeroBehavior(boolean Brake, HardwareMap ahwMap)
+    {
+        if(Brake)
+        {
+            Motors[1].setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+            Motors[2].setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+            Motors[3].setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+            Motors[4].setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        }
+        else {
+            Motors[1].setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
+            Motors[2].setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
+            Motors[3].setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
+            Motors[4].setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
+        }
+    }
+
     public HardwareMap Configure(HardwareMap ahwMap)
     {
         HardwareMap hwMap = ahwMap;
 
-        /*BNO055IMU.Parameters parameters = new BNO055IMU.Parameters();
+        BNO055IMU.Parameters parameters = new BNO055IMU.Parameters();
         parameters.angleUnit = BNO055IMU.AngleUnit.DEGREES;
         parameters.accelUnit = BNO055IMU.AccelUnit.METERS_PERSEC_PERSEC;
         parameters.calibrationDataFile = "BNO055IMUCalibration.json"; // see the calibration sample opmode
@@ -73,8 +94,6 @@ public class Configure {
         parameters.loggingTag = "IMU";
         parameters.accelerationIntegrationAlgorithm = new JustLoggingAccelerationIntegrator();
 
-
-         */
         Motors[1] = hwMap.get(DcMotor.class, "back_left_motor");
         Motors[2] = hwMap.get(DcMotor.class, "front_left_motor");
         Motors[3] = hwMap.get(DcMotor.class, "front_right_motor");
@@ -82,6 +101,8 @@ public class Configure {
         Gripper = hwMap.get(Servo.class, "gripper");
         RotateGripper = hwMap.get(Servo.class, "rotate_gripper");
         ExtendGripper = hwMap.get(DcMotor.class, "extend_gripper");
+        FoundationLeft = hwMap.get(Servo.class, "foundation_left");
+        FoundationRight = hwMap.get(Servo.class, "foundation_right");
 
         Motors[1].setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         Motors[2].setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
@@ -90,6 +111,7 @@ public class Configure {
 
         Motors[3].setDirection(DcMotor.Direction.REVERSE);
         Motors[4].setDirection(DcMotor.Direction.REVERSE);
+        FoundationLeft.setDirection(Servo.Direction.REVERSE);
 
         //imu = hwMap.get(BNO055IMU.class, "imu");
         //imu.initialize(new BNO055IMU.Parameters());
