@@ -60,7 +60,10 @@ public class CameraDetect  {
 
     private static final VuforiaLocalizer.CameraDirection CAMERA_CHOICE = BACK;
     private static final boolean PHONE_IS_PORTRAIT = false  ;
-
+    double xPosition;
+    public double getxPosition(){
+        return xPosition;
+    }
     private static final String VUFORIA_KEY =
             "AcZJwA3/////AAABmb6AM3k1hkSnsGWrryRhRLQCrOez+E99u24y3SgIGlOjWUvGXDqPV0zKyc0F3doTGrWj9oSItlnrlNrTTFiqOE5U4JXeiOazV7ZpECzfSA/8XylXnksGO2Srtq+agqx+uNpwWBO6dbdJKTwWgNgYehamWdqRKxmmDirCwz76U80QfpdLt45zI32+VqD/Z61MTGdNCvP89+LUUaUPFk5KMznJKOD7ZcfmJemzrYeNLDR7sTsX9I927do5O5LzV4BOPqDnx5lJkBjO+UclTYjzZHfc8EGC9+ozbTZXdF5135B9jqQAFqK+Mq+XE5yjyiS34pyQpPLNsnvGI+uM+WuEh7nyhLRr8VPogPgjPkfu16WQ";
 
@@ -208,7 +211,8 @@ public class CameraDetect  {
                // telemetry.addData("Pos (in)", "{X, Y, Z} = %.1f, %.1f, %.1f",
                   // System.out.println(     translation.get(0) / mmPerInch + translation.get(1) / mmPerInch + translation.get(2) / mmPerInch));
 
-                double xPosition = translation.get(1);
+                xPosition = translation.get(1);
+
                 if(xPosition < 100){
                     positionSkystone = "left";
                     pathNum = 0;
@@ -234,7 +238,7 @@ public class CameraDetect  {
                 System.out.println(pathNum + positionSkystone);
             }
             System.out.println("Skystone Position " + positionSkystone);
-           // telemetry.update();
+           //telemetry.update();
         }
 
         // Disable Tracking when we are done;
