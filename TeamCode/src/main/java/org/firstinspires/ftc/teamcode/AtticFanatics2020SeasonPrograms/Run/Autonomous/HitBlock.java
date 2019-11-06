@@ -4,8 +4,9 @@ import android.graphics.Camera;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
-
+import com.vuforia.CameraDevice;
 import org.firstinspires.ftc.robotcore.external.Telemetry;
+import org.firstinspires.ftc.robotcore.external.navigation.VuforiaLocalizer;
 import org.firstinspires.ftc.teamcode.AtticFanatics2020SeasonPrograms.Referenced.Autonomous.MecanumDrive;
 import org.firstinspires.ftc.teamcode.AtticFanatics2020SeasonPrograms.Referenced.Configure;
 import org.firstinspires.ftc.teamcode.AtticFanatics2020SeasonPrograms.Skystone.CameraDetect;
@@ -16,10 +17,11 @@ public class HitBlock extends LinearOpMode {
     public void runOpMode() throws InterruptedException {
         CameraDetect camera = new CameraDetect();
         MecanumDrive robot = new MecanumDrive();
-
+        CameraDevice.getInstance().setFlashTorchMode(true);
         int sposition;
         robot.Configure(hardwareMap);
         waitForStart();
+
         robot.MoveEncoderTicks(79,1, hardwareMap);
         sposition = camera.getSkystone(hardwareMap);
         telemetry.addData("xPosition: ", camera.getxPosition());
