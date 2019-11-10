@@ -20,6 +20,7 @@ public class CalibrateTicksMovement extends LinearOpMode {
         telemetry.addData("Motor 2 Position: ", robot.Motors[2].getCurrentPosition());
         telemetry.addData("Motor 3 Position: ", robot.Motors[3].getCurrentPosition());
         telemetry.addData("Motor 4 Position: ", robot.Motors[4].getCurrentPosition());
+        telemetry.addData("IMU Heading", robot.CurrentPos.firstAngle);
 
         while(opModeIsActive())
             telemetry.update();

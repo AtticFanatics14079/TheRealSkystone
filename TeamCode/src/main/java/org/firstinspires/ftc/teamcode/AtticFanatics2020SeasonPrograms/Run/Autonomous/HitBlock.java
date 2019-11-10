@@ -1,39 +1,45 @@
 package org.firstinspires.ftc.teamcode.AtticFanatics2020SeasonPrograms.Run.Autonomous;
 
-import android.graphics.Camera;
-
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
+import com.qualcomm.robotcore.util.ElapsedTime;
 import com.vuforia.CameraDevice;
-import org.firstinspires.ftc.robotcore.external.Telemetry;
-import org.firstinspires.ftc.robotcore.external.navigation.VuforiaLocalizer;
+
 import org.firstinspires.ftc.teamcode.AtticFanatics2020SeasonPrograms.Referenced.Autonomous.MecanumDrive;
-import org.firstinspires.ftc.teamcode.AtticFanatics2020SeasonPrograms.Referenced.Configure;
 import org.firstinspires.ftc.teamcode.AtticFanatics2020SeasonPrograms.Skystone.CameraDetect;
 
 @Autonomous(name = "Hit Block")
 public class HitBlock extends LinearOpMode {
 
+    //STARTING POSITION HAS PHONE 20 CM AWAY FROM THE DEPOT (HORIZONTALLY) AND DRIVES TO BE 45 CM AWAY FROM THE BLOCKS
+
     public void runOpMode() throws InterruptedException {
         CameraDetect camera = new CameraDetect();
         MecanumDrive robot = new MecanumDrive();
-        CameraDevice.getInstance().setFlashTorchMode(true);
-        int sposition;
+        ElapsedTime time;
+
+        int sposition = -2;
         robot.Configure(hardwareMap);
+        camera.instantCamera(hardwareMap);
+        CameraDevice.getInstance().setFlashTorchMode(true);
         waitForStart();
 
-        robot.MoveEncoderTicks(79,1, hardwareMap);
-        sposition = camera.getSkystone(hardwareMap);
-        telemetry.addData("xPosition: ", camera.getxPosition());
+        robot.MoveEncoderTicks(75,1, hardwareMap);
+
+        time = new ElapsedTime();
+
+        while((sposition = camera.skystoneDetect(time)) == -2);
+
         switch(sposition){
-            case 0: robot.StrafeEncoderTicks(-30, -1, hardwareMap);
+            case 2: //robot.StrafeEncoderTicks(-30, -1, hardwareMap);
             telemetry.addLine("left"); break;
-            case 1: robot.StrafeEncoderTicks(15,1,hardwareMap);
+            case 1: //robot.StrafeEncoderTicks(15,1,hardwareMap);
             telemetry.addLine("mid"); break;
-            case 2: robot.StrafeEncoderTicks(45,1,hardwareMap); telemetry.addLine("right");
+            case 0: //robot.StrafeEncoderTicks(45,1,hardwareMap);
+                 telemetry.addLine("right");
             break;
         }
-        robot.MoveEncoderTicks(45,1,hardwareMap);
+       // robot.MoveEncoderTicks(45,1,hardwareMap);
 
 
     }

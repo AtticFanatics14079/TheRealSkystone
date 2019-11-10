@@ -9,6 +9,9 @@ import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
 
 
+import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
+import org.firstinspires.ftc.robotcore.external.navigation.AxesOrder;
+import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
 import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
 
 
@@ -17,7 +20,7 @@ public class Configure {
 
     public BNO055IMU imu;
 
-    public Orientation angles;
+    public Orientation CurrentPos;
 
     public DcMotor[] Motors = new DcMotor[5];
 
@@ -111,10 +114,12 @@ public class Configure {
 
         Motors[3].setDirection(DcMotor.Direction.REVERSE);
         Motors[4].setDirection(DcMotor.Direction.REVERSE);
-        FoundationLeft.setDirection(Servo.Direction.REVERSE);
+        //FoundationLeft.setDirection(Servo.Direction.REVERSE);
 
-        //imu = hwMap.get(BNO055IMU.class, "imu");
-        //imu.initialize(new BNO055IMU.Parameters());
+        imu = hwMap.get(BNO055IMU.class, "imu");
+        imu.initialize(new BNO055IMU.Parameters());
+
+        CurrentPos = imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
 
         return hwMap;
         }

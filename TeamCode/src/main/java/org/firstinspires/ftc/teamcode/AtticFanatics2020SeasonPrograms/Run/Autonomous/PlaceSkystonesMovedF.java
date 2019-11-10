@@ -16,14 +16,14 @@ public class PlaceSkystonesMovedF extends LinearOpMode {
         robot.Configure(hardwareMap);
         waitForStart();
         //Forward, then look for skystone.
-        robot.MoveEncoderTicks(70,1,hardwareMap);
+        robot.MoveEncoderTicks(22,1,hardwareMap);
         int SkystonePosition = (int)(3*(Math.random())); // Random for now, replace with actual detection later
         //int SkystonePosition = 2;
         System.out.println(SkystonePosition);
         sleep(1000);
         //Strafe in front of skystone, pick it up
         //Turn left, drive to foundation
-        if(SkystonePosition == 0){ // left
+        if(SkystonePosition == 2){ // left
             robot.StrafeEncoderTicks(-20,-1,hardwareMap);
             sleep(1000);
             //Extend Gripper
@@ -44,7 +44,7 @@ public class PlaceSkystonesMovedF extends LinearOpMode {
             //Raise
             robot.TurnDegreesCurrentPos(-90,hardwareMap);
             robot.MoveEncoderTicks(160,1,hardwareMap);
-        } else if(SkystonePosition ==2){ // right
+        } else if(SkystonePosition == 0){ // right
             robot.StrafeEncoderTicks(20,1,hardwareMap);
             sleep(1000);
             //Extend Gripper
@@ -64,13 +64,13 @@ public class PlaceSkystonesMovedF extends LinearOpMode {
         robot.TurnDegreesEncoder(180,hardwareMap);
 
         //Drive to second skystone, turn to face it, pick it up
-        if(SkystonePosition == 0){
+        if(SkystonePosition == 2){
             robot.MoveEncoderTicks(215,1,hardwareMap);
         }
         else if(SkystonePosition == 1){
             robot.MoveEncoderTicks(235,1,hardwareMap);
         }
-        else if(SkystonePosition == 2){
+        else if(SkystonePosition == 0){
             robot.MoveEncoderTicks(255,1,hardwareMap);
         }
         robot.TurnDegreesEncoder(-90,hardwareMap);
@@ -83,13 +83,13 @@ public class PlaceSkystonesMovedF extends LinearOpMode {
 
         //Turn, Drive to foundation with second skystone, drop it off
         robot.TurnDegreesEncoder(-90,hardwareMap);
-        if(SkystonePosition == 0){
+        if(SkystonePosition == 2){
             robot.MoveEncoderTicks(210,1,hardwareMap);
         }
         else if(SkystonePosition == 1){
             robot.MoveEncoderTicks(230,1,hardwareMap);
         }
-        else if(SkystonePosition == 2){
+        else if(SkystonePosition == 0){
             robot.MoveEncoderTicks(250,1,hardwareMap);
         }
         System.out.println("Arrived at foundation");

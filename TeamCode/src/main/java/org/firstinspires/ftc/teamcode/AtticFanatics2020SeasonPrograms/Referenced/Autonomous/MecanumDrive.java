@@ -13,11 +13,11 @@ public class MecanumDrive extends Configure {
 
     float HeadingAdjust, CurrentOrientation;
 
-    static final double TICKS_PER_CM = 15;
-    static final double TICKS_PER_DEGREE = 8;
+    static final double TICKS_PER_CM = 16;
+    static final double TICKS_PER_DEGREE = 8.5;
     //static final double INERTIA_TICKS = 100;
     static final double TURN_OFFSET = 10;
-    static final double IMU_OFFSET = 2;
+    static final double IMU_OFFSET = 5;
 
     boolean Configured = false;
 
@@ -94,7 +94,7 @@ public class MecanumDrive extends Configure {
         //Mess with numbers, as different circumference.
         double Ticks = TICKS_PER_CM * NumbCM;
 
-        HeadingAdjust = angles.firstAngle;
+        HeadingAdjust = CurrentPos.firstAngle;
 
         Motors[1].setTargetPosition((int)Ticks);
         Motors[2].setTargetPosition((int)Ticks);
@@ -109,18 +109,18 @@ public class MecanumDrive extends Configure {
         setPower(0, ForwardPower, 0);
 
         while((Motors[1].isBusy() || Motors[2].isBusy()) && (Motors[3].isBusy() || Motors[4].isBusy())) {
-            CurrentOrientation = angles.firstAngle - HeadingAdjust;
+            CurrentOrientation = CurrentPos.firstAngle - HeadingAdjust;
             if(Motors[1].getPower() > 0)
             {
                 if(CurrentOrientation > IMU_OFFSET)
                 {
-                    Motors[1].setPower(ForwardPower - 0.1);
-                    Motors[2].setPower(ForwardPower - 0.1);
+                    Motors[3].setPower(ForwardPower - 0.1);
+                    Motors[4].setPower(ForwardPower - 0.1);
                 }
                 else if(CurrentOrientation < -IMU_OFFSET)
                 {
-                    Motors[3].setPower(ForwardPower - 0.1);
-                    Motors[4].setPower(ForwardPower - 0.1);
+                    Motors[1].setPower(ForwardPower - 0.1);
+                    Motors[2].setPower(ForwardPower - 0.1);
                 }
                 else setPower(0, ForwardPower, 0);
             }
@@ -128,13 +128,13 @@ public class MecanumDrive extends Configure {
             {
                 if(CurrentOrientation > IMU_OFFSET)
                 {
-                    Motors[3].setPower(ForwardPower - 0.1);
-                    Motors[4].setPower(ForwardPower - 0.1);
+                    Motors[1].setPower(ForwardPower - 0.1);
+                    Motors[2].setPower(ForwardPower - 0.1);
                 }
                 else if(CurrentOrientation < -IMU_OFFSET)
                 {
-                    Motors[1].setPower(ForwardPower - 0.1);
-                    Motors[2].setPower(ForwardPower - 0.1);
+                    Motors[3].setPower(ForwardPower - 0.1);
+                    Motors[4].setPower(ForwardPower - 0.1);
                 }
                 else setPower(0, ForwardPower, 0);
             }

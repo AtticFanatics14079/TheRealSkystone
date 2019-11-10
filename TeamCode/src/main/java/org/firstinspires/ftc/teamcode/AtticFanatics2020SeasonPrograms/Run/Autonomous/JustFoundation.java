@@ -15,21 +15,23 @@ public class JustFoundation extends LinearOpMode {
     public void runOpMode() throws InterruptedException{
         //robot.setGrip(.1,hardwareMap);
         robot.Configure(hardwareMap);
-        robot.FoundationLeft.setPosition(0);
-        robot.FoundationRight.setPosition(0);
+        robot.FoundationLeft.setPosition(0.1333);
+        robot.FoundationRight.setPosition(1);
         waitForStart();
         //strafe left
-        robot.StrafeEncoderTicks(-45,-1,hardwareMap);
+        robot.StrafeEncoderTicks(-20,-1,hardwareMap);
         //Forward, will ram foundation a little bit
-        robot.MoveEncoderTicks(85,1,hardwareMap);
-
-        robot.FoundationLeft.setPosition(1);
-        robot.FoundationRight.setPosition(1);
+        //sleep(5000);
+        robot.MoveEncoderTicks(76.2,1,hardwareMap);
+        robot.FoundationLeft.setPosition(0.6833);
+        robot.FoundationRight.setPosition(0.45);
         sleep(1500);
         //back to wall,
-        robot.MoveEncoderTicks(-85,-1,hardwareMap);
+        robot.MoveEncoderTicks(-76.2,-1,hardwareMap);
         sleep(500);
+        robot.FoundationLeft.setPosition(0.1333);
+        robot.FoundationRight.setPosition(1);
         //strafe right under bridge, wall side
-        robot.StrafeEncoderTicks(140,1,hardwareMap);
+        //robot.StrafeEncoderTicks(61,1,hardwareMap);
     }
 }

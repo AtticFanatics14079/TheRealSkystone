@@ -23,7 +23,7 @@ public class UsEverythingThemBridge extends LinearOpMode {
         sleep(1000);
         //Strafe in front of skystone, pick it up
         //Turn left, drive to foundation
-        if(SkystonePosition == 0){ // left
+        if(SkystonePosition == 2){ // left
             robot.StrafeEncoderTicks(-20,-1, hardwareMap);
             sleep(1000);
             //Extend Gripper
@@ -44,7 +44,7 @@ public class UsEverythingThemBridge extends LinearOpMode {
             //Raise
             robot.TurnDegreesCurrentPos(90,hardwareMap);
             robot.MoveEncoderTicks(250,1,hardwareMap);
-        } else if(SkystonePosition ==2){ // right
+        } else if(SkystonePosition == 0){ // right
             robot.StrafeEncoderTicks(20,1,hardwareMap);
             sleep(1000);
             //Extend Gripper
@@ -66,13 +66,13 @@ public class UsEverythingThemBridge extends LinearOpMode {
         robot.TurnDegreesCurrentPos(-90,hardwareMap);
 
         //Drive to second skystone, turn to face it, pick it up
-        if(SkystonePosition == 0){
+        if(SkystonePosition == 2){
             robot.MoveEncoderTicks(305,1,hardwareMap);
         }
         else if(SkystonePosition == 1){
             robot.MoveEncoderTicks(325,1,hardwareMap);
         }
-        else if(SkystonePosition == 2){
+        else if(SkystonePosition == 0){
             robot.MoveEncoderTicks(345,1,hardwareMap);
         }
         robot.TurnDegreesCurrentPos(90,hardwareMap);
@@ -85,13 +85,13 @@ public class UsEverythingThemBridge extends LinearOpMode {
 
         //Turn, Drive to foundation with second skystone, drop it off
         robot.TurnDegreesCurrentPos(90,hardwareMap);
-        if(SkystonePosition == 0){
+        if(SkystonePosition == 2){
             robot.MoveEncoderTicks(290,1,hardwareMap);
         }
         else if(SkystonePosition == 1){
             robot.MoveEncoderTicks(310,1,hardwareMap);
         }
-        else if(SkystonePosition == 2){
+        else if(SkystonePosition == 0){
             robot.StrafeEncoderTicks(330,1,hardwareMap);
         }
         System.out.println("Arrived at foundation");
