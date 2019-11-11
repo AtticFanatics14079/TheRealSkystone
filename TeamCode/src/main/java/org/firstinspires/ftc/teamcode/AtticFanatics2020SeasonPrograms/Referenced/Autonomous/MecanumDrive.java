@@ -11,12 +11,13 @@ import org.firstinspires.ftc.teamcode.AtticFanatics2020SeasonPrograms.Referenced
 
 public class MecanumDrive extends Configure {
 
-    Orientation HeadingAdjust, CurrentOrientation;
+    float HeadingAdjust, CurrentOrientation;
 
-    static final double TICKS_PER_CM = 12;
-    static final double TICKS_PER_DEGREE = 5;
+    static final double TICKS_PER_CM = 15;
+    static final double TICKS_PER_DEGREE = 8;
     //static final double INERTIA_TICKS = 100;
     static final double TURN_OFFSET = 10;
+    static final double IMU_OFFSET = 2;
 
     boolean Configured = false;
 
@@ -40,11 +41,7 @@ public class MecanumDrive extends Configure {
     }
 
     public void ExtendGripper(double NumbCm,  HardwareMap hardmap){
-        if (!Configured)
-        {
-            Configure(hardmap);
-            Configured = true;
-        }
+
         ResetMotorEncoders(hardmap);
         double Ticks = TICKS_PER_CM * NumbCm;
         ExtendGripper.setPower(1);
@@ -64,13 +61,7 @@ public class MecanumDrive extends Configure {
         }
     }
 
-    public void MoveEncoderTicks(double NumbCM, double ForwardPower, HardwareMap ahwMap) {
-
-        if (!Configured)
-        {
-            Configure(ahwMap);
-            Configured = true;
-        }
+    public void MoveEncoderTicks(double NumbCM, double ForwardPower, HardwareMap ahwMap) { //POSITIVE POWER IS FORWARD!!!
 
         ResetMotorEncoders(ahwMap);
 
@@ -91,44 +82,69 @@ public class MecanumDrive extends Configure {
 
         while((Motors[1].isBusy() || Motors[2].isBusy()) && (Motors[3].isBusy() || Motors[4].isBusy())) {
         }
+
         setPower(0,0,0);
+    }
+
+    public void MoveEncoderTicksIMU(double NumbCM, double ForwardPower, HardwareMap ahwMap) { //POSITIVE POWER IS FORWARD!!!
+        // This method is the same as MoveEncoderTicks but with IMU thrown in for slight correction. May be slightly less precise (by distance) and will be slightly slower, but will be more accurate movement directionally.
 
         ResetMotorEncoders(ahwMap);
 
-        //No IMU implementation yet
+        //Mess with numbers, as different circumference.
+        double Ticks = TICKS_PER_CM * NumbCM;
 
-        /*while((Motors[1].getPower() != 0 || Motors[2].getPower() != 0) && (Motors[3].getPower() != 0 || Motors[4].getPower() != 0)) {
-            for(int Counter = 1; Counter <= 4; ++Counter)
+        HeadingAdjust = angles.firstAngle;
+
+        Motors[1].setTargetPosition((int)Ticks);
+        Motors[2].setTargetPosition((int)Ticks);
+        Motors[3].setTargetPosition((int)Ticks);
+        Motors[4].setTargetPosition((int)Ticks);
+
+        RunToPosition(ahwMap);
+
+        //HeadingAdjust = imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
+
+        //for(double Counter = 0.2; Counter <= 1; Counter += 0.2)
+        setPower(0, ForwardPower, 0);
+
+        while((Motors[1].isBusy() || Motors[2].isBusy()) && (Motors[3].isBusy() || Motors[4].isBusy())) {
+            CurrentOrientation = angles.firstAngle - HeadingAdjust;
+            if(Motors[1].getPower() > 0)
             {
-                if(Math.abs(Motors[Counter].getCurrentPosition()) >= Math.abs(Ticks))
+                if(CurrentOrientation > IMU_OFFSET)
                 {
-                    Motors[Counter].setPower(0);
-                    if ((Motors[1].getPower() == 0 || Motors[2].getPower() == 0) & (Motors[3].getPower() == 0 || Motors[4].getPower() == 0)) {
-                        setPower(0, 0, 0);
-                        break;
-                    }
+                    Motors[1].setPower(ForwardPower - 0.1);
+                    Motors[2].setPower(ForwardPower - 0.1);
                 }
+                else if(CurrentOrientation < -IMU_OFFSET)
+                {
+                    Motors[3].setPower(ForwardPower - 0.1);
+                    Motors[4].setPower(ForwardPower - 0.1);
+                }
+                else setPower(0, ForwardPower, 0);
+            }
+            else if(Motors[1].getPower() < 0)
+            {
+                if(CurrentOrientation > IMU_OFFSET)
+                {
+                    Motors[3].setPower(ForwardPower - 0.1);
+                    Motors[4].setPower(ForwardPower - 0.1);
+                }
+                else if(CurrentOrientation < -IMU_OFFSET)
+                {
+                    Motors[1].setPower(ForwardPower - 0.1);
+                    Motors[2].setPower(ForwardPower - 0.1);
+                }
+                else setPower(0, ForwardPower, 0);
             }
         }
 
-        */
-
-        /*CurrentOrientation = imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
-
-        if(Math.abs(CurrentOrientation.firstAngle - HeadingAdjust.firstAngle) > 2)
-            TurnDegreesEncoder(CurrentOrientation.firstAngle - HeadingAdjust.firstAngle, ahwMap);
-
-        setPower(0, 0, 0);
-        */
-
+        setPower(0,0,0);
     }
 
     public void StrafeEncoderTicks(double NumbCM, double SidewaysPower, HardwareMap ahwMap) //POSITIVE POWER IS TO THE RIGHT!!!
     {
-        if (!Configured) {
-            Configure(ahwMap);
-            Configured = true;
-        }
 
         ResetMotorEncoders(ahwMap);
 
@@ -150,49 +166,38 @@ public class MecanumDrive extends Configure {
         while((Motors[1].isBusy() || Motors[2].isBusy()) && (Motors[3].isBusy() || Motors[4].isBusy())) {
         }
         setPower(0,0,0);
-
-        ResetMotorEncoders(ahwMap);
     }
 
     public void TurnDegreesCurrentPos(double Degrees, HardwareMap ahwMap)
     {
         //TURNING LEFT IS POSITIVE!!!
-
-        if (!Configured)
-        {
-            Configure(ahwMap);
-            Configured = true;
-        }
         //double currentHeading = imu.getAngularOrientation().firstAngle;
 
         ResetMotorEncoders(ahwMap);
 
         //Mess with numbers if different circumference.
-        double Ticks = Degrees * 6;
+        double Ticks = Degrees * 8.8;
 
-        setPower(0, 0, 1);
+        setPower(0, 0, Degrees);
 
-        while((Motors[1].getPower() != 0 || Motors[3].getPower() != 0) && (Motors[2].getPower() != 0 || Motors[4].getPower() != 0))
+        while((Motors[2].getPower() != 0 || Motors[3].getPower() != 0) && (Motors[1].getPower() != 0 || Motors[4].getPower() != 0))
         {
-            for(int Counter = 1; Counter <= 4; ++Counter)
-            {
-                if(Math.abs(Motors[Counter].getCurrentPosition()) >= Math.abs(Ticks))
-                    Motors[Counter].setPower(0);
-            }
+            if(Math.abs(Motors[1].getCurrentPosition()) >= Math.abs(Ticks))
+                Motors[1].setPower(0);
+            if(Math.abs(Motors[4].getCurrentPosition()) >= Math.abs(Ticks))
+                Motors[4].setPower(0);
+            if(Math.abs(Motors[3].getCurrentPosition()) >= Math.abs(Ticks))
+                Motors[3].setPower(0);
+            if(Math.abs(Motors[2].getCurrentPosition()) >= Math.abs(Ticks))
+                Motors[2].setPower(0);
         }
-
-        ResetMotorEncoders(ahwMap);
 
         setPower(0, 0, 0);
     }
 
     public void TurnDegreesEncoder(double Degrees, HardwareMap ahwMap)
     {
-        if (!Configured)
-        {
-            Configure(ahwMap);
-            Configured = true;
-        }
+
         ResetMotorEncoders(ahwMap);
         double Ticks = Degrees*TICKS_PER_DEGREE;
         Motors[1].setTargetPosition(-1*(int)Ticks);
@@ -201,13 +206,11 @@ public class MecanumDrive extends Configure {
         Motors[4].setTargetPosition((int)Ticks);
         RunToPosition(ahwMap);
 
-
-        setPower(0,0,1);
-
+        setPower(0,0,Degrees);
 
         while((Motors[1].isBusy() || Motors[3].isBusy())&& (Motors[2].isBusy() || Motors[4].isBusy())){
-
         }
+
         setPower(0,0,0);
     }
 
