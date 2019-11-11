@@ -18,7 +18,7 @@ public class MecanumDrive extends Configure {
     //static final double INERTIA_TICKS = 100;
     static final double TURN_OFFSET = 10;
     static final double IMU_OFFSET = 5;
-    static final double TOLERANCE = 50;
+
     static final double LEFT_OPEN = 1;
     static final double LEFT_CLOSE = 0;
     static final double RIGHT_OPEN = 1;
@@ -76,6 +76,8 @@ public class MecanumDrive extends Configure {
         }
     }
 
+
+
     public void MoveEncoderTicks(double NumbCM, double ForwardPower, HardwareMap ahwMap) { //POSITIVE POWER IS FORWARD!!!
 
         ResetMotorEncoders(ahwMap);
@@ -102,10 +104,40 @@ public class MecanumDrive extends Configure {
 
         setPower(0,0,0);
     }
+
+    public void MoveSetTolerance(double NumbCM, double ForwardPower, HardwareMap ahwMap) { //POSITIVE POWER IS FORWARD!!!
+
+        ResetMotorEncoders(ahwMap);
+
+        //Mess with numbers, as different circumference.
+        double Ticks = TICKS_PER_CM * NumbCM;
+
+        Motors[1].setTargetPosition((int)Ticks);
+        Motors[2].setTargetPosition((int)Ticks);
+        Motors[3].setTargetPosition((int)Ticks);
+        Motors[4].setTargetPosition((int)Ticks);
+
+        setTolerance(ahwMap);
+
+        RunToPosition(ahwMap);
+
+        //HeadingAdjust = imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
+
+        //for(double Counter = 0.2; Counter <= 1; Counter += 0.2)
+        setPower(0, ForwardPower, 0);
+
+
+        while((Motors[1].isBusy() || Motors[2].isBusy()) && (Motors[3].isBusy() || Motors[4].isBusy())) {
+
+        }
+
+        setPower(0,0,0);
+    }
+
     boolean isGoing(DcMotor c){
         return (Math.abs(c.getCurrentPosition() - c.getTargetPosition()) > TOLERANCE);
     }
-    public void StraightWiTolerance(double NumbCM, double ForwardPower, HardwareMap ahwMap) { //POSITIVE POWER IS FORWARD!!!
+    public void StraightWiIsGoing(double NumbCM, double ForwardPower, HardwareMap ahwMap) { //POSITIVE POWER IS FORWARD!!!
 
         ResetMotorEncoders(ahwMap);
         SetZeroBehavior(true, ahwMap);
