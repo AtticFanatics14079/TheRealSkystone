@@ -29,9 +29,6 @@
 
 package org.firstinspires.ftc.teamcode.AtticFanatics2020SeasonPrograms.Skystone;
 
-import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
-import com.qualcomm.robotcore.eventloop.opmode.OpMode;
-import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
@@ -54,8 +51,7 @@ import static org.firstinspires.ftc.robotcore.external.navigation.AxesReference.
 import static org.firstinspires.ftc.robotcore.external.navigation.VuforiaLocalizer.CameraDirection.BACK;
 
 
-
-public class CameraDetect  {
+public class CameraDetect {
 
 
     private static final VuforiaLocalizer.CameraDirection CAMERA_CHOICE = BACK;
@@ -93,12 +89,16 @@ public class CameraDetect  {
     private float phoneXRotate    = 0;
     private float phoneYRotate    = 0;
     private float phoneZRotate    = 0;
-    ElapsedTime time;
 
-     public int getSkystone(HardwareMap hwmap) {
-         time = new ElapsedTime();
+    int pathNum = -2;
+    String positionSkystone = "";
+    List<VuforiaTrackable> allTrackables = new ArrayList<VuforiaTrackable>();
+
+    VuforiaTrackables targetsSkyStone;
+
+     public void instantCamera(HardwareMap hwmap) {
+
          HardwareMap hardwareMap = hwmap;
-         int pathNum = -2;
         /*
          * Configure Vuforia by creating a Parameter object, and passing it to the Vuforia engine.
          * We can pass Vuforia the handle to a camera preview resource (on the RC phone);
@@ -117,14 +117,13 @@ public class CameraDetect  {
 
         // Load the data sets for the trackable objects. These particular data
         // sets are stored in the 'assets' part of our application.
-        VuforiaTrackables targetsSkyStone = this.vuforia.loadTrackablesFromAsset("Skystone");
+        targetsSkyStone = this.vuforia.loadTrackablesFromAsset("Skystone");
 
         VuforiaTrackable stoneTarget = targetsSkyStone.get(0);
         stoneTarget.setName("Stone Target");
 
 
         // For convenience, gather together all the trackable objects in one easily-iterable collection */
-        List<VuforiaTrackable> allTrackables = new ArrayList<VuforiaTrackable>();
         allTrackables.addAll(targetsSkyStone);
 
 
@@ -175,15 +174,19 @@ public class CameraDetect  {
         // Note: To use the remote camera preview:
         // AFTER you hit Init on the Driver Station, use the "options menu" to select "Camera Stream"
         // Tap the preview window to receive a fresh image.
+    }
+
+    public int skystoneDetect(ElapsedTime time){
 
         targetsSkyStone.activate();
+
         while (pathNum == -2) {
 
             // check all the trackable targets to see which one (if any) is visible.
             targetVisible = false;
             for (VuforiaTrackable trackable : allTrackables) {
                 if (((VuforiaTrackableDefaultListener)trackable.getListener()).isVisible()) {
-                  //  telemetry.addData("Visible Target", trackable.getName());
+                    //  telemetry.addData("Visible Target", trackable.getName());
 
 
                     if(trackable.getName().equals("Stone Target")){
@@ -203,18 +206,18 @@ public class CameraDetect  {
             }
 
             // Provide feedback as to where the robot is located (if we know).
-            String positionSkystone = "";
+
 
             if (targetVisible) {
                 // express position (translation) of robot in inches.
                 VectorF translation = lastLocation.getTranslation();
-               // telemetry.addData("Pos (in)", "{X, Y, Z} = %.1f, %.1f, %.1f",
-                  // System.out.println(     translation.get(0) / mmPerInch + translation.get(1) / mmPerInch + translation.get(2) / mmPerInch));
+                // telemetry.addData("Pos (in)", "{X, Y, Z} = %.1f, %.1f, %.1f",
+                // System.out.println(     translation.get(0) / mmPerInch + translation.get(1) / mmPerInch + translation.get(2) / mmPerInch));
 
                 xPosition = translation.get(1);
 
-                if(xPosition < 100){
-                    positionSkystone = "left";
+                if(xPosition > -190){
+                    positionSkystone = "right";
                     pathNum = 0;
                     System.out.println(pathNum + positionSkystone);
 
@@ -229,16 +232,16 @@ public class CameraDetect  {
 
                 // express the rotation of the robot in degrees.
                 Orientation rotation = Orientation.getOrientation(lastLocation, EXTRINSIC, XYZ, DEGREES);
-              //  telemetry.addData("Rot (deg)", "{Roll, Pitch, Heading} = %.0f, %.0f, %.0f", rotation.firstAngle, rotation.secondAngle, rotation.thirdAngle);
+                //  telemetry.addData("Rot (deg)", "{Roll, Pitch, Heading} = %.0f, %.0f, %.0f", rotation.firstAngle, rotation.secondAngle, rotation.thirdAngle);
             }
-            else if(time.seconds() > 30){
+            else if(time.seconds() > 1.5){ //Modified this number due to flash increasing speed, may change later
                 System.out.println("Visible Target: none");
-                positionSkystone = "right";
+                positionSkystone = "left";
                 pathNum = 2;
                 System.out.println(pathNum + positionSkystone);
             }
             System.out.println("Skystone Position " + positionSkystone);
-           //telemetry.update();
+            //telemetry.update();
         }
 
         // Disable Tracking when we are done;

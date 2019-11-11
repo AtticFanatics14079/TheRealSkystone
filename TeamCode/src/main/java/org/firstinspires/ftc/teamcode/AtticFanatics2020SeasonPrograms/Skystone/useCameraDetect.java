@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.AtticFanatics2020SeasonPrograms.Skystone;
+/*package org.firstinspires.ftc.teamcode.AtticFanatics2020SeasonPrograms.Skystone;
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
@@ -20,3 +20,6 @@ public class useCameraDetect extends LinearOpMode {
         }
     }
 }
+
+
+ */
