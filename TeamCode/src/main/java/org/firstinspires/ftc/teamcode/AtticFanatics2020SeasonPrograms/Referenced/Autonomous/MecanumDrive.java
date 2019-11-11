@@ -19,7 +19,22 @@ public class MecanumDrive extends Configure {
     static final double TURN_OFFSET = 10;
     static final double IMU_OFFSET = 5;
 
+    static final double LEFT_OPEN = 1;
+    static final double LEFT_CLOSE = 0;
+    static final double RIGHT_OPEN = 1;
+    static final double RIGHT_CLOSE = 0;
+
+
     boolean Configured = false;
+
+    public void UnhookFoundation(HardwareMap ahwMap){
+        FoundationLeft.setPosition(LEFT_OPEN);
+        FoundationRight.setPosition(RIGHT_OPEN);
+    }
+    public void HookFoundation(HardwareMap ahwMap){
+        FoundationLeft.setPosition(LEFT_CLOSE);
+        FoundationRight.setPosition(RIGHT_CLOSE);
+    }
 
     public void MoveScissor (int level, HardwareMap ahwMap){
 
@@ -61,6 +76,8 @@ public class MecanumDrive extends Configure {
         }
     }
 
+
+
     public void MoveEncoderTicks(double NumbCM, double ForwardPower, HardwareMap ahwMap) { //POSITIVE POWER IS FORWARD!!!
 
         ResetMotorEncoders(ahwMap);
@@ -80,11 +97,73 @@ public class MecanumDrive extends Configure {
         //for(double Counter = 0.2; Counter <= 1; Counter += 0.2)
         setPower(0, ForwardPower, 0);
 
+
         while((Motors[1].isBusy() || Motors[2].isBusy()) && (Motors[3].isBusy() || Motors[4].isBusy())) {
+
         }
 
         setPower(0,0,0);
     }
+
+    public void MoveSetTolerance(double NumbCM, double ForwardPower, HardwareMap ahwMap) { //POSITIVE POWER IS FORWARD!!!
+
+        ResetMotorEncoders(ahwMap);
+
+        //Mess with numbers, as different circumference.
+        double Ticks = TICKS_PER_CM * NumbCM;
+
+        Motors[1].setTargetPosition((int)Ticks);
+        Motors[2].setTargetPosition((int)Ticks);
+        Motors[3].setTargetPosition((int)Ticks);
+        Motors[4].setTargetPosition((int)Ticks);
+
+        setTolerance(ahwMap);
+
+        RunToPosition(ahwMap);
+
+        //HeadingAdjust = imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
+
+        //for(double Counter = 0.2; Counter <= 1; Counter += 0.2)
+        setPower(0, ForwardPower, 0);
+
+
+        while((Motors[1].isBusy() || Motors[2].isBusy()) && (Motors[3].isBusy() || Motors[4].isBusy())) {
+
+        }
+
+        setPower(0,0,0);
+    }
+
+    boolean isGoing(DcMotor c){
+        return (Math.abs(c.getCurrentPosition() - c.getTargetPosition()) > TOLERANCE);
+    }
+    public void StraightWiIsGoing(double NumbCM, double ForwardPower, HardwareMap ahwMap) { //POSITIVE POWER IS FORWARD!!!
+
+        ResetMotorEncoders(ahwMap);
+        SetZeroBehavior(true, ahwMap);
+
+        //Mess with numbers, as different circumference.
+        double Ticks = TICKS_PER_CM * NumbCM;
+
+        Motors[1].setTargetPosition((int)Ticks);
+        Motors[2].setTargetPosition((int)Ticks);
+        Motors[3].setTargetPosition((int)Ticks);
+        Motors[4].setTargetPosition((int)Ticks);
+
+        RunToPosition(ahwMap);
+
+        //HeadingAdjust = imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
+
+        //for(double Counter = 0.2; Counter <= 1; Counter += 0.2)
+        setPower(0, ForwardPower, 0);
+
+        while((isGoing(Motors[1]) || (isGoing(Motors[2]))) && (isGoing(Motors[3]) || (isGoing(Motors[4])))) {
+
+        }
+
+        setPower(0,0,0);
+    }
+
 
     public void MoveEncoderTicksIMU(double NumbCM, double ForwardPower, HardwareMap ahwMap) { //POSITIVE POWER IS FORWARD!!!
         // This method is the same as MoveEncoderTicks but with IMU thrown in for slight correction. May be slightly less precise (by distance) and will be slightly slower, but will be more accurate movement directionally.

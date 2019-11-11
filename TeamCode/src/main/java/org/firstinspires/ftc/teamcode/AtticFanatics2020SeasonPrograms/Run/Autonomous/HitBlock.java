@@ -18,8 +18,8 @@ public class HitBlock extends LinearOpMode {
         MecanumDrive robot = new MecanumDrive();
         ElapsedTime time;
 
-        int sposition = -2;
         robot.Configure(hardwareMap);
+        int sposition = -2;
         camera.instantCamera(hardwareMap);
         CameraDevice.getInstance().setFlashTorchMode(true);
         waitForStart();
@@ -31,11 +31,11 @@ public class HitBlock extends LinearOpMode {
         while((sposition = camera.skystoneDetect(time)) == -2);
 
         switch(sposition){
-            case 2: //robot.StrafeEncoderTicks(-30, -1, hardwareMap);
+            case 2: robot.StrafeEncoderTicks(-30, -1, hardwareMap);
             telemetry.addLine("left"); break;
-            case 1: //robot.StrafeEncoderTicks(15,1,hardwareMap);
+            case 1: robot.StrafeEncoderTicks(15,1,hardwareMap);
             telemetry.addLine("mid"); break;
-            case 0: //robot.StrafeEncoderTicks(45,1,hardwareMap);
+            case 0: robot.StrafeEncoderTicks(16,1,hardwareMap);
                  telemetry.addLine("right");
             break;
         }

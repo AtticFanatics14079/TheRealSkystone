@@ -4,6 +4,7 @@ import com.qualcomm.hardware.bosch.BNO055IMU;
 import com.qualcomm.hardware.bosch.JustLoggingAccelerationIntegrator;
 import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.DcMotorImplEx;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
@@ -22,7 +23,7 @@ public class Configure {
 
     public Orientation CurrentPos;
 
-    public DcMotor[] Motors = new DcMotor[5];
+    public DcMotorImplEx[] Motors = new DcMotorImplEx[5];
 
     public Servo Gripper;
 
@@ -38,7 +39,14 @@ public class Configure {
 
     public boolean Configured = false;
 
+    public static final int TOLERANCE = 50;
 
+    public void setTolerance(HardwareMap ahwMap){
+        Motors[1].setTargetPositionTolerance(TOLERANCE);
+        Motors[2].setTargetPositionTolerance(TOLERANCE);
+        Motors[3].setTargetPositionTolerance(TOLERANCE);
+        Motors[4].setTargetPositionTolerance(TOLERANCE);
+    }
 
     public void ResetMotorEncoders(HardwareMap ahwMap){
 
@@ -51,6 +59,7 @@ public class Configure {
         Motors[2].setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         Motors[3].setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         Motors[4].setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+
         //ExtendGripper.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
     }
     public void RunToPosition(HardwareMap ahwMap){
@@ -62,10 +71,12 @@ public class Configure {
     }
 
     public void SetTargetPosition(double Ticks, HardwareMap ahwMap){
+
         Motors[1].setTargetPosition((int)Ticks);
         Motors[2].setTargetPosition((int)Ticks);
         Motors[3].setTargetPosition((int)Ticks);
         Motors[4].setTargetPosition((int)Ticks);
+
     }
 
     public void SetZeroBehavior(boolean Brake, HardwareMap ahwMap)
@@ -97,10 +108,10 @@ public class Configure {
         parameters.loggingTag = "IMU";
         parameters.accelerationIntegrationAlgorithm = new JustLoggingAccelerationIntegrator();
 
-        Motors[1] = hwMap.get(DcMotor.class, "back_left_motor");
-        Motors[2] = hwMap.get(DcMotor.class, "front_left_motor");
-        Motors[3] = hwMap.get(DcMotor.class, "front_right_motor");
-        Motors[4] = hwMap.get(DcMotor.class, "back_right_motor");
+        Motors[1] = hwMap.get(DcMotorImplEx.class, "back_left_motor");
+        Motors[2] = hwMap.get(DcMotorImplEx.class, "front_left_motor");
+        Motors[3] = hwMap.get(DcMotorImplEx.class, "front_right_motor");
+        Motors[4] = hwMap.get(DcMotorImplEx.class, "back_right_motor");
         Gripper = hwMap.get(Servo.class, "gripper");
         RotateGripper = hwMap.get(Servo.class, "rotate_gripper");
         ExtendGripper = hwMap.get(DcMotor.class, "extend_gripper");
