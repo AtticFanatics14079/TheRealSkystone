@@ -48,6 +48,7 @@ public class Configure {
         Motors[2].setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         Motors[3].setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         Motors[4].setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+
         //ExtendGripper.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
     }
     public void RunToPosition(HardwareMap ahwMap){
