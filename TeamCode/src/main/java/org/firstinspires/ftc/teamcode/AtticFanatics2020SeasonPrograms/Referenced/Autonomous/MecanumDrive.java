@@ -19,8 +19,22 @@ public class MecanumDrive extends Configure {
     static final double TURN_OFFSET = 10;
     static final double IMU_OFFSET = 5;
     static final double TOLERANCE = 50;
+    static final double LEFT_OPEN = 1;
+    static final double LEFT_CLOSE = 0;
+    static final double RIGHT_OPEN = 1;
+    static final double RIGHT_CLOSE = 0;
+
 
     boolean Configured = false;
+
+    public void UnhookFoundation(HardwareMap ahwMap){
+        FoundationLeft.setPosition(LEFT_OPEN);
+        FoundationRight.setPosition(RIGHT_OPEN);
+    }
+    public void HookFoundation(HardwareMap ahwMap){
+        FoundationLeft.setPosition(LEFT_CLOSE);
+        FoundationRight.setPosition(RIGHT_CLOSE);
+    }
 
     public void MoveScissor (int level, HardwareMap ahwMap){
 
