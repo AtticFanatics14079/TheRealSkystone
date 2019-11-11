@@ -11,7 +11,7 @@ public class TestMoveTolerance extends LinearOpMode {
         MecanumDrive erika = new MecanumDrive();
         erika.Configure(hardwareMap);
         waitForStart();
-        erika.StraightWiIsGoing(50,1,hardwareMap);
+        erika.MoveSetTolerance(50,1,hardwareMap);
     }
 }
 
