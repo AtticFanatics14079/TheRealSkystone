@@ -9,6 +9,7 @@ public class JustStraight extends LinearOpMode {
     @Override
     public void runOpMode() throws InterruptedException {
         MecanumDrive erika = new MecanumDrive();
+        erika.Configure(hardwareMap);
         waitForStart();
         erika.MoveEncoderTicks(50,1,hardwareMap);
     }

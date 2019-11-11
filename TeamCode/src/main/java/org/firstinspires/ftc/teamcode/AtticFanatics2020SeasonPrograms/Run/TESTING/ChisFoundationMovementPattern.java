@@ -22,7 +22,7 @@ public class ChisFoundationMovementPattern extends LinearOpMode {
         robot.FoundationRight.setPosition(0.53);
         sleep(300);
         robot.StrafeEncoderTicks(-55, -1, hardwareMap);
-        robot.DiagonalEncoderTicks(-200, -0.667, -0.333, hardwareMap);
+        robot.DiagonalEncoderTicks(-200, -1, -2, hardwareMap);
         telemetry.addLine("Le foundatione hath been yeeteth");
         telemetry.update();
     }

@@ -9,6 +9,7 @@ public class TestMoveTolerance extends LinearOpMode {
     @Override
     public void runOpMode() throws InterruptedException {
         MecanumDrive erika = new MecanumDrive();
+        erika.Configure(hardwareMap);
         waitForStart();
         erika.StraightWiTolerance(50,1,hardwareMap);
     }

@@ -95,16 +95,20 @@ public class MecanumDrive extends Configure {
         //for(double Counter = 0.2; Counter <= 1; Counter += 0.2)
         setPower(0, ForwardPower, 0);
 
+
         while((Motors[1].isBusy() || Motors[2].isBusy()) && (Motors[3].isBusy() || Motors[4].isBusy())) {
 
         }
 
         setPower(0,0,0);
     }
-
+    boolean isGoing(DcMotor c){
+        return (Math.abs(c.getCurrentPosition() - c.getTargetPosition()) > TOLERANCE);
+    }
     public void StraightWiTolerance(double NumbCM, double ForwardPower, HardwareMap ahwMap) { //POSITIVE POWER IS FORWARD!!!
 
         ResetMotorEncoders(ahwMap);
+        SetZeroBehavior(true, ahwMap);
 
         //Mess with numbers, as different circumference.
         double Ticks = TICKS_PER_CM * NumbCM;
@@ -121,12 +125,8 @@ public class MecanumDrive extends Configure {
         //for(double Counter = 0.2; Counter <= 1; Counter += 0.2)
         setPower(0, ForwardPower, 0);
 
-        while((Motors[1].isBusy() || Motors[2].isBusy()) && (Motors[3].isBusy() || Motors[4].isBusy())) {
-            for(DcMotor s: Motors){
-                if(Math.abs((s.getCurrentPosition() - s.getTargetPosition())) <= TOLERANCE){
-                    s.setPower(0);
-                }
-            }
+        while((isGoing(Motors[1]) || (isGoing(Motors[2]))) && (isGoing(Motors[3]) || (isGoing(Motors[4])))) {
+
         }
 
         setPower(0,0,0);
