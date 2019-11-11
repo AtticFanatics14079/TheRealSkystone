@@ -34,8 +34,8 @@ public class TeleOpMecanum extends Configure {
         }
         */
 
-        if(G1.dpad_down) {FoundationLeft.setPosition(0.7033); FoundationRight.setPosition(0.49);} //Set grabbers down
-        if(G1.dpad_up) {FoundationLeft.setPosition(0.1333); FoundationRight.setPosition(1);} //Set grabbers up
+        if(G1.dpad_down) {FoundationLeft.setPosition(1); FoundationRight.setPosition(0.51);} //Set grabbers down
+        else if(G1.dpad_up) {FoundationLeft.setPosition(0.4433); FoundationRight.setPosition(1);} //Set grabbers up
 
         if(G2.a) Gripper.setPosition(.6); //Move claw to not gripped position
         else if(G2.b) Gripper.setPosition(.1); //Move claw to gripped position

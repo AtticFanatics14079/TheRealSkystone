@@ -195,6 +195,32 @@ public class MecanumDrive extends Configure {
         setPower(0, 0, 0);
     }
 
+    public void DiagonalEncoderTicks(double NumbCM, double SidewaysPower, double ForwardPower, HardwareMap ahwMap) {
+
+        ResetMotorEncoders(ahwMap);
+
+        //Mess with numbers, as different circumference.
+        double Ticks = TICKS_PER_CM * NumbCM;
+
+        double[] PowerMod = returnSetPower(SidewaysPower, ForwardPower, 0);
+
+        Motors[1].setTargetPosition((int)(PowerMod[1] * Ticks));
+        Motors[2].setTargetPosition(-(int)(PowerMod[2] * Ticks));
+        Motors[3].setTargetPosition((int)(PowerMod[3] * Ticks));
+        Motors[4].setTargetPosition(-(int)(PowerMod[4] * Ticks));
+
+        RunToPosition(ahwMap);
+
+        //HeadingAdjust = imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
+
+        //for(double Counter = 0.2; Counter <= 1; Counter += 0.2)
+        setPower(SidewaysPower, 0, 0);
+
+        while((Motors[1].isBusy() || Motors[2].isBusy()) && (Motors[3].isBusy() || Motors[4].isBusy())) {
+        }
+        setPower(0,0,0);
+    }
+
     public void TurnDegreesEncoder(double Degrees, HardwareMap ahwMap)
     {
 
@@ -233,5 +259,27 @@ public class MecanumDrive extends Configure {
         Motors[4].setPower(p4);
         Motors[3].setPower(p3);
         Motors[2].setPower(p2);
+    }
+
+    double[] returnSetPower(double px, double py, double pa){
+        double[] p = new double[5];
+         p[1] = -px + py - pa;
+         p[2] = px + py - pa;
+         p[3] = -px + py + pa;
+         p[4] = px + py + pa;
+        double max = Math.max(1.0, Math.abs(p[1]));
+        max = Math.max(max, Math.abs(p[2]));
+        max = Math.max(max, Math.abs(p[3]));
+        max = Math.max(max, Math.abs(p[4]));
+        p[1] /= max;
+        p[2] /= max;
+        p[3] /= max;
+        p[4] /= max;
+        Motors[1].setPower(p[1]);
+        Motors[4].setPower(p[2]);
+        Motors[3].setPower(p[3]);
+        Motors[2].setPower(p[4]);
+
+        return p;
     }
 }
