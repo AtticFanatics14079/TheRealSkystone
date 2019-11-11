@@ -18,6 +18,7 @@ public class MecanumDrive extends Configure {
     //static final double INERTIA_TICKS = 100;
     static final double TURN_OFFSET = 10;
     static final double IMU_OFFSET = 5;
+    static final double TOLERANCE = 50;
 
     boolean Configured = false;
 
@@ -81,11 +82,41 @@ public class MecanumDrive extends Configure {
         setPower(0, ForwardPower, 0);
 
         while((Motors[1].isBusy() || Motors[2].isBusy()) && (Motors[3].isBusy() || Motors[4].isBusy())) {
+
         }
 
         setPower(0,0,0);
     }
 
+    public void StraightWiTolerance(double NumbCM, double ForwardPower, HardwareMap ahwMap) { //POSITIVE POWER IS FORWARD!!!
+
+        ResetMotorEncoders(ahwMap);
+
+        //Mess with numbers, as different circumference.
+        double Ticks = TICKS_PER_CM * NumbCM;
+
+        Motors[1].setTargetPosition((int)Ticks);
+        Motors[2].setTargetPosition((int)Ticks);
+        Motors[3].setTargetPosition((int)Ticks);
+        Motors[4].setTargetPosition((int)Ticks);
+
+        RunToPosition(ahwMap);
+
+        //HeadingAdjust = imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
+
+        //for(double Counter = 0.2; Counter <= 1; Counter += 0.2)
+        setPower(0, ForwardPower, 0);
+
+        while((Motors[1].isBusy() || Motors[2].isBusy()) && (Motors[3].isBusy() || Motors[4].isBusy())) {
+            for(DcMotor s: Motors){
+                if(Math.abs((s.getCurrentPosition() - s.getTargetPosition())) <= TOLERANCE){
+                    s.setPower(0);
+                }
+            }
+        }
+
+        setPower(0,0,0);
+    }
 
 
     public void MoveEncoderTicksIMU(double NumbCM, double ForwardPower, HardwareMap ahwMap) { //POSITIVE POWER IS FORWARD!!!
