@@ -39,7 +39,7 @@ public class Configure {
 
     public boolean Configured = false;
 
-    public static final int TOLERANCE = 50;
+    public static final int TOLERANCE = 10;
 
     public void setTolerance(HardwareMap ahwMap){
         Motors[1].setTargetPositionTolerance(TOLERANCE);

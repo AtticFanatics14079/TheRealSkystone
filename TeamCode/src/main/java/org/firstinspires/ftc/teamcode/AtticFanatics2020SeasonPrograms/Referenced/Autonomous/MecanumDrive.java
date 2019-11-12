@@ -126,7 +126,6 @@ public class MecanumDrive extends Configure {
         //for(double Counter = 0.2; Counter <= 1; Counter += 0.2)
         setPower(0, ForwardPower, 0);
 
-
         while((Motors[1].isBusy() || Motors[2].isBusy()) && (Motors[3].isBusy() || Motors[4].isBusy())) {
 
         }
@@ -275,25 +274,27 @@ public class MecanumDrive extends Configure {
     }
 
     public void DiagonalEncoderTicks(double NumbCM, double SidewaysPower, double ForwardPower, HardwareMap ahwMap) {
-
+        //Function works for every movement, however distance is untested for diagonal movements. NumbCM's positivity or negativity should not matter.
         ResetMotorEncoders(ahwMap);
 
         //Mess with numbers, as different circumference.
-        double Ticks = TICKS_PER_CM * NumbCM;
+        double Ticks = TICKS_PER_CM * Math.abs(NumbCM);
 
         double[] PowerMod = returnSetPower(SidewaysPower, ForwardPower, 0);
 
         Motors[1].setTargetPosition((int)(PowerMod[1] * Ticks));
-        Motors[2].setTargetPosition(-(int)(PowerMod[2] * Ticks));
+        Motors[2].setTargetPosition((int)(PowerMod[2] * Ticks));
         Motors[3].setTargetPosition((int)(PowerMod[3] * Ticks));
-        Motors[4].setTargetPosition(-(int)(PowerMod[4] * Ticks));
+        Motors[4].setTargetPosition((int)(PowerMod[4] * Ticks));
+
+        setTolerance(ahwMap);
 
         RunToPosition(ahwMap);
 
         //HeadingAdjust = imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
 
         //for(double Counter = 0.2; Counter <= 1; Counter += 0.2)
-        setPower(SidewaysPower, 0, 0);
+        setPower(ForwardPower, SidewaysPower, 0);
 
         while((Motors[1].isBusy() || Motors[2].isBusy()) && (Motors[3].isBusy() || Motors[4].isBusy())) {
         }
@@ -354,10 +355,6 @@ public class MecanumDrive extends Configure {
         p[2] /= max;
         p[3] /= max;
         p[4] /= max;
-        Motors[1].setPower(p[1]);
-        Motors[4].setPower(p[2]);
-        Motors[3].setPower(p[3]);
-        Motors[2].setPower(p[4]);
 
         return p;
     }
