@@ -41,14 +41,21 @@ public class Configure {
 
     public static final int TOLERANCE = 10;
 
-    public void setTolerance(HardwareMap ahwMap){
+    public void setTolerance(){
         Motors[1].setTargetPositionTolerance(TOLERANCE);
         Motors[2].setTargetPositionTolerance(TOLERANCE);
         Motors[3].setTargetPositionTolerance(TOLERANCE);
         Motors[4].setTargetPositionTolerance(TOLERANCE);
     }
 
-    public void ResetMotorEncoders(HardwareMap ahwMap){
+    public void setTolerance(int Tolerance){
+        Motors[1].setTargetPositionTolerance(Tolerance);
+        Motors[2].setTargetPositionTolerance(Tolerance);
+        Motors[3].setTargetPositionTolerance(Tolerance);
+        Motors[4].setTargetPositionTolerance(Tolerance);
+    }
+
+    public void resetMotorEncoders(){
 
         Motors[1].setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         Motors[2].setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
@@ -62,7 +69,8 @@ public class Configure {
 
         //ExtendGripper.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
     }
-    public void RunToPosition(HardwareMap ahwMap){
+
+    public void runToPosition(){
         Motors[1].setMode(DcMotor.RunMode.RUN_TO_POSITION);
         Motors[2].setMode(DcMotor.RunMode.RUN_TO_POSITION);
         Motors[3].setMode(DcMotor.RunMode.RUN_TO_POSITION);
@@ -70,30 +78,36 @@ public class Configure {
         //ExtendGripper.setMode(DcMotor.RunMode.RUN_TO_POSITION);
     }
 
-    public void SetTargetPosition(double Ticks, HardwareMap ahwMap){
+    public void setTargetPosition(double[] PosMod, double Ticks){
+
+        Motors[1].setTargetPosition((int)(Ticks * PosMod[1]));
+        Motors[2].setTargetPosition((int)(Ticks * PosMod[2]));
+        Motors[3].setTargetPosition((int)(Ticks * PosMod[3]));
+        Motors[4].setTargetPosition((int)(Ticks * PosMod[4]));
+    }
+
+    public void setTargetPosition(double Ticks, int ReversedMotor) {
+        //THE REVERSED MOTOR IS THE NON-MOTORS[1] MOTOR THAT GOES WITH MOTORS[1]
+        //This is used ONLY for turning and sideways movement
+        Motors[1].setTargetPosition((int)-Ticks);
+        Motors[ReversedMotor].setTargetPosition((int)-Ticks);
+        if(ReversedMotor == 2) {
+            Motors[3].setTargetPosition((int)Ticks);
+            Motors[4].setTargetPosition((int)Ticks);
+        }
+        else {
+            Motors[2].setTargetPosition((int)Ticks);
+            Motors[4].setTargetPosition((int)Ticks);
+        }
+
+    }
+
+    public void setTargetPosition(double Ticks){
 
         Motors[1].setTargetPosition((int)Ticks);
         Motors[2].setTargetPosition((int)Ticks);
         Motors[3].setTargetPosition((int)Ticks);
         Motors[4].setTargetPosition((int)Ticks);
-
-    }
-
-    public void SetZeroBehavior(boolean Brake, HardwareMap ahwMap)
-    {
-        if(Brake)
-        {
-            Motors[1].setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-            Motors[2].setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-            Motors[3].setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-            Motors[4].setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        }
-        else {
-            Motors[1].setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
-            Motors[2].setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
-            Motors[3].setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
-            Motors[4].setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
-        }
     }
 
     public HardwareMap Configure(HardwareMap ahwMap)
@@ -125,7 +139,6 @@ public class Configure {
 
         Motors[3].setDirection(DcMotor.Direction.REVERSE);
         Motors[4].setDirection(DcMotor.Direction.REVERSE);
-        //FoundationLeft.setDirection(Servo.Direction.REVERSE);
 
         imu = hwMap.get(BNO055IMU.class, "imu");
         imu.initialize(new BNO055IMU.Parameters());
