@@ -86,22 +86,6 @@ public class Configure {
         Motors[4].setTargetPosition((int)(Ticks * PosMod[4]));
     }
 
-    public void setTargetPosition(double Ticks, int ReversedMotor) {
-        //THE REVERSED MOTOR IS THE NON-MOTORS[1] MOTOR THAT GOES WITH MOTORS[1]
-        //This is used ONLY for turning and sideways movement
-        Motors[1].setTargetPosition((int)-Ticks);
-        Motors[ReversedMotor].setTargetPosition((int)-Ticks);
-        if(ReversedMotor == 2) {
-            Motors[3].setTargetPosition((int)Ticks);
-            Motors[4].setTargetPosition((int)Ticks);
-        }
-        else {
-            Motors[2].setTargetPosition((int)Ticks);
-            Motors[4].setTargetPosition((int)Ticks);
-        }
-
-    }
-
     public void setTargetPosition(double Ticks){
 
         Motors[1].setTargetPosition((int)Ticks);

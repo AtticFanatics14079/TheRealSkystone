@@ -57,7 +57,6 @@ public class MecanumDrive extends Configure {
         ExtendGripper.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         ExtendGripper.setPower(NumbCM/Math.abs(NumbCM));
         while(ExtendGripper.isBusy()){
-
         }
         ExtendGripper.setPower(0);
     }
@@ -66,7 +65,7 @@ public class MecanumDrive extends Configure {
         if(open){
             Gripper.setPosition(.6);
         }
-        else if(!open){
+        else {
             Gripper.setPosition(.1);
         }
     }
@@ -112,17 +111,7 @@ public class MecanumDrive extends Configure {
         if(ExtraPrecise) setTolerance(5);
         else setTolerance();
 
-        runToPosition();
-
-        //HeadingAdjust = imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
-
-        //for(double Counter = 0.2; Counter <= 1; Counter += 0.2)
-        setPower(MotorMod);
-
-        while((Motors[1].isBusy() || Motors[2].isBusy()) && (Motors[3].isBusy() || Motors[4].isBusy())) {
-        }
-
-        setPower(0,0,0);
+        drive(MotorMod);
     }
 
     public void Move(double NumbCM) { //Assumes forward/back movement at max speed, is the quickest overload for straight movement.
@@ -132,18 +121,13 @@ public class MecanumDrive extends Configure {
         //Mess with numbers, as different circumference.
         double Ticks = TICKS_PER_CM * NumbCM;
 
+        double NumbCMPositivity = findPositivity(NumbCM);
+
+        double[] P = {0, NumbCMPositivity, NumbCMPositivity, NumbCMPositivity, NumbCMPositivity};
+
         setTargetPosition(Ticks);
 
-        setTolerance();
-
-        runToPosition();
-
-        setPower(0, 1, 0);
-
-        while((Motors[1].isBusy() || Motors[2].isBusy()) && (Motors[3].isBusy() || Motors[4].isBusy())) {
-        }
-
-        setPower(0,0,0);
+        drive(P);
     }
 
     public void Move(double NumbCM, double SidewaysPower) //Right is a positive power, positivity/negativity of NumbCM does not matter.
@@ -156,16 +140,7 @@ public class MecanumDrive extends Configure {
 
         setTargetPosition(MotorMod, Ticks);
 
-        setTolerance();
-
-        runToPosition();
-
-        setPower(MotorMod);
-
-        while((Motors[1].isBusy() || Motors[2].isBusy()) && (Motors[3].isBusy() || Motors[4].isBusy())) {
-        }
-
-        setPower(0,0,0);
+        drive(MotorMod);
     }
 
     public void Move(double NumbCM, double SidewaysPower, double ForwardPower) {
@@ -178,38 +153,22 @@ public class MecanumDrive extends Configure {
 
         setTargetPosition(MotorMod, TICKS_PER_CM * Math.abs(NumbCM));
 
-        setTolerance();
-
-        runToPosition();
-
-        setPower(MotorMod);
-
-        while((Motors[1].isBusy() || Motors[2].isBusy()) && (Motors[3].isBusy() || Motors[4].isBusy())) {
-        }
-        setPower(0,0,0);
+        drive(MotorMod);
     }
 
     public void Turn(double Degrees)
     {
         resetMotorEncoders();
 
-        double Ticks = Degrees  * TICKS_PER_DEGREE;
+        double Ticks = Math.abs(Degrees)  * TICKS_PER_DEGREE;
 
-        Motors[1].setTargetPosition((int)-Ticks);
-        Motors[2].setTargetPosition((int)-Ticks);
-        Motors[3].setTargetPosition((int)Ticks);
-        Motors[4].setTargetPosition((int)Ticks);
+        double DegreesPositivity = findPositivity(Degrees);
 
-        setTolerance();
+        double[] P = {0, -DegreesPositivity, -DegreesPositivity, DegreesPositivity, DegreesPositivity};
 
-        runToPosition();
+        setTargetPosition(P, Ticks);
 
-        setPower(0,0,Degrees);
-
-        while((Motors[1].isBusy() || Motors[3].isBusy())&& (Motors[2].isBusy() || Motors[4].isBusy())){
-        }
-
-        setPower(0,0,0);
+        drive(P);
     }
 
     public void Turn(double Degrees, double Power) //Degrees positivity/negativity is irrelevant
@@ -218,27 +177,29 @@ public class MecanumDrive extends Configure {
 
         double Ticks = Math.abs(Degrees) * TICKS_PER_DEGREE;
 
-        int PowerPositivity = (int) (Power / Math.abs(Power));
+        double[] P = {0, -Power, -Power, Power, Power};
 
-        Motors[1].setTargetPosition(-PowerPositivity * (int)Ticks);
-        Motors[2].setTargetPosition(-PowerPositivity * (int)Ticks);
-        Motors[3].setTargetPosition(PowerPositivity * (int)Ticks);
-        Motors[4].setTargetPosition(PowerPositivity * (int)Ticks);
+        setTargetPosition(P, Ticks/Math.abs(Power));
 
+        drive(P);
+    }
+
+    private void drive(double[] Power)
+    {
         setTolerance();
 
         runToPosition();
 
-        setPower(0, 0, Power);
+        setPower(Power);
 
-        while((Motors[1].isBusy() || Motors[3].isBusy())&& (Motors[2].isBusy() || Motors[4].isBusy())){
+        while ((Motors[1].isBusy() || Motors[2].isBusy())&& (Motors[3].isBusy() || Motors[4].isBusy())){
         }
 
-        setPower(0,0,0);
+        setPower(0, 0, 0);
     }
 
     //The following method is code from Team 16072's virtual_robot program. Small changes are only to make it fit our format, the bulk of the method was written by them.
-    void setPower(double px, double py, double pa){
+    private void setPower(double px, double py, double pa){
         double p1 = -px + py - pa;
         double p2 = px + py - pa;
         double p3 = -px + py + pa;
@@ -257,7 +218,7 @@ public class MecanumDrive extends Configure {
         Motors[2].setPower(p2);
     }
 
-    public void setPower(double[] p)
+    private void setPower(double[] p)
     {
         Motors[1].setPower(p[1]);
         Motors[2].setPower(p[2]);
@@ -265,7 +226,7 @@ public class MecanumDrive extends Configure {
         Motors[4].setPower(p[4]);
     }
 
-    double[] returnSetPower(double px, double py, double pa){
+    private double[] returnSetPower(double px, double py, double pa){
         double[] p = new double[5];
          p[1] = -px + py - pa;
          p[2] = px + py - pa;
@@ -281,5 +242,9 @@ public class MecanumDrive extends Configure {
         p[4] /= max;
 
         return p;
+    }
+
+    private double findPositivity(double Power) {
+        return Power/Math.abs(Power);
     }
 }
