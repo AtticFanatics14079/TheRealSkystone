@@ -35,7 +35,7 @@ public class Configure {
 
     public DcMotor ExtendGripper;
 
-    public DcMotor Scissor1;
+    public DcMotor Scissor;
 
     public boolean Configured = false;
 
@@ -119,11 +119,14 @@ public class Configure {
         ExtendGripper = hwMap.get(DcMotor.class, "extend_gripper");
         FoundationLeft = hwMap.get(Servo.class, "foundation_left");
         FoundationRight = hwMap.get(Servo.class, "foundation_right");
+        Scissor = hwMap.get(DcMotor.class, "scissor");
 
         Motors[1].setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         Motors[2].setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         Motors[3].setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         Motors[4].setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        Scissor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        ExtendGripper.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
         Motors[3].setDirection(DcMotor.Direction.REVERSE);
         Motors[4].setDirection(DcMotor.Direction.REVERSE);
@@ -132,6 +135,12 @@ public class Configure {
         imu.initialize(new BNO055IMU.Parameters());
 
         CurrentPos = imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
+
+        Scissor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        Scissor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+
+        ExtendGripper.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        ExtendGripper.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
         return hwMap;
         }

@@ -29,21 +29,20 @@ public class MecanumDrive extends Configure {
 
     public void MoveScissor (int level){
 
-        Scissor1.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        Scissor1.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        Scissor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        Scissor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
         int ticks = 1;
         switch (level){
             case 1: ticks = 1; break;
             case 2: break;
         }
-        Scissor1.setTargetPosition(ticks);
-        Scissor1.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        Scissor1.setPower(1);
-        while(Scissor1.isBusy()){
-
+        Scissor.setTargetPosition(ticks);
+        Scissor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        Scissor.setPower(1);
+        while(Scissor.isBusy()){
         }
-        Scissor1.setPower(0);
+        Scissor.setPower(0);
     }
 
     public void ExtendGripper(double NumbCM){
