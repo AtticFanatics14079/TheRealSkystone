@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.AtticFanatics2020SeasonPrograms.Run.Autonomous;
+/*package org.firstinspires.ftc.teamcode.AtticFanatics2020SeasonPrograms.Run.Autonomous;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
@@ -114,3 +114,5 @@ public class PlaceSkystonesUnmovedF extends LinearOpMode {
         //robot.StrafeEncoderTicks(150,0.95,0.05,hardwareMap);
     }
 }
+
+ */

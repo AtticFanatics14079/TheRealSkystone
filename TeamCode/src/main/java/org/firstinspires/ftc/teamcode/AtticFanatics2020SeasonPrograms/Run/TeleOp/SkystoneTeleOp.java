@@ -17,5 +17,8 @@ public class SkystoneTeleOp extends OpMode {
     @Override
     public void loop() {
         Drive.Move(hardwareMap, gamepad1, gamepad2);
+        telemetry.addData("FoundationLeft Position: ", Drive.FoundationLeft.getPosition());
+        telemetry.addData("FoundationRight Position: ", Drive.FoundationRight.getPosition());
+        telemetry.update();
     }
 }

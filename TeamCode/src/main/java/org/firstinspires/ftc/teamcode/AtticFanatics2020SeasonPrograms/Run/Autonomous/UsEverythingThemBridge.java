@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.AtticFanatics2020SeasonPrograms.Run.Autonomous;
+/*package org.firstinspires.ftc.teamcode.AtticFanatics2020SeasonPrograms.Run.Autonomous;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
@@ -115,3 +115,5 @@ public class UsEverythingThemBridge extends LinearOpMode {
         robot.StrafeEncoderTicks(65,1,hardwareMap);
     }
 }
+
+ */

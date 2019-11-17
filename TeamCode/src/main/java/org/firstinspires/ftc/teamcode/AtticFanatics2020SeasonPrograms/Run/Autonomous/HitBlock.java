@@ -1,6 +1,6 @@
 package org.firstinspires.ftc.teamcode.AtticFanatics2020SeasonPrograms.Run.Autonomous;
 
-import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+/*import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.util.ElapsedTime;
 import com.vuforia.CameraDevice;
@@ -44,3 +44,6 @@ public class HitBlock extends LinearOpMode {
 
     }
 }
+
+
+ */

@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.AtticFanatics2020SeasonPrograms.Run.Autonomous;
+/*package org.firstinspires.ftc.teamcode.AtticFanatics2020SeasonPrograms.Run.Autonomous;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
@@ -101,3 +101,6 @@ public class PlaceSkystonesMovedF extends LinearOpMode {
         //robot.MoveEncoderTicks(50,0.1,-1,hardwareMap); // Not sure if this mean strafe, assuming that for now.
     }
 }
+
+
+ */

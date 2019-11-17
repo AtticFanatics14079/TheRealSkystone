@@ -13,14 +13,10 @@ public class MecanumDrive extends Configure {
 
     static final double TICKS_PER_CM = 16;
     static final double TICKS_PER_DEGREE = 8.5;
+    static final double P_CONSTANT = 0.001;
     //static final double INERTIA_TICKS = 100;
     static final double TURN_OFFSET = 10;
     static final double IMU_OFFSET = 5;
-
-    static final double LEFT_OPEN = 1;
-    static final double LEFT_CLOSE = 0;
-    static final double RIGHT_OPEN = 1;
-    static final double RIGHT_CLOSE = 0;
 
     public void UnhookFoundation(){
         FoundationLeft.setPosition(LEFT_OPEN);
@@ -108,7 +104,7 @@ public class MecanumDrive extends Configure {
 
         setTargetPosition(MotorMod, Ticks);
 
-        if(ExtraPrecise) setTolerance(5);
+        if(ExtraPrecise) setTolerance(2);
         else setTolerance();
 
         drive(MotorMod);
@@ -188,14 +184,30 @@ public class MecanumDrive extends Configure {
     {
         setTolerance();
 
-        runToPosition();
+        //runToPosition();
 
         setPower(Power);
 
-        while ((Motors[1].isBusy() || Motors[2].isBusy())&& (Motors[3].isBusy() || Motors[4].isBusy())){
+        while (Math.abs(Motors[1].getPower()) > 0.05 || Math.abs(Motors[2].getPower()) > 0.05 || Math.abs(Motors[3].getPower()) > 0.05 || Math.abs(Motors[4].getPower()) > 0.05){
+            slowToTarget(Power);
         }
 
-        setPower(0, 0, 0);
+        Motors[1].setPower(0);
+        Motors[4].setPower(0);
+        Motors[3].setPower(0);
+        Motors[2].setPower(0);
+    }
+
+    private void slowToTarget(double[] motorPower){
+        int[] error = new int[5];
+        for(int counter = 1; counter < 5; counter++) {
+            error[counter] = Motors[counter].getTargetPosition() - Motors[counter].getCurrentPosition();
+            if(Math.abs(error[counter]) > 600) return;
+        }
+        Motors[1].setPower(error[1]/(double)Motors[1].getTargetPosition() * motorPower[1]);
+        Motors[2].setPower(error[2]/(double)Motors[2].getTargetPosition() * motorPower[2]);
+        Motors[3].setPower(error[3]/(double)Motors[3].getTargetPosition() * motorPower[3]);
+        Motors[4].setPower(error[4]/(double)Motors[4].getTargetPosition() * motorPower[4]);
     }
 
     //The following method is code from Team 16072's virtual_robot program. Small changes are only to make it fit our format, the bulk of the method was written by them.

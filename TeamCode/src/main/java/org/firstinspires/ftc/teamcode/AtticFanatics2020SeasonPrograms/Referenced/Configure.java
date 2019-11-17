@@ -41,6 +41,11 @@ public class Configure {
 
     public static final int TOLERANCE = 10;
 
+    public static final double LEFT_OPEN = 0;
+    public static final double LEFT_CLOSE = 0.5;
+    public static final double RIGHT_OPEN = 0.5;
+    public static final double RIGHT_CLOSE = 1;
+
     public void setTolerance(){
         Motors[1].setTargetPositionTolerance(TOLERANCE);
         Motors[2].setTargetPositionTolerance(TOLERANCE);
@@ -66,7 +71,6 @@ public class Configure {
         Motors[2].setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         Motors[3].setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         Motors[4].setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-
         //ExtendGripper.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
     }
 

@@ -11,6 +11,6 @@ public class JustStraight extends LinearOpMode {
         MecanumDrive erika = new MecanumDrive();
         erika.Configure(hardwareMap);
         waitForStart();
-        erika.MoveEncoderTicks(50,1,hardwareMap);
+        erika.Move(50);
     }
 }
