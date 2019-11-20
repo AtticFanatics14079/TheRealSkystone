@@ -11,7 +11,7 @@ public class TeleOpMecanum extends Configure {
     private final double INPUT_RAMP_DIFF = 0.003; //Increase per cycle of speed during RampSpeed
     private final double TICKS_PER_LEVEL = 100;
     private final double LEVEL_0 = 0;
-    private final double SCISSOR_LIMIT = -21600;
+    private final double SCISSOR_LIMIT = 9000;
     private final double EXTEND_LIMIT_FORWARD = 50000, EXTEND_LIMIT_BACK = -50000;  //Declare equal to the limits the extender should be extended to
 
     private HardwareMap hwMap;
@@ -36,18 +36,17 @@ public class TeleOpMecanum extends Configure {
 
         else setPower(G1.left_stick_x, G1.left_stick_y, G1.right_stick_x); //Normal move, no bells and whistles here
 
-        if(G1.dpad_down) {FoundationLeft.setPosition(LEFT_CLOSE); FoundationRight.setPosition(RIGHT_CLOSE);} //Set grabbers down
-        else if(G1.dpad_up) {FoundationLeft.setPosition(LEFT_OPEN); FoundationRight.setPosition(RIGHT_OPEN);} //Set grabbers up
+        if(G1.dpad_down) {FoundationLeft.setPosition(LEFT_OPEN); FoundationRight.setPosition(RIGHT_OPEN);} //Set grabbers down
+        else if(G1.dpad_up) {FoundationLeft.setPosition(LEFT_CLOSE); FoundationRight.setPosition(RIGHT_CLOSE);} //Set grabbers up
 
-        if(G2.a) Gripper.setPosition(0.4); //Move claw to not gripped position
-        else if(G2.b) Gripper.setPosition(0.05); //Move claw to gripped position
+        if(G2.a) Gripper.setPosition(0.5); //Move claw to not gripped position
+        else if(G2.b) Gripper.setPosition(Gripper.getPosition() - 0.0005); //Move claw to gripped position
 
         if(Math.abs(G2.right_stick_x) > 0.1) RotateGripper.setPosition(RotateGripper.getPosition() + 0.01 * G2.right_stick_x); //Rotate one way
 
         if(G2.right_bumper) {
             ExtendOverload = true;
-            if(G2.left_stick_y > 0.1) ExtendGripper.setPower(1);
-            else if(G2.left_stick_y < -0.1) ExtendGripper.setPower(-1);
+            if(Math.abs(G2.left_stick_y) > 0.1) ExtendGripper.setPower(G2.left_stick_y);
             else ExtendGripper.setPower(0);
         }
         else if(ExtendOverload) {ExtendGripper.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER); ExtendGripper.setMode(DcMotor.RunMode.RUN_USING_ENCODER); ExtendOverload = false;}

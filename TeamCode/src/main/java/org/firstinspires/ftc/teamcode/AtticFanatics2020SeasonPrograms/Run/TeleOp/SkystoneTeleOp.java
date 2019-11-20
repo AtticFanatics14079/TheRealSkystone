@@ -20,6 +20,10 @@ public class SkystoneTeleOp extends OpMode {
         telemetry.addData("Rotate Position: ", Drive.RotateGripper.getPosition());
         telemetry.addData("Scissor Position: ", -Drive.Scissor.getCurrentPosition());
         telemetry.addData("Extend Gripper Position: ", Drive.ExtendGripper.getCurrentPosition());
+        telemetry.addData("Foundation Left: ", Drive.FoundationLeft.getPosition());
+        telemetry.addData("Foundation Right: ", Drive.FoundationRight.getPosition());
+        telemetry.addData("Gripper: ", Drive.Gripper.getPosition());
+
         telemetry.update();
     }
 }

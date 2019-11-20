@@ -41,10 +41,10 @@ public class Configure {
 
     public static final int TOLERANCE = 10;
 
-    public static final double LEFT_OPEN = 0;
+    public static final double LEFT_OPEN = 0.9;
     public static final double LEFT_CLOSE = 0.5;
-    public static final double RIGHT_OPEN = 0;
-    public static final double RIGHT_CLOSE = 0.5;
+    public static final double RIGHT_OPEN = 0.5;
+    public static final double RIGHT_CLOSE = 0.9;
 
     public void setTolerance(){
         Motors[1].setTargetPositionTolerance(TOLERANCE);
