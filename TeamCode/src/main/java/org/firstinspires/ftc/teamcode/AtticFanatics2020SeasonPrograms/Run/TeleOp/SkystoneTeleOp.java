@@ -17,7 +17,8 @@ public class SkystoneTeleOp extends OpMode {
     @Override
     public void loop() {
         Drive.Move(hardwareMap, gamepad1, gamepad2);
-        telemetry.addData("Scissor Position: ", Drive.Scissor.getCurrentPosition());
+        telemetry.addData("Rotate Position: ", Drive.RotateGripper.getPosition());
+        telemetry.addData("Scissor Position: ", -Drive.Scissor.getCurrentPosition());
         telemetry.addData("Extend Gripper Position: ", Drive.ExtendGripper.getCurrentPosition());
         telemetry.update();
     }

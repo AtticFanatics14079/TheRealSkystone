@@ -1,5 +1,6 @@
 package org.firstinspires.ftc.teamcode.AtticFanatics2020SeasonPrograms.Referenced.TeleOp;
 
+import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.Gamepad;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
@@ -7,17 +8,15 @@ import org.firstinspires.ftc.teamcode.AtticFanatics2020SeasonPrograms.Referenced
 
 public class TeleOpMecanum extends Configure {
 
-    //MIN SCISSOR HEIGHT IS 2375
-
     private final double INPUT_RAMP_DIFF = 0.003; //Increase per cycle of speed during RampSpeed
     private final double TICKS_PER_LEVEL = 100;
     private final double LEVEL_0 = 0;
-    private final double MAX_LEVEL = 1000;
+    private final double SCISSOR_LIMIT = -21600;
     private final double EXTEND_LIMIT_FORWARD = 50000, EXTEND_LIMIT_BACK = -50000;  //Declare equal to the limits the extender should be extended to
 
     private HardwareMap hwMap;
 
-    private boolean Pressed = false;
+    private boolean ScissorOverload = false, ExtendOverload = false;
 
     public double RampDiff = 0.2;
 
@@ -40,18 +39,31 @@ public class TeleOpMecanum extends Configure {
         if(G1.dpad_down) {FoundationLeft.setPosition(LEFT_CLOSE); FoundationRight.setPosition(RIGHT_CLOSE);} //Set grabbers down
         else if(G1.dpad_up) {FoundationLeft.setPosition(LEFT_OPEN); FoundationRight.setPosition(RIGHT_OPEN);} //Set grabbers up
 
-        if(G2.a) Gripper.setPosition(.6); //Move claw to not gripped position
-        else if(G2.b) Gripper.setPosition(.1); //Move claw to gripped position
+        if(G2.a) Gripper.setPosition(0.4); //Move claw to not gripped position
+        else if(G2.b) Gripper.setPosition(0.05); //Move claw to gripped position
 
-        if(G2.right_trigger != 0) RotateGripper.setPosition(RotateGripper.getPosition() + 0.005); //Rotate one way
-        else if(G2.left_trigger != 0) RotateGripper.setPosition(RotateGripper.getPosition() - 0.005); //Rotate other way
+        if(Math.abs(G2.right_stick_x) > 0.1) RotateGripper.setPosition(RotateGripper.getPosition() + 0.01 * G2.right_stick_x); //Rotate one way
 
-        if(G2.left_stick_y > 0.1 && ExtendGripper.getCurrentPosition() < EXTEND_LIMIT_FORWARD) ExtendGripper.setPower(G2.left_stick_y); //Move extender, but not past limits
+        if(G2.right_bumper) {
+            ExtendOverload = true;
+            if(G2.left_stick_y > 0.1) ExtendGripper.setPower(1);
+            else if(G2.left_stick_y < -0.1) ExtendGripper.setPower(-1);
+            else ExtendGripper.setPower(0);
+        }
+        else if(ExtendOverload) {ExtendGripper.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER); ExtendGripper.setMode(DcMotor.RunMode.RUN_USING_ENCODER); ExtendOverload = false;}
+        else if(G2.left_stick_y > 0.1 && ExtendGripper.getCurrentPosition() < EXTEND_LIMIT_FORWARD) ExtendGripper.setPower(G2.left_stick_y); //Move extender, but not past limits
         else if(G2.left_stick_y < -0.1 && ExtendGripper.getCurrentPosition() > EXTEND_LIMIT_BACK) ExtendGripper.setPower(G2.left_stick_y);
         else ExtendGripper.setPower(0);
 
-        if(G2.dpad_up && ScissorLevel < MAX_LEVEL) Scissor.setPower(1);
-        else if(G2.dpad_down && ScissorLevel > 0) Scissor.setPower(-1);
+        if(G2.left_bumper) {
+            ScissorOverload = true;
+            if(G2.dpad_up) Scissor.setPower(-1);
+            else if(G2.dpad_down) Scissor.setPower(1);
+            else Scissor.setPower(0);
+        }
+        else if(ScissorOverload) {Scissor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER); Scissor.setMode(DcMotor.RunMode.RUN_USING_ENCODER); ScissorOverload = false;}
+        else if(G2.dpad_up && Scissor.getCurrentPosition() > SCISSOR_LIMIT) Scissor.setPower(-1);
+        else if(G2.dpad_down && Scissor.getCurrentPosition() < 0) Scissor.setPower(1);
         else Scissor.setPower(0);
 
         /*if(Scissor.getCurrentPosition() - ScissorLevel * TICKS_PER_LEVEL > 100) Scissor.setPower(1);
