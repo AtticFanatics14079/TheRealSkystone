@@ -35,9 +35,9 @@ public class Configure {
 
     public Servo FoundationRight;
 
-    public DcMotor ExtendGripper;
+    public DcMotorImplEx ExtendGripper;
 
-    public DcMotor Scissor;
+    public DcMotorImplEx Scissor;
 
     public boolean Configured = false;
 
@@ -128,10 +128,10 @@ public class Configure {
         Motors[4] = hwMap.get(DcMotorImplEx.class, "back_right_motor");
         Gripper = hwMap.get(Servo.class, "gripper");
         RotateGripper = hwMap.get(Servo.class, "rotate_gripper");
-        ExtendGripper = hwMap.get(DcMotor.class, "extend_gripper");
+        ExtendGripper = hwMap.get(DcMotorImplEx.class, "extend_gripper");
         FoundationLeft = hwMap.get(Servo.class, "foundation_left");
         FoundationRight = hwMap.get(Servo.class, "foundation_right");
-        Scissor = hwMap.get(DcMotor.class, "scissor");
+        Scissor = hwMap.get(DcMotorImplEx.class, "scissor");
 
         Motors[1].setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         Motors[2].setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
