@@ -16,9 +16,13 @@ public class TeleOpMecanum extends Configure {
     private final double SCISSOR_LIMIT = 9000;
     private final double EXTEND_LIMIT_FORWARD = 50000;  //Declare equal to the limits the extender should be extended to
 
+    private int level = 0;
+    private int[] levels = {0,-2700, -3100};
+    //Pos0=0, Pos1=2100, Pos3100
+
     private HardwareMap hwMap;
 
-    private boolean ScissorOverload = false, ExtendOverload = false;
+    private boolean ScissorOverload = false, ExtendOverload = false, Pressed = false;
 
     public double RampDiff = 0.2;
 
@@ -32,11 +36,11 @@ public class TeleOpMecanum extends Configure {
 
         /*else */if(G1.right_bumper) setPower(G1.left_stick_x/4, G1.left_stick_y/4, G1.right_stick_x/4); //Quarter speed option
 
-        else if(Math.abs(G1.left_stick_y) >= 0.4 && Math.abs(G1.left_stick_x) < 0.4) setPower(0, G1.left_stick_y, G1.right_stick_x); //Enables easier direct forward movement
+    else if(Math.abs(G1.left_stick_y) >= 0.4 && Math.abs(G1.left_stick_x) < 0.4) setPower(0, G1.left_stick_y, G1.right_stick_x); //Enables easier direct forward movement
 
-        else if(Math.abs(G1.left_stick_x) >= 0.4 && Math.abs(G1.left_stick_y) < 0.4) setPower(G1.left_stick_x, 0, G1.right_stick_x); //Enables easier direct sideways movement
+    else if(Math.abs(G1.left_stick_x) >= 0.4 && Math.abs(G1.left_stick_y) < 0.4) setPower(G1.left_stick_x, 0, G1.right_stick_x); //Enables easier direct sideways movement
 
-        else setPower(G1.left_stick_x, G1.left_stick_y, G1.right_stick_x); //Normal move, no bells and whistles here
+    else setPower(G1.left_stick_x, G1.left_stick_y, G1.right_stick_x); //Normal move, no bells and whistles here
 
         if(G1.dpad_down) {FoundationLeft.setPosition(LEFT_CLOSE); FoundationRight.setPosition(RIGHT_CLOSE);} //Set grabbers down
         else if(G1.dpad_up) {FoundationLeft.setPosition(LEFT_OPEN); FoundationRight.setPosition(RIGHT_OPEN);} //Set grabbers up
@@ -58,7 +62,54 @@ public class TeleOpMecanum extends Configure {
         else if(G2.left_stick_y < -0.1 && ExtendGripper.getCurrentPosition() > 0) ExtendGripper.setPower(-G2.left_stick_y);
         else ExtendGripper.setPower(0);
 */
-        ExtendGripper.setPower(G2.left_stick_y);
+        //ExtendGripper.setPower(G2.left_stick_y);
+
+        if(G2.dpad_left){
+            ExtendGripper.setTargetPositionTolerance(20);
+            ExtendGripper.setTargetPosition(-3180);
+
+            ExtendGripper.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+            ExtendGripper.setPower(-1);
+            /*
+            while(ExtendGripper.isBusy()){
+
+            }
+            ExtendGripper.setPower(0);
+            */
+
+
+        }
+        else if(G2.dpad_right){
+            ExtendGripper.setTargetPositionTolerance(20);
+            ExtendGripper.setTargetPosition(0);
+            ExtendGripper.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+            ExtendGripper.setPower(1);
+            /*
+            while(ExtendGripper.isBusy()){
+
+            }
+            ExtendGripper.setPower(0);
+            */
+
+        }
+
+        if(G2.dpad_up && (levels.length-1) > level && !Pressed){
+            Scissor.setTargetPositionTolerance(20);
+            level++;
+            Scissor.setTargetPosition(levels[level]);
+            Scissor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+            Scissor.setPower(-1);
+            Pressed = true;
+        }
+        else if(G2.dpad_down && level > 0 && !Pressed){
+            Scissor.setTargetPositionTolerance(20);
+            level--;
+            Scissor.setTargetPosition(levels[level]);
+            Scissor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+            Scissor.setPower(1);
+            Pressed = true;
+        }
+        else if(!G2.dpad_down && !G2.dpad_up) Pressed = false;
 
         /*if(G2.left_bumper) {
             ScissorOverload = true;
@@ -67,11 +118,11 @@ public class TeleOpMecanum extends Configure {
             else Scissor.setPower(0);
         }
         else if(ScissorOverload) {Scissor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER); Scissor.setMode(DcMotor.RunMode.RUN_USING_ENCODER); ScissorOverload = false;}
-         */
+
         if(G2.dpad_up) Scissor.setPower(-1);
         else if(G2.dpad_down) Scissor.setPower(1);
         else Scissor.setPower(0);
-
+        */
         if(Math.abs(G2.right_stick_x) > 0.2) RotateGripper.setPosition(RotateGripper.getPosition() + 0.01 * G2.right_stick_x);
         /*if(Scissor.getCurrentPosition() - ScissorLevel * TICKS_PER_LEVEL > 100) Scissor.setPower(1);
         else if(Scissor.getCurrentPosition() - ScissorLevel * TICKS_PER_LEVEL < 100) Scissor.setPower(-1);
