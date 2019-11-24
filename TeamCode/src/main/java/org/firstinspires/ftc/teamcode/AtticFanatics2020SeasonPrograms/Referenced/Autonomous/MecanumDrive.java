@@ -1,8 +1,12 @@
 package org.firstinspires.ftc.teamcode.AtticFanatics2020SeasonPrograms.Referenced.Autonomous;
 
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.util.ElapsedTime;
+
 import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
 import org.firstinspires.ftc.teamcode.AtticFanatics2020SeasonPrograms.Referenced.Configure;
+
+import java.sql.Time;
 
 
 //This Class contains SetPower, MoveEncoderTicks, and TurnDegrees, for MECANUM
@@ -12,6 +16,7 @@ public class MecanumDrive extends Configure {
     float HeadingAdjust, CurrentOrientation;
 
     static final double TICKS_PER_CM = 16;
+    static final double TICKS_PER_SIDEWAYS_CM = 22.6274; //CHANGE WITH TESTING!!!
     static final double TICKS_PER_DEGREE = 8.5;
     static final double P_CONSTANT = 0.001;
     //static final double INERTIA_TICKS = 100;
@@ -21,10 +26,14 @@ public class MecanumDrive extends Configure {
     public void UnhookFoundation(){
         FoundationLeft.setPosition(LEFT_OPEN);
         FoundationRight.setPosition(RIGHT_OPEN);
+        ElapsedTime time = new ElapsedTime();
+        while(time.seconds() < 0.7){}
     }
     public void HookFoundation(){
         FoundationLeft.setPosition(LEFT_CLOSE);
         FoundationRight.setPosition(RIGHT_CLOSE);
+        ElapsedTime time = new ElapsedTime();
+        while(time.seconds() < 0.7){}
     }
 
     public void MoveScissor (int level){
@@ -99,14 +108,14 @@ public class MecanumDrive extends Configure {
 
         double[] MotorMod = returnSetPower(0, ForwardPower, 0);
 
-        double Ticks = TICKS_PER_CM * Math.abs(NumbCM) / Math.abs(ForwardPower);
+        double Ticks = TICKS_PER_CM * findPositivity(ForwardPower);
 
-        setTargetPosition(MotorMod, Ticks);
+        setTargetPosition(Ticks);
 
         if(ExtraPrecise) setTolerance(2);
         else setTolerance();
 
-        drive(MotorMod);
+        drive(MotorMod, true);
     }
 
     public void Move(double NumbCM) { //Assumes forward/back movement at max speed, is the quickest overload for straight movement.
@@ -122,7 +131,7 @@ public class MecanumDrive extends Configure {
 
         setTargetPosition(Ticks);
 
-        drive(P);
+        drive(P, true);
     }
 
     public void Move(double NumbCM, double SidewaysPower) //Right is a positive power, positivity/negativity of NumbCM does not matter.
@@ -131,11 +140,11 @@ public class MecanumDrive extends Configure {
 
         double[] MotorMod = returnSetPower(SidewaysPower, 0, 0);
 
-        double Ticks = TICKS_PER_CM * Math.abs(NumbCM) / Math.abs(SidewaysPower);
+        double Ticks = TICKS_PER_SIDEWAYS_CM * Math.abs(NumbCM) / Math.abs(SidewaysPower);
 
         setTargetPosition(MotorMod, Ticks);
 
-        drive(MotorMod);
+        drive(MotorMod, false);
     }
 
     public void Move(double NumbCM, double SidewaysPower, double ForwardPower) {
@@ -148,14 +157,14 @@ public class MecanumDrive extends Configure {
 
         setTargetPosition(MotorMod, TICKS_PER_CM * Math.abs(NumbCM));
 
-        drive(MotorMod);
+        drive(MotorMod, false);
     }
 
     public void Turn(double Degrees)
     {
         resetMotorEncoders();
 
-        double Ticks = Math.abs(Degrees)  * TICKS_PER_DEGREE;
+        double Ticks = Math.abs(Degrees) * TICKS_PER_DEGREE;
 
         double DegreesPositivity = findPositivity(Degrees);
 
@@ -163,7 +172,7 @@ public class MecanumDrive extends Configure {
 
         setTargetPosition(P, Ticks);
 
-        drive(P);
+        drive(P, false);
     }
 
     public void Turn(double Degrees, double Power) //Degrees positivity/negativity is irrelevant
@@ -176,20 +185,25 @@ public class MecanumDrive extends Configure {
 
         setTargetPosition(P, Ticks/Math.abs(Power));
 
-        drive(P);
+        drive(P, false);
     }
 
-    private void drive(double[] Power)
+    private void drive(double[] Power, boolean allowDifferentMotorSpeeds)
     {
-        setTolerance();
-
-        //runToPosition();
-
         setPower(Power);
 
-        while (Math.abs(Motors[1].getPower()) > 0.05 || Math.abs(Motors[2].getPower()) > 0.05 || Math.abs(Motors[3].getPower()) > 0.05 || Math.abs(Motors[4].getPower()) > 0.05){
+        ElapsedTime time = new ElapsedTime();
+
+        while(time.seconds() < 0.2){}
+
+        if(allowDifferentMotorSpeeds)
+            do{
+                slowToTarget(Power, true);
+            }while (Math.abs(Motors[1].getPower()) > 0.02 || Math.abs(Motors[2].getPower()) > 0.02 || Math.abs(Motors[3].getPower()) > 0.02 || Math.abs(Motors[4].getPower()) > 0.02);
+
+        else do{
             slowToTarget(Power);
-        }
+        }while (Math.abs(Motors[1].getPower()) > 0.02 || Math.abs(Motors[2].getPower()) > 0.02 || Math.abs(Motors[3].getPower()) > 0.02 || Math.abs(Motors[4].getPower()) > 0.02);
 
         Motors[1].setPower(0);
         Motors[4].setPower(0);
@@ -197,16 +211,19 @@ public class MecanumDrive extends Configure {
         Motors[2].setPower(0);
     }
 
+    private void slowToTarget(double[] motorPower, boolean ThisIsJustToOverloadIt){
+        Motors[1].setPower((targetPosition[1] - Motors[1].getCurrentPosition())/targetPosition[1] * motorPower[1]);
+        Motors[2].setPower((targetPosition[2] - Motors[2].getCurrentPosition())/targetPosition[2] * motorPower[2]);
+        Motors[3].setPower((targetPosition[3] - Motors[3].getCurrentPosition())/targetPosition[3] * motorPower[3]);
+        Motors[4].setPower((targetPosition[4] - Motors[4].getCurrentPosition())/targetPosition[4] * motorPower[4]);
+    }
+
     private void slowToTarget(double[] motorPower){
-        int[] error = new int[5];
-        for(int counter = 1; counter < 5; counter++) {
-            error[counter] = Motors[counter].getTargetPosition() - Motors[counter].getCurrentPosition();
-            if(Math.abs(error[counter]) > 600) return;
-        }
-        Motors[1].setPower(error[1]/(double)Motors[1].getTargetPosition() * motorPower[1]);
-        Motors[2].setPower(error[2]/(double)Motors[2].getTargetPosition() * motorPower[2]);
-        Motors[3].setPower(error[3]/(double)Motors[3].getTargetPosition() * motorPower[3]);
-        Motors[4].setPower(error[4]/(double)Motors[4].getTargetPosition() * motorPower[4]);
+        double avrPower = ((targetPosition[1] - Motors[1].getCurrentPosition())/targetPosition[1] + (targetPosition[2] - Motors[2].getCurrentPosition())/targetPosition[2] + (targetPosition[3] - Motors[3].getCurrentPosition())/targetPosition[3] + (targetPosition[4] - Motors[4].getCurrentPosition())/targetPosition[4])/4.0;
+        Motors[1].setPower(avrPower * motorPower[1]);
+        Motors[2].setPower(avrPower * motorPower[2]);
+        Motors[3].setPower(avrPower * motorPower[3]);
+        Motors[4].setPower(avrPower * motorPower[4]);
     }
 
     //The following method is code from Team 16072's virtual_robot program. Small changes are only to make it fit our format, the bulk of the method was written by them.

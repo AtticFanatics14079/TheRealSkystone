@@ -25,6 +25,8 @@ public class Configure {
 
     public DcMotorImplEx[] Motors = new DcMotorImplEx[5];
 
+    public double[] targetPosition = new double[5];
+
     public Servo Gripper;
 
     public Servo RotateGripper;
@@ -41,10 +43,17 @@ public class Configure {
 
     public static final int TOLERANCE = 10;
 
-    public static final double LEFT_OPEN = 0.9;
-    public static final double LEFT_CLOSE = 0.5;
-    public static final double RIGHT_OPEN = 0.5;
-    public static final double RIGHT_CLOSE = 0.9;
+    public static final double LEFT_OPEN = 0.3333;
+    public static final double LEFT_CLOSE = 0.7399;
+    public static final double RIGHT_OPEN = 0.7899;
+    public static final double RIGHT_CLOSE = 0.3833;
+
+    public static final double GRIPPER_CLOSED = 0.2;
+    public static final double GRIPPER_OPEN = 0.6;
+
+    public double getTargetPosition(int motor){
+        return targetPosition[motor];
+    }
 
     public void setTolerance(){
         Motors[1].setTargetPositionTolerance(TOLERANCE);
@@ -84,31 +93,34 @@ public class Configure {
 
     public void setTargetPosition(double[] PosMod, double Ticks){
 
-        Motors[1].setTargetPosition((int)(Ticks * PosMod[1]));
-        Motors[2].setTargetPosition((int)(Ticks * PosMod[2]));
-        Motors[3].setTargetPosition((int)(Ticks * PosMod[3]));
-        Motors[4].setTargetPosition((int)(Ticks * PosMod[4]));
+        targetPosition[1] = (Ticks * PosMod[1]);
+        targetPosition[2] = (Ticks * PosMod[2]);
+        targetPosition[3] = (Ticks * PosMod[3]);
+        targetPosition[4] = (Ticks * PosMod[4]);
     }
 
     public void setTargetPosition(double Ticks){
 
-        Motors[1].setTargetPosition((int)Ticks);
-        Motors[2].setTargetPosition((int)Ticks);
-        Motors[3].setTargetPosition((int)Ticks);
-        Motors[4].setTargetPosition((int)Ticks);
+        targetPosition[1] = (Ticks);
+        targetPosition[2] = (Ticks);
+        targetPosition[3] = (Ticks);
+        targetPosition[4] = (Ticks);
     }
 
     public HardwareMap Configure(HardwareMap ahwMap)
     {
         HardwareMap hwMap = ahwMap;
 
-        BNO055IMU.Parameters parameters = new BNO055IMU.Parameters();
+        /*BNO055IMU.Parameters parameters = new BNO055IMU.Parameters();
         parameters.angleUnit = BNO055IMU.AngleUnit.DEGREES;
         parameters.accelUnit = BNO055IMU.AccelUnit.METERS_PERSEC_PERSEC;
         parameters.calibrationDataFile = "BNO055IMUCalibration.json"; // see the calibration sample opmode
         parameters.loggingEnabled = true;
         parameters.loggingTag = "IMU";
         parameters.accelerationIntegrationAlgorithm = new JustLoggingAccelerationIntegrator();
+
+        Return IMU declaration if we use it, this is to preserve a whole lotta runtime.
+        */
 
         Motors[1] = hwMap.get(DcMotorImplEx.class, "back_left_motor");
         Motors[2] = hwMap.get(DcMotorImplEx.class, "front_left_motor");
@@ -131,10 +143,11 @@ public class Configure {
         Motors[3].setDirection(DcMotor.Direction.REVERSE);
         Motors[4].setDirection(DcMotor.Direction.REVERSE);
 
-        imu = hwMap.get(BNO055IMU.class, "imu");
-        imu.initialize(new BNO055IMU.Parameters());
+        //imu = hwMap.get(BNO055IMU.class, "imu");
+        //imu.initialize(new BNO055IMU.Parameters());
+        //See above for reason why this is commented out
 
-        CurrentPos = imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
+        //CurrentPos = imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
 
         Scissor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         Scissor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
