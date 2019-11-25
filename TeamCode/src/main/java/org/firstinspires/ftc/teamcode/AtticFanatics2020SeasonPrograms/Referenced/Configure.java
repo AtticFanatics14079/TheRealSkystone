@@ -49,7 +49,7 @@ public class Configure {
     public static final double RIGHT_CLOSE = 0.3833;
 
     public static final double GRIPPER_CLOSED = 0;
-    public static final double GRIPPER_OPEN = 0.2;
+    public static final double GRIPPER_OPEN = 0.235;
 
     public double getTargetPosition(int motor){
         return targetPosition[motor];
