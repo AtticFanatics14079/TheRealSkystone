@@ -67,50 +67,21 @@ public class TeleOpMecanum extends Configure {
         if(G2.dpad_left){
             ExtendGripper.setTargetPositionTolerance(20);
             ExtendGripper.setTargetPosition(-3180);
-
             ExtendGripper.setMode(DcMotor.RunMode.RUN_TO_POSITION);
             ExtendGripper.setPower(-1);
-            /*
-            while(ExtendGripper.isBusy()){
-
-            }
-            ExtendGripper.setPower(0);
-            */
-
-
         }
         else if(G2.dpad_right){
             ExtendGripper.setTargetPositionTolerance(20);
             ExtendGripper.setTargetPosition(0);
             ExtendGripper.setMode(DcMotor.RunMode.RUN_TO_POSITION);
             ExtendGripper.setPower(1);
-            /*
-            while(ExtendGripper.isBusy()){
-
-            }
-            ExtendGripper.setPower(0);
-            */
-
         }
 
-        if(G2.dpad_up && (levels.length-1) > level && !Pressed){
-            Scissor.setTargetPositionTolerance(20);
-            level++;
-            Scissor.setTargetPosition(levels[level]);
-            Scissor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-            Scissor.setPower(-1);
-            Pressed = true;
-        }
-        else if(G2.dpad_down && level > 0 && !Pressed){
-            Scissor.setTargetPositionTolerance(20);
-            level--;
-            Scissor.setTargetPosition(levels[level]);
-            Scissor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-            Scissor.setPower(1);
-            Pressed = true;
-        }
+        if(G2.dpad_up && (levels.length-1) > level && !Pressed) setScissorLevel(level += 1);
+        else if(G2.dpad_down && level > 0 && !Pressed) setScissorLevel(level -= 1);
         else if(!G2.dpad_down && !G2.dpad_up) Pressed = false;
 
+        if(G2.x) grabBlock();
         /*if(G2.left_bumper) {
             ScissorOverload = true;
             if(G2.dpad_up) Scissor.setPower(-1);
@@ -147,6 +118,22 @@ public class TeleOpMecanum extends Configure {
             RampDiff += INPUT_RAMP_DIFF;
     }
      */
+
+    private void setScissorLevel(int level){
+        Scissor.setTargetPositionTolerance(20);
+        Scissor.setTargetPosition(levels[level]);
+        if(Scissor.getTargetPosition() > Scissor.getCurrentPosition()) Scissor.setPower(1);
+        else Scissor.setPower(-1);
+        Pressed = true;
+    }
+
+    private void grabBlock(){
+        //This is assuming is perfectly over block and orientation is correct.
+        Gripper.setPosition(GRIPPER_OPEN);
+        setScissorLevel(level = 0);
+        Gripper.setPosition(GRIPPER_CLOSED);
+        setScissorLevel(level = 1);
+    }
 
     //The following method is code from Team 16072's virtual_robot program. Small changes are only to make it fit our format, the bulk of the method was written by them.
     public void setPower(double px, double py, double pa){ //Multiplied pa by -1 to suit turning requests

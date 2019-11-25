@@ -112,8 +112,8 @@ public class MecanumDrive extends Configure {
 
         setTargetPosition(Ticks);
 
-        if(ExtraPrecise) setTolerance(2);
-        else setTolerance();
+        //if(ExtraPrecise) setTolerance(2);
+        //else setTolerance();
 
         drive(MotorMod, true);
     }
@@ -219,11 +219,11 @@ public class MecanumDrive extends Configure {
     }
 
     private void slowToTarget(double[] motorPower){
-        double avrPower = ((targetPosition[1] - Motors[1].getCurrentPosition())/targetPosition[1] + (targetPosition[2] - Motors[2].getCurrentPosition())/targetPosition[2] + (targetPosition[3] - Motors[3].getCurrentPosition())/targetPosition[3] + (targetPosition[4] - Motors[4].getCurrentPosition())/targetPosition[4])/4.0;
-        Motors[1].setPower(avrPower * motorPower[1]);
-        Motors[2].setPower(avrPower * motorPower[2]);
-        Motors[3].setPower(avrPower * motorPower[3]);
-        Motors[4].setPower(avrPower * motorPower[4]);
+        double avrError = ((targetPosition[1] - Motors[1].getCurrentPosition())/targetPosition[1] + (targetPosition[2] - Motors[2].getCurrentPosition())/targetPosition[2] + (targetPosition[3] - Motors[3].getCurrentPosition())/targetPosition[3] + (targetPosition[4] - Motors[4].getCurrentPosition())/targetPosition[4])/4.0;
+        Motors[1].setPower(avrError * motorPower[1]);
+        Motors[2].setPower(avrError * motorPower[2]);
+        Motors[3].setPower(avrError * motorPower[3]);
+        Motors[4].setPower(avrError * motorPower[4]);
     }
 
     //The following method is code from Team 16072's virtual_robot program. Small changes are only to make it fit our format, the bulk of the method was written by them.
