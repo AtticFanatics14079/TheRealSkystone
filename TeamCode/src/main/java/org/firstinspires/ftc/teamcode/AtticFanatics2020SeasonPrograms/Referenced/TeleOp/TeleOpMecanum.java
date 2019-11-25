@@ -64,8 +64,8 @@ public class TeleOpMecanum extends Configure {
         if(G2.b) Gripper.setPosition(GRIPPER_OPEN); //Move claw to not gripped position
         else if(G2.a) Gripper.setPosition(GRIPPER_CLOSED); //Move claw to gripped position
 
-        if(Math.abs(G2.left_trigger) > 0.1) setPower(0, 0, G2.left_trigger/3.0); //Rotate one way
-        else if(Math.abs(G2.right_trigger) > 0.1) setPower(0, 0, G2.right_trigger/-3.0);
+        if(Math.abs(G2.left_trigger) > 0.1) setPower(0, 0, G2.left_trigger/2.0); //Rotate one way
+        else if(Math.abs(G2.right_trigger) > 0.1) setPower(0, 0, G2.right_trigger/-2.0);
 
         if(G2.dpad_left){
             ExtendGripper.setTargetPositionTolerance(20);
