@@ -15,9 +15,9 @@ public class MecanumDrive extends Configure {
 
     float HeadingAdjust, CurrentOrientation;
 
-    static final double TICKS_PER_CM = 16;
-    static final double TICKS_PER_SIDEWAYS_CM = 22.6274; //CHANGE WITH TESTING!!!
-    static final double TICKS_PER_DEGREE = 8.5;
+    static final double TICKS_PER_INCH = 46;
+    static final double TICKS_PER_SIDEWAYS_INCH = 49.8; //CHANGE WITH TESTING!!!
+    static final double TICKS_PER_DEGREE = 8.45;
     static final double P_CONSTANT = 0.001;
     //static final double INERTIA_TICKS = 100;
     static final double TURN_OFFSET = 10;
@@ -56,7 +56,7 @@ public class MecanumDrive extends Configure {
 
     public void ExtendGripper(double NumbCM){
         resetMotorEncoders();
-        double Ticks = TICKS_PER_CM * NumbCM;
+        double Ticks = TICKS_PER_INCH * NumbCM;
         ExtendGripper.setTargetPosition((int)Ticks);
         ExtendGripper.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         ExtendGripper.setPower(NumbCM/Math.abs(NumbCM));
@@ -81,7 +81,7 @@ public class MecanumDrive extends Configure {
         resetMotorEncoders();
 
         //Mess with numbers, as different circumference.
-        double Ticks = TICKS_PER_CM * NumbCM;
+        double Ticks = TICKS_PER_INCH * NumbCM;
 
         Motors[1].setTargetPosition((int)Ticks);
         Motors[2].setTargetPosition((int)Ticks);
@@ -108,14 +108,14 @@ public class MecanumDrive extends Configure {
 
         double[] MotorMod = returnSetPower(0, ForwardPower, 0);
 
-        double Ticks = TICKS_PER_CM * findPositivity(ForwardPower);
+        double Ticks = TICKS_PER_INCH * findPositivity(ForwardPower) * Math.abs(NumbCM);
 
         setTargetPosition(Ticks);
 
         //if(ExtraPrecise) setTolerance(2);
         //else setTolerance();
 
-        drive(MotorMod, true);
+        drive(MotorMod, false);
     }
 
     public void Move(double NumbCM) { //Assumes forward/back movement at max speed, is the quickest overload for straight movement.
@@ -123,7 +123,7 @@ public class MecanumDrive extends Configure {
         resetMotorEncoders();
 
         //Mess with numbers, as different circumference.
-        double Ticks = TICKS_PER_CM * NumbCM;
+        double Ticks = TICKS_PER_INCH * NumbCM;
 
         double NumbCMPositivity = findPositivity(NumbCM);
 
@@ -131,7 +131,7 @@ public class MecanumDrive extends Configure {
 
         setTargetPosition(Ticks);
 
-        drive(P, true);
+        drive(P, false);
     }
 
     public void Move(double NumbCM, double SidewaysPower) //Right is a positive power, positivity/negativity of NumbCM does not matter.
@@ -140,11 +140,11 @@ public class MecanumDrive extends Configure {
 
         double[] MotorMod = returnSetPower(SidewaysPower, 0, 0);
 
-        double Ticks = TICKS_PER_SIDEWAYS_CM * Math.abs(NumbCM) / Math.abs(SidewaysPower);
+        double Ticks = TICKS_PER_SIDEWAYS_INCH * Math.abs(NumbCM) / Math.abs(SidewaysPower);
 
         setTargetPosition(MotorMod, Ticks);
 
-        drive(MotorMod, false);
+        drive(MotorMod, true);
     }
 
     public void Move(double NumbCM, double SidewaysPower, double ForwardPower) {
@@ -155,24 +155,14 @@ public class MecanumDrive extends Configure {
 
         double[] MotorMod = returnSetPower(SidewaysPower, ForwardPower, 0);
 
-        setTargetPosition(MotorMod, TICKS_PER_CM * Math.abs(NumbCM));
+        setTargetPosition(MotorMod, TICKS_PER_INCH * Math.abs(NumbCM));
 
-        drive(MotorMod, false);
+        drive(MotorMod, true);
     }
 
     public void Turn(double Degrees)
     {
-        resetMotorEncoders();
-
-        double Ticks = Math.abs(Degrees) * TICKS_PER_DEGREE;
-
-        double DegreesPositivity = findPositivity(Degrees);
-
-        double[] P = {0, -DegreesPositivity, -DegreesPositivity, DegreesPositivity, DegreesPositivity};
-
-        setTargetPosition(P, Ticks);
-
-        drive(P, false);
+        Turn(Degrees, findPositivity(Degrees));
     }
 
     public void Turn(double Degrees, double Power) //Degrees positivity/negativity is irrelevant
@@ -185,25 +175,33 @@ public class MecanumDrive extends Configure {
 
         setTargetPosition(P, Ticks/Math.abs(Power));
 
-        drive(P, false);
+        setPower(P);
+
+        ElapsedTime time = new ElapsedTime();
+
+        while(time.seconds() < 0.3){}
+        setPower(0, 0, 0);
+
+        do{
+            noSlowToTarget();
+        }while (Motors[1].getPower() != 0);
     }
 
-    private void drive(double[] Power, boolean allowDifferentMotorSpeeds)
+    private void drive(double[] Power, boolean strafe)
     {
-        setPower(Power);
+        slowToTarget(Power);
 
         ElapsedTime time = new ElapsedTime();
 
         while(time.seconds() < 0.2){}
 
-        if(allowDifferentMotorSpeeds)
+        if(!strafe)
             do{
                 slowToTarget(Power, true);
-            }while (Math.abs(Motors[1].getPower()) > 0.02 || Math.abs(Motors[2].getPower()) > 0.02 || Math.abs(Motors[3].getPower()) > 0.02 || Math.abs(Motors[4].getPower()) > 0.02);
-
+            }while (Math.abs(Motors[1].getPower()) > 0.1 || Math.abs(Motors[2].getPower()) > 0.1 || Math.abs(Motors[3].getPower()) > 0.1 || Math.abs(Motors[4].getPower()) > 0.1);
         else do{
-            slowToTarget(Power);
-        }while (Math.abs(Motors[1].getPower()) > 0.02 || Math.abs(Motors[2].getPower()) > 0.02 || Math.abs(Motors[3].getPower()) > 0.02 || Math.abs(Motors[4].getPower()) > 0.02);
+            noSlowToTarget();
+        }while (Motors[1].getPower() != 0);
 
         Motors[1].setPower(0);
         Motors[4].setPower(0);
@@ -211,20 +209,26 @@ public class MecanumDrive extends Configure {
         Motors[2].setPower(0);
     }
 
+    private void noSlowToTarget(){
+        if(Math.abs(Motors[1].getCurrentPosition() - targetPosition[1]) < 10)
+            setPower(0, 0, 0);
+    }
+
     private void slowToTarget(double[] motorPower, boolean ThisIsJustToOverloadIt){
-        Motors[1].setPower((targetPosition[1] - Motors[1].getCurrentPosition())/targetPosition[1] * motorPower[1]);
-        Motors[2].setPower((targetPosition[2] - Motors[2].getCurrentPosition())/targetPosition[2] * motorPower[2]);
-        Motors[3].setPower((targetPosition[3] - Motors[3].getCurrentPosition())/targetPosition[3] * motorPower[3]);
-        Motors[4].setPower((targetPosition[4] - Motors[4].getCurrentPosition())/targetPosition[4] * motorPower[4]);
+        Motors[1].setPower((targetPosition[1] - Motors[1].getCurrentPosition())/2000 * Math.abs(motorPower[1]));
+        Motors[3].setPower((targetPosition[4] - Motors[4].getCurrentPosition())/2000 * Math.abs(motorPower[4]));
+        Motors[4].setPower((targetPosition[3] - Motors[3].getCurrentPosition())/2000 * Math.abs(motorPower[3]));
+        Motors[2].setPower((targetPosition[2] - Motors[2].getCurrentPosition())/2000 * Math.abs(motorPower[2]));
     }
 
     private void slowToTarget(double[] motorPower){
-        double avrError = ((targetPosition[1] - Motors[1].getCurrentPosition())/targetPosition[1] + (targetPosition[2] - Motors[2].getCurrentPosition())/targetPosition[2] + (targetPosition[3] - Motors[3].getCurrentPosition())/targetPosition[3] + (targetPosition[4] - Motors[4].getCurrentPosition())/targetPosition[4])/4.0;
+        double avrError = (targetPosition[1] - Motors[1].getCurrentPosition())/targetPosition[1];
         Motors[1].setPower(avrError * motorPower[1]);
         Motors[2].setPower(avrError * motorPower[2]);
         Motors[3].setPower(avrError * motorPower[3]);
         Motors[4].setPower(avrError * motorPower[4]);
     }
+
 
     //The following method is code from Team 16072's virtual_robot program. Small changes are only to make it fit our format, the bulk of the method was written by them.
     private void setPower(double px, double py, double pa){
@@ -256,10 +260,10 @@ public class MecanumDrive extends Configure {
 
     private double[] returnSetPower(double px, double py, double pa){
         double[] p = new double[5];
-         p[1] = -px + py - pa;
-         p[2] = px + py - pa;
-         p[3] = -px + py + pa;
-         p[4] = px + py + pa;
+        p[1] = -px + py - pa;
+        p[2] = px + py - pa;
+        p[3] = -px + py + pa;
+        p[4] = px + py + pa;
         double max = Math.max(1.0, Math.abs(p[1]));
         max = Math.max(max, Math.abs(p[2]));
         max = Math.max(max, Math.abs(p[3]));
