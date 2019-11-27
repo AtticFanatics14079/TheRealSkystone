@@ -6,9 +6,6 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
 import org.firstinspires.ftc.teamcode.AtticFanatics2020SeasonPrograms.Referenced.Configure;
 
-import java.sql.Time;
-
-
 //This Class contains SetPower, MoveEncoderTicks, and TurnDegrees, for MECANUM
 
 public class MecanumDrive extends Configure {
@@ -16,7 +13,7 @@ public class MecanumDrive extends Configure {
     float HeadingAdjust, CurrentOrientation;
 
     static final double TICKS_PER_INCH = 46;
-    static final double TICKS_PER_SIDEWAYS_INCH = 49.8; //CHANGE WITH TESTING!!!
+    static final double TICKS_PER_SIDEWAYS_INCH = 49.8;
     static final double TICKS_PER_DEGREE = 8.45;
     static final double P_CONSTANT = 0.001;
     //static final double INERTIA_TICKS = 100;
@@ -157,7 +154,7 @@ public class MecanumDrive extends Configure {
 
         setTargetPosition(MotorMod, TICKS_PER_INCH * Math.abs(NumbCM));
 
-        drive(MotorMod, true);
+        drive(MotorMod, false);
     }
 
     public void Turn(double Degrees)
@@ -191,17 +188,23 @@ public class MecanumDrive extends Configure {
     {
         slowToTarget(Power);
 
+        double target = Math.abs(targetPosition[1]);
+        double power = Math.max(Power[1], Power[2]);
+        power = Math.max(power, Power[3]);
+        power = Math.max(power, Power[4]);
+        power = Math.abs(power);
+
         ElapsedTime time = new ElapsedTime();
 
-        while(time.seconds() < 0.2){}
+        while(time.seconds() < 0.1){}
 
         if(!strafe)
             do{
                 slowToTarget(Power, true);
-            }while (Math.abs(Motors[1].getPower()) > 0.1 || Math.abs(Motors[2].getPower()) > 0.1 || Math.abs(Motors[3].getPower()) > 0.1 || Math.abs(Motors[4].getPower()) > 0.1);
+            }while (Math.abs(Motors[1].getVelocity()) > 15 || Math.abs(Motors[2].getVelocity()) > 15 || Math.abs(Motors[3].getVelocity()) > 15 || Math.abs(Motors[4].getVelocity()) > 15 && time.seconds() < target/power/230);
         else do{
             noSlowToTarget();
-        }while (Motors[1].getPower() != 0);
+        }while (Motors[1].getPower() != 0 && time.seconds() < target/power/250);
 
         Motors[1].setPower(0);
         Motors[4].setPower(0);
