@@ -177,7 +177,6 @@ public class MecanumDrive extends Configure {
         ElapsedTime time = new ElapsedTime();
 
         while(time.seconds() < 0.3){}
-        setPower(0, 0, 0);
 
         do{
             noSlowToTarget();
@@ -201,7 +200,7 @@ public class MecanumDrive extends Configure {
         if(!strafe)
             do{
                 slowToTarget(Power, true);
-            }while (Math.abs(Motors[1].getVelocity()) > 15 || Math.abs(Motors[2].getVelocity()) > 15 || Math.abs(Motors[3].getVelocity()) > 15 || Math.abs(Motors[4].getVelocity()) > 15 && time.seconds() < target/power/230);
+            }while ((Math.abs(Motors[1].getVelocity()) > 100 || Math.abs(Motors[2].getVelocity()) > 100 || Math.abs(Motors[3].getVelocity()) > 100 || Math.abs(Motors[4].getVelocity()) > 100) && time.seconds() < target/power/230);
         else do{
             noSlowToTarget();
         }while (Motors[1].getPower() != 0 && time.seconds() < target/power/250);
@@ -213,14 +212,14 @@ public class MecanumDrive extends Configure {
     }
 
     private void noSlowToTarget(){
-        if(Math.abs(Motors[1].getCurrentPosition() - targetPosition[1]) < 10)
+        if(Math.abs(Motors[1].getCurrentPosition() - targetPosition[1]) < 30)
             setPower(0, 0, 0);
     }
 
     private void slowToTarget(double[] motorPower, boolean ThisIsJustToOverloadIt){
         Motors[1].setPower((targetPosition[1] - Motors[1].getCurrentPosition())/2000 * Math.abs(motorPower[1]));
-        Motors[3].setPower((targetPosition[4] - Motors[4].getCurrentPosition())/2000 * Math.abs(motorPower[4]));
-        Motors[4].setPower((targetPosition[3] - Motors[3].getCurrentPosition())/2000 * Math.abs(motorPower[3]));
+        Motors[4].setPower((targetPosition[4] - Motors[4].getCurrentPosition())/2000 * Math.abs(motorPower[4]));
+        Motors[3].setPower((targetPosition[3] - Motors[3].getCurrentPosition())/2000 * Math.abs(motorPower[3]));
         Motors[2].setPower((targetPosition[2] - Motors[2].getCurrentPosition())/2000 * Math.abs(motorPower[2]));
     }
 
@@ -234,7 +233,7 @@ public class MecanumDrive extends Configure {
 
 
     //The following method is code from Team 16072's virtual_robot program. Small changes are only to make it fit our format, the bulk of the method was written by them.
-    private void setPower(double px, double py, double pa){
+    public void setPower(double px, double py, double pa){
         double p1 = -px + py - pa;
         double p2 = px + py - pa;
         double p3 = -px + py + pa;

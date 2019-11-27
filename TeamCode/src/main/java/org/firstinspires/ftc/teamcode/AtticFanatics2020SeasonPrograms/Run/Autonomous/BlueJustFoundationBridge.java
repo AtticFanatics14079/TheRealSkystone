@@ -6,8 +6,7 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import org.firstinspires.ftc.teamcode.AtticFanatics2020SeasonPrograms.Referenced.Autonomous.MecanumDrive;
 
 @Autonomous(name = "JustFoundationBlueSide")
-public class BlueSideJustFoundation extends LinearOpMode {
-
+public class BlueJustFoundationBridge extends LinearOpMode {
     MecanumDrive Robot = new MecanumDrive();
 
     @Override
@@ -15,12 +14,22 @@ public class BlueSideJustFoundation extends LinearOpMode {
         Robot.Configure(hardwareMap);
         Robot.UnhookFoundation();
         waitForStart();
-        Robot.Move(30, 1);
-        Robot.Move(66);
-        Robot.Move(18, 0.3, false);
+        Robot.Move(14, 0.9);
+        //Robot.Move(5);
+
+        Robot.Move(32);
+        Robot.Move(2, 0.3, false);
         Robot.HookFoundation();
-        Robot.Move(85, -0.5, false);
+        //Robot.Move(5, -0.8, false);
+        Robot.Motors[1].setPower(-1);
+        Robot.Motors[2].setPower(-1);
+        sleep(3000);
+        Robot.setPower(0, 0, 0);
+        Robot.Move(2, -1);
+        Robot.Move(35, 0.6, false);
         Robot.UnhookFoundation();
-        Robot.Move(129, -1);
+        Robot.Move(11.5, -1);
+        Robot.Move(-45);
+
     }
 }
