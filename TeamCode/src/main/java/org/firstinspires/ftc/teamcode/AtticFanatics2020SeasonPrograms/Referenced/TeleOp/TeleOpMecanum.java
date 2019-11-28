@@ -95,7 +95,7 @@ public class TeleOpMecanum extends Configure {
      */
 
     private void setScissorLevel(int level){
-        Scissor.setTargetPositionTolerance(60);
+        Scissor.setTargetPositionTolerance(80);
         Scissor.setTargetPosition(levels[level]);
         Scissor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         if(Scissor.getTargetPosition() > Scissor.getCurrentPosition()) Scissor.setPower(1);

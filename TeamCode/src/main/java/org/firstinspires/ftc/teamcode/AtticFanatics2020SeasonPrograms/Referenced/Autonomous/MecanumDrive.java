@@ -12,13 +12,14 @@ public class MecanumDrive extends Configure {
 
     float HeadingAdjust, CurrentOrientation;
 
-    static final double TICKS_PER_INCH = 46;
-    static final double TICKS_PER_SIDEWAYS_INCH = 49.8;
-    static final double TICKS_PER_DEGREE = 8.45;
+    private static final double TICKS_PER_INCH = 46;
+    private static final double TICKS_PER_SIDEWAYS_INCH = 49.8;
+    private static final double TICKS_PER_DEGREE = 8.45;
     static final double P_CONSTANT = 0.001;
     //static final double INERTIA_TICKS = 100;
     static final double TURN_OFFSET = 10;
     static final double IMU_OFFSET = 5;
+    private int[] levels = {0,-2700, -3100, -4640, -6000, -7500, -9100, -11000, -12900};
 
     public void UnhookFoundation(){
         FoundationLeft.setPosition(LEFT_OPEN);
@@ -34,46 +35,50 @@ public class MecanumDrive extends Configure {
     }
 
     public void MoveScissor (int level){
-
-        Scissor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        Scissor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-
-        int ticks = 1;
-        switch (level){
-            case 1: ticks = 1; break;
-            case 2: break;
-        }
-        Scissor.setTargetPosition(ticks);
+        Scissor.setTargetPositionTolerance(80);
+        Scissor.setTargetPosition(levels[level]);
         Scissor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        Scissor.setPower(1);
-        while(Scissor.isBusy()){
-        }
+        if(Scissor.getTargetPosition() > Scissor.getCurrentPosition()) Scissor.setPower(1);
+        else Scissor.setPower(-1);
+        while(Scissor.isBusy()){ }
         Scissor.setPower(0);
     }
 
-    public void ExtendGripper(double NumbCM){
-        resetMotorEncoders();
-        double Ticks = TICKS_PER_INCH * NumbCM;
-        ExtendGripper.setTargetPosition((int)Ticks);
-        ExtendGripper.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        ExtendGripper.setPower(NumbCM/Math.abs(NumbCM));
-        while(ExtendGripper.isBusy()){
+    public void ExtendGripper(boolean out){
+        ExtendGripper.setTargetPositionTolerance(50);
+        if(out){
+            ExtendGripper.setTargetPosition(-3180);
+            ExtendGripper.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+            ExtendGripper.setPower(-1);
+            while(ExtendGripper.isBusy()){}
+            ExtendGripper.setPower(0);
         }
-        ExtendGripper.setPower(0);
-    }
-
-    public void GrabDrop(boolean open){
-        if(open){
-            Gripper.setPosition(.6);
-        }
-        else {
-            Gripper.setPosition(.1);
+        else{
+            ExtendGripper.setTargetPosition(0);
+            ExtendGripper.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+            ExtendGripper.setPower(1);
+            while(ExtendGripper.isBusy()){}
+            ExtendGripper.setPower(0);
         }
     }
 
+    public void grabBlock(){ // SCISSOR ENDS UP AT LEVEL 1
+            Gripper.setPosition(GRIPPER_OPEN);
+            MoveScissor(0);
+            Gripper.setPosition(GRIPPER_CLOSED);
+            MoveScissor(1);
+    }
+    public void dropBlock(){ // SCISSOR ENDS UP AT LEVEL 1, MIGHT WANT TO OPTIMIZE
+            Gripper.setPosition(GRIPPER_CLOSED);
+            MoveScissor(0);
+            Gripper.setPosition(GRIPPER_OPEN);
+            MoveScissor(1);
+    }
 
 
-    public void MoveEncoderTicks(double NumbCM, double ForwardPower) { //POSITIVE POWER IS FORWARD!!!
+
+    public void MoveEncoderTicks(double NumbCM, double ForwardPower) {
+        //POSITIVE POWER IS FORWARD!!!
         //This method is not used but is proven to work. As such, I am keeping it a a backup unless someone has a better idea.
         resetMotorEncoders();
 
