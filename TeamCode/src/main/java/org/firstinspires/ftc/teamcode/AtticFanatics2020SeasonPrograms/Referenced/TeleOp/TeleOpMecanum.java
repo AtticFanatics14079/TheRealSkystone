@@ -10,7 +10,7 @@ public class TeleOpMecanum extends Configure {
 
     private int level = 0;
     private int[] levels = {0,-2700, -3100, -4640, -6000, -7500, -9100, -11000, -12900};
-
+    private double Rotation = 0.55;
     private HardwareMap hwMap;
 
     private boolean ScissorOverload = false, ExtendOverload = false, Pressed = false;
@@ -70,12 +70,15 @@ public class TeleOpMecanum extends Configure {
         else if(G2.b && (level>1) && !Pressed){ // Down, Open, Up
             dropBlock();
         }
-        else if(!G2.dpad_down && !G2.dpad_up && G2.a && G2.b) Pressed = false;
-
-        if(Math.abs(G2.right_stick_x) > 0.1){
-            RotateGripper.setPosition(RotateGripper.getPosition() + 0.01 * G2.right_stick_x); // THIS LINE IS REALLY RUNTIME INEFFICIENT
+        else if(!G2.dpad_down && !G2.dpad_up && !G2.a && !G2.b) Pressed = false;
+        Rotation += 0.015* G2.right_stick_x;
+        if(Rotation>1){
+            Rotation = 1;
         }
-
+        else if(Rotation <0){
+            Rotation = 0;
+        }
+        RotateGripper.setPosition(Rotation);
     }
 
     /*public void RampSpeed(double px, double py, double pa, double SpeedDiv)
