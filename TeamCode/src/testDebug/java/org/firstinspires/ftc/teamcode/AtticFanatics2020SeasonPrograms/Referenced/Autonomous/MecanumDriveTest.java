@@ -8,6 +8,10 @@ class MecanumDriveTest {
 
     @Test
     void unhookFoundation() {
-        assertEquals(1, 1);
+        assertEquals(2, 1);
+    }
+    @Test
+    void hookFoundation(){
+        assertEquals("yes", "no");
     }
 }
