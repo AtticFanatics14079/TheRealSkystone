@@ -14,7 +14,7 @@ public class MecanumDrive extends Configure {
 
     private static final double TICKS_PER_INCH = 46;
     private static final double TICKS_PER_SIDEWAYS_INCH = 49.8;
-    private static final double TICKS_PER_DEGREE = 8.45;
+    private static final double TICKS_PER_DEGREE = 8.7;
     static final double P_CONSTANT = 0.001;
     //static final double INERTIA_TICKS = 100;
     static final double TURN_OFFSET = 10;
@@ -68,14 +68,12 @@ public class MecanumDrive extends Configure {
             Gripper.setPosition(GRIPPER_CLOSED);
             MoveScissor(1);
     }
+
     public void dropBlock(){ // SCISSOR ENDS UP AT LEVEL 1, MIGHT WANT TO OPTIMIZE
-            Gripper.setPosition(GRIPPER_CLOSED);
             MoveScissor(0);
             Gripper.setPosition(GRIPPER_OPEN);
             MoveScissor(1);
     }
-
-
 
     public void MoveEncoderTicks(double NumbCM, double ForwardPower) {
         //POSITIVE POWER IS FORWARD!!!
@@ -179,13 +177,28 @@ public class MecanumDrive extends Configure {
 
         setPower(P);
 
-        ElapsedTime time = new ElapsedTime();
+        while(Math.abs(Motors[1].getCurrentPosition() - targetPosition[1]) > 10){}
 
-        while(time.seconds() < 0.3){}
+        setPowerZero();
+    }
 
-        do{
-            noSlowToTarget();
-        }while (Motors[1].getPower() != 0);
+    public void Turn(double Degrees, double Power, boolean IMU){
+        if(!IMU) {
+            Turn(Degrees, Power);
+            return;
+        }
+
+        resetMotorEncoders();
+
+        double[] P = {0, -Power, -Power, Power, Power};
+
+        double originalPos = CurrentPos.secondAngle;
+
+        setPower(P);
+
+        while(Math.abs(CurrentPos.secondAngle - originalPos - Degrees) > 3){}
+
+        setPowerZero();
     }
 
     private void drive(double[] Power, boolean strafe)
@@ -204,36 +217,25 @@ public class MecanumDrive extends Configure {
 
         if(!strafe)
             do{
-                slowToTarget(Power, true);
+                slowToTarget(Power);
             }while ((Math.abs(Motors[1].getVelocity()) > 100 || Math.abs(Motors[2].getVelocity()) > 100 || Math.abs(Motors[3].getVelocity()) > 100 || Math.abs(Motors[4].getVelocity()) > 100) && time.seconds() < target/power/230);
-        else do{
-            noSlowToTarget();
-        }while (Motors[1].getPower() != 0 && time.seconds() < target/power/250);
+        else while (Math.abs(Motors[1].getCurrentPosition() - targetPosition[1]) < 30 && time.seconds() < target/power/250){}
 
-        Motors[1].setPower(0);
-        Motors[4].setPower(0);
-        Motors[3].setPower(0);
-        Motors[2].setPower(0);
+        setPowerZero();
     }
 
-    private void noSlowToTarget(){
+    /*private boolean noSlowToTarget(){
         if(Math.abs(Motors[1].getCurrentPosition() - targetPosition[1]) < 30)
-            setPower(0, 0, 0);
+            return false;
+        return true;
     }
+     */
 
-    private void slowToTarget(double[] motorPower, boolean ThisIsJustToOverloadIt){
+    private void slowToTarget(double[] motorPower){
         Motors[1].setPower((targetPosition[1] - Motors[1].getCurrentPosition())/2000 * Math.abs(motorPower[1]));
         Motors[4].setPower((targetPosition[4] - Motors[4].getCurrentPosition())/2000 * Math.abs(motorPower[4]));
         Motors[3].setPower((targetPosition[3] - Motors[3].getCurrentPosition())/2000 * Math.abs(motorPower[3]));
         Motors[2].setPower((targetPosition[2] - Motors[2].getCurrentPosition())/2000 * Math.abs(motorPower[2]));
-    }
-
-    private void slowToTarget(double[] motorPower){
-        double avrError = (targetPosition[1] - Motors[1].getCurrentPosition())/targetPosition[1];
-        Motors[1].setPower(avrError * motorPower[1]);
-        Motors[2].setPower(avrError * motorPower[2]);
-        Motors[3].setPower(avrError * motorPower[3]);
-        Motors[4].setPower(avrError * motorPower[4]);
     }
 
 
@@ -281,6 +283,13 @@ public class MecanumDrive extends Configure {
         p[4] /= max;
 
         return p;
+    }
+
+    private void setPowerZero(){
+        Motors[1].setPower(0);
+        Motors[2].setPower(0);
+        Motors[3].setPower(0);
+        Motors[4].setPower(0);
     }
 
     private double findPositivity(double Power) {

@@ -111,7 +111,7 @@ public class Configure {
     {
         HardwareMap hwMap = ahwMap;
 
-        /*BNO055IMU.Parameters parameters = new BNO055IMU.Parameters();
+        BNO055IMU.Parameters parameters = new BNO055IMU.Parameters();
         parameters.angleUnit = BNO055IMU.AngleUnit.DEGREES;
         parameters.accelUnit = BNO055IMU.AccelUnit.METERS_PERSEC_PERSEC;
         parameters.calibrationDataFile = "BNO055IMUCalibration.json"; // see the calibration sample opmode
@@ -119,8 +119,7 @@ public class Configure {
         parameters.loggingTag = "IMU";
         parameters.accelerationIntegrationAlgorithm = new JustLoggingAccelerationIntegrator();
 
-        Return IMU declaration if we use it, this is to preserve a whole lotta runtime.
-        */
+        //Return IMU declaration if we use it, this is to preserve a whole lotta runtime.
 
         Motors[1] = hwMap.get(DcMotorImplEx.class, "back_left_motor");
         Motors[2] = hwMap.get(DcMotorImplEx.class, "front_left_motor");
@@ -143,11 +142,11 @@ public class Configure {
         Motors[3].setDirection(DcMotor.Direction.REVERSE);
         Motors[4].setDirection(DcMotor.Direction.REVERSE);
 
-        //imu = hwMap.get(BNO055IMU.class, "imu");
-        //imu.initialize(new BNO055IMU.Parameters());
+        imu = hwMap.get(BNO055IMU.class, "imu");
+        imu.initialize(new BNO055IMU.Parameters());
         //See above for reason why this is commented out
 
-        //CurrentPos = imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
+        CurrentPos = imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
 
         Scissor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         Scissor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
