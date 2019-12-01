@@ -5,7 +5,7 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
 import org.firstinspires.ftc.teamcode.AtticFanatics2020SeasonPrograms.Referenced.Autonomous.MecanumDrive;
 
-@Autonomous(name = "JustFoundationBlueSide")
+@Autonomous(name = "Red Foundation - Wall")
 public class RedJustFoundationWall extends LinearOpMode {
     MecanumDrive Robot = new MecanumDrive();
 
@@ -21,9 +21,11 @@ public class RedJustFoundationWall extends LinearOpMode {
         Robot.Move(2, 0.3, false);
         Robot.HookFoundation();
         //Robot.Move(5, -0.8, false);
-        Robot.Motors[3].setPower(-1);
-        Robot.Motors[4].setPower(-1);
-        sleep(2000);
+        Robot.Motors[1].setPower(-1);
+        Robot.Motors[2].setPower(-1);
+        Robot.Motors[3].setPower(-0.07);
+        Robot.Motors[4].setPower(-0.07);
+        sleep(2200);
         Robot.setPower(0, 0, 0);
         //Not sure if this works
         Robot.Move(3, 1);

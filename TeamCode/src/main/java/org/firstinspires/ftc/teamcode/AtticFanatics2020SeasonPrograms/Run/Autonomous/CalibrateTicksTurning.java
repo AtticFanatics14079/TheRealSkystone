@@ -14,7 +14,7 @@ public class CalibrateTicksTurning extends LinearOpMode {
         waitForStart();
         //robot.StrafeEncoderTicks(183,1, hardwareMap); // halfway
 
-        robot.Turn(360);
+        robot.Turn(90, 0.5);
 
         telemetry.addData("Motor 1 Position: ", robot.Motors[1].getCurrentPosition());
         telemetry.addData("Motor 2 Position: ", robot.Motors[2].getCurrentPosition());

@@ -14,7 +14,7 @@ public class MecanumDrive extends Configure {
 
     private static final double TICKS_PER_INCH = 46;
     private static final double TICKS_PER_SIDEWAYS_INCH = 49.8;
-    private static final double TICKS_PER_DEGREE = 8.7;
+    private static final double TICKS_PER_DEGREE = 8.6;
     static final double P_CONSTANT = 0.001;
     //static final double INERTIA_TICKS = 100;
     static final double TURN_OFFSET = 10;
@@ -162,7 +162,7 @@ public class MecanumDrive extends Configure {
 
     public void Turn(double Degrees)
     {
-        Turn(Degrees, findPositivity(Degrees));
+        Turn(Degrees, findPositivity(Degrees) * 0.8);
     }
 
     public void Turn(double Degrees, double Power) //Degrees positivity/negativity is irrelevant
@@ -177,7 +177,7 @@ public class MecanumDrive extends Configure {
 
         setPower(P);
 
-        while(Math.abs(Motors[1].getCurrentPosition() - targetPosition[1]) > 10){}
+        while(Math.abs(Motors[1].getCurrentPosition() - targetPosition[1]) > 5){}
 
         setPowerZero();
     }
@@ -192,34 +192,28 @@ public class MecanumDrive extends Configure {
 
         double[] P = {0, -Power, -Power, Power, Power};
 
-        double originalPos = CurrentPos.secondAngle;
+        double originalPos = CurrentPos.thirdAngle;
 
         setPower(P);
 
-        while(Math.abs(CurrentPos.secondAngle - originalPos - Degrees) > 3){}
+        while(Math.abs(CurrentPos.thirdAngle - originalPos - Degrees) > 10){}
 
         setPowerZero();
     }
 
     private void drive(double[] Power, boolean strafe)
     {
-        slowToTarget(Power);
-
-        double target = Math.abs(targetPosition[1]);
-        double power = Math.max(Power[1], Power[2]);
-        power = Math.max(power, Power[3]);
-        power = Math.max(power, Power[4]);
-        power = Math.abs(power);
+        setPower(Power);
 
         ElapsedTime time = new ElapsedTime();
 
-        while(time.seconds() < 0.1){}
+        while(time.seconds() < 0.05){}
 
         if(!strafe)
             do{
                 slowToTarget(Power);
-            }while ((Math.abs(Motors[1].getVelocity()) > 100 || Math.abs(Motors[2].getVelocity()) > 100 || Math.abs(Motors[3].getVelocity()) > 100 || Math.abs(Motors[4].getVelocity()) > 100) && time.seconds() < target/power/230);
-        else while (Math.abs(Motors[1].getCurrentPosition() - targetPosition[1]) < 30 && time.seconds() < target/power/250){}
+            }while (Math.abs(Motors[1].getVelocity()) > 100 || Math.abs(Motors[2].getVelocity()) > 100 || Math.abs(Motors[3].getVelocity()) > 100 || Math.abs(Motors[4].getVelocity()) > 100);
+        else while (Math.abs(Motors[1].getCurrentPosition() - targetPosition[1]) > 30){}
 
         setPowerZero();
     }
@@ -285,7 +279,7 @@ public class MecanumDrive extends Configure {
         return p;
     }
 
-    private void setPowerZero(){
+    public void setPowerZero(){
         Motors[1].setPower(0);
         Motors[2].setPower(0);
         Motors[3].setPower(0);
