@@ -34,20 +34,11 @@ public class MecanumDrive extends Configure {
         while(time.seconds() < 0.7){}
     }
 
-    public void MoveScissor (int level){
-        Scissor.setTargetPositionTolerance(80);
-        Scissor.setTargetPosition(levels[level]);
-        Scissor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        if(Scissor.getTargetPosition() > Scissor.getCurrentPosition()) Scissor.setPower(1);
-        else Scissor.setPower(-1);
-        while(Scissor.isBusy()){ }
-        Scissor.setPower(0);
-    }
-
     public void ExtendGripper(boolean out){
-        ExtendGripper.setTargetPositionTolerance(50);
+        ExtendGripper.setTargetPositionTolerance(100);
+        ElapsedTime time = new ElapsedTime();
         if(out){
-            ExtendGripper.setTargetPosition(-3180);
+            ExtendGripper.setTargetPosition(EXTENDED);
             ExtendGripper.setMode(DcMotor.RunMode.RUN_TO_POSITION);
             ExtendGripper.setPower(-1);
             while(ExtendGripper.isBusy()){}
@@ -62,17 +53,37 @@ public class MecanumDrive extends Configure {
         }
     }
 
-    public void grabBlock(){ // SCISSOR ENDS UP AT LEVEL 1
-            Gripper.setPosition(GRIPPER_OPEN);
-            MoveScissor(0);
-            Gripper.setPosition(GRIPPER_CLOSED);
-            MoveScissor(1);
+    public void grabBlock(){
+        Gripper.setPosition(GRIPPER_OPEN);
+        setScissorLevel(0, true);
+        ElapsedTime time = new ElapsedTime();
+        Gripper.setPosition(GRIPPER_CLOSED);
+        while(time.milliseconds() < 500); // give it time to close
+        setScissorLevel(1, true);
+    }
+
+    public void grabBlock(int endPosition){
+        Gripper.setPosition(GRIPPER_OPEN);
+        setScissorLevel(0, true);
+        Gripper.setPosition(GRIPPER_CLOSED);
+        ElapsedTime time = new ElapsedTime();
+        while(time.milliseconds() < 500); // give it time to close
+        setScissorLevel(endPosition, true);
     }
 
     public void dropBlock(){ // SCISSOR ENDS UP AT LEVEL 1, MIGHT WANT TO OPTIMIZE
-            MoveScissor(0);
-            Gripper.setPosition(GRIPPER_OPEN);
-            MoveScissor(1);
+        ElapsedTime time = new ElapsedTime();
+        Gripper.setPosition(GRIPPER_OPEN);
+        while(time.milliseconds() < 500);
+    }
+
+    public void setScissorLevel(int level, boolean Wait){
+        Scissor.setTargetPositionTolerance(80);
+        Scissor.setTargetPosition(levels[level]);
+        Scissor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        if(Scissor.getTargetPosition() > Scissor.getCurrentPosition()) Scissor.setPower(1);
+        else Scissor.setPower(-1);
+        if(Wait) while(Scissor.isBusy());
     }
 
     public void MoveEncoderTicks(double NumbCM, double ForwardPower) {

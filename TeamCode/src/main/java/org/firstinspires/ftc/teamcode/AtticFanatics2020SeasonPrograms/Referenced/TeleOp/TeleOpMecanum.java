@@ -9,7 +9,6 @@ import org.firstinspires.ftc.teamcode.AtticFanatics2020SeasonPrograms.Referenced
 public class TeleOpMecanum extends Configure {
 
     private int level = 0;
-    private int[] levels = {0,-2700, -3100, -4640, -6000, -7500, -9100, -11000, -12900};
     private double Rotation = 0.55;
     private HardwareMap hwMap;
 
@@ -32,16 +31,16 @@ public class TeleOpMecanum extends Configure {
         if(G1.dpad_down) {FoundationLeft.setPosition(LEFT_CLOSE); FoundationRight.setPosition(RIGHT_CLOSE);} //Set grabbers down
         else if(G1.dpad_up) {FoundationLeft.setPosition(LEFT_OPEN); FoundationRight.setPosition(RIGHT_OPEN);} //Set grabbers up
 
+        //if(G2.left_trigger != 0) Gripper.setPosition(0.5);
+        //else if(G2.y) Gripper.setPosition(Gripper.getPosition() + 0.01); //Gradual movement for recalibration. NOTE: The servo yeets itself if it is not at a position before moving.
+        //else if(G2.x) Gripper.setPosition(Gripper.getPosition() - 0.01); //See above
         if(G2.y) Gripper.setPosition(GRIPPER_OPEN); //Move claw to not gripped position
         else if(G2.x) Gripper.setPosition(GRIPPER_CLOSED); //Move claw to gripped position
-
-        if(Math.abs(G2.left_trigger) > 0.1) setPower(0, 0, G2.left_trigger/3.0); //Rotate one way
-        else if(Math.abs(G2.right_trigger) > 0.1) setPower(0, 0, G2.right_trigger/-3.0);
 
 
         if(G2.dpad_left){
             ExtendGripper.setTargetPositionTolerance(50);
-            ExtendGripper.setTargetPosition(-3180);
+            ExtendGripper.setTargetPosition(EXTENDED);
             ExtendGripper.setMode(DcMotor.RunMode.RUN_TO_POSITION);
             ExtendGripper.setPower(-1);
         }
