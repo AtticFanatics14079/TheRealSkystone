@@ -9,7 +9,7 @@ import org.firstinspires.ftc.teamcode.AtticFanatics2020SeasonPrograms.Referenced
 public class TeleOpMecanum extends Configure {
 
     private int level = 0;
-    private double Rotation = 0.55;
+    private double Rotation = ROTATE_GRIPPER_STRAIGHT;
     private HardwareMap hwMap;
 
     private boolean ScissorOverload = false, ExtendOverload = false, Pressed = false;
@@ -59,7 +59,7 @@ public class TeleOpMecanum extends Configure {
             level--;
             setScissorLevel(level);
         }
-        else if(G2.dpad_down && level>0 && !Pressed){ // JUST DPAD DOWN === DOWN TO FOUNDATION LEVEL (2)
+        else if(G2.dpad_down && level>1 && !Pressed){ // JUST DPAD DOWN === DOWN TO FOUNDATION LEVEL (2)
             level = 2;
             setScissorLevel(level);
         }
@@ -70,11 +70,13 @@ public class TeleOpMecanum extends Configure {
             dropBlock();
         }
         else if(!G2.dpad_down && !G2.dpad_up && !G2.a && !G2.b) Pressed = false;
+
         Rotation += 0.015* G2.right_stick_x;
-        if(Rotation>1){
+
+        if(Rotation > 1){
             Rotation = 1;
         }
-        else if(Rotation <0){
+        else if(Rotation < 0){
             Rotation = 0;
         }
         RotateGripper.setPosition(Rotation);

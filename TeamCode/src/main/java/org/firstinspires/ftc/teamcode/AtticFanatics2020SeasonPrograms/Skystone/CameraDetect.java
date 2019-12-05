@@ -178,11 +178,8 @@ public class CameraDetect {
 
     public int skystoneDetect(ElapsedTime time){
 
-        targetsSkyStone.activate();
+        targetsSkyStone.activate();// check all the trackable targets to see which one (if any) is visible.
 
-        while (pathNum == -2) {
-
-            // check all the trackable targets to see which one (if any) is visible.
             targetVisible = false;
             for (VuforiaTrackable trackable : allTrackables) {
                 if (((VuforiaTrackableDefaultListener)trackable.getListener()).isVisible()) {
@@ -217,13 +214,13 @@ public class CameraDetect {
                 xPosition = translation.get(1);
 
                 if(xPosition > -190){
-                    positionSkystone = "right";
-                    pathNum = 0;
+                    positionSkystone = "center";
+                    pathNum = 1;
                     System.out.println(pathNum + positionSkystone);
 
                 }else{
-                    positionSkystone = "center";
-                    pathNum = 1;
+                    positionSkystone = "left";
+                    pathNum = 2;
                     System.out.println(pathNum + positionSkystone);
                 }
 
@@ -236,17 +233,13 @@ public class CameraDetect {
             }
             else if(time.seconds() > 1.5){ //Modified this number due to flash increasing speed, may change later
                 System.out.println("Visible Target: none");
-                positionSkystone = "left";
-                pathNum = 2;
+                positionSkystone = "right";
+                pathNum = 0;
                 System.out.println(pathNum + positionSkystone);
             }
             System.out.println("Skystone Position " + positionSkystone);
             //telemetry.update();
-        }
-
-        // Disable Tracking when we are done;
-        targetsSkyStone.deactivate();
-        System.out.println(time);
+        if(pathNum != -2) targetsSkyStone.deactivate();
         return pathNum;
     }
 }
