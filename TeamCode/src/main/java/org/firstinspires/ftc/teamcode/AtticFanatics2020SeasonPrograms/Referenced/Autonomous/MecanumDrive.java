@@ -19,7 +19,6 @@ public class MecanumDrive extends Configure {
     //static final double INERTIA_TICKS = 100;
     static final double TURN_OFFSET = 10;
     static final double IMU_OFFSET = 5;
-    private int[] levels = {0,-2700, -3100, -4640, -6000, -7500, -9100, -11000, -12900};
 
     public void UnhookFoundation(){
         FoundationLeft.setPosition(LEFT_OPEN);
@@ -74,7 +73,7 @@ public class MecanumDrive extends Configure {
     public void dropBlock(){ // SCISSOR ENDS UP AT LEVEL 1, MIGHT WANT TO OPTIMIZE
         ElapsedTime time = new ElapsedTime();
         Gripper.setPosition(GRIPPER_OPEN);
-        while(time.milliseconds() < 500);
+        while(time.milliseconds() < 200);
     }
 
     public void setScissorLevel(int level, boolean Wait){

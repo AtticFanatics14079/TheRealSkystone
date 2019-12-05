@@ -59,14 +59,14 @@ public class TeleOpMecanum extends Configure {
             level--;
             setScissorLevel(level);
         }
-        else if(G2.dpad_down && level>0 && !Pressed){ // JUST DPAD DOWN === DOWN TO FOUNDATION LEVEL (1)
-            level = 1;
+        else if(G2.dpad_down && level>0 && !Pressed){ // JUST DPAD DOWN === DOWN TO FOUNDATION LEVEL (2)
+            level = 2;
             setScissorLevel(level);
         }
-        else if(G2.a && (level == 1) && !Pressed){ // Down, Close, Up
+        else if(G2.a && !Pressed){ // Down, Close, Up
             grabBlock();
         }
-        else if(G2.b && (level>1) && !Pressed){ // Down, Open, Up
+        else if(G2.b && (level>2) && !Pressed){ // Down, Open, Up
             dropBlock();
         }
         else if(!G2.dpad_down && !G2.dpad_up && !G2.a && !G2.b) Pressed = false;

@@ -12,6 +12,7 @@ public class SkystoneTeleOp extends OpMode {
     @Override
     public void init() {
         Drive.Configure(hardwareMap);
+        Drive.RotateGripper.setPosition(Drive.ROTATE_GRIPPER_STRAIGHT);
     }
 
     @Override

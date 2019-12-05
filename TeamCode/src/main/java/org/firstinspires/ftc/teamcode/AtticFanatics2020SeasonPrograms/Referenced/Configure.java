@@ -44,16 +44,18 @@ public class Configure {
     public static final int TOLERANCE = 10;
 
     public static final double LEFT_OPEN = 0.3333;
-    public static final double LEFT_CLOSE = 0.7399;
+    public static final double LEFT_CLOSE = 0.7499;
     public static final double RIGHT_OPEN = 0.7899;
-    public static final double RIGHT_CLOSE = 0.3833;
+    public static final double RIGHT_CLOSE = 0.3733;
 
     public static final double GRIPPER_CLOSED = 0.47;
-    public static final double GRIPPER_OPEN = 0.15;
+    public static final double GRIPPER_OPEN = 0.2;
+
+    public static final double ROTATE_GRIPPER_STRAIGHT = 0.7;
 
     public static final int EXTENDED = -3400;
 
-    public static final int[] levels = {0,-2700, -3100, -4640, -6000, -7500, -9100, -11000, -12900};
+    public static final int[] levels = {0, -300, -2700, -3100, -4640, -6000, -7500, -9100, -11000, -12900};
 
     public double getTargetPosition(int motor){
         return targetPosition[motor];

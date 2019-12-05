@@ -6,7 +6,7 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
 import org.firstinspires.ftc.teamcode.AtticFanatics2020SeasonPrograms.Referenced.Autonomous.MecanumDrive;
 
-@Autonomous
+@Autonomous(name = "Red Place Skystones Moved")
 
 public class RedSamplingMovements extends LinearOpMode{
     MecanumDrive Robot = new MecanumDrive();
@@ -14,33 +14,35 @@ public class RedSamplingMovements extends LinearOpMode{
     @Override
     public void runOpMode() throws InterruptedException {
         Robot.Configure(hardwareMap);
+        Robot.RotateGripper.setPosition(Robot.ROTATE_GRIPPER_STRAIGHT);
+        Robot.UnhookFoundation();
+        Robot.setScissorLevel(2, true);
         waitForStart();
-        Robot.Move(26);
-        Robot.setScissorLevel(1, false);
+        Robot.Gripper.setPosition(Robot.GRIPPER_OPEN);
+        Robot.Move(26, 0.7, false);
         Robot.ExtendGripper(true);
-        Robot.grabBlock(0); // Scissor finishes at level 1, maybe it should finish at level 0? (need a function for it)
-        Robot.Move(-10);
-        Robot.Turn(90); // all turns are supposed to be 90 rea degrees
-        Robot.Move(40);
-        Robot.setScissorLevel(1, true);
-        Robot.Move(20);
+        Robot.grabBlock(); // Scissor finishes at level 1, maybe it should finish at level 0? (need a function for it)
+        Robot.Move(-10, -0.6, false);
+        Robot.Turn(85); // all turns are supposed to be 90 rea degrees
+        Robot.Move(75);
+        Robot.setScissorLevel(2, false);
+        Robot.Turn(-85, 0.7);
+        Robot.Move(27);
+        Robot.HookFoundation();
         Robot.dropBlock();
-        Robot.Move(-10);
-        Robot.setScissorLevel(0, false);
-        // FIRST SKYSTONE DELIVERED
-        Robot.Move(-76);
-        Robot.Turn(-90);
-        Robot.setScissorLevel(1, true);
-        Robot.Move(13);
-        Robot.grabBlock(0);
-        Robot.Move(-13);
-        Robot.Turn(90);
-        Robot.Move(74);
-        Robot.dropBlock();
-        Robot.Move(-5);
         Robot.ExtendGripper(false);
+        Robot.Gripper.setPosition(Robot.GRIPPER_CLOSED);
+        sleep(550);
         Robot.setScissorLevel(0, false);
-        Robot.Move(20,1);
-        Robot.Move(-20);
+        Robot.Move(12, 1);
+        Robot.Motors[1].setPower(-1);
+        Robot.Motors[2].setPower(-1);
+        sleep(3000);
+        Robot.setPower(0, 0, 0);
+        Robot.Move(2, -1);
+        Robot.Move(35, 0.6, false);
+        Robot.UnhookFoundation();
+        Robot.Move(11.5, -1);
+        Robot.Move(-45);
     }
 }
