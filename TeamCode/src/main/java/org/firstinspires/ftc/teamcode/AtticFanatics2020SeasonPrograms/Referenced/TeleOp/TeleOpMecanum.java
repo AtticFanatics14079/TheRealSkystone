@@ -14,6 +14,8 @@ public class TeleOpMecanum extends Configure {
 
     private boolean ScissorOverload = false, ExtendOverload = false, Pressed = false;
 
+    
+
     public void Move(HardwareMap ahwMap, Gamepad G1, Gamepad G2)
     {
         hwMap = ahwMap;
