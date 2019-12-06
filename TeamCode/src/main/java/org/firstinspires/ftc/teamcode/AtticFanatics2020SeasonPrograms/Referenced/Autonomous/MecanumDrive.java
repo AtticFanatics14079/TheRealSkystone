@@ -33,23 +33,20 @@ public class MecanumDrive extends Configure {
         while(time.seconds() < 0.7){}
     }
 
-    public void ExtendGripper(boolean out){
+    public void ExtendGripper(boolean out, boolean wait){
         ExtendGripper.setTargetPositionTolerance(100);
         ElapsedTime time = new ElapsedTime();
         if(out){
             ExtendGripper.setTargetPosition(EXTENDED);
             ExtendGripper.setMode(DcMotor.RunMode.RUN_TO_POSITION);
             ExtendGripper.setPower(-1);
-            while(ExtendGripper.isBusy()){}
-            ExtendGripper.setPower(0);
         }
         else{
             ExtendGripper.setTargetPosition(0);
             ExtendGripper.setMode(DcMotor.RunMode.RUN_TO_POSITION);
             ExtendGripper.setPower(1);
-            while(ExtendGripper.isBusy()){}
-            ExtendGripper.setPower(0);
         }
+        if(wait) while(ExtendGripper.isBusy());
     }
 
     public void grabBlock(){

@@ -215,12 +215,12 @@ public class CameraDetect {
 
                 if(xPosition > -190){
                     positionSkystone = "center";
-                    pathNum = 1;
+                    pathNum = 2;
                     System.out.println(pathNum + positionSkystone);
 
                 }else{
                     positionSkystone = "left";
-                    pathNum = 2;
+                    pathNum = 1;
                     System.out.println(pathNum + positionSkystone);
                 }
 
@@ -234,7 +234,7 @@ public class CameraDetect {
             else if(time.seconds() > 1.5){ //Modified this number due to flash increasing speed, may change later
                 System.out.println("Visible Target: none");
                 positionSkystone = "right";
-                pathNum = 0;
+                pathNum = 3;
                 System.out.println(pathNum + positionSkystone);
             }
             System.out.println("Skystone Position " + positionSkystone);

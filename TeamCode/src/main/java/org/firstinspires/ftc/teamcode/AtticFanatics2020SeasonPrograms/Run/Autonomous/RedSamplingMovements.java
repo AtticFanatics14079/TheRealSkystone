@@ -16,16 +16,18 @@ public class RedSamplingMovements extends LinearOpMode{
     MecanumDrive Robot = new MecanumDrive();
     CameraDetect camera = new CameraDetect();
 
+    int offset = 0;
+
     @Override
     public void runOpMode() throws InterruptedException {
         Robot.Configure(hardwareMap);
         Robot.RotateGripper.setPosition(Robot.ROTATE_GRIPPER_STRAIGHT);
         Robot.UnhookFoundation();
-        Robot.setScissorLevel(2, true);
         int SkystonePosition = -2;
         camera.instantCamera(hardwareMap);
         CameraDevice.getInstance().setFlashTorchMode(true);
         waitForStart();
+        Robot.setScissorLevel(2, false);
         Robot.Gripper.setPosition(Robot.GRIPPER_OPEN);
         Robot.Move(14);
         ElapsedTime time = new ElapsedTime();
@@ -37,18 +39,29 @@ public class RedSamplingMovements extends LinearOpMode{
 
         //FOR LEFT (Position 2): First strafe is 4", for middle (Position 1): is 12", and for right (Position 0): is 20".
 
-        //Robot.Move(12);
-        /*Robot.ExtendGripper(true);
+        switch(SkystonePosition)
+        {
+            case 1: offset = 4;
+            break;
+            case 2: offset = 12;
+            break;
+            case 3: offset = 20;
+            break;
+        }
+
+        Robot.ExtendGripper(true, false);
+        Robot.Move(offset, 1);
+        Robot.Move(12);
         Robot.grabBlock(); // Scissor finishes at level 1, maybe it should finish at level 0? (need a function for it)
         Robot.Move(-10);
-        Robot.Turn(85, 0.6); // all turns are supposed to be 90 rea degrees
-        Robot.Move(75);
+        Robot.Turn(85, 0.7); // all turns are supposed to be 90 rea degrees
+        Robot.Move(75 + offset);
         Robot.setScissorLevel(2, false);
-        Robot.Turn(-85, -0.6);
+        Robot.Turn(-85, -0.7);
         Robot.Move(15);
         Robot.HookFoundation();
         Robot.dropBlock();
-        Robot.ExtendGripper(false);
+        Robot.ExtendGripper(false, true);
         Robot.Gripper.setPosition(Robot.GRIPPER_CLOSED);
         sleep(400);
         Robot.setScissorLevel(0, false);
@@ -62,9 +75,5 @@ public class RedSamplingMovements extends LinearOpMode{
         Robot.UnhookFoundation();
         Robot.Move(10, -1);
         Robot.Move(-45);
-        */
-        Robot.Gripper.setPosition(Robot.GRIPPER_CLOSED);
-        sleep(400);
-        Robot.setScissorLevel(0, true);
     }
 }
