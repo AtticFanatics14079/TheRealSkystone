@@ -11,6 +11,7 @@ public class BlueJustFoundationWall extends LinearOpMode {
 
     @Override
     public void runOpMode() throws InterruptedException {
+
         Robot.Configure(hardwareMap);
         Robot.UnhookFoundation();
         waitForStart();

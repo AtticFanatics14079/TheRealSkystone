@@ -49,11 +49,11 @@ public class Configure {
     public static final double GRIPPER_CLOSED = 0.47;
     public static final double GRIPPER_OPEN = 0.2;
 
-    public static final double ROTATE_GRIPPER_STRAIGHT = 0.038;
+    public static final double ROTATE_GRIPPER_STRAIGHT = 0.538;
 
     public static final int EXTENDED = -3400;
 
-    public static final int[] levels = {0, -700, -2700, -3100, -4640, -6000, -7500, -9100, -11000, -12900};
+    public static final int[] levels = {0, -1400, -3400, -4000, -3100, -4640, -6000, -7500, -9100, -11000, -12900};
 
     public double getTargetPosition(int motor){
         return targetPosition[motor];
