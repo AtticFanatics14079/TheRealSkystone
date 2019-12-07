@@ -1,25 +1,19 @@
 package org.firstinspires.ftc.teamcode.AtticFanatics2020SeasonPrograms.Referenced;
 
-import com.qualcomm.hardware.bosch.BNO055IMU;
-import com.qualcomm.hardware.bosch.JustLoggingAccelerationIntegrator;
+//import com.qualcomm.hardware.bosch.BNO055IMU;
 import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorImplEx;
-import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
 
-
-import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
-import org.firstinspires.ftc.robotcore.external.navigation.AxesOrder;
-import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
 import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
 
 
 @Disabled
 public class Configure {
 
-    public BNO055IMU imu;
+   // public BNO055IMU imu;
 
     public Orientation CurrentPos;
 
@@ -48,14 +42,14 @@ public class Configure {
     public static final double RIGHT_OPEN = 0.7899;
     public static final double RIGHT_CLOSE = 0.3733;
 
-    public static final double GRIPPER_CLOSED = 0.47;
+    public static final double GRIPPER_CLOSED = 0.51;
     public static final double GRIPPER_OPEN = 0.2;
 
     public static final double ROTATE_GRIPPER_STRAIGHT = 0.038;
 
     public static final int EXTENDED = -3400;
 
-    public static final int[] levels = {0, -700, -2700, -3100, -4640, -6000, -7500, -9100, -11000, -12900};
+    public static final int[] levels = {0, -700, -2700, -3400, -4640, -6000, -7500, -9100, -11000, -12900};
 
     public double getTargetPosition(int motor){
         return targetPosition[motor];
@@ -117,13 +111,13 @@ public class Configure {
     {
         HardwareMap hwMap = ahwMap;
 
-        BNO055IMU.Parameters parameters = new BNO055IMU.Parameters();
-        parameters.angleUnit = BNO055IMU.AngleUnit.DEGREES;
-        parameters.accelUnit = BNO055IMU.AccelUnit.METERS_PERSEC_PERSEC;
-        parameters.calibrationDataFile = "BNO055IMUCalibration.json"; // see the calibration sample opmode
-        parameters.loggingEnabled = true;
-        parameters.loggingTag = "IMU";
-        parameters.accelerationIntegrationAlgorithm = new JustLoggingAccelerationIntegrator();
+       // BNO055IMU.Parameters parameters = new BNO055IMU.Parameters();
+      //  parameters.angleUnit = BNO055IMU.AngleUnit.DEGREES;
+       // parameters.accelUnit = BNO055IMU.AccelUnit.METERS_PERSEC_PERSEC;
+      //  parameters.calibrationDataFile = "BNO055IMUCalibration.json"; // see the calibration sample opmode
+     //   parameters.loggingEnabled = true;
+        //parameters.loggingTag = "IMU";
+        //parameters.accelerationIntegrationAlgorithm = new JustLoggingAccelerationIntegrator();
 
         //Return IMU declaration if we use it, this is to preserve a whole lotta runtime.
 
@@ -148,11 +142,11 @@ public class Configure {
         Motors[3].setDirection(DcMotor.Direction.REVERSE);
         Motors[4].setDirection(DcMotor.Direction.REVERSE);
 
-        imu = hwMap.get(BNO055IMU.class, "imu");
-        imu.initialize(new BNO055IMU.Parameters());
+        //imu = hwMap.get(BNO055IMU.class, "imu");
+        //imu.initialize(new BNO055IMU.Parameters());
         //See above for reason why this is commented out
 
-        CurrentPos = imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
+       // CurrentPos = imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
 
         Scissor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         Scissor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);

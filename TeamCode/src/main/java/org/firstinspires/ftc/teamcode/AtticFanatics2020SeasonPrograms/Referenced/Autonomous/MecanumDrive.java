@@ -3,7 +3,6 @@ package org.firstinspires.ftc.teamcode.AtticFanatics2020SeasonPrograms.Reference
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
-import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
 import org.firstinspires.ftc.teamcode.AtticFanatics2020SeasonPrograms.Referenced.Configure;
 
 //This Class contains SetPower, MoveEncoderTicks, and TurnDegrees, for MECANUM
@@ -164,7 +163,7 @@ public class MecanumDrive extends Configure {
 
         setTargetPosition(MotorMod, TICKS_PER_INCH * Math.abs(NumbCM));
 
-        drive(MotorMod, false);
+        drive(MotorMod, true);
     }
 
     public void Turn(double Degrees)
@@ -220,7 +219,7 @@ public class MecanumDrive extends Configure {
             do{
                 slowToTarget(Power);
             }while (Math.abs(Motors[1].getVelocity()) > 100 || Math.abs(Motors[2].getVelocity()) > 100 || Math.abs(Motors[3].getVelocity()) > 100 || Math.abs(Motors[4].getVelocity()) > 100);
-        else while (Math.abs(Motors[1].getCurrentPosition() - targetPosition[1]) > 30){}
+        else while (Math.abs(Motors[1].getCurrentPosition() - targetPosition[1]) > 30 || Math.abs(Motors[2].getCurrentPosition() - targetPosition[2]) > 30){}
 
         setPowerZero();
     }
@@ -262,10 +261,10 @@ public class MecanumDrive extends Configure {
 
     private void setPower(double[] p)
     {
-        Motors[1].setPower(p[1]);
-        Motors[2].setPower(p[2]);
-        Motors[3].setPower(p[3]);
         Motors[4].setPower(p[4]);
+        Motors[3].setPower(p[3]);
+        Motors[2].setPower(p[2]);
+        Motors[1].setPower(p[1]);
     }
 
     private double[] returnSetPower(double px, double py, double pa){

@@ -1,7 +1,6 @@
-package org.firstinspires.ftc.teamcode.AtticFanatics2020SeasonPrograms.Run.Autonomous;
+package org.firstinspires.ftc.teamcode.AtticFanatics2020SeasonPrograms.Run.Autonomous.LiteralPaths;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
-import com.qualcomm.robotcore.robot.Robot;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.util.ElapsedTime;
 import com.vuforia.CameraDevice;
@@ -12,7 +11,7 @@ import org.firstinspires.ftc.teamcode.AtticFanatics2020SeasonPrograms.Skystone.C
 
 @Autonomous(name = "Blue Everything")
 
-public class RedSamplingMovements extends LinearOpMode{
+public class BlueUsEverything extends LinearOpMode{
     MecanumDrive Robot = new MecanumDrive();
     CameraDetect camera = new CameraDetect();
 
@@ -38,27 +37,37 @@ public class RedSamplingMovements extends LinearOpMode{
         //BEGIN DIFFERENT CASES HERE
 
         //FOR LEFT (Position 2): First strafe is 4", for middle (Position 1): is 12", and for right (Position 0): is 20".
-
+        int wallstrafe;
+        wallstrafe = 0;
         switch(SkystonePosition)
         {
             case 1: offset = 4;
+            wallstrafe = 1;
             break;
             case 2: offset = 12;
+            wallstrafe = 2;
             break;
             case 3: offset = 20;
+            wallstrafe = 3;
             break;
         }
 
+        Robot.Move(-16);
         Robot.ExtendGripper(true, false);
-        Robot.Move(offset, 1);
-        Robot.Move(12);
+       // Robot.Move(offset, -1, -0.3);
+        ElapsedTime wall = new ElapsedTime();
+        Robot.setPower(-1,-.5,0);
+        while(wallstrafe>wall.seconds()){
+        }
+        Robot.setPower(0,0,0);
+        Robot.Move(26);
         Robot.grabBlock(); // Scissor finishes at level 1, maybe it should finish at level 0? (need a function for it)
         Robot.Move(-10);
-        Robot.Turn(85, 0.7); // all turns are supposed to be 90 rea degrees
+        Robot.Turn(80, 0.7); // all turns are supposed to be 90 rea degrees
         Robot.Move(75 + offset);
         Robot.setScissorLevel(2, false);
-        Robot.Turn(-85, -0.7);
-        Robot.Move(15);
+        Robot.Turn(-80, -0.7);
+        Robot.Move(20);
         Robot.HookFoundation();
         Robot.dropBlock();
         Robot.ExtendGripper(false, true);
