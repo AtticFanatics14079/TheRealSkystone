@@ -48,7 +48,7 @@ public class Configure {
     public static final double RIGHT_OPEN = 0.7899;
     public static final double RIGHT_CLOSE = 0.3733;
 
-    public static final double GRIPPER_CLOSED = 0.47;
+    public static final double GRIPPER_CLOSED = 0.5;
     public static final double GRIPPER_OPEN = 0.2;
 
     public static final double ROTATE_GRIPPER_STRAIGHT = 0.038;
