@@ -21,10 +21,10 @@ public class RedJustFoundationWall extends LinearOpMode {
         Robot.Move(2, 0.3, false);
         Robot.HookFoundation();
         //Robot.Move(5, -0.8, false);
-        Robot.Motors[1].setPower(-1);
-        Robot.Motors[2].setPower(-1);
-        Robot.Motors[3].setPower(-0.07);
-        Robot.Motors[4].setPower(-0.07);
+        Robot.Motors[3].setPower(-1);
+        Robot.Motors[4].setPower(-1);
+        Robot.Motors[1].setPower(-0.07);
+        Robot.Motors[2].setPower(-0.07);
         sleep(2200);
         Robot.setPower(0, 0, 0);
         //Not sure if this works

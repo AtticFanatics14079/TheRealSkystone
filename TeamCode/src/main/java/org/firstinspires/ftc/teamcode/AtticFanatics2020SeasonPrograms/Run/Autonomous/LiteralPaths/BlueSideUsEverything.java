@@ -8,9 +8,9 @@ import com.vuforia.CameraDevice;
 import org.firstinspires.ftc.teamcode.AtticFanatics2020SeasonPrograms.Referenced.Autonomous.MecanumDrive;
 import org.firstinspires.ftc.teamcode.AtticFanatics2020SeasonPrograms.Skystone.CameraDetect;
 
-@Autonomous(name = "OnBot Blue Everything")
+@Autonomous(name = "Blue Side Everything")
 
-public class RedSamplingMovements extends LinearOpMode{
+public class BlueSideUsEverything extends LinearOpMode{
     MecanumDrive Robot = new MecanumDrive();
     CameraDetect camera = new CameraDetect();
 
@@ -52,49 +52,53 @@ public class RedSamplingMovements extends LinearOpMode{
         switch(SkystonePosition)
         {
             case 1: offset = 4;
-                wallstrafe = 0.8;
+                wallstrafe = 1.3;
                 break;
-            case 2: offset = 12;
-                wallstrafe = 1.6;
+            case 2: offset = 10;
+                wallstrafe = 1.7;
                 break;
-            case 3: offset = 20;
-                wallstrafe = 2.2;
+            case 3: offset = 13;
+                wallstrafe = 2.4;
                 break;
         }
 
         Robot.Move(-16);
         Robot.ExtendGripper(true, false);
-        // Robot.Move(offset, -1, -0.3);
-        ElapsedTime wall = new ElapsedTime();
+        Robot.Move(offset * 3.5, -1, -0.5);
+        /*ElapsedTime wall = new ElapsedTime();
         Robot.setPower(-1,-.5,0);
         while(wallstrafe>wall.seconds()){
         }
-        Robot.setPower(0,0,0);
+        */
         Robot.Gripper.setPosition(Robot.GRIPPER_OPEN);
         Robot.Move(26);
         Robot.grabBlock(); // Scissor finishes at level 1, maybe it should finish at level 0? (need a function for it)
         Robot.Move(-10);
-        Robot.Turn(85, 0.7); // all turns are supposed to be 90 rea degrees
-        Robot.Move(75 + offset, 0.8, false);
+        Robot.Turn(82, 0.7); // all turns are supposed to be 90 rea degrees
+        Robot.Move(76 + offset, 0.8, false);
         Robot.setScissorLevel(2, false);
-        Robot.Turn(-80, -0.5);
-        Robot.Move(28);
+        Robot.Turn(-82, -0.7);
+        Robot.Move(30);
+        Robot.Motors[3].setPower(1);
+        Robot.Motors[4].setPower(1);
+        sleep(100);
+        Robot.setPower(0, 0, 0);
         Robot.HookFoundation();
         Robot.dropBlock();
+        Robot.setScissorLevel(3, false);
         Robot.Gripper.setPosition(Robot.GRIPPER_CLOSED);
         Robot.ExtendGripper(false, true);
-        sleep(400);
         Robot.setScissorLevel(0, false);
         Robot.Move(8, 1);
         Robot.Motors[1].setPower(-1);
         Robot.Motors[2].setPower(-1);
         sleep(3000);
-        Robot.setPowerZero();
+        Robot.setPower(0, 0, 0);
         Robot.Move(2, -1);
         Robot.Move(32, 0.8, false);
         Robot.UnhookFoundation();
-        Robot.Move(10, -1);
-        Robot.Move(-45);
+        //Robot.Move(10, -1); //Not enough time
+        //Robot.Move(-45);
 
     }
 }

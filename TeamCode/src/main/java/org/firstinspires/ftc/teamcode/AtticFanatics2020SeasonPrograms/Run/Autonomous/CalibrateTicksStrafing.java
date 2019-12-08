@@ -12,7 +12,7 @@ public class CalibrateTicksStrafing extends LinearOpMode {
     public void runOpMode() throws InterruptedException {
         robot.Configure(hardwareMap);
         waitForStart();
-        robot.Move(57.79,1); // halfway
+        robot.Move(50,-1); // halfway
         //robot.TurnDegreesCurrentPos(1440,hardwareMap); // four full rotations
 
         telemetry.addData("Motor 1 Position: ", robot.Motors[1].getCurrentPosition());

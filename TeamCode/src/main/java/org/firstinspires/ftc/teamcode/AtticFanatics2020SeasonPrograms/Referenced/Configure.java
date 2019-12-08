@@ -42,18 +42,18 @@ public class Configure {
     public static final int TOLERANCE = 10;
 
     public static final double LEFT_OPEN = 0.3333;
-    public static final double LEFT_CLOSE = 0.7499;
+    public static final double LEFT_CLOSE = 0.7599;
     public static final double RIGHT_OPEN = 0.7899;
-    public static final double RIGHT_CLOSE = 0.3733;
+    public static final double RIGHT_CLOSE = 0.3633;
 
     public static final double GRIPPER_CLOSED = 0.47;
     public static final double GRIPPER_OPEN = 0.2;
 
-    public static final double ROTATE_GRIPPER_STRAIGHT = 0.538;
+    public static final double ROTATE_GRIPPER_STRAIGHT = 0.78;
 
-    public static final int EXTENDED = -3400;
+    public static final int EXTENDED = -3700;
 
-    public static final int[] levels = {0, -1400, -3400, -4000, -3100, -4640, -6000, -7500, -9100, -11000, -12900};
+    public static final int[] levels = {0, -1300, -2700, -4000, -4640, -6000, -7500, -9100, -11000, -12900};
 
     public double getTargetPosition(int motor){
         return targetPosition[motor];
@@ -115,13 +115,15 @@ public class Configure {
     {
         HardwareMap hwMap = ahwMap;
 
-        BNO055IMU.Parameters parameters = new BNO055IMU.Parameters();
+        /*BNO055IMU.Parameters parameters = new BNO055IMU.Parameters();
         parameters.angleUnit = BNO055IMU.AngleUnit.DEGREES;
         parameters.accelUnit = BNO055IMU.AccelUnit.METERS_PERSEC_PERSEC;
         parameters.calibrationDataFile = "BNO055IMUCalibration.json"; // see the calibration sample opmode
         parameters.loggingEnabled = true;
         parameters.loggingTag = "IMU";
         parameters.accelerationIntegrationAlgorithm = new JustLoggingAccelerationIntegrator();
+
+         */
 
         //Return IMU declaration if we use it, this is to preserve a whole lotta runtime.
 
@@ -146,12 +148,14 @@ public class Configure {
         Motors[3].setDirection(DcMotor.Direction.REVERSE);
         Motors[4].setDirection(DcMotor.Direction.REVERSE);
 
-        imu = hwMap.get(BNO055IMU.class, "imu");
+        /*imu = hwMap.get(BNO055IMU.class, "imu");
         imu.initialize(new BNO055IMU.Parameters());
         //See above for reason why this is commented out
 
         CurrentPos = imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
 
+
+         */
         Scissor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         Scissor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
