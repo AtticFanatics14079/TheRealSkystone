@@ -69,11 +69,11 @@ public class MecanumDrive extends Configure {
     public void dropBlock(){ // SCISSOR ENDS UP AT LEVEL 1, MIGHT WANT TO OPTIMIZE
         ElapsedTime time = new ElapsedTime();
         Gripper.setPosition(GRIPPER_OPEN);
-        while(time.milliseconds() < 200);
+        while(time.milliseconds() < 400);
     }
 
     public void setScissorLevel(int level, boolean Wait){
-        Scissor.setTargetPositionTolerance(80);
+        Scissor.setTargetPositionTolerance(100);
         Scissor.setTargetPosition(levels[level]);
         Scissor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         if(Scissor.getTargetPosition() > Scissor.getCurrentPosition()) Scissor.setPower(1);
@@ -183,7 +183,7 @@ public class MecanumDrive extends Configure {
 
         setPower(P);
 
-        while(Math.abs(Motors[1].getCurrentPosition() - targetPosition[1]) > 5){}
+        while(Math.abs(Motors[1].getCurrentPosition() - targetPosition[1]) > 20){}
 
         setPowerZero();
     }
@@ -202,7 +202,7 @@ public class MecanumDrive extends Configure {
 
         setPower(P);
 
-        while(Math.abs(CurrentPos.thirdAngle - originalPos - Degrees) > 10){}
+        while(Math.abs(CurrentPos.thirdAngle - originalPos - Degrees) > 30){}
 
         setPowerZero();
     }
@@ -213,13 +213,13 @@ public class MecanumDrive extends Configure {
 
         ElapsedTime time = new ElapsedTime();
 
-        while(time.seconds() < 0.05){}
+        while(time.seconds() < 0.001);
 
         if(!strafe)
             do{
                 slowToTarget(Power);
             }while (Math.abs(Motors[1].getVelocity()) > 100 || Math.abs(Motors[2].getVelocity()) > 100 || Math.abs(Motors[3].getVelocity()) > 100 || Math.abs(Motors[4].getVelocity()) > 100);
-        else while (Math.abs(Motors[1].getCurrentPosition() - targetPosition[1]) > 30 || Math.abs(Motors[2].getCurrentPosition() - targetPosition[2]) > 30){}
+        else while (Math.abs(Motors[1].getCurrentPosition()) - Math.abs(targetPosition[1]) < 30 || Math.abs(Motors[2].getCurrentPosition()) - Math.abs(targetPosition[2]) < 30){}
 
         setPowerZero();
     }

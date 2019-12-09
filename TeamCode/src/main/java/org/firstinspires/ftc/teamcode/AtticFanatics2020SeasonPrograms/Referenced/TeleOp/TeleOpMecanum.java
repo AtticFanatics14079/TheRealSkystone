@@ -109,6 +109,8 @@ public class TeleOpMecanum extends Configure {
 
     private void grabBlock(){
         try {
+            setPower(0, 0, 0);
+
             Gripper.setPosition(GRIPPER_OPEN);
 
             setScissorLevel(level = 0);
