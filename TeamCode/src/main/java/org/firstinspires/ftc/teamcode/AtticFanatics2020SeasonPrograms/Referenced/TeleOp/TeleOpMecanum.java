@@ -37,8 +37,20 @@ public class TeleOpMecanum extends Configure {
         if(G2.y) Gripper.setPosition(GRIPPER_OPEN); //Move claw to not gripped position
         else if(G2.x) Gripper.setPosition(GRIPPER_CLOSED); //Move claw to gripped position
 
-
-        if(G2.dpad_left){
+        if(G2.left_trigger > 0.5 && G2.dpad_left) {
+            ExtendGripper.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+            ExtendGripper.setPower(1);
+        }
+        else if(G2.left_trigger > 0.5 && G2.dpad_right) {
+            ExtendGripper.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+            ExtendGripper.setPower(-1);
+        }
+        else if(G2.left_trigger > 0.5) ExtendGripper.setPower(0);
+        else if(G2.right_trigger > 0.5){
+            ExtendGripper.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+            ExtendGripper.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        }
+        else if(G2.dpad_left){
             ExtendGripper.setTargetPositionTolerance(50);
             ExtendGripper.setTargetPosition(EXTENDED);
             ExtendGripper.setMode(DcMotor.RunMode.RUN_TO_POSITION);
@@ -69,9 +81,22 @@ public class TeleOpMecanum extends Configure {
         else if(G2.b && (level>2) && !Pressed){ // Down, Open, Up
             dropBlock();
         }
+        else if(G2.left_trigger > 0.5 && G2.dpad_up) {
+            Scissor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+            Scissor.setPower(-1);
+        }
+        else if(G2.left_trigger > 0.5 && G2.dpad_down) {
+            Scissor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+            Scissor.setPower(1);
+        }
+        else if(G2.left_trigger > 0.5) Scissor.setPower(0);
+        else if(G2.right_trigger > 0.5){
+            Scissor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+            Scissor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        }
         else if(!G2.dpad_down && !G2.dpad_up && !G2.a && !G2.b) Pressed = false;
 
-        Rotation += 0.015* G2.right_stick_x;
+        //Rotation += 0.015* G2.right_stick_x;
 
         if(Rotation > 1){
             Rotation = 1;
@@ -99,7 +124,7 @@ public class TeleOpMecanum extends Configure {
      */
 
     private void setScissorLevel(int level){
-        Scissor.setTargetPositionTolerance(80);
+        Scissor.setTargetPositionTolerance(100);
         Scissor.setTargetPosition(levels[level]);
         Scissor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         if(Scissor.getTargetPosition() > Scissor.getCurrentPosition()) Scissor.setPower(1);
@@ -111,10 +136,10 @@ public class TeleOpMecanum extends Configure {
         try {
             setPower(0, 0, 0);
 
-            Gripper.setPosition(GRIPPER_OPEN);
-
             setScissorLevel(level = 0);
-            Thread.sleep(1300); // give it time to come down
+            while(Scissor.getCurrentPosition() < -3000);
+            Gripper.setPosition(GRIPPER_OPEN);
+            while(Scissor.isBusy());
 
             Gripper.setPosition(GRIPPER_CLOSED);
             Thread.sleep(500); // give it time to close

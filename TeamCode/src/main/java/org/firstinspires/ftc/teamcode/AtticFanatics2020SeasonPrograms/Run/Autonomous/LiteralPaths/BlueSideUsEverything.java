@@ -29,6 +29,7 @@ public class BlueSideUsEverything extends LinearOpMode{
         Robot.Move(14);
         ElapsedTime time = new ElapsedTime();
         while((SkystonePosition = camera.skystoneDetect(time)) == -2);
+        //camera.deactivate();
 
         //BEGIN DIFFERENT CASES HERE
 
@@ -54,10 +55,10 @@ public class BlueSideUsEverything extends LinearOpMode{
             case 1: offset = 4;
                 wallstrafe = 1.3;
                 break;
-            case 2: offset = 10;
+            case 2: offset = 12;
                 wallstrafe = 1.7;
                 break;
-            case 3: offset = 13;
+            case 3: offset = 16;
                 wallstrafe = 2.4;
                 break;
         }

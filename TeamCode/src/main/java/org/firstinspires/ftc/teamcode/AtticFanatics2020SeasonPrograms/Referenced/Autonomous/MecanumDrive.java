@@ -183,7 +183,7 @@ public class MecanumDrive extends Configure {
 
         setPower(P);
 
-        while(Math.abs(Motors[1].getCurrentPosition() - targetPosition[1]) > 20){}
+        while(Math.abs(targetPosition[1]) - Math.abs(Motors[1].getCurrentPosition()) > 20){}
 
         setPowerZero();
     }
@@ -213,13 +213,13 @@ public class MecanumDrive extends Configure {
 
         ElapsedTime time = new ElapsedTime();
 
-        while(time.seconds() < 0.001);
+        while(time.seconds() < 0.01);
 
         if(!strafe)
             do{
                 slowToTarget(Power);
             }while (Math.abs(Motors[1].getVelocity()) > 100 || Math.abs(Motors[2].getVelocity()) > 100 || Math.abs(Motors[3].getVelocity()) > 100 || Math.abs(Motors[4].getVelocity()) > 100);
-        else while (Math.abs(Motors[1].getCurrentPosition()) - Math.abs(targetPosition[1]) < 30 || Math.abs(Motors[2].getCurrentPosition()) - Math.abs(targetPosition[2]) < 30){}
+        else while (Math.abs(targetPosition[1]) - Math.abs(Motors[1].getCurrentPosition()) > 30 || Math.abs(targetPosition[2]) - Math.abs(Motors[2].getCurrentPosition()) > 30){}
 
         setPowerZero();
     }

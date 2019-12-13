@@ -49,7 +49,8 @@ public class Configure {
     public static final double GRIPPER_CLOSED = 0.47;
     public static final double GRIPPER_OPEN = 0.2;
 
-    public static final double ROTATE_GRIPPER_STRAIGHT = 0.78;
+    public static final double ROTATE_GRIPPER_STRAIGHT = 0.88;
+    public static final double ROTATE_GRIPPER_SIDEWAYS = 0.38;
 
     public static final int EXTENDED = -3700;
 
