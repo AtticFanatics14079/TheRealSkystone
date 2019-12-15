@@ -27,28 +27,26 @@ public class ValueStorage {
         return hardwareValues;
     }
 
-    public List<Integer> changedParts(boolean Writing, List<Integer> desiredParts){
-        synchronized (this) {
-            if (Writing) {
-                changedParts.clear();
-                changedParts.addAll(desiredParts);
-            }
-            return changedParts;
+    public synchronized List<Integer> changedParts(boolean Writing, List<Integer> desiredParts){
+        if (Writing) {
+            changedParts.clear();
+            changedParts.addAll(desiredParts);
         }
+        return changedParts;
     }
 
-    public List<Double> runValues(boolean Writing, List<Double> values){
-        synchronized (this){
-            if(Writing) {
-                runValues.clear();
-                runValues.addAll(values);
-            }
-            return runValues;
-            }
-
+    public synchronized List<Double> runValues(boolean Writing, List<Double> values){
+        if(Writing) {
+            runValues.clear();
+            runValues.addAll(values);
+        }
+        return runValues;
     }
 
-    public synchronized void test(){
-
+    public synchronized double time(boolean writing, double time){
+        if(writing){
+            Time = time;
+        }
+        return Time;
     }
 }

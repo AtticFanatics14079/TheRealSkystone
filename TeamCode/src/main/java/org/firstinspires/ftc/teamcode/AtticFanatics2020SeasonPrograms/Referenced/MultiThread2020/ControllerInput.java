@@ -22,6 +22,8 @@ public class ControllerInput extends LinearOpMode {
     public void runOpMode() throws InterruptedException {
         HardwareThread hardware = new HardwareThread(vals, hardwareMap);
         hardware.start();
+        WritingThread write = new WritingThread(vals, "Text.txt");
+        write.start();
         //All other code in init() goes above here
         while(!opModeIsActive()){
             //do stuff if we want to loop before pressing play
@@ -37,7 +39,13 @@ public class ControllerInput extends LinearOpMode {
                 System.out.println("Problem in main thread! \n" + e);
             }
         }
-        hardware.stop();
+        hardware.Stop();
+        write.Stop();
+
+        while(hardware.isAlive() || write.isAlive()){
+            System.out.println("hardware" + hardware.isAlive());
+            System.out.println(write.isAlive());
+        }
     }
 
     private void getInput(){
@@ -62,7 +70,7 @@ public class ControllerInput extends LinearOpMode {
 
         //No fancy algorithms atm, just passing velocities.
         vals.changedParts(true, changedParts);
+        System.out.println();
         vals.runValues(true, hardwareActions);
-        //vals.test();
     }
 }
