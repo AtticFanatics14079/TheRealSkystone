@@ -1,23 +1,25 @@
-package org.firstinspires.ftc.teamcode.AtticFanatics2020SeasonPrograms.Referenced.MultiThread2020;
+package org.firstinspires.ftc.teamcode.AtticFanatics2020SeasonPrograms.Referenced.AtticFanaticsCodes;
 
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.teamcode.AtticFanatics2020SeasonPrograms.Referenced.Configure;
 
+import java.nio.file.FileSystemNotFoundException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class HardwareThread extends Thread {
 
-    ElapsedTime time = new ElapsedTime();
+    ElapsedTime time;
     Configure config = new Configure();
     private ValueStorage vals = new ValueStorage();
     private int hardwareSize = 10;
     List<Double> hardware = new ArrayList<>(); //See hardwareValues in ValueStorage for each value.
     List<Integer> DesiredVals = new ArrayList<>(); //See hardwareValues in ValueStorage for each value.
     List<Double> Vals = new ArrayList<>(); //See hardwareValues in ValueStorage for each value.
-    public boolean stop;
+    public volatile boolean stop;
     Double[] p = {1.0, 2.0, 3.0, 4.0};
 
     HardwareThread(ValueStorage Vals, HardwareMap hwMap){
@@ -39,10 +41,15 @@ public class HardwareThread extends Thread {
                 System.out.println(e);
             }
         }
+        //SET EVERYTHING WE USE TO 0, VERY IMPORTANT!!!
+        config.Motors[1].setPower(0);
+        config.Motors[2].setPower(0);
+        config.Motors[3].setPower(0);
+        config.Motors[4].setPower(0);
     }
 
     public void startTime(){
-        time.reset();
+        time = new ElapsedTime();
     }
 
     private void readHardware(List<Integer> desiredVals){
@@ -59,7 +66,6 @@ public class HardwareThread extends Thread {
                     hardware.set(1, config.Motors[2].getPower());
                     hardware.set(2, config.Motors[3].getPower());
                     hardware.set(3, config.Motors[4].getPower());
-                    System.out.println(hardware.get(3));
                     break;
                 case 2: hardware.set(4, config.Scissor.getPower());
                 break;

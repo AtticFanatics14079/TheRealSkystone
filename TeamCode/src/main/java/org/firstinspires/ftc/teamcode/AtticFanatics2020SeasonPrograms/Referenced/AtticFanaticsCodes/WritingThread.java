@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.AtticFanatics2020SeasonPrograms.Referenced.MultiThread2020;
+package org.firstinspires.ftc.teamcode.AtticFanatics2020SeasonPrograms.Referenced.AtticFanaticsCodes;
 
 import java.io.*;
 import java.util.ArrayList;
@@ -8,7 +8,7 @@ public class WritingThread extends Thread{
 
     ValueStorage vals;
     File file;
-    public boolean stop;
+    public volatile boolean stop;
     private double lastTime = 0, time = -1;
     BufferedWriter fileWrite;
     List<Double> Values = new ArrayList<>();
@@ -26,17 +26,24 @@ public class WritingThread extends Thread{
     public void run(){
         while(!stop){
             try{
-                if((time = vals.Time) != lastTime){
+                if((time = vals.Time) - 10 >  lastTime){
+                    Values.clear();
                     Values = vals.hardware(false, null, 0);
-                    fileWrite.write(time + " ");
-                    for(int i = 0; i < Values.size(); i++){
-                        fileWrite.write(i + " " + Values.get(i));
+                    if(Values != null) {
+                        fileWrite.write(time + " ");
+                        for(int i = 0; i < Values.size(); i++){
+                            try {
+                                fileWrite.write(i + " " + Values.get(i) + " ");
+                            }
+                            catch(Exception ex) {fileWrite.write(i + " 0.0 ");}
+                        }
+                        fileWrite.newLine();
                     }
-                    fileWrite.newLine();
+                    lastTime = time;
                 }
             }
             catch(Exception e){
-                System.out.println(e);
+                System.out.println("Writing Thread, " + e);
             }
         }
     }

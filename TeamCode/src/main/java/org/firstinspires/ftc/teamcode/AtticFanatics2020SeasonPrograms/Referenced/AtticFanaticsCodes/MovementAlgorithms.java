@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.AtticFanatics2020SeasonPrograms.Referenced.MultiThread2020;
+package org.firstinspires.ftc.teamcode.AtticFanatics2020SeasonPrograms.Referenced.AtticFanaticsCodes;
 
 import org.firstinspires.ftc.teamcode.AtticFanatics2020SeasonPrograms.Referenced.Configure;
 

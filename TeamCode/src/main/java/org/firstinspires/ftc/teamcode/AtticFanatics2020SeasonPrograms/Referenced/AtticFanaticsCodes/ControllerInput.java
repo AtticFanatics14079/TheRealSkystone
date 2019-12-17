@@ -1,8 +1,9 @@
-package org.firstinspires.ftc.teamcode.AtticFanatics2020SeasonPrograms.Referenced.MultiThread2020;
+package org.firstinspires.ftc.teamcode.AtticFanatics2020SeasonPrograms.Referenced.AtticFanaticsCodes;
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
+import com.qualcomm.robotcore.util.ElapsedTime;
 import org.firstinspires.ftc.teamcode.AtticFanatics2020SeasonPrograms.Referenced.Configure;
 
 import java.util.ArrayList;
@@ -18,11 +19,13 @@ public class ControllerInput extends LinearOpMode {
     List<Integer> changedParts = new ArrayList<>();
     List<Double> hardwareActions = new ArrayList<>(); //Same values as all the others.
 
+    public final String FileName = "Test.txt";
+
     @Override
     public void runOpMode() throws InterruptedException {
         HardwareThread hardware = new HardwareThread(vals, hardwareMap);
         hardware.start();
-        WritingThread write = new WritingThread(vals, "Text.txt");
+        WritingThread write = new WritingThread(vals, FileName);
         write.start();
         //All other code in init() goes above here
         while(!opModeIsActive()){
@@ -42,10 +45,17 @@ public class ControllerInput extends LinearOpMode {
         hardware.Stop();
         write.Stop();
 
-        while(hardware.isAlive() || write.isAlive()){
-            System.out.println("hardware" + hardware.isAlive());
+        ElapsedTime time = new ElapsedTime();
+
+        while(hardware.isAlive() || write.isAlive() && time.seconds() < 1.0){
+            System.out.println(time.seconds());
+        }
+
+        if(write.isAlive()) {
+            write.stop();
             System.out.println(write.isAlive());
         }
+        if(hardware.isAlive()) hardware.stop();
     }
 
     private void getInput(){
