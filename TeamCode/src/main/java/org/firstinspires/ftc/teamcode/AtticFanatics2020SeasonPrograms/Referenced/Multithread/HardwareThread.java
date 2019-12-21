@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.AtticFanatics2020SeasonPrograms.Referenced.AtticFanaticsCodes;
+package org.firstinspires.ftc.teamcode.AtticFanatics2020SeasonPrograms.Referenced.Multithread;
 
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.util.ElapsedTime;
@@ -14,7 +14,7 @@ public class HardwareThread extends Thread {
 
     ElapsedTime time;
     Configure config = new Configure();
-    private ValueStorage vals = new ValueStorage();
+    private ValueStorage vals;
     private int hardwareSize = 10;
     List<Double> hardware = new ArrayList<>(); //See hardwareValues in ValueStorage for each value.
     List<Integer> DesiredVals = new ArrayList<>(); //See hardwareValues in ValueStorage for each value.
@@ -37,7 +37,7 @@ public class HardwareThread extends Thread {
                 runHardware(vals.runValues(false, null), vals.changedParts(false, null));
                 //That line looks sketch but I'm pretty sure it's runtime efficient.
             } catch (Exception e) {
-                System.out.println("Houston, we have a problem. (Hardware thread)");
+                System.out.print("Houston, we have a problem. (Hardware thread), ");
                 System.out.println(e);
             }
         }
@@ -61,24 +61,26 @@ public class HardwareThread extends Thread {
 
         for(int i : DesiredVals){
             switch(i){
-                case 1:
-                    hardware.set(0, config.Motors[1].getPower());
-                    hardware.set(1, config.Motors[2].getPower());
-                    hardware.set(2, config.Motors[3].getPower());
-                    hardware.set(3, config.Motors[4].getPower());
+                case 0: hardware.set(0, config.Motors[1].getPower());
                     break;
-                case 2: hardware.set(4, config.Scissor.getPower());
-                break;
-                case 3: hardware.set(9, config.Gripper.getPosition());
-                break;
-                case 4:
-                    hardware.set(5, config.FoundationLeft.getPosition());
-                    hardware.set(6, config.FoundationRight.getPosition());
+                case 1: hardware.set(1, config.Motors[2].getPower());
                     break;
-                case 5: hardware.set(7, config.ExtendGripper.getPower());
-                break;
-                case 6: hardware.set(8, config.RotateGripper.getPosition());
-                break;
+                case 2: hardware.set(2, config.Motors[3].getPower());
+                    break;
+                case 3: hardware.set(3, config.Motors[4].getPower());
+                    break;
+                case 4: hardware.set(4, config.Scissor.getPower());
+                    break;
+                case 5: hardware.set(5, config.FoundationLeft.getPosition());
+                    break;
+                case 6: hardware.set(6, config.FoundationRight.getPosition());
+                    break;
+                case 7: hardware.set(7, config.ExtendGripper.getPower());
+                    break;
+                case 8: hardware.set(8, config.RotateGripper.getPosition());
+                    break;
+                case 9: hardware.set(9, config.Gripper.getPosition());
+                    break;
             }
         }
     }
@@ -91,25 +93,29 @@ public class HardwareThread extends Thread {
         DesiredVals.clear();
         DesiredVals.addAll(desiredParts);
 
-        for (int i : DesiredVals) {
-            switch (i) {
-                case 1:
-                    config.Motors[1].setPower(Vals.get(0));
-                    config.Motors[2].setPower(Vals.get(1));
-                    config.Motors[3].setPower(Vals.get(2));
-                    config.Motors[4].setPower(Vals.get(3));
+        System.out.println("ftdyui " + desiredParts);
+
+        for(int i : DesiredVals){
+            switch(i){
+                case 0: config.Motors[1].setPower(Values.get(0));
                     break;
-                case 2: config.Scissor.setPower(Vals.get(4));
+                case 1: config.Motors[2].setPower(Values.get(1));
                     break;
-                case 3: config.Gripper.setPosition(Vals.get(9));
+                case 2: config.Motors[3].setPower(Values.get(2));
                     break;
-                case 4:
-                    config.FoundationLeft.setPosition(Vals.get(5));
-                    config.FoundationRight.setPosition(Vals.get(6));
+                case 3: config.Motors[4].setPower(Values.get(3));
                     break;
-                case 5:  config.ExtendGripper.setPower(Vals.get(7));
+                case 4: config.Scissor.setPower(Values.get(4));
                     break;
-                case 6:  config.RotateGripper.setPosition(Vals.get(8));
+                case 5: config.FoundationLeft.setPosition(Values.get(5));
+                    break;
+                case 6: config.FoundationRight.setPosition(Values.get(6));
+                    break;
+                case 7: config.ExtendGripper.setPower(Values.get(7));
+                    break;
+                case 8: config.RotateGripper.setPosition(Values.get(8));
+                    break;
+                case 9: config.Gripper.setPosition(Values.get(9));
                     break;
             }
         }

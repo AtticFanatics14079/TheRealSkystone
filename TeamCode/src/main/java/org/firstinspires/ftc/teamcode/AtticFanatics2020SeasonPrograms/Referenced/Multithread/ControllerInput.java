@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.AtticFanatics2020SeasonPrograms.Referenced.AtticFanaticsCodes;
+package org.firstinspires.ftc.teamcode.AtticFanatics2020SeasonPrograms.Referenced.Multithread;
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
@@ -66,7 +66,10 @@ public class ControllerInput extends LinearOpMode {
         //velocities for hardwareActions 1-4). Make sure to add it to the changedParts list every time.
 
         //At the moment, including drive train only.
+        changedParts.add(0); //This line is because we will always be moving the motors.
         changedParts.add(1); //This line is because we will always be moving the motors.
+        changedParts.add(2); //This line is because we will always be moving the motors.
+        changedParts.add(3); //This line is because we will always be moving the motors.
         if(Math.abs(gamepad1.left_stick_x) >= 0.2 || Math.abs(gamepad1.left_stick_y) >= 0.2 || Math.abs(gamepad1.right_stick_x) >= 0.2){
             List<Double> p = move.getVelocity(gamepad1.left_stick_x, gamepad1.left_stick_y, gamepad1.right_stick_x);
             hardwareActions.addAll(p);
@@ -80,7 +83,6 @@ public class ControllerInput extends LinearOpMode {
 
         //No fancy algorithms atm, just passing velocities.
         vals.changedParts(true, changedParts);
-        System.out.println();
         vals.runValues(true, hardwareActions);
     }
 }

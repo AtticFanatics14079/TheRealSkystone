@@ -1,21 +1,18 @@
 package org.firstinspires.ftc.teamcode.AtticFanatics2020SeasonPrograms.Referenced;
 
 import com.qualcomm.hardware.bosch.BNO055IMU;
-import com.qualcomm.hardware.bosch.JustLoggingAccelerationIntegrator;
 import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorImplEx;
+import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
 
-import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
-import org.firstinspires.ftc.robotcore.external.navigation.AxesOrder;
-import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
 import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
 
 
 @Disabled
-public class Configure {
+public class ChisDumbConfigure {
 
     public BNO055IMU imu;
 
@@ -140,8 +137,8 @@ public class Configure {
         FoundationLeft = hwMap.get(Servo.class, "foundation_left");
         FoundationRight = hwMap.get(Servo.class, "foundation_right");
         Scissor = hwMap.get(DcMotorImplEx.class, "scissor");
-        //ingester1 = hwMap.get(DcMotor.class, "ingester_left");
-        //ingester2 = hwMap.get(DcMotor.class, "ingester_right");
+        ingester1 = hwMap.get(DcMotor.class, "ingester_left");
+        ingester2 = hwMap.get(DcMotor.class, "ingester_right");
 
         Motors[1].setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         Motors[2].setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
@@ -152,6 +149,7 @@ public class Configure {
 
         Motors[3].setDirection(DcMotor.Direction.REVERSE);
         Motors[4].setDirection(DcMotor.Direction.REVERSE);
+        ingester2.setDirection(DcMotorSimple.Direction.REVERSE);
 
         /*imu = hwMap.get(BNO055IMU.class, "imu");
         imu.initialize(new BNO055IMU.Parameters());
