@@ -12,20 +12,13 @@ public class ReadFile extends LinearOpMode {
 
     @Override
     public void runOpMode() throws InterruptedException {
-        System.out.println("Started");
         HardwareThread hardware = new HardwareThread(vals, hardwareMap);
         hardware.start();
-        System.out.println("Hardware");
         ReadingThread read = new ReadingThread(vals, fileName);
-        System.out.println("Halfway");
         read.start();
-        System.out.println("Read");
         waitForStart();
-        System.out.println(1);
         hardware.startTime();
-        System.out.println(2);
         read.startTime();
-        System.out.println(3);
         while(!isStopRequested() && read.isAlive()){}
         hardware.Stop();
         read.Stop();

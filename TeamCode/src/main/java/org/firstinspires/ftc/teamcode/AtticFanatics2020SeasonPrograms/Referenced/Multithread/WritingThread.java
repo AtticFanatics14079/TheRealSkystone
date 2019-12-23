@@ -10,9 +10,9 @@ public class WritingThread extends Thread{
     File file;
     public volatile boolean stop;
     private double lastTime = 0, time = -1;
-    private Double temp;
+    private double temp;
     BufferedWriter fileWrite;
-    List<Double> Values = new ArrayList<>();
+    double[] Values = new double[10];
 
     WritingThread(ValueStorage Vals, String fileName){
         vals = Vals;
@@ -28,19 +28,16 @@ public class WritingThread extends Thread{
         while(!stop){
             try{
                 if((time = vals.time(false, 0)) - 5 >  lastTime){
-                    Values.clear();
                     Values = vals.hardware(false, null, 0);
                     fileWrite.write(String.valueOf(time));
                     for(int i = 0; i < 10; i++){ //Change the < variable to account for size of hardware arraylist.
                         try {
-                            if((temp = Values.get(i)) == null) temp = 0.0;
-                            fileWrite.write(" " + (double)Math.round(temp * 1000.0) / 1000.0);
+                            fileWrite.write(" " + (double)Math.round(Values[i] * 1000.0) / 1000.0);
                         }
                         catch(Exception ex) {
                             System.out.println("Exception " + ex + " " + time);
                             fileWrite.write(" 0.0");
                         }
-                        System.out.println("j");
                     }
                     fileWrite.newLine();
                     lastTime = time;

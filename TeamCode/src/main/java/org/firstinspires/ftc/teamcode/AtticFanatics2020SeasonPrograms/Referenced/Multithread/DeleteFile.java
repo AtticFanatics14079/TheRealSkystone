@@ -13,7 +13,9 @@ public class DeleteFile extends LinearOpMode {
     @Override
     public void runOpMode() throws InterruptedException {
         File file = new File(in.FileName);
-        while(!file.delete() && !isStopRequested()){}
-        System.out.println("Deleted file.");
+        while(!file.delete() && !isStopRequested()){
+            telemetry.addData("File " + in.FileName + " has been deleted: ", file.delete());
+            telemetry.update();
+        }
     }
 }

@@ -17,10 +17,11 @@ public class ReadingThread extends Thread{
     public volatile boolean Stop;
     String line = " ";
     private double previousTime = -1;
-    private List<Double> runValues = new ArrayList<>();
-    private List<Integer> desiredVals = new ArrayList<>();
+    private double[] runValues = new double[10];
+    private boolean[] desiredVals = new boolean[10];
     private int tempIn;
     private double tempVal;
+    private boolean setTime = false;
 
     ReadingThread(ValueStorage vals, String fileName){
         this.Vals = vals;
@@ -31,34 +32,31 @@ public class ReadingThread extends Thread{
         catch(FileNotFoundException e){
 
         }
-        for(int i = 0; i < 10; i++) runValues.add(0.0);
         Vals.runValues(true, runValues);
     }
 
     public void run() {
+        while(!setTime && !Stop){}
         while(reader.hasNextLine() && !Stop){
             try {
                 if(time.milliseconds() > previousTime) {
-                    System.out.println("yeet");
                     previousTime = (double)(reader.nextDouble());
-                    System.out.println("1");
                     for(int i = 0; i < 10; i++) {
-                        System.out.println("reading");
-                        if(Vals.runValues.get(i) != (tempVal = reader.nextDouble())) {
-                            runValues.set(i, tempVal);
-                            desiredVals.add(i);
+                        if((runValues = Vals.runValues)[i] != (tempVal = reader.nextDouble())) {
+                            runValues[i] = tempVal;
+                            desiredVals[i] = true;
                         }
                     }
                     Vals.runValues(true, runValues);
                     Vals.changedParts(true, desiredVals);
-                    desiredVals.clear();
+                    for(int i = 0; i < 10; i++) desiredVals[i] = false;
                 }
             }
             catch (Exception e){
                 System.out.println("Reading Thread, " + e);
             }
         }
-
+        reader.close();
     }
 
     public void Stop(){
@@ -67,5 +65,6 @@ public class ReadingThread extends Thread{
 
     public void startTime(){
         time = new ElapsedTime();
+        setTime = true;
     }
 }
