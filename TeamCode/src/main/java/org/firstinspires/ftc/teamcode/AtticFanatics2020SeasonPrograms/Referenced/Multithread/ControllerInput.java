@@ -1,5 +1,9 @@
 package org.firstinspires.ftc.teamcode.AtticFanatics2020SeasonPrograms.Referenced.Multithread;
 
+import android.app.Activity;
+import android.content.Context;
+import android.os.Environment;
+
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
@@ -21,9 +25,12 @@ public class ControllerInput extends LinearOpMode {
     double[] hardwareActions = new double[10]; //Same values as all the others.
 
     public final String FileName = "Test.txt";
+    public String FilePath;
+    Context cont;
 
     @Override
     public void runOpMode() throws InterruptedException {
+        System.out.println("abc " + (FilePath = Environment.getExternalStorageDirectory().getPath()));
         HardwareThread hardware = new HardwareThread(vals, hardwareMap);
         hardware.start();
         WritingThread write = new WritingThread(vals, FileName);
@@ -31,11 +38,31 @@ public class ControllerInput extends LinearOpMode {
         //All other code in init() goes above here
         while(!opModeIsActive()){
             //do stuff if we want to loop before pressing play
+            telemetry.addData("File: ", write.file);
+            telemetry.addData("Write Exists: ", write.isAlive());
+            telemetry.addData("trace1: ", write.trace1);
+            telemetry.addData("trace2: ", write.trace2);
+            telemetry.addData("trace3: ", write.trace3);
+            telemetry.update();
         }
         hardware.startTime();
+        write.Start();
         //Anything else we want to do at the start of pressing play
         while(!isStopRequested()){
             //Main loop of the class
+            telemetry.addData("File: ", write.file);
+            telemetry.addData("Write Exists: ", write.isAlive());
+            telemetry.addData("trace1: ", write.trace1);
+            telemetry.addData("trace2: ", write.trace2);
+            telemetry.addData("trace3: ", write.trace3);
+            telemetry.addData("trace4: ", write.trace4);
+            //Trace5 is false
+            telemetry.addData("trace5: ", write.trace5);
+            telemetry.addData("trace6: ", write.trace6);
+            telemetry.addData("trace7: ", write.trace6);
+            telemetry.addData("Time: ", write.time);
+            telemetry.addData("LastTime: ", write.lastTime);
+            telemetry.update();
             try{
                 getInput();
             }

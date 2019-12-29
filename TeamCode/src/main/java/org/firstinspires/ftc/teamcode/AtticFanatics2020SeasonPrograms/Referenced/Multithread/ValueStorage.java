@@ -5,7 +5,7 @@ import java.util.List;
 
 public class ValueStorage {
 
-    public double Time = 0; //In milliseconds
+    public volatile double Time = 0; //In milliseconds
 
     private double[] hardwareValues = new double[10]; //Current values are:
     // motor velocities (0-3), scissor velocity(4), foundation hook left and right positions (5 and 6),

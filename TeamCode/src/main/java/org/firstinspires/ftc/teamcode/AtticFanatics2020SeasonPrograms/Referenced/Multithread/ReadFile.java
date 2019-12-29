@@ -8,6 +8,8 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 public class ReadFile extends LinearOpMode {
 
     ValueStorage vals = new ValueStorage();
+    ControllerInput in = new ControllerInput();
+
     public final String fileName = "Test.txt";
 
     @Override
@@ -16,10 +18,17 @@ public class ReadFile extends LinearOpMode {
         hardware.start();
         ReadingThread read = new ReadingThread(vals, fileName);
         read.start();
+        telemetry.addData("File exists: ", read.file.exists());
+        telemetry.update();
         waitForStart();
         hardware.startTime();
         read.startTime();
-        while(!isStopRequested() && read.isAlive()){}
+        while(!isStopRequested() && read.isAlive()){
+            telemetry.addData("Trace1: ", read.trace1);
+            telemetry.addData("Trace2: ", read.trace2);
+            telemetry.addData("Trace3: ", read.trace3);
+            telemetry.update();
+        }
         hardware.Stop();
         read.Stop();
         ElapsedTime time = new ElapsedTime();

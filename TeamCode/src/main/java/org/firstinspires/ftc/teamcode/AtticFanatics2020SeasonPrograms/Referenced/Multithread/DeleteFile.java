@@ -1,5 +1,7 @@
 package org.firstinspires.ftc.teamcode.AtticFanatics2020SeasonPrograms.Referenced.Multithread;
 
+import android.os.Environment;
+
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
@@ -12,7 +14,7 @@ public class DeleteFile extends LinearOpMode {
 
     @Override
     public void runOpMode() throws InterruptedException {
-        File file = new File(in.FileName);
+        File file = new File(Environment.getExternalStorageDirectory().getPath()+"/"+in.FileName);
         while(!file.delete() && !isStopRequested()){
             telemetry.addData("File " + in.FileName + " has been deleted: ", file.delete());
             telemetry.update();
