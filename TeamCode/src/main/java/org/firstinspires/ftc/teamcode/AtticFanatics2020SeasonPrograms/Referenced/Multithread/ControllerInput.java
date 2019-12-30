@@ -26,7 +26,7 @@ public class ControllerInput extends LinearOpMode {
 
     public final String FileName = "Test.txt";
     public String FilePath;
-    Context cont;
+    private double GAS = 1;
 
     @Override
     public void runOpMode() throws InterruptedException {
@@ -52,6 +52,8 @@ public class ControllerInput extends LinearOpMode {
             //Main loop of the class
             telemetry.addData("File: ", write.file);
             telemetry.addData("Write Exists: ", write.isAlive());
+            telemetry.addData("Hardware Time: ", hardware.time);
+            telemetry.addData("Temp Time: ", write.tempTime);
             telemetry.addData("trace1: ", write.trace1);
             telemetry.addData("trace2: ", write.trace2);
             telemetry.addData("trace3: ", write.trace3);
@@ -62,6 +64,7 @@ public class ControllerInput extends LinearOpMode {
             telemetry.addData("trace7: ", write.trace6);
             telemetry.addData("Time: ", write.time);
             telemetry.addData("LastTime: ", write.lastTime);
+            telemetry.addData("Time Written: ", vals.timeWritten);
             telemetry.update();
             try{
                 getInput();
@@ -97,8 +100,11 @@ public class ControllerInput extends LinearOpMode {
         changedParts[2] = true; //This line is because we will always be moving the motors.
         changedParts[3] = true; //This line is because we will always be moving the motors.
 
+        if(gamepad1.right_bumper) GAS = 0.5;
+        else GAS = 1;
+
         if(Math.abs(gamepad1.left_stick_x) >= 0.2 || Math.abs(gamepad1.left_stick_y) >= 0.2 || Math.abs(gamepad1.right_stick_x) >= 0.2){
-            double[] p = move.getVelocity(gamepad1.left_stick_x, gamepad1.left_stick_y, gamepad1.right_stick_x);
+            double[] p = move.getVelocity(-Math.pow(gamepad1.left_stick_x, 3) * GAS, -Math.pow(gamepad1.left_stick_y, 3) * GAS, -Math.pow(gamepad1.right_stick_x, 3));
             for(int i = 0; i < 4; i++) hardwareActions[i] = p[i];
         }
         else {

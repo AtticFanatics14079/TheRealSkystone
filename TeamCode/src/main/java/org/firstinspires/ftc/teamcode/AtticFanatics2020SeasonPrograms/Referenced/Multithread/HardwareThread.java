@@ -32,7 +32,8 @@ public class HardwareThread extends Thread {
         while(!stop) {
             try {
                 readHardware(vals.changedParts(false, null));
-                vals.hardware(true, hardware, time.milliseconds());
+                vals.hardware(true, hardware);
+                vals.time(true, time.milliseconds());
                 runHardware(vals.runValues(false, null), vals.changedParts(false, null));
                 //That line looks sketch but I'm pretty sure it's runtime efficient.
             } catch (Exception e) {

@@ -38,11 +38,14 @@ public class ReadFileAuto_V2 extends LinearOpMode {
         catch(FileNotFoundException e){
         }
 
-        while(!isStopRequested() && reader.hasNextLine()){
+        while(!isStopRequested() && reader.hasNextDouble()){
             for(int i = 0; i < 11; i++) tempValues[i] = reader.nextDouble();
             Values.add(tempValues);
             tempValues = new double[11];
         }
+
+        telemetry.addLine("Complete file read");
+        telemetry.update();
 
         waitForStart();
 
@@ -50,8 +53,10 @@ public class ReadFileAuto_V2 extends LinearOpMode {
 
         tempTime = Values.get(0)[0];
 
-        while(opModeIsActive() && !isStopRequested()){
+        while(!isStopRequested() && time.seconds() < 31){
             if(time.milliseconds() > tempTime){
+                System.out.println(time.milliseconds() + " " + tempTime);
+                telemetry.update();
                 setHardware(Values.get(count));
                 prevLine = Values.get(count);
                 count++;
@@ -61,6 +66,11 @@ public class ReadFileAuto_V2 extends LinearOpMode {
         }
 
         reader.close();
+
+        telemetry.addData("Count: ", count);
+        telemetry.update();
+
+        while(!isStopRequested()){}
     }
 
     private void setHardware(double[] oneLine){

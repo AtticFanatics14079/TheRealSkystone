@@ -12,8 +12,7 @@ public class WritingThread extends Thread{
     ValueStorage vals;
     File file;
     public volatile boolean stop = false, Start = false;
-    public double lastTime = 0, time;
-    private double temp;
+    public double lastTime, time, tempTime = 0;
     BufferedWriter fileWrite;
     FileWriter fWriter;
     double[] Values = new double[10];
@@ -43,6 +42,8 @@ public class WritingThread extends Thread{
 
         this.vals = Vals;
 
+        lastTime = 0;
+
         try {
             File file = new File(Environment.getExternalStorageDirectory().getPath()+"/"+fileName);
             if(file.exists()) {
@@ -70,16 +71,18 @@ public class WritingThread extends Thread{
 
     public void run(){
         while(!Start && !stop){
+            lastTime = 0;
+            tempTime = 0;
             trace1 = true;
         }
         while(!stop){
             try{
                 trace2 = true;
-                if((time = vals.time(false, 0)) >  lastTime){
+                if((time = vals.time(false, 0)) - 1 >  lastTime){
                     trace3 = true;
-                    Values = vals.hardware(false, null, 0);
+                    Values = vals.hardware(false, null);
                     trace4 = true;
-                    fileWrite.write(String.valueOf(time));
+                    fileWrite.write(String.valueOf(tempTime = time));
                     //fWriter.write(String.valueOf(time));
                     trace5 = true;
                     for(int i = 0; i < 10; i++){ //Change the < variable to account for size of hardware arraylist.
@@ -97,6 +100,7 @@ public class WritingThread extends Thread{
                     }
                     fileWrite.newLine();
                     //fWriter.write("\n");
+                    //fWriter.flush();
                     lastTime = time;
                 }
             }

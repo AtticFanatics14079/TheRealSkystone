@@ -18,9 +18,10 @@ public class ValueStorage {
     public boolean[] changedParts = new boolean[10]; //Same as hardwareValues. Tells which parts
     // should be updated.
 
-    public double[] hardware(boolean writing, double[] values, double time){
+    public volatile boolean timeWritten = false;
+
+    public double[] hardware(boolean writing, double[] values){
         if(writing) {
-            Time = time;
             hardwareValues = values.clone();
         }
         return hardwareValues;
@@ -43,7 +44,9 @@ public class ValueStorage {
     public synchronized double time(boolean writing, double time){
         if(writing){
             Time = time;
+            timeWritten = true;
         }
-        return Time;
+        if(timeWritten) return Time;
+        return -1;
     }
 }
