@@ -4,6 +4,7 @@ import android.content.Context;
 import android.os.Environment;
 
 import java.io.*;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -12,7 +13,7 @@ public class WritingThread extends Thread{
     ValueStorage vals;
     File file;
     public volatile boolean stop = false, Start = false;
-    public double lastTime, time, tempTime = 0;
+    public Double Time, LastTime, tempTime = 0.0;
     BufferedWriter fileWrite;
     FileWriter fWriter;
     double[] Values = new double[10];
@@ -42,10 +43,8 @@ public class WritingThread extends Thread{
 
         this.vals = Vals;
 
-        lastTime = 0;
-
         try {
-            File file = new File(Environment.getExternalStorageDirectory().getPath()+"/"+fileName);
+            file = new File(Environment.getExternalStorageDirectory().getPath()+"/"+fileName);
             if(file.exists()) {
                 boolean fileDeleted = file.delete();
                 if(!fileDeleted) {
@@ -70,15 +69,17 @@ public class WritingThread extends Thread{
     }
 
     public void run(){
+        double lastTime = -1, time;
+        DecimalFormat df = new DecimalFormat("+0.000;-");
         while(!Start && !stop){
-            lastTime = 0;
-            tempTime = 0;
             trace1 = true;
+            //LastTime = lastTime;
+            //Time = time;
         }
         while(!stop){
             try{
-                trace2 = true;
                 if((time = vals.time(false, 0)) - 1 >  lastTime){
+                //if((Time = vals.time(false, 0)) - 1 > LastTime){
                     trace3 = true;
                     Values = vals.hardware(false, null);
                     trace4 = true;
@@ -88,7 +89,7 @@ public class WritingThread extends Thread{
                     for(int i = 0; i < 10; i++){ //Change the < variable to account for size of hardware arraylist.
                         trace6 = true;
                         try {
-                            fileWrite.write(" " + (double)Math.round(Values[i] * 1000.0) / 1000.0);
+                            fileWrite.write(" " + df.format(Values[i]));
                             //fWriter.write(" " + (double)Math.round(Values[i] * 1000.0) / 1000.0);
                             trace7 = true;
                         }
@@ -118,6 +119,12 @@ public class WritingThread extends Thread{
         catch(Exception e){
             System.out.println("Closing failed because " + e);
         }
+        /*finally {
+            Time = null;
+            LastTime = null;
+            System.gc();
+        }
+        */
     }
 
     public void Stop(){

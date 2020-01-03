@@ -62,8 +62,8 @@ public class ControllerInput extends LinearOpMode {
             telemetry.addData("trace5: ", write.trace5);
             telemetry.addData("trace6: ", write.trace6);
             telemetry.addData("trace7: ", write.trace6);
-            telemetry.addData("Time: ", write.time);
-            telemetry.addData("LastTime: ", write.lastTime);
+            telemetry.addData("Time: ", write.Time);
+            telemetry.addData("LastTime: ", write.LastTime);
             telemetry.addData("Time Written: ", vals.timeWritten);
             telemetry.update();
             try{
