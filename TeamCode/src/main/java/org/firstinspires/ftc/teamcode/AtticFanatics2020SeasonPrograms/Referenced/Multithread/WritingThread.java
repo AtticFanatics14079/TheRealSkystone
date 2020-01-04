@@ -105,6 +105,8 @@ public class WritingThread extends Thread{
                     //fWriter.write("\n");
                     //fWriter.flush();
                     lastTime = time;
+                    LastTime = lastTime;
+                    Time = time;
                 }
             }
             catch(Exception e){
@@ -121,12 +123,11 @@ public class WritingThread extends Thread{
         catch(Exception e){
             System.out.println("Closing failed because " + e);
         }
-        /*finally {
+        finally {
             Time = null;
             LastTime = null;
             System.gc();
         }
-        */
     }
 
     public void Stop(){
