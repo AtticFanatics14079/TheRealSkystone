@@ -80,12 +80,12 @@ public class WritingThread extends Thread{
         }
         while(!stop){
             try{
-                if((time = vals.time(false, 0)) - 1 >  lastTime){
-                //if((Time = vals.time(false, 0)) - 1 > LastTime){
+                //if((time = vals.time(false, 0)) - 1 >  lastTime){
+                if((Time = vals.time(false, 0)) - 1 > LastTime){
                     trace3 = true;
                     Values = vals.hardware(false, null);
                     trace4 = true;
-                    fileWrite.write(String.valueOf(tempTime = time));
+                    fileWrite.write(String.valueOf(tempTime = Time));
                     //fWriter.write(String.valueOf(time));
                     trace5 = true;
                     for(int i = 0; i < 10; i++){ //Change the < variable to account for size of hardware arraylist.
@@ -96,7 +96,7 @@ public class WritingThread extends Thread{
                             trace7 = true;
                         }
                         catch(Exception ex) {
-                            System.out.println("Exception " + ex + " " + time);
+                            System.out.println("Exception " + ex + " " + Time);
                             fileWrite.write(" 0.0");
                             //fWriter.write(" 0.0");
                         }
@@ -104,9 +104,7 @@ public class WritingThread extends Thread{
                     fileWrite.newLine();
                     //fWriter.write("\n");
                     //fWriter.flush();
-                    lastTime = time;
-                    LastTime = lastTime;
-                    Time = time;
+                    LastTime = Time;
                 }
             }
             catch(Exception e){
