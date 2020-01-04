@@ -1,7 +1,7 @@
 package org.firstinspires.ftc.teamcode.AtticFanatics2020SeasonPrograms.Referenced.Multithread;
 
-import android.content.Context;
-import android.os.Environment;
+//import android.content.Context;
+//import android.os.Environment;
 
 import java.io.*;
 import java.text.DecimalFormat;
@@ -44,7 +44,7 @@ public class WritingThread extends Thread{
         this.vals = Vals;
 
         try {
-            file = new File(Environment.getExternalStorageDirectory().getPath()+"/"+fileName);
+            file = new File(fileName);
             if(file.exists()) {
                 boolean fileDeleted = file.delete();
                 if(!fileDeleted) {
@@ -58,7 +58,7 @@ public class WritingThread extends Thread{
             fos = new FileOutputStream(file, true);
 
             try {
-                fWriter = new FileWriter(fos.getFD());
+                fWriter = new FileWriter(file);
                 fileWrite = new BufferedWriter(fWriter);
             } catch (Exception e) {
                 System.out.println("Error " + e);
@@ -69,12 +69,12 @@ public class WritingThread extends Thread{
     }
 
     public void run(){
-        double lastTime = -1, time;
+        double lastTime = -1, time = 0;
         DecimalFormat df = new DecimalFormat("+0.000;-");
         while(!Start && !stop){
             trace1 = true;
-            //LastTime = lastTime;
-            //Time = time;
+            LastTime = lastTime;
+            Time = time;
         }
         while(!stop){
             try{

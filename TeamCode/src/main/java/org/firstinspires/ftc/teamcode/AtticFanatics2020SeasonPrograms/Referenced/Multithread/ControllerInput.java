@@ -1,14 +1,13 @@
 package org.firstinspires.ftc.teamcode.AtticFanatics2020SeasonPrograms.Referenced.Multithread;
 
-import android.app.Activity;
-import android.content.Context;
-import android.os.Environment;
+//import android.app.Activity;
+//import android.content.Context;
+//import android.os.Environment;
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
 import com.qualcomm.robotcore.util.ElapsedTime;
-import org.firstinspires.ftc.teamcode.AtticFanatics2020SeasonPrograms.Referenced.Configure;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -17,7 +16,6 @@ import java.util.List;
 @TeleOp(name= "Write TeleOp to File for Autonomous (Chris ignore this, don't start this code, don't do it, I SWEAR IF YOU DO IT)")
 public class ControllerInput extends LinearOpMode {
 
-    Configure robot = new Configure();
     static ValueStorage vals = new ValueStorage();
     MovementAlgorithms move = new MovementAlgorithms();
 
@@ -30,19 +28,19 @@ public class ControllerInput extends LinearOpMode {
 
     @Override
     public void runOpMode() throws InterruptedException {
-        System.out.println("abc " + (FilePath = Environment.getExternalStorageDirectory().getPath()));
+        System.out.println(3);
         HardwareThread hardware = new HardwareThread(vals, hardwareMap);
+        System.out.println(4);
         hardware.start();
+        System.out.println(5);
         WritingThread write = new WritingThread(vals, FileName);
+        System.out.println(6);
         write.start();
         //All other code in init() goes above here
         while(!opModeIsActive()){
             //do stuff if we want to loop before pressing play
             telemetry.addData("File: ", write.file);
             telemetry.addData("Write Exists: ", write.isAlive());
-            telemetry.addData("trace1: ", write.trace1);
-            telemetry.addData("trace2: ", write.trace2);
-            telemetry.addData("trace3: ", write.trace3);
             telemetry.update();
         }
         hardware.startTime();
@@ -53,16 +51,7 @@ public class ControllerInput extends LinearOpMode {
             telemetry.addData("File: ", write.file);
             telemetry.addData("Write Exists: ", write.isAlive());
             telemetry.addData("Hardware Time: ", hardware.time);
-            telemetry.addData("Temp Time: ", write.tempTime);
-            telemetry.addData("trace1: ", write.trace1);
-            telemetry.addData("trace2: ", write.trace2);
-            telemetry.addData("trace3: ", write.trace3);
-            telemetry.addData("trace4: ", write.trace4);
-            //Trace5 is false
-            telemetry.addData("trace5: ", write.trace5);
-            telemetry.addData("trace6: ", write.trace6);
-            telemetry.addData("trace7: ", write.trace6);
-            telemetry.addData("Time: ", write.Time);
+            telemetry.addData("Writing Time: ", write.Time);
             telemetry.addData("LastTime: ", write.LastTime);
             telemetry.addData("Time Written: ", vals.timeWritten);
             telemetry.update();
