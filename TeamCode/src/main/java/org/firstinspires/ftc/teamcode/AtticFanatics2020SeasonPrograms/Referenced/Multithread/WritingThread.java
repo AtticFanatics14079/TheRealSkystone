@@ -3,6 +3,8 @@ package org.firstinspires.ftc.teamcode.AtticFanatics2020SeasonPrograms.Reference
 //import android.content.Context;
 //import android.os.Environment;
 
+import android.os.Environment;
+
 import java.io.*;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
@@ -44,7 +46,7 @@ public class WritingThread extends Thread{
         this.vals = Vals;
 
         try {
-            file = new File(fileName);
+            file = new File(Environment.getExternalStorageDirectory().getPath()+"/"+fileName);
             if(file.exists()) {
                 boolean fileDeleted = file.delete();
                 if(!fileDeleted) {
@@ -58,7 +60,7 @@ public class WritingThread extends Thread{
             fos = new FileOutputStream(file, true);
 
             try {
-                fWriter = new FileWriter(file);
+                fWriter = new FileWriter(fos.getFD());
                 fileWrite = new BufferedWriter(fWriter);
             } catch (Exception e) {
                 System.out.println("Error " + e);
