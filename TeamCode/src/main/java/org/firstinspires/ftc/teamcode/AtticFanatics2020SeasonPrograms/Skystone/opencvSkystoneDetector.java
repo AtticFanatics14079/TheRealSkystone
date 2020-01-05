@@ -1,7 +1,9 @@
 package org.firstinspires.ftc.teamcode.AtticFanatics2020SeasonPrograms.Skystone;
 
 import com.acmerobotics.dashboard.config.Config;
-import com.qualcomm.robotcore.hardware.HardwareMap;
+import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
+import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.opencv.core.Core;
 import org.opencv.core.Mat;
@@ -18,78 +20,73 @@ import java.util.ArrayList;
 import java.util.List;
 
 
+/**
+ * Created by maryjaneb  on 11/13/2016.
+ *
+ * nerverest ticks
+ * 60 1680
+ * 40 1120
+ * 20 560
+ *
+ * monitor: 640 x 480
+ *YES
+ */
 @Config
-public class OpenCVDetectorClass {
+@Autonomous(name= "opencvSkystoneDetector", group="Sky autonomous")
+public class opencvSkystoneDetector extends LinearOpMode {
+    private ElapsedTime runtime = new ElapsedTime();
+
+    //0 means skystone, 1 means yellow stone
+    //-1 for debug, but we can keep it like this because if it works, it should change to either 0 or 255
     private static int valMid = -1;
     private static int valLeft = -1;
     private static int valRight = -1;
 
-    private static int[] vals = {valMid, valLeft, valRight};
-
     private static float rectHeight = .6f/8f;
     private static float rectWidth = 1.5f/8f;
 
+    private static float offsetX = 0f/8f;//changing this moves the three rects and the three circles left or right, range : (-2, 2) not inclusive
+    private static float offsetY = 0f/8f;//changing this moves the three rects and circles up or down, range: (-4, 4) not inclusive
 
-    private static float[] midPos = {4f/8f, 4f/8f};//0 = col, 1 = row
-    private static float[] leftPos = {2f/8f, 4f/8f};
-    private static float[] rightPos = {6f/8f, 4f/8f};
+    private static float[] midPos = {4f/8f+offsetX, 4f/8f+offsetY};//0 = col, 1 = row
+    private static float[] leftPos = {2f/8f+offsetX, 4f/8f+offsetY};
+    private static float[] rightPos = {6f/8f+offsetX, 4f/8f+offsetY};
     //moves all rectangles right or left by amount. units are in ratio to monitor
 
-    protected final int rows = 640;
-    protected final int cols = 480;
-
+    private final int rows = 640;
+    private final int cols = 480;
 
     OpenCvCamera phoneCam;
 
+    @Override
+    public void runOpMode() throws InterruptedException {
 
-
-    public OpenCVDetectorClass() {
-
-    }
-
-//    public OpenCVDetectorClass(float offsetX, float offsetY) {
-//        midPos[0] += offsetX;
-//        midPos[1] += offsetY;
-//        leftPos[0] += offsetX;
-//        leftPos[1] += offsetY;
-//        rightPos[0] += offsetX;
-//        rightPos[1] += offsetY;
-//    }
-
-//   StageSwitchingPipeline detector;
-    public void setOffset(float offsetX, float offsetY) {
-        midPos[0] += offsetX;
-        midPos[1] += offsetY;
-        leftPos[0] += offsetX;
-        leftPos[1] += offsetY;
-        rightPos[0] += offsetX;
-        rightPos[1] += offsetY;
-   }
-
-    public void camSetup (HardwareMap hwMap) {
-        int cameraMonitorViewId = hwMap.appContext.getResources().getIdentifier("cameraMonitorViewId", "id", hwMap.appContext.getPackageName());
+        int cameraMonitorViewId = hardwareMap.appContext.getResources().getIdentifier("cameraMonitorViewId", "id", hardwareMap.appContext.getPackageName());
         phoneCam = new OpenCvInternalCamera(OpenCvInternalCamera.CameraDirection.BACK, cameraMonitorViewId);
         phoneCam.openCameraDevice();//open camera
         phoneCam.setPipeline(new StageSwitchingPipeline());//different stages
         phoneCam.startStreaming(rows, cols, OpenCvCameraRotation.UPRIGHT);//display on RC
+        //width, height
+        //width = height in this case, because camera is in portrait mode.
+
+        waitForStart();
+        runtime.reset();
+        while (opModeIsActive()) {
+            telemetry.addData("Values", valLeft+"   "+valMid+"   "+valRight);
+            telemetry.addData("Height", rows);
+            telemetry.addData("Width", cols);
+
+            telemetry.update();
+            sleep(100);
+            //call movement functions
+//            strafe(0.4, 200);
+//            moveDistance(0.4, 700);
+
+        }
     }
-
-
-    public int[] getVals() {
-
-        return vals;
-    }
-
-    public void updateVals() {
-        vals[0] = valMid;
-        vals[1] = valLeft;
-        vals[2] = valRight;
-
-    }
-
 
     //detection pipeline
-    public static class StageSwitchingPipeline extends OpenCvPipeline
+    static class StageSwitchingPipeline extends OpenCvPipeline
     {
         Mat yCbCrChan2Mat = new Mat();
         Mat thresholdMat = new Mat();
@@ -125,6 +122,7 @@ public class OpenCVDetectorClass {
 
             stageToRenderToViewport = stages[nextStageNum];
         }
+
         @Override
         public Mat processFrame(Mat input)
         {
@@ -198,39 +196,29 @@ public class OpenCVDetectorClass {
                             input.rows()*(rightPos[1]+rectHeight/2)),
                     new Scalar(0, 255, 0), 3);
 
-            switch (stageToRenderToViewport) {
-                case THRESHOLD: {
+            switch (stageToRenderToViewport)
+            {
+                case THRESHOLD:
+                {
                     return thresholdMat;
                 }
 
-                case detection: {
+                case detection:
+                {
                     return all;
                 }
 
-                case RAW_IMAGE: {
+                case RAW_IMAGE:
+                {
                     return input;
                 }
 
-                default: {
+                default:
+                {
                     return input;
                 }
             }
         }
-/*
-        public void updateVals(Mat input) {
-            //get values from frame
-            double[] pixMid = thresholdMat.get((int)(input.rows()* midPos[1]), (int)(input.cols()* midPos[0]));//gets value at circle
-            valMid = (int)pixMid[0];
-
-            double[] pixLeft = thresholdMat.get((int)(input.rows()* leftPos[1]), (int)(input.cols()* leftPos[0]));//gets value at circle
-            valLeft = (int)pixLeft[0];
-
-            double[] pixRight = thresholdMat.get((int)(input.rows()* rightPos[1]), (int)(input.cols()* rightPos[0]));//gets value at circle
-            valRight = (int)pixRight[0];
-
-        }
-
- */
 
     }
 }

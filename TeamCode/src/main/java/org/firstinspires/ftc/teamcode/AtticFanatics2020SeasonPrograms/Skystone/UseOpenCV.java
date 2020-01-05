@@ -1,36 +1,25 @@
 package org.firstinspires.ftc.teamcode.AtticFanatics2020SeasonPrograms.Skystone;
 
+import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 
-public class UseOpenCV extends OpMode {
+@Autonomous (name = "UseOpenCV")
+public class UseOpenCV extends LinearOpMode {
 
     OpenCVDetectorClass camera = new OpenCVDetectorClass();
 
-
     @Override
-    public void init() {
+    public void runOpMode() throws InterruptedException {
         camera.camSetup(hardwareMap);
-        //other hardware configs
-    }
+        waitForStart();
+        while(!isStopRequested()){
+            telemetry.addData("Values", camera.getVals()[1]+"   "+camera.getVals()[0]+"   "+camera.getVals()[2]);
+            telemetry.addData("Height", camera.rows);
+            telemetry.addData("Width", camera.cols);
 
-    @Override
-    public void init_loop() {
-        camera.getVals();
-    }
-
-    /*
-     * Code to run ONCE when the driver hits PLAY
-     */
-    @Override
-    public void start() {
-        //stop the camera
-        //our movements
-
-    }
-
-    @Override
-    public void loop() {
-
+            telemetry.update();
+            sleep(100);
+        }
     }
 }
