@@ -20,8 +20,8 @@ import java.util.List;
 
 
 @Config
-public class OpenCVDetectorClass {
-    private ElapsedTime runtime = new ElapsedTime();
+public class Detector {
+    public ElapsedTime runtime = new ElapsedTime();
     private HardwareMap hardwareMap;
     //0 means skystone, 1 means yellow stone
     //-1 for debug, but we can keep it like this because if it works, it should change to either 0 or 255
@@ -47,7 +47,7 @@ public class OpenCVDetectorClass {
 
     OpenCvCamera phoneCam;
 
-    public OpenCVDetectorClass(ElapsedTime runtime, HardwareMap hardwareMap) {
+    public Detector(ElapsedTime runtime, HardwareMap hardwareMap) {
         this.runtime = runtime;
         this.hardwareMap = hardwareMap;
     }
