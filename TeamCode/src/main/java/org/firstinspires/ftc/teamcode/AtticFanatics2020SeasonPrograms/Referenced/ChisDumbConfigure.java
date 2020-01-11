@@ -32,9 +32,9 @@ public class ChisDumbConfigure {
 
     public DcMotorImplEx ExtendGripper;
 
-    public DcMotorImplEx Scissor;
+    public DcMotorImplEx ScissorLeft, ScissorRight;
 
-    public DcMotor ingester1, ingester2;
+    public DcMotor IngesterLeft, IngesterRight;
 
     public boolean Configured = false;
 
@@ -53,7 +53,7 @@ public class ChisDumbConfigure {
 
     public static final int EXTENDED = -3700;
 
-    public static final int[] levels = {0, -1300, -2700, -4000, -4640, -6000, -7500, -9100, -11000, -12900};
+    public static final int[] levels = {0, 1300, 2700, 4000, 4640, 6000, 7500, 9100, 11000, 12900};
 
     public double getTargetPosition(int motor){
         return targetPosition[motor];
@@ -136,20 +136,22 @@ public class ChisDumbConfigure {
         ExtendGripper = hwMap.get(DcMotorImplEx.class, "extend_gripper");
         FoundationLeft = hwMap.get(Servo.class, "foundation_left");
         FoundationRight = hwMap.get(Servo.class, "foundation_right");
-        Scissor = hwMap.get(DcMotorImplEx.class, "scissor");
-        ingester1 = hwMap.get(DcMotor.class, "ingester_left");
-        ingester2 = hwMap.get(DcMotor.class, "ingester_right");
+        ScissorLeft = hwMap.get(DcMotorImplEx.class, "scissor_left");
+        ScissorRight = hwMap.get(DcMotorImplEx.class, "scissor_right");
+        IngesterLeft = hwMap.get(DcMotorImplEx.class, "ingester_left");
+        IngesterRight = hwMap.get(DcMotorImplEx.class, "ingester_right");
 
         Motors[1].setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         Motors[2].setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         Motors[3].setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         Motors[4].setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        Scissor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        ScissorLeft.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        ScissorRight.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         ExtendGripper.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
         Motors[3].setDirection(DcMotor.Direction.REVERSE);
         Motors[4].setDirection(DcMotor.Direction.REVERSE);
-        ingester2.setDirection(DcMotorSimple.Direction.REVERSE);
+        IngesterLeft.setDirection(DcMotorSimple.Direction.REVERSE);
 
         /*imu = hwMap.get(BNO055IMU.class, "imu");
         imu.initialize(new BNO055IMU.Parameters());
@@ -159,8 +161,8 @@ public class ChisDumbConfigure {
 
 
          */
-        Scissor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        Scissor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        ScissorLeft.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        ScissorRight.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
         ExtendGripper.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         ExtendGripper.setMode(DcMotor.RunMode.RUN_USING_ENCODER);

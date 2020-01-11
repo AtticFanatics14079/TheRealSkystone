@@ -5,7 +5,7 @@ import java.util.List;
 
 public class ValueStorage {
 
-    public volatile double Time = 0; //In milliseconds
+    public volatile Double Time = 0.0; //In milliseconds
 
     private double[] hardwareValues = new double[10]; //Current values are:
     // motor velocities (0-3), scissor velocity(4), foundation hook left and right positions (5 and 6),
@@ -18,7 +18,7 @@ public class ValueStorage {
     public boolean[] changedParts = new boolean[10]; //Same as hardwareValues. Tells which parts
     // should be updated.
 
-    public volatile boolean timeWritten = false;
+    public volatile Double timeWritten;
 
     public double[] hardware(boolean writing, double[] values){
         if(writing) {
@@ -43,10 +43,9 @@ public class ValueStorage {
 
     public synchronized double time(boolean writing, double time){
         if(writing){
-            Time = time;
-            timeWritten = true;
+            timeWritten = Time = time;
+            return 0;
         }
-        if(timeWritten) return Time;
-        return -1;
+        return Time;
     }
 }

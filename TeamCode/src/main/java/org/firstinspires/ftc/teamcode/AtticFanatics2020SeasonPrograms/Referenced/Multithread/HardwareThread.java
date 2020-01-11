@@ -19,22 +19,27 @@ public class HardwareThread extends Thread {
     double[] hardware = new double[10]; //See hardwareValues in ValueStorage for each value.
     boolean[] DesiredVals = new boolean[10]; //See hardwareValues in ValueStorage for each value.
     double[] Vals = new double[10]; //See hardwareValues in ValueStorage for each value.
+    double[] prevVals = new double[10]; //See hardwareValues in ValueStorage for each value.
     public volatile boolean stop;
+    public boolean ready = false;
     private boolean setTime = false;
+    private final double MAX_ACCELERATION = 2;
 
     HardwareThread(ValueStorage Vals, HardwareMap hwMap){
         this.vals = Vals;
         config.Configure(hwMap);
+        vals.time(true, 0.0);
     }
 
     public void run(){
-        while(!setTime && !stop){}
+        while(!setTime && !stop){ready = true;}
         while(!stop) {
             try {
                 readHardware(vals.changedParts(false, null));
                 vals.hardware(true, hardware);
                 vals.time(true, time.milliseconds());
                 runHardware(vals.runValues(false, null), vals.changedParts(false, null));
+                System.out.println("One hardware loop " + time.milliseconds());
                 //That line looks sketch but I'm pretty sure it's runtime efficient.
             } catch (Exception e) {
                 System.out.print("Houston, we have a problem. (Hardware thread), ");
@@ -107,38 +112,50 @@ public class HardwareThread extends Thread {
             if (DesiredVals[i]) {
                 switch (i) {
                     case 0:
+                        if(Math.abs(Vals[0] - prevVals[0]) > MAX_ACCELERATION) Vals[0] = prevVals[0] + MAX_ACCELERATION;
                         config.Motors[1].setPower(Vals[0]);
                         break;
                     case 1:
+                        if(Vals[1] - prevVals[1] > MAX_ACCELERATION) Vals[1] = prevVals[1] + MAX_ACCELERATION;
                         config.Motors[2].setPower(Vals[1]);
                         break;
                     case 2:
+                        if(Vals[2] - prevVals[2] > MAX_ACCELERATION) Vals[2] = prevVals[2] + MAX_ACCELERATION;
                         config.Motors[3].setPower(Vals[2]);
                         break;
                     case 3:
+                        if(Vals[3] - prevVals[3] > MAX_ACCELERATION) Vals[3] = prevVals[3] + MAX_ACCELERATION;
                         config.Motors[4].setPower(Vals[3]);
                         break;
                     case 4:
+                        if(Vals[4] - prevVals[4] > MAX_ACCELERATION) Vals[4] = prevVals[4] + MAX_ACCELERATION;
                         config.Scissor.setPower(Vals[4]);
                         break;
                     case 5:
+                        //if(Vals[5] - prevVals[5] > MAX_ACCELERATION) Vals[5] = prevVals[5] + MAX_ACCELERATION;
                         config.FoundationLeft.setPosition(Vals[5]);
                         break;
                     case 6:
+                        //if(Vals[6] - prevVals[6] > MAX_ACCELERATION) Vals[6] = prevVals[6] + MAX_ACCELERATION;
                         config.FoundationRight.setPosition(Vals[6]);
                         break;
                     case 7:
+                        if(Vals[7] - prevVals[7] > MAX_ACCELERATION) Vals[7] = prevVals[7] + MAX_ACCELERATION;
                         config.ExtendGripper.setPower(Vals[7]);
                         break;
                     case 8:
+                        //if(Vals[8] - prevVals[8] > MAX_ACCELERATION) Vals[8] = prevVals[8] + MAX_ACCELERATION;
                         config.RotateGripper.setPosition(Vals[8]);
                         break;
                     case 9:
+                        //if(Vals[9] - prevVals[9] > MAX_ACCELERATION) Vals[9] = prevVals[9] + MAX_ACCELERATION;
                         config.Gripper.setPosition(Vals[9]);
                         break;
                 }
             }
         }
+
+        prevVals = Vals.clone();
     }
 
     public void Stop(){

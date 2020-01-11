@@ -19,9 +19,10 @@ public class ChrisIngesterTeleOp extends ChisDumbConfigure {
     {
         hwMap = ahwMap;
 
-        if(G2.a) setIngesters(0);
+        /*if(G2.a) setIngesters(0);
         else if(G2.b) setIngesters(-1);
         else setIngesters(1);
+         */
 
         //if(G1.left_bumper) RampSpeed(G1.left_stick_x, G1.left_stick_y, G1.right_stick_x, 4); //RampSpeed at 1/4 speed
 
@@ -39,8 +40,21 @@ public class ChrisIngesterTeleOp extends ChisDumbConfigure {
         //if(G2.left_trigger != 0) Gripper.setPosition(0.5);
         //else if(G2.y) Gripper.setPosition(Gripper.getPosition() + 0.01); //Gradual movement for recalibration. NOTE: The servo yeets itself if it is not at a position before moving.
         //else if(G2.x) Gripper.setPosition(Gripper.getPosition() - 0.01); //See above
-        if(G2.y) Gripper.setPosition(GRIPPER_OPEN); //Move claw to not gripped position
-        else if(G2.x) Gripper.setPosition(GRIPPER_CLOSED); //Move claw to gripped position
+        //if(G2.y) Gripper.setPosition(GRIPPER_OPEN); //Move claw to not gripped position
+        //else if(G2.x) Gripper.setPosition(GRIPPER_CLOSED); //Move claw to gripped position
+
+        if(G1.x){
+            ScissorLeft.setPower(-1);
+            ScissorRight.setPower(-1);
+        }
+        else if(G1.y){
+            ScissorLeft.setPower(1);
+            ScissorRight.setPower(1);
+        }
+        else {
+            ScissorLeft.setPower(0);
+            ScissorRight.setPower(0);
+        }
 
         /*if(G2.left_trigger > 0.5 && G2.dpad_left) {
             ExtendGripper.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
@@ -131,15 +145,22 @@ public class ChrisIngesterTeleOp extends ChisDumbConfigure {
      */
 
     private void setScissorLevel(int level){
-        Scissor.setTargetPositionTolerance(100);
-        Scissor.setTargetPosition(levels[level]);
-        Scissor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        if(Scissor.getTargetPosition() > Scissor.getCurrentPosition()) Scissor.setPower(1);
-        else Scissor.setPower(-1);
+        ScissorLeft.setTargetPositionTolerance(100);
+        ScissorRight.setTargetPositionTolerance(100);
+        ScissorLeft.setTargetPosition(levels[level]);
+        ScissorLeft.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        if(ScissorLeft.getTargetPosition() > ScissorLeft.getCurrentPosition()) {
+            ScissorLeft.setPower(1);
+            ScissorRight.setPower(1);
+        }
+        else {
+            ScissorLeft.setPower(-1);
+            ScissorRight.setPower(1);
+        }
         Pressed = true;
     }
 
-    private void grabBlock(){
+    /*private void grabBlock(){
         try {
             setPower(0, 0, 0);
 
@@ -168,10 +189,11 @@ public class ChrisIngesterTeleOp extends ChisDumbConfigure {
         }
         catch(InterruptedException ignore){ }
     }
+    */
 
     private void setIngesters(double power){
-        ingester1.setPower(power);
-        ingester2.setPower(power);
+        IngesterLeft.setPower(power);
+        IngesterRight.setPower(power);
     }
 
     //The following method is code from Team 16072's virtual_robot program. Small changes are only to make it fit our format, the bulk of the method was written by them.

@@ -15,7 +15,6 @@ public class WritingThread extends Thread{
     ValueStorage vals;
     File file;
     public volatile boolean stop = false, Start = false;
-    public Double Time, LastTime, tempTime = 0.0;
     BufferedWriter fileWrite;
     FileWriter fWriter;
     double[] Values = new double[10];
@@ -71,29 +70,22 @@ public class WritingThread extends Thread{
     }
 
     public void run(){
-        double lastTime = -1, time = 0;
+        double LastTime = -1, Time;
         DecimalFormat df = new DecimalFormat("+0.000;-");
         while(!Start && !stop){
             trace1 = true;
-            LastTime = lastTime;
-            Time = time;
         }
         while(!stop){
             try{
                 //if((time = vals.time(false, 0)) - 1 >  lastTime){
-                if((Time = vals.time(false, 0)) - 1 > LastTime){
-                    trace3 = true;
+                if((Time = vals.time(false, 0)) - 0.1 > LastTime){
                     Values = vals.hardware(false, null);
-                    trace4 = true;
-                    fileWrite.write(String.valueOf(tempTime = Time));
+                    fileWrite.write(String.valueOf(Time));
                     //fWriter.write(String.valueOf(time));
-                    trace5 = true;
                     for(int i = 0; i < 10; i++){ //Change the < variable to account for size of hardware arraylist.
-                        trace6 = true;
                         try {
                             fileWrite.write(" " + df.format(Values[i]));
                             //fWriter.write(" " + (double)Math.round(Values[i] * 1000.0) / 1000.0);
-                            trace7 = true;
                         }
                         catch(Exception ex) {
                             System.out.println("Exception " + ex + " " + Time);
@@ -112,7 +104,8 @@ public class WritingThread extends Thread{
             }
         }
         try {
-            //fWriter.flush();
+            fileWrite.flush();
+            fWriter.flush();
             fileWrite.close();
             fWriter.close();
             fos.getFD().sync();
@@ -122,8 +115,6 @@ public class WritingThread extends Thread{
             System.out.println("Closing failed because " + e);
         }
         finally {
-            Time = null;
-            LastTime = null;
             System.gc();
         }
     }

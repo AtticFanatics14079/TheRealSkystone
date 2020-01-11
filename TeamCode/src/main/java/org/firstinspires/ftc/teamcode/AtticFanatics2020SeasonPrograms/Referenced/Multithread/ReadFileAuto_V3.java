@@ -85,10 +85,8 @@ public class ReadFileAuto_V3 extends LinearOpMode {
 
         tempTime = Values.get(0)[0];
 
-        while(!isStopRequested() && time.seconds() < 31){
+        while(!isStopRequested()){
             if(time.milliseconds() > tempTime){
-                System.out.println(time.milliseconds() + " " + tempTime);
-                telemetry.update();
                 setHardware(Values.get(count));
                 prevLine = Values.get(count);
                 count++;
@@ -96,6 +94,9 @@ public class ReadFileAuto_V3 extends LinearOpMode {
                 tempTime = Values.get(count)[0];
             }
         }
+
+        double[] temp = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
+        setHardware(temp);
     }
 
     private void setHardware(double[] oneLine){
