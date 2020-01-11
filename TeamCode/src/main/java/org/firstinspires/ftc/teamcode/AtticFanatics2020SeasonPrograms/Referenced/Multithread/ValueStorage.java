@@ -20,6 +20,8 @@ public class ValueStorage {
 
     public volatile Double timeWritten;
 
+    public int skystonePosition = -1;
+
     public double[] hardware(boolean writing, double[] values){
         if(writing) {
             hardwareValues = values.clone();
@@ -47,5 +49,13 @@ public class ValueStorage {
             return 0;
         }
         return Time;
+    }
+
+    public synchronized int skyPos(boolean writing, int pos){
+        if(writing){
+            skystonePosition = pos;
+            return 0;
+        }
+        return skystonePosition;
     }
 }
