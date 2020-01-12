@@ -7,11 +7,11 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 @Autonomous (name = "UseOpenCV")
 public class UseOpenCV extends LinearOpMode {
     ElapsedTime runtime = new ElapsedTime();
-    Detector camera = new Detector(runtime,hardwareMap);
+    Detector camera = new Detector(runtime);
 
     @Override
     public void runOpMode() throws InterruptedException {
-        camera.initCV();
+        camera.initCV(hardwareMap);
         waitForStart();
         camera.runtime.reset();
         while(!isStopRequested()){

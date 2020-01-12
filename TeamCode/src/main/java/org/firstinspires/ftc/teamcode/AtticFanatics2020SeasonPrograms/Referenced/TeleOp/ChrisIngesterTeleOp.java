@@ -55,6 +55,15 @@ public class ChrisIngesterTeleOp extends ChisDumbConfigure {
             ScissorLeft.setPower(0);
             ScissorRight.setPower(0);
         }
+        if(G2.right_bumper){
+            setIngesters(0.6);
+        }
+        else if(G2.left_bumper){
+            setIngesters(-0.6);
+        }
+        else{
+            setIngesters(0);
+        }
 
         /*if(G2.left_trigger > 0.5 && G2.dpad_left) {
             ExtendGripper.setMode(DcMotor.RunMode.RUN_USING_ENCODER);

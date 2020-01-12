@@ -131,9 +131,6 @@ public class ChisDumbConfigure {
         Motors[2] = hwMap.get(DcMotorImplEx.class, "front_left_motor");
         Motors[3] = hwMap.get(DcMotorImplEx.class, "front_right_motor");
         Motors[4] = hwMap.get(DcMotorImplEx.class, "back_right_motor");
-        Gripper = hwMap.get(Servo.class, "gripper");
-        RotateGripper = hwMap.get(Servo.class, "rotate_gripper");
-        ExtendGripper = hwMap.get(DcMotorImplEx.class, "extend_gripper");
         FoundationLeft = hwMap.get(Servo.class, "foundation_left");
         FoundationRight = hwMap.get(Servo.class, "foundation_right");
         ScissorLeft = hwMap.get(DcMotorImplEx.class, "scissor_left");
@@ -147,7 +144,6 @@ public class ChisDumbConfigure {
         Motors[4].setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         ScissorLeft.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         ScissorRight.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        ExtendGripper.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
         Motors[3].setDirection(DcMotor.Direction.REVERSE);
         Motors[4].setDirection(DcMotor.Direction.REVERSE);
@@ -161,11 +157,8 @@ public class ChisDumbConfigure {
 
 
          */
-        ScissorLeft.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        ScissorLeft.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         ScissorRight.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-
-        ExtendGripper.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        ExtendGripper.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
         return hwMap;
         }

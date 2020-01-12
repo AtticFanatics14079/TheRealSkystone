@@ -22,7 +22,6 @@ import java.util.List;
 @Config
 public class Detector {
     public ElapsedTime runtime = new ElapsedTime();
-    private HardwareMap hardwareMap;
     //0 means skystone, 1 means yellow stone
     //-1 for debug, but we can keep it like this because if it works, it should change to either 0 or 255
     private static int valMid = -1;
@@ -31,15 +30,15 @@ public class Detector {
 
     private static int[] vals = {valLeft,valMid,valRight};
 
-    private static float rectHeight = .6f / 8f;
-    private static float rectWidth = 1.5f / 8f;
+    private static float rectHeight = 1.5f / 8f;
+    private static float rectWidth = .6f / 8f;
 
     private static float offsetX = 0f / 8f;//changing this moves the three rects and the three circles left or right, range : (-2, 2) not inclusive
     private static float offsetY = 0f / 8f;//changing this moves the three rects and circles up or down, range: (-4, 4) not inclusive
 
     private static float[] midPos = {4f / 8f + offsetX, 4f / 8f + offsetY};//0 = col, 1 = row
-    private static float[] leftPos = {2f / 8f + offsetX, 4f / 8f + offsetY};
-    private static float[] rightPos = {6f / 8f + offsetX, 4f / 8f + offsetY};
+    private static float[] leftPos = {4f / 8f + offsetX, 2f / 8f + offsetY};
+    private static float[] rightPos = {4f / 8f + offsetX, 6f / 8f + offsetY};
     //moves all rectangles right or left by amount. units are in ratio to monitor
 
     private final int rows = 640;
@@ -47,12 +46,11 @@ public class Detector {
 
     OpenCvCamera phoneCam;
 
-    public Detector(ElapsedTime runtime, HardwareMap hardwareMap) {
+    public Detector(ElapsedTime runtime) {
         this.runtime = runtime;
-        this.hardwareMap = hardwareMap;
     }
 
-    public void initCV() {
+    public void initCV(HardwareMap hardwareMap) {
         int cameraMonitorViewId = hardwareMap.appContext.getResources().getIdentifier("cameraMonitorViewId", "id", hardwareMap.appContext.getPackageName());
         phoneCam = new OpenCvInternalCamera(OpenCvInternalCamera.CameraDirection.BACK, cameraMonitorViewId);
         phoneCam.openCameraDevice();//open camera
