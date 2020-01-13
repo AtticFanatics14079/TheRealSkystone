@@ -17,7 +17,7 @@ public class EverythingWithDetect extends LinearOpMode {
     @Override
     public void runOpMode() throws InterruptedException{
         //robot.setGrip(.1,hardwareMap);
-        robot.Configure(hardwareMap);
+        robot.Comp1Configure(hardwareMap);
         int SkystonePosition = -2;
         camera.instantCamera(hardwareMap);
         CameraDevice.getInstance().setFlashTorchMode(true);

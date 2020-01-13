@@ -1,14 +1,15 @@
 package org.firstinspires.ftc.teamcode.AtticFanatics2020SeasonPrograms.Run.TeleOp;
 
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 
-import org.firstinspires.ftc.teamcode.AtticFanatics2020SeasonPrograms.Referenced.TeleOp.ChrisIngesterTeleOp;
-import org.firstinspires.ftc.teamcode.AtticFanatics2020SeasonPrograms.Referenced.TeleOp.TeleOpMecanum;
+import org.firstinspires.ftc.teamcode.AtticFanatics2020SeasonPrograms.Referenced.TeleOp.Comp1TeleOpMecanum;
 
-@com.qualcomm.robotcore.eventloop.opmode.TeleOp(name = "Chris TeleOp", group = "Sensor")
-public class ChrisTeleOp extends OpMode {
+@Disabled
+@com.qualcomm.robotcore.eventloop.opmode.TeleOp(name = "Skystone TeleOp", group = "Sensor")
+public class Comp1TeleOp extends OpMode {
 
-    ChrisIngesterTeleOp Drive = new ChrisIngesterTeleOp();
+    Comp1TeleOpMecanum Drive = new Comp1TeleOpMecanum();
 
     @Override
     public void init() {

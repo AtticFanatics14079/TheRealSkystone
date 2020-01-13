@@ -3,17 +3,12 @@ package org.firstinspires.ftc.teamcode.AtticFanatics2020SeasonPrograms.Reference
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
-import org.firstinspires.ftc.teamcode.AtticFanatics2020SeasonPrograms.Referenced.Configure;
-
-import java.nio.file.FileSystemNotFoundException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import org.firstinspires.ftc.teamcode.AtticFanatics2020SeasonPrograms.Referenced.Comp2Configure;
 
 public class HardwareThread extends Thread {
 
     ElapsedTime time;
-    Configure config = new Configure();
+    Comp2Configure config = new Comp2Configure();
     private ValueStorage vals;
     private int hardwareSize = 10;
     double[] hardware = new double[10]; //See hardwareValues in ValueStorage for each value.
@@ -80,19 +75,19 @@ public class HardwareThread extends Thread {
                         hardware[3] = config.Motors[4].getPower();
                         break;
                     case 4:
-                        hardware[4] = config.Scissor.getPower();
+                        hardware[4] = config.IngesterLeft.getPower();
                         break;
                     case 5:
-                        hardware[5] = config.FoundationLeft.getPosition();
+                        hardware[5] = config.IngesterRight.getPower();
                         break;
                     case 6:
-                        hardware[6] = config.FoundationRight.getPosition();
+                        hardware[6] = config.FoundationLeft.getPosition();
                         break;
                     case 7:
-                        hardware[7] = config.ExtendGripper.getPower();
+                        hardware[7] = config.FoundationRight.getPosition();
                         break;
                     case 8:
-                        hardware[8] = config.RotateGripper.getPosition();
+                        hardware[8] = config.ExtendGripper.getPower();
                         break;
                     case 9:
                         hardware[9] = config.Gripper.getPosition();
@@ -129,23 +124,23 @@ public class HardwareThread extends Thread {
                         break;
                     case 4:
                         if(Vals[4] - prevVals[4] > MAX_ACCELERATION) Vals[4] = prevVals[4] + MAX_ACCELERATION;
-                        config.Scissor.setPower(Vals[4]);
+                        config.IngesterLeft.setPower(Vals[4]);
                         break;
                     case 5:
                         //if(Vals[5] - prevVals[5] > MAX_ACCELERATION) Vals[5] = prevVals[5] + MAX_ACCELERATION;
-                        config.FoundationLeft.setPosition(Vals[5]);
+                        config.IngesterRight.setPower(Vals[5]);
                         break;
                     case 6:
                         //if(Vals[6] - prevVals[6] > MAX_ACCELERATION) Vals[6] = prevVals[6] + MAX_ACCELERATION;
-                        config.FoundationRight.setPosition(Vals[6]);
+                        config.FoundationLeft.setPosition(Vals[6]);
                         break;
                     case 7:
                         if(Vals[7] - prevVals[7] > MAX_ACCELERATION) Vals[7] = prevVals[7] + MAX_ACCELERATION;
-                        config.ExtendGripper.setPower(Vals[7]);
+                        config.FoundationRight.setPosition(Vals[7]);
                         break;
                     case 8:
                         //if(Vals[8] - prevVals[8] > MAX_ACCELERATION) Vals[8] = prevVals[8] + MAX_ACCELERATION;
-                        config.RotateGripper.setPosition(Vals[8]);
+                        config.ExtendGripper.setPower(Vals[8]);
                         break;
                     case 9:
                         //if(Vals[9] - prevVals[9] > MAX_ACCELERATION) Vals[9] = prevVals[9] + MAX_ACCELERATION;

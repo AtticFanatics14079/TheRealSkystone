@@ -3,9 +3,9 @@ package org.firstinspires.ftc.teamcode.AtticFanatics2020SeasonPrograms.Reference
 import com.qualcomm.robotcore.hardware.Gamepad;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
-import org.firstinspires.ftc.teamcode.AtticFanatics2020SeasonPrograms.Referenced.Configure;
+import org.firstinspires.ftc.teamcode.AtticFanatics2020SeasonPrograms.Referenced.Comp1Configure;
 
-public class TestGrabberTeleOp extends Configure {
+public class TestGrabberTeleOp extends Comp1Configure {
 
     //MIN SCISSOR HEIGHT IS 2375
 

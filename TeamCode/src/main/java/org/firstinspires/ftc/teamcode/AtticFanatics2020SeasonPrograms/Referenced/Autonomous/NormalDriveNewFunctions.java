@@ -4,9 +4,9 @@ import com.qualcomm.hardware.bosch.BNO055IMU;
 import com.qualcomm.robotcore.hardware.DcMotor;
 
 import org.firstinspires.ftc.robotcore.external.navigation.Acceleration;
-import org.firstinspires.ftc.teamcode.AtticFanatics2020SeasonPrograms.Referenced.Configure;
+import org.firstinspires.ftc.teamcode.AtticFanatics2020SeasonPrograms.Referenced.Comp1Configure;
 
-public class NormalDriveNewFunctions extends Configure {
+public class NormalDriveNewFunctions extends Comp1Configure {
 
     BNO055IMU imu;
 
@@ -22,7 +22,7 @@ public class NormalDriveNewFunctions extends Configure {
         //telemetry.addLine("(2) About to check for configured");
         if (!Configured) {
             //telemetry.addLine("(3) About to configure");
-            //Configure(Motors);
+            //Comp1Configure(Motors);
             Configured = true;
         }
 
@@ -61,7 +61,7 @@ public class NormalDriveNewFunctions extends Configure {
     {
         if (!Configured)
         {
-            //Configure(Motors);
+            //Comp1Configure(Motors);
             Configured = true;
         }
 

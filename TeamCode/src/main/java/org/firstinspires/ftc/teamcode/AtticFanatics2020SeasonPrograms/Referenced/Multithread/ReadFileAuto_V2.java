@@ -6,7 +6,7 @@ import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
-import org.firstinspires.ftc.teamcode.AtticFanatics2020SeasonPrograms.Referenced.Configure;
+import org.firstinspires.ftc.teamcode.AtticFanatics2020SeasonPrograms.Referenced.Comp1Configure;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -22,7 +22,7 @@ public class ReadFileAuto_V2 extends LinearOpMode {
     Scanner reader;
     int count = 0;
     double tempTime;
-    Configure robot = new Configure();
+    Comp1Configure robot = new Comp1Configure();
 
     @Override
     public void runOpMode() throws InterruptedException {

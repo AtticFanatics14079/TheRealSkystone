@@ -3,12 +3,12 @@ package org.firstinspires.ftc.teamcode.AtticFanatics2020SeasonPrograms.Run.TeleO
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
-import org.firstinspires.ftc.teamcode.AtticFanatics2020SeasonPrograms.Referenced.Configure;
+import org.firstinspires.ftc.teamcode.AtticFanatics2020SeasonPrograms.Referenced.Comp1Configure;
 
 @TeleOp(name = "Analog Extend/Scissor")
 public class AnalogExtendAndScissor extends OpMode {
 
-    Configure Config = new Configure();
+    Comp1Configure Config = new Comp1Configure();
 
     @Override
     public void init() {

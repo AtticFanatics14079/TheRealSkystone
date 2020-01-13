@@ -12,7 +12,7 @@ import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
 
 
 @Disabled
-public class ChisDumbConfigure {
+public class Comp2Configure {
 
     public BNO055IMU imu;
 
@@ -40,10 +40,10 @@ public class ChisDumbConfigure {
 
     public static final int TOLERANCE = 10;
 
-    public static final double LEFT_OPEN = 0.3333;
-    public static final double LEFT_CLOSE = 0.7599;
-    public static final double RIGHT_OPEN = 0.7899;
-    public static final double RIGHT_CLOSE = 0.3633;
+    public static final double LEFT_OPEN = 0.4;
+    public static final double LEFT_CLOSE = 0;
+    public static final double RIGHT_OPEN = 0.6;
+    public static final double RIGHT_CLOSE = 1;
 
     public static final double GRIPPER_CLOSED = 0.47;
     public static final double GRIPPER_OPEN = 0.2;

@@ -18,7 +18,7 @@ public class HitBlock extends LinearOpMode {
         MecanumDrive robot = new MecanumDrive();
         ElapsedTime time;
 
-        robot.Configure(hardwareMap);
+        robot.Comp1Configure(hardwareMap);
         int sposition = -2;
         camera.instantCamera(hardwareMap);
         CameraDevice.getInstance().setFlashTorchMode(true);

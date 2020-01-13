@@ -4,9 +4,9 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.Gamepad;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
-import org.firstinspires.ftc.teamcode.AtticFanatics2020SeasonPrograms.Referenced.Configure;
+import org.firstinspires.ftc.teamcode.AtticFanatics2020SeasonPrograms.Referenced.Comp1Configure;
 
-public class SwerveTeleOpDriveUNFINISHED extends Configure {
+public class SwerveTeleOpDriveUNFINISHED extends Comp1Configure {
 
     DcMotor[] Motors = new DcMotor[5];
 

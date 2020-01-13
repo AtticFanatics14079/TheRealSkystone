@@ -4,29 +4,40 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.Gamepad;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
-import org.firstinspires.ftc.teamcode.AtticFanatics2020SeasonPrograms.Referenced.Configure;
+import org.firstinspires.ftc.teamcode.AtticFanatics2020SeasonPrograms.Referenced.Comp2Configure;
 
-public class TeleOpMecanum extends Configure {
+public class Comp2TeleOpMecanum extends Comp2Configure {
 
     private int level = 0;
     private double Rotation = ROTATE_GRIPPER_STRAIGHT;
     private HardwareMap hwMap;
 
-    private boolean ScissorOverload = false, ExtendOverload = false, Pressed = false;
+    private double GAS;
+
+    private boolean ScissorOverload = false, ExtendOverload = false, Pressed = false, IngesterOut = false, StopIngester = false, IngesterPressed = false;
 
     public void Move(HardwareMap ahwMap, Gamepad G1, Gamepad G2)
     {
         hwMap = ahwMap;
 
+        /*if(G2.a) setIngesters(0);
+        else if(G2.b) setIngesters(-1);
+        else setIngesters(1);
+         */
+
         //if(G1.left_bumper) RampSpeed(G1.left_stick_x, G1.left_stick_y, G1.right_stick_x, 4); //RampSpeed at 1/4 speed
 
-        /*else */if(G1.right_bumper) setPower(G1.left_stick_x/4, G1.left_stick_y/4, G1.right_stick_x/4); //Quarter speed option
+        GAS = 1;
 
-        else if(Math.abs(G1.left_stick_y) >= 0.4 && Math.abs(G1.left_stick_x) < 0.4) setPower(0, G1.left_stick_y, G1.right_stick_x); //Enables easier direct forward movement
+        /*else */if(G1.right_bumper) GAS = 0.25; //Quarter speed option
 
-        else if(Math.abs(G1.left_stick_x) >= 0.4 && Math.abs(G1.left_stick_y) < 0.4) setPower(G1.left_stick_x, 0, G1.right_stick_x); //Enables easier direct sideways movement
+        if(G2.x) GAS = -GAS; //Inverted movement
 
-        else setPower(G1.left_stick_x, G1.left_stick_y, G1.right_stick_x); //Normal move, no bells and whistles here
+        if(Math.abs(G1.left_stick_y) >= 0.3 && Math.abs(G1.left_stick_x) < 0.3) setPower(0, G1.left_stick_y * GAS, Math.pow(G1.right_stick_x, 3) * GAS); //Enables easier direct forward movement
+
+        else if(Math.abs(G1.left_stick_x) >= 0.3 && Math.abs(G1.left_stick_y) < 0.3) setPower(-G1.left_stick_x * GAS, 0, Math.pow(G1.right_stick_x, 3) * GAS); //Enables easier direct sideways movement
+
+        else setPower(-G1.left_stick_x * GAS, G1.left_stick_y * GAS, Math.pow(G1.right_stick_x, 3) * GAS); //Normal move, no bells and whistles here
 
         if(G1.dpad_down) {FoundationLeft.setPosition(LEFT_CLOSE); FoundationRight.setPosition(RIGHT_CLOSE);} //Set grabbers down
         else if(G1.dpad_up) {FoundationLeft.setPosition(LEFT_OPEN); FoundationRight.setPosition(RIGHT_OPEN);} //Set grabbers up
@@ -34,10 +45,41 @@ public class TeleOpMecanum extends Configure {
         //if(G2.left_trigger != 0) Gripper.setPosition(0.5);
         //else if(G2.y) Gripper.setPosition(Gripper.getPosition() + 0.01); //Gradual movement for recalibration. NOTE: The servo yeets itself if it is not at a position before moving.
         //else if(G2.x) Gripper.setPosition(Gripper.getPosition() - 0.01); //See above
-        if(G2.y) Gripper.setPosition(GRIPPER_OPEN); //Move claw to not gripped position
-        else if(G2.x) Gripper.setPosition(GRIPPER_CLOSED); //Move claw to gripped position
+        //if(G2.y) Gripper.setPosition(GRIPPER_OPEN); //Move claw to not gripped position
+        //else if(G2.x) Gripper.setPosition(GRIPPER_CLOSED); //Move claw to gripped position
 
-        if(G2.left_trigger > 0.5 && G2.dpad_left) {
+        if(G1.x){
+            ScissorLeft.setPower(-1);
+            ScissorRight.setPower(-1);
+        }
+        else if(G1.y){
+            ScissorLeft.setPower(1);
+            ScissorRight.setPower(1);
+        }
+        else {
+            ScissorLeft.setPower(0);
+            ScissorRight.setPower(0);
+        }
+        if(IngesterOut){
+            if(!G2.right_bumper && !G2.left_bumper && IngesterPressed) IngesterPressed = false;
+            else if(G2.right_bumper && !IngesterPressed) {IngesterOut = false; IngesterPressed = true;}
+            else if(G2.left_bumper && !IngesterPressed){IngesterOut = false; StopIngester = true; IngesterPressed = true;}
+            setIngesters(0.5);
+        }
+        else if(StopIngester){
+            if(!G2.left_bumper && !G2.right_bumper && IngesterPressed) IngesterPressed = false;
+            else if(G2.left_bumper && !IngesterPressed) {StopIngester = false; IngesterPressed = true;}
+            else if(G2.right_bumper && !IngesterPressed){StopIngester = false; IngesterOut = true; IngesterPressed = true;}
+            setIngesters(0);
+        }
+        else{
+            if(!G2.left_bumper && !G2.right_bumper && IngesterPressed) IngesterPressed = false;
+            else if(G2.left_bumper && !IngesterPressed) {StopIngester = true; IngesterPressed = true;}
+            else if(G2.right_bumper && !IngesterPressed) {IngesterOut = true; IngesterPressed = true;}
+            setIngesters(-0.5);
+        }
+
+        /*if(G2.left_trigger > 0.5 && G2.dpad_left) {
             ExtendGripper.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
             ExtendGripper.setPower(1);
         }
@@ -105,6 +147,8 @@ public class TeleOpMecanum extends Configure {
             Rotation = 0;
         }
         RotateGripper.setPosition(Rotation);
+
+         */
     }
 
     /*public void RampSpeed(double px, double py, double pa, double SpeedDiv)
@@ -124,15 +168,22 @@ public class TeleOpMecanum extends Configure {
      */
 
     private void setScissorLevel(int level){
-        Scissor.setTargetPositionTolerance(100);
-        Scissor.setTargetPosition(levels[level]);
-        Scissor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        if(Scissor.getTargetPosition() > Scissor.getCurrentPosition()) Scissor.setPower(1);
-        else Scissor.setPower(-1);
+        ScissorLeft.setTargetPositionTolerance(100);
+        ScissorRight.setTargetPositionTolerance(100);
+        ScissorLeft.setTargetPosition(levels[level]);
+        ScissorLeft.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        if(ScissorLeft.getTargetPosition() > ScissorLeft.getCurrentPosition()) {
+            ScissorLeft.setPower(1);
+            ScissorRight.setPower(1);
+        }
+        else {
+            ScissorLeft.setPower(-1);
+            ScissorRight.setPower(1);
+        }
         Pressed = true;
     }
 
-    private void grabBlock(){
+    /*private void grabBlock(){
         try {
             setPower(0, 0, 0);
 
@@ -160,6 +211,12 @@ public class TeleOpMecanum extends Configure {
             setScissorLevel(level);
         }
         catch(InterruptedException ignore){ }
+    }
+    */
+
+    private void setIngesters(double power){
+        IngesterLeft.setPower(power);
+        IngesterRight.setPower(power);
     }
 
     //The following method is code from Team 16072's virtual_robot program. Small changes are only to make it fit our format, the bulk of the method was written by them.

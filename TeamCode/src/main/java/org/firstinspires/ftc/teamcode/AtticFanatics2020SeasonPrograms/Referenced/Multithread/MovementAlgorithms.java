@@ -1,11 +1,8 @@
 package org.firstinspires.ftc.teamcode.AtticFanatics2020SeasonPrograms.Referenced.Multithread;
 
-import org.firstinspires.ftc.teamcode.AtticFanatics2020SeasonPrograms.Referenced.Configure;
+import org.firstinspires.ftc.teamcode.AtticFanatics2020SeasonPrograms.Referenced.Comp1Configure;
 
-import java.util.ArrayList;
-import java.util.List;
-
-public class MovementAlgorithms extends Configure {
+public class MovementAlgorithms extends Comp1Configure {
 
     //Input any and all algorithms here, this function will be used to repeatedly run checks. Most
     //likely only used in Autonomous.

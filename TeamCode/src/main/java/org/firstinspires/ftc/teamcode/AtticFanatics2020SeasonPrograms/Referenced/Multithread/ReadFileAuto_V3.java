@@ -6,17 +6,14 @@ import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
-import org.firstinspires.ftc.teamcode.AtticFanatics2020SeasonPrograms.Referenced.Configure;
+import org.firstinspires.ftc.teamcode.AtticFanatics2020SeasonPrograms.Referenced.Comp2Configure;
 
 import java.io.BufferedReader;
-import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Scanner;
 
 @Autonomous(name="Read File V3")
 public class ReadFileAuto_V3 extends LinearOpMode {
@@ -28,7 +25,7 @@ public class ReadFileAuto_V3 extends LinearOpMode {
     FileInputStream fis;
     int count = 0;
     double tempTime;
-    Configure robot = new Configure();
+    Comp2Configure robot = new Comp2Configure();
     public ArrayList<String> lines = new ArrayList<>();
 
     @Override
@@ -104,8 +101,8 @@ public class ReadFileAuto_V3 extends LinearOpMode {
         if(prevLine[2] != oneLine[2]) robot.Motors[2].setPower(oneLine[2]);
         if(prevLine[3] != oneLine[3]) robot.Motors[3].setPower(oneLine[3]);
         if(prevLine[4] != oneLine[4]) robot.Motors[4].setPower(oneLine[4]);
-        if(prevLine[5] != oneLine[5]) robot.Scissor.setPower(oneLine[5]);
-        if(prevLine[6] != oneLine[6]) robot.FoundationLeft.setPosition(oneLine[6]);
+        if(prevLine[5] != oneLine[5]) robot.IngesterLeft.setPower(oneLine[5]);
+        if(prevLine[6] != oneLine[6]) robot.IngesterRight.setPower(oneLine[6]);
         if(prevLine[7] != oneLine[7]) robot.FoundationRight.setPosition(oneLine[7]);
         if(prevLine[8] != oneLine[8]) robot.ExtendGripper.setPower(oneLine[8]);
         if(prevLine[9] != oneLine[9]) robot.RotateGripper.setPosition(oneLine[9]);

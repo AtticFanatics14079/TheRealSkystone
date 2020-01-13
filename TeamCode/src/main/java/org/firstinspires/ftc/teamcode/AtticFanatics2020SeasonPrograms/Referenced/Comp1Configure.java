@@ -15,7 +15,7 @@ import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
 
 
 @Disabled
-public class Configure {
+public class Comp1Configure {
 
     public BNO055IMU imu;
 

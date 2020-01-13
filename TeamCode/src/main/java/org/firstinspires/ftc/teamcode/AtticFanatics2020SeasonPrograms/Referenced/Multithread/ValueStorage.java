@@ -8,8 +8,8 @@ public class ValueStorage {
     public volatile Double Time = 0.0; //In milliseconds
 
     private double[] hardwareValues = new double[10]; //Current values are:
-    // motor velocities (0-3), scissor velocity(4), foundation hook left and right positions (5 and 6),
-    // extend velocity (7),rotate position (8), and gripper position (9).
+    // motor power (0-3), ingester powers (4 and 5), foundation hook left and right positions (6 and 7),
+    // extend power (8), and gripper position (9).
     // Add more as needed, but talk to me to make sure the positions line up.
 
     public double[] runValues = new double[10]; //Same values as above, but used after algorithms

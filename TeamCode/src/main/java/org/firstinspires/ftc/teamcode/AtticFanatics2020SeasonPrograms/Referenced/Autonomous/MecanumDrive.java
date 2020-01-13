@@ -3,11 +3,11 @@ package org.firstinspires.ftc.teamcode.AtticFanatics2020SeasonPrograms.Reference
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
-import org.firstinspires.ftc.teamcode.AtticFanatics2020SeasonPrograms.Referenced.Configure;
+import org.firstinspires.ftc.teamcode.AtticFanatics2020SeasonPrograms.Referenced.Comp1Configure;
 
 //This Class contains SetPower, MoveEncoderTicks, and TurnDegrees, for MECANUM
 
-public class MecanumDrive extends Configure {
+public class MecanumDrive extends Comp1Configure {
 
     float HeadingAdjust, CurrentOrientation;
 

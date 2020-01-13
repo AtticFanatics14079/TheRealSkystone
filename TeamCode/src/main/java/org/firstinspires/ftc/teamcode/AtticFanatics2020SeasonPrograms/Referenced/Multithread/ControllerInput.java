@@ -19,12 +19,19 @@ public class ControllerInput extends LinearOpMode {
     static ValueStorage vals = new ValueStorage();
     MovementAlgorithms move = new MovementAlgorithms();
 
+    public static final double LEFT_OPEN = 0.4;
+    public static final double LEFT_CLOSE = 0;
+    public static final double RIGHT_OPEN = 0.6;
+    public static final double RIGHT_CLOSE = 1;
+
     boolean[] changedParts = new boolean[10];
     double[] hardwareActions = new double[10]; //Same values as all the others.
 
-    public final String FileName = "Test.txt";
+    public final String FileName = "Test.txt"; //Change to record different paths
     public String FilePath;
     private double GAS = 1;
+
+    private boolean IngesterOut = false, StopIngester = false, IngesterPressed = false, HooksOpen = false;
 
     @Override
     public void runOpMode() throws InterruptedException {
@@ -89,12 +96,25 @@ public class ControllerInput extends LinearOpMode {
         changedParts[1] = true; //This line is because we will always be moving the motors.
         changedParts[2] = true; //This line is because we will always be moving the motors.
         changedParts[3] = true; //This line is because we will always be moving the motors.
+        changedParts[4] = true; //This line is because we will always be moving the motors.
+        changedParts[5] = true; //This line is because we will always be moving the motors.
+
+        GAS = 1;
 
         if(gamepad1.right_bumper) GAS = 0.5;
-        else GAS = 1;
 
-        if(Math.abs(gamepad1.left_stick_x) >= 0.2 || Math.abs(gamepad1.left_stick_y) >= 0.2 || Math.abs(gamepad1.right_stick_x) >= 0.2){
-            double[] p = move.getPower(hardwareActions, -Math.pow(gamepad1.left_stick_x, 3) * GAS, -Math.pow(gamepad1.left_stick_y, 3) * GAS, -Math.pow(gamepad1.right_stick_x, 3));
+        if(gamepad2.x) GAS = -GAS;
+
+        if(Math.abs(gamepad1.left_stick_x) >= 0.3 && Math.abs(gamepad1.left_stick_y) < 0.3 && Math.abs(gamepad1.right_stick_x) < 0.3){
+            double[] p = move.getPower(hardwareActions, gamepad1.left_stick_x * GAS, 0, 0);
+            for(int i = 0; i < 4; i++) hardwareActions[i] = p[i];
+        }
+        else if(Math.abs(gamepad1.left_stick_y) >= 0.3 && Math.abs(gamepad1.left_stick_x) < 0.3 || Math.abs(gamepad1.right_stick_x) < 0.3){
+            double[] p = move.getPower(hardwareActions, 0, -gamepad1.left_stick_y * GAS, 0);
+            for(int i = 0; i < 4; i++) hardwareActions[i] = p[i];
+        }
+        else if(Math.abs(gamepad1.left_stick_x) >= 0.3 || Math.abs(gamepad1.left_stick_y) >= 0.3 || Math.abs(gamepad1.right_stick_x) >= 0.3){
+            double[] p = move.getPower(hardwareActions, gamepad1.left_stick_x * GAS, -gamepad1.left_stick_y * GAS, Math.pow(gamepad1.right_stick_x, 3));
             for(int i = 0; i < 4; i++) hardwareActions[i] = p[i];
         }
         else {
@@ -104,8 +124,48 @@ public class ControllerInput extends LinearOpMode {
             hardwareActions[3] = 0.0;
         }
 
+        if(gamepad1.dpad_up) openHooks(true);
+        else if(gamepad1.dpad_down) openHooks(false);
+
+        if(IngesterOut){
+            if(!gamepad2.right_bumper && !gamepad2.left_bumper && IngesterPressed) IngesterPressed = false;
+            else if(gamepad2.right_bumper && !IngesterPressed) {IngesterOut = false; IngesterPressed = true;}
+            else if(gamepad2.left_bumper && !IngesterPressed){IngesterOut = false; StopIngester = true; IngesterPressed = true;}
+            setIngesters(0.5);
+        }
+        else if(StopIngester){
+            if(!gamepad2.left_bumper && !gamepad2.right_bumper && IngesterPressed) IngesterPressed = false;
+            else if(gamepad2.left_bumper && !IngesterPressed) {StopIngester = false; IngesterPressed = true;}
+            else if(gamepad2.right_bumper && !IngesterPressed){StopIngester = false; IngesterOut = true; IngesterPressed = true;}
+            setIngesters(0);
+        }
+        else{
+            if(!gamepad2.left_bumper && !gamepad2.right_bumper && IngesterPressed) IngesterPressed = false;
+            else if(gamepad2.left_bumper && !IngesterPressed) {StopIngester = true; IngesterPressed = true;}
+            else if(gamepad2.right_bumper && !IngesterPressed) {IngesterOut = true; IngesterPressed = true;}
+            setIngesters(-0.5);
+        }
+
         //No fancy algorithms atm, just passing velocities.
         vals.changedParts(true, changedParts);
         vals.runValues(true, hardwareActions);
+    }
+
+    private void setIngesters(double power){
+        if(hardwareActions[4] != power){
+            hardwareActions[4] = power;
+            hardwareActions[5] = power;
+            changedParts[4] = true;
+            changedParts[5] = true;
+        }
+    }
+
+    private void openHooks(boolean open){
+        if(HooksOpen != open){
+            if(open){hardwareActions[6] = LEFT_OPEN; hardwareActions[7] = RIGHT_OPEN; HooksOpen = true;}
+            else {hardwareActions[6] = LEFT_CLOSE; hardwareActions[7] = RIGHT_CLOSE; HooksOpen = false;}
+            changedParts[6] = true;
+            changedParts[7] = true;
+        }
     }
 }

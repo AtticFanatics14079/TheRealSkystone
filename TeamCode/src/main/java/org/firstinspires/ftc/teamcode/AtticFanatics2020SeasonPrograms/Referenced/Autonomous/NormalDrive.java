@@ -3,14 +3,13 @@ package org.firstinspires.ftc.teamcode.AtticFanatics2020SeasonPrograms.Reference
 import com.qualcomm.hardware.bosch.BNO055IMU;
 import com.qualcomm.robotcore.hardware.DcMotor;
 
-import org.firstinspires.ftc.robotcore.external.navigation.Acceleration;
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.AxesOrder;
 import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
 import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
-import org.firstinspires.ftc.teamcode.AtticFanatics2020SeasonPrograms.Referenced.Configure;
+import org.firstinspires.ftc.teamcode.AtticFanatics2020SeasonPrograms.Referenced.Comp1Configure;
 
-public class NormalDrive extends Configure {
+public class NormalDrive extends Comp1Configure {
 
     BNO055IMU imu;
 
@@ -20,7 +19,7 @@ public class NormalDrive extends Configure {
 
     boolean Configured = false;
 
-    Configure Config = new Configure();
+    Comp1Configure Config = new Comp1Configure();
 
     public void runOpMode() throws InterruptedException {
     }
@@ -31,7 +30,7 @@ public class NormalDrive extends Configure {
         if (!Configured)
         {
             //telemetry.addLine("(3) About to configure");
-            //Motors = Config.Configure(Motors);
+            //Motors = Config.Comp1Configure(Motors);
             Configured = true;
         }
 
@@ -122,7 +121,7 @@ public class NormalDrive extends Configure {
 
         if (!Configured)
         {
-            //Motors = Config.Configure(Motors);
+            //Motors = Config.Comp1Configure(Motors);
             Configured = true;
         }
 
