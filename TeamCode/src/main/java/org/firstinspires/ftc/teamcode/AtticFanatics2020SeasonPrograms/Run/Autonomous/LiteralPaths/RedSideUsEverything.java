@@ -6,6 +6,7 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 import com.vuforia.CameraDevice;
 
 import org.firstinspires.ftc.teamcode.AtticFanatics2020SeasonPrograms.Referenced.Autonomous.MecanumDrive;
+import org.firstinspires.ftc.teamcode.AtticFanatics2020SeasonPrograms.Referenced.Comp1Configure;
 import org.firstinspires.ftc.teamcode.AtticFanatics2020SeasonPrograms.Skystone.CameraDetect;
 
 @Autonomous(name = "Red Side Everything")
@@ -19,7 +20,7 @@ public class RedSideUsEverything extends LinearOpMode{
     @Override
     public void runOpMode() throws InterruptedException {
         Robot.Configure(hardwareMap);
-        Robot.RotateGripper.setPosition(Robot.ROTATE_GRIPPER_STRAIGHT);
+        Robot.RotateGripper.setPosition(Comp1Configure.ROTATE_GRIPPER_STRAIGHT);
         Robot.UnhookFoundation();
         int SkystonePosition = -2;
         camera.instantCamera(hardwareMap);
@@ -71,7 +72,7 @@ public class RedSideUsEverything extends LinearOpMode{
         while(wallstrafe>wall.seconds()){
         }
         */
-        Robot.Gripper.setPosition(Robot.GRIPPER_OPEN);
+        Robot.Gripper.setPosition(Comp1Configure.GRIPPER_OPEN);
         Robot.Move(26);
         Robot.grabBlock(); // Scissor finishes at level 1, maybe it should finish at level 0? (need a function for it)
         Robot.Move(-10);
@@ -87,7 +88,7 @@ public class RedSideUsEverything extends LinearOpMode{
         Robot.HookFoundation();
         Robot.dropBlock();
         Robot.setScissorLevel(3, false);
-        Robot.Gripper.setPosition(Robot.GRIPPER_CLOSED);
+        Robot.Gripper.setPosition(Comp1Configure.GRIPPER_CLOSED);
         Robot.ExtendGripper(false, true);
         Robot.setScissorLevel(0, false);
         Robot.Move(-8, -1);
