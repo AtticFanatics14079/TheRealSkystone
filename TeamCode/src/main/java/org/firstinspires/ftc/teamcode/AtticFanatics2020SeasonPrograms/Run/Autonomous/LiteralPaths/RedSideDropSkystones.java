@@ -6,6 +6,7 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 import com.vuforia.CameraDevice;
 
 import org.firstinspires.ftc.teamcode.AtticFanatics2020SeasonPrograms.Referenced.Autonomous.MecanumDrive;
+import org.firstinspires.ftc.teamcode.AtticFanatics2020SeasonPrograms.Referenced.Comp1Configure;
 import org.firstinspires.ftc.teamcode.AtticFanatics2020SeasonPrograms.Skystone.CameraDetect;
 
 @Autonomous(name = "Red Side - Dropping Skystones")
@@ -19,7 +20,7 @@ public class RedSideDropSkystones extends LinearOpMode{
     @Override
     public void runOpMode() throws InterruptedException {
         Robot.Configure(hardwareMap);
-        Robot.RotateGripper.setPosition(Robot.ROTATE_GRIPPER_STRAIGHT);
+        Robot.RotateGripper.setPosition(Comp1Configure.ROTATE_GRIPPER_STRAIGHT);
         Robot.UnhookFoundation();
         int SkystonePosition = -2;
         camera.instantCamera(hardwareMap);
@@ -71,18 +72,18 @@ public class RedSideDropSkystones extends LinearOpMode{
         while(wallstrafe>wall.seconds()){
         }
         */
-        Robot.Gripper.setPosition(Robot.GRIPPER_OPEN);
+        Robot.Gripper.setPosition(Comp1Configure.GRIPPER_OPEN);
         Robot.Move(26);
         Robot.grabBlock(); // Scissor finishes at level 1, maybe it should finish at level 0? (need a function for it)
         Robot.ExtendGripper(false, false);
-        Robot.RotateGripper.setPosition(Robot.ROTATE_GRIPPER_SIDEWAYS);
+        Robot.RotateGripper.setPosition(Comp1Configure.ROTATE_GRIPPER_SIDEWAYS);
         Robot.Move(-10);
         Robot.Turn(-85, -0.7); // all turns are supposed to be 90 rea degrees
         Robot.Move(46 + offset);
-        Robot.Gripper.setPosition(Robot.GRIPPER_OPEN);
+        Robot.Gripper.setPosition(Comp1Configure.GRIPPER_OPEN);
         Robot.Move(-66 - offset);
         Robot.ExtendGripper(true, false);
-        Robot.RotateGripper.setPosition(Robot.ROTATE_GRIPPER_STRAIGHT);
+        Robot.RotateGripper.setPosition(Comp1Configure.ROTATE_GRIPPER_STRAIGHT);
         Robot.setScissorLevel(2, true);
         Robot.Turn(85);
         Robot.grabBlock();
@@ -90,9 +91,9 @@ public class RedSideDropSkystones extends LinearOpMode{
         Robot.Move(-10);
         Robot.Turn(-85, -0.7); // all turns are supposed to be 90 rea degrees
         Robot.Move(40 + offset);
-        Robot.Gripper.setPosition(Robot.GRIPPER_OPEN);
+        Robot.Gripper.setPosition(Comp1Configure.GRIPPER_OPEN);
         Robot.Move(-14);
-        Robot.Gripper.setPosition(Robot.GRIPPER_CLOSED);
+        Robot.Gripper.setPosition(Comp1Configure.GRIPPER_CLOSED);
         Robot.setScissorLevel(0, false);
         //Robot.Move(10, -1); //Not enough time
         //Robot.Move(-45);

@@ -4,6 +4,8 @@ import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
+
+//I DON'T KNOW WHY THIS DOESN'T WORK - LOOK AT OTHER CVOPMODE
 @Autonomous (name = "UseOpenCV")
 public class UseOpenCV extends LinearOpMode {
     ElapsedTime runtime = new ElapsedTime();

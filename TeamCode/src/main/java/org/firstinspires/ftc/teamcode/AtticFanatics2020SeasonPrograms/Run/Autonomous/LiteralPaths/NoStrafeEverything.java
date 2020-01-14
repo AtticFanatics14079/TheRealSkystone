@@ -6,6 +6,7 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 import com.vuforia.CameraDevice;
 
 import org.firstinspires.ftc.teamcode.AtticFanatics2020SeasonPrograms.Referenced.Autonomous.MecanumDrive;
+import org.firstinspires.ftc.teamcode.AtticFanatics2020SeasonPrograms.Referenced.Comp1Configure;
 import org.firstinspires.ftc.teamcode.AtticFanatics2020SeasonPrograms.Skystone.CameraDetect;
 
 
@@ -20,14 +21,14 @@ public class NoStrafeEverything extends LinearOpMode{
     @Override
     public void runOpMode() throws InterruptedException {
         Robot.Configure(hardwareMap);
-        Robot.RotateGripper.setPosition(Robot.ROTATE_GRIPPER_STRAIGHT);
+        Robot.RotateGripper.setPosition(Comp1Configure.ROTATE_GRIPPER_STRAIGHT);
         Robot.UnhookFoundation();
         int SkystonePosition = -2;
         camera.instantCamera(hardwareMap);
         CameraDevice.getInstance().setFlashTorchMode(true);
         waitForStart();
         Robot.setScissorLevel(2, false);
-        Robot.Gripper.setPosition(Robot.GRIPPER_OPEN);
+        Robot.Gripper.setPosition(Comp1Configure.GRIPPER_OPEN);
         Robot.Move(14);
         ElapsedTime time = new ElapsedTime();
         while((SkystonePosition = camera.skystoneDetect(time)) == -2);
@@ -61,7 +62,7 @@ public class NoStrafeEverything extends LinearOpMode{
         Robot.HookFoundation();
         Robot.dropBlock();
         Robot.ExtendGripper(false, true);
-        Robot.Gripper.setPosition(Robot.GRIPPER_CLOSED);
+        Robot.Gripper.setPosition(Comp1Configure.GRIPPER_CLOSED);
         sleep(400);
         Robot.setScissorLevel(0, false);
         Robot.Move(8, 1);

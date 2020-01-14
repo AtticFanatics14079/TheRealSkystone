@@ -213,7 +213,7 @@ public abstract class SampleMecanumDriveBase extends MecanumDrive {
         List<Double> positions = getWheelPositions();
         double currentTimestamp = clock.seconds();
 
-        List<Double> velocities = new ArrayList<>(positions.size());;
+        List<Double> velocities = new ArrayList<>(positions.size());
         if (lastWheelPositions != null) {
             double dt = currentTimestamp - lastTimestamp;
             for (int i = 0; i < positions.size(); i++) {

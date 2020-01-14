@@ -32,8 +32,8 @@ import java.util.List;
  *YES
  */
 @Config
-@Autonomous(name= "opencvSkystoneDetector", group="Sky autonomous")
-public class opencvSkystoneDetector extends LinearOpMode {
+@Autonomous(name= "SampleCVOpMode")
+public class SampleCVOpMode extends LinearOpMode {
     private ElapsedTime runtime = new ElapsedTime();
 
     //0 means skystone, 1 means yellow stone
@@ -42,15 +42,15 @@ public class opencvSkystoneDetector extends LinearOpMode {
     private static int valLeft = -1;
     private static int valRight = -1;
 
-    private static float rectHeight = .6f/8f;
-    private static float rectWidth = 1.5f/8f;
+    private static float rectHeight = 1.5f / 8f;
+    private static float rectWidth = .6f / 8f;
 
-    private static float offsetX = 0f/8f;//changing this moves the three rects and the three circles left or right, range : (-2, 2) not inclusive
-    private static float offsetY = 0f/8f;//changing this moves the three rects and circles up or down, range: (-4, 4) not inclusive
+    private static float offsetX = 0f / 8f;//changing this moves the three rects and the three circles left or right, range : (-2, 2) not inclusive
+    private static float offsetY = 0f / 8f;//changing this moves the three rects and circles up or down, range: (-4, 4) not inclusive
 
-    private static float[] midPos = {4f/8f+offsetX, 4f/8f+offsetY};//0 = col, 1 = row
-    private static float[] leftPos = {2f/8f+offsetX, 4f/8f+offsetY};
-    private static float[] rightPos = {6f/8f+offsetX, 4f/8f+offsetY};
+    private static float[] midPos = {4f / 8f + offsetX, 4f / 8f + offsetY};//0 = col, 1 = row
+    private static float[] leftPos = {4f / 8f + offsetX, 2f / 8f + offsetY};
+    private static float[] rightPos = {4f / 8f + offsetX, 6f / 8f + offsetY};
     //moves all rectangles right or left by amount. units are in ratio to monitor
 
     private final int rows = 640;
@@ -71,6 +71,7 @@ public class opencvSkystoneDetector extends LinearOpMode {
 
         waitForStart();
         runtime.reset();
+        //all of our movement jazz
         while (opModeIsActive()) {
             telemetry.addData("Values", valLeft+"   "+valMid+"   "+valRight);
             telemetry.addData("Height", rows);
@@ -78,10 +79,6 @@ public class opencvSkystoneDetector extends LinearOpMode {
 
             telemetry.update();
             sleep(100);
-            //call movement functions
-//            strafe(0.4, 200);
-//            moveDistance(0.4, 700);
-
         }
     }
 
