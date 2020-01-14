@@ -9,6 +9,8 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
 import com.qualcomm.robotcore.util.ElapsedTime;
 
+import org.firstinspires.ftc.teamcode.AtticFanatics2020SeasonPrograms.Referenced.Comp2Configure;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -19,10 +21,10 @@ public class ControllerInput extends LinearOpMode {
     static ValueStorage vals = new ValueStorage();
     MovementAlgorithms move = new MovementAlgorithms();
 
-    public static final double LEFT_OPEN = 0.4;
-    public static final double LEFT_CLOSE = 0;
-    public static final double RIGHT_OPEN = 0.6;
-    public static final double RIGHT_CLOSE = 1;
+    public static final double LEFT_OPEN = Comp2Configure.LEFT_OPEN;
+    public static final double LEFT_CLOSE = Comp2Configure.LEFT_CLOSE;
+    public static final double RIGHT_OPEN = Comp2Configure.RIGHT_OPEN;
+    public static final double RIGHT_CLOSE = Comp2Configure.RIGHT_CLOSE;
 
     boolean[] changedParts = new boolean[10];
     double[] hardwareActions = new double[10]; //Same values as all the others.
@@ -31,7 +33,8 @@ public class ControllerInput extends LinearOpMode {
     public String FilePath;
     private double GAS = 1;
 
-    private boolean IngesterOut = false, StopIngester = false, IngesterPressed = false, HooksOpen = false;
+    private boolean IngesterOut = false, StopIngester = false, IngesterPressed = false, HooksOpen = true;
+    private int loopNumb = 0;
 
     @Override
     public void runOpMode() throws InterruptedException {
@@ -43,6 +46,8 @@ public class ControllerInput extends LinearOpMode {
         WritingThread write = new WritingThread(vals, FileName);
         System.out.println(6);
         write.start();
+        hardwareActions[4] = 0;
+        hardwareActions[5] = 0;
         //All other code in init() goes above here
         while(!opModeIsActive()){
             //do stuff if we want to loop before pressing play
@@ -54,6 +59,7 @@ public class ControllerInput extends LinearOpMode {
         }
         hardware.startTime();
         write.Start();
+        HooksOpen = true;
         //Anything else we want to do at the start of pressing play
         while(!isStopRequested()){
             //Main loop of the class
@@ -64,7 +70,6 @@ public class ControllerInput extends LinearOpMode {
             telemetry.update();
             try{
                 getInput();
-                System.out.println("One controller loop");
             }
             catch (Exception e){
                 System.out.println("Problem in main thread! \n" + e);
@@ -86,7 +91,7 @@ public class ControllerInput extends LinearOpMode {
 
     private void getInput(){
 
-        Arrays.fill(changedParts, false);
+        if(vals.receivedDesiredVals) Arrays.fill(changedParts, false);
 
         //Write what each input should correspond to (e.g. translating gamepad 1 left stick to
         //velocities for hardwareActions 1-4). Make sure to add it to the changedParts list every time.
@@ -96,12 +101,12 @@ public class ControllerInput extends LinearOpMode {
         changedParts[1] = true; //This line is because we will always be moving the motors.
         changedParts[2] = true; //This line is because we will always be moving the motors.
         changedParts[3] = true; //This line is because we will always be moving the motors.
-        changedParts[4] = true; //This line is because we will always be moving the motors.
-        changedParts[5] = true; //This line is because we will always be moving the motors.
+        //changedParts[4] = true; //This line is because we will always be moving the motors.
+        //changedParts[5] = true; //This line is because we will always be moving the motors.
 
         GAS = 1;
 
-        if(gamepad1.right_bumper) GAS = 0.5;
+        if(gamepad1.right_bumper) GAS = 0.25;
 
         if(gamepad2.x) GAS = -GAS;
 
@@ -114,7 +119,7 @@ public class ControllerInput extends LinearOpMode {
             for(int i = 0; i < 4; i++) hardwareActions[i] = p[i];
         }
         else if(Math.abs(gamepad1.left_stick_x) >= 0.3 || Math.abs(gamepad1.left_stick_y) >= 0.3 || Math.abs(gamepad1.right_stick_x) >= 0.3){
-            double[] p = move.getPower(hardwareActions, gamepad1.left_stick_x * GAS, -gamepad1.left_stick_y * GAS, Math.pow(gamepad1.right_stick_x, 3));
+            double[] p = move.getPower(hardwareActions, gamepad1.left_stick_x * GAS, -gamepad1.left_stick_y * GAS, Math.pow(gamepad1.right_stick_x, 3) * Math.abs(GAS));
             for(int i = 0; i < 4; i++) hardwareActions[i] = p[i];
         }
         else {
@@ -124,8 +129,10 @@ public class ControllerInput extends LinearOpMode {
             hardwareActions[3] = 0.0;
         }
 
-        if(gamepad1.dpad_up) openHooks(true);
-        else if(gamepad1.dpad_down) openHooks(false);
+        if(loopNumb < 1000){
+            changedParts[4] = true;
+            changedParts[5] = true;
+        }
 
         if(IngesterOut){
             if(!gamepad2.right_bumper && !gamepad2.left_bumper && IngesterPressed) IngesterPressed = false;
@@ -146,26 +153,31 @@ public class ControllerInput extends LinearOpMode {
             setIngesters(-0.5);
         }
 
+        if(gamepad1.dpad_up) {openHooks(true);}
+        else if(gamepad1.dpad_down) {openHooks(false);}
+        //else openHooks(HooksOpen);
+
         //No fancy algorithms atm, just passing velocities.
         vals.changedParts(true, changedParts);
         vals.runValues(true, hardwareActions);
+
+        loopNumb++;
     }
 
     private void setIngesters(double power){
-        if(hardwareActions[4] != power){
-            hardwareActions[4] = power;
-            hardwareActions[5] = power;
+        if(hardwareActions[5] != power){
             changedParts[4] = true;
             changedParts[5] = true;
         }
+        hardwareActions[4] = power;
+        hardwareActions[5] = power;
     }
 
     private void openHooks(boolean open){
-        if(HooksOpen != open){
-            if(open){hardwareActions[6] = LEFT_OPEN; hardwareActions[7] = RIGHT_OPEN; HooksOpen = true;}
-            else {hardwareActions[6] = LEFT_CLOSE; hardwareActions[7] = RIGHT_CLOSE; HooksOpen = false;}
-            changedParts[6] = true;
-            changedParts[7] = true;
-        }
+        //if(open != HooksOpen){changedParts[6] = true; changedParts[7] = true;}
+        changedParts[6] = true;
+        changedParts[7] = true;
+        if(open){hardwareActions[6] = LEFT_OPEN; hardwareActions[7] = RIGHT_OPEN; HooksOpen = true;}
+        else {hardwareActions[6] = LEFT_CLOSE; hardwareActions[7] = RIGHT_CLOSE; HooksOpen = false;}
     }
 }

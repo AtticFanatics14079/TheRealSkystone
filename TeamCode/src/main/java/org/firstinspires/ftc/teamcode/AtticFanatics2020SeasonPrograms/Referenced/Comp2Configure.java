@@ -2,6 +2,7 @@ package org.firstinspires.ftc.teamcode.AtticFanatics2020SeasonPrograms.Reference
 
 import com.qualcomm.hardware.bosch.BNO055IMU;
 import com.qualcomm.robotcore.eventloop.opmode.Disabled;
+import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorImplEx;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
@@ -30,7 +31,7 @@ public class Comp2Configure {
 
     public Servo FoundationRight;
 
-    public DcMotorImplEx ExtendGripper;
+    public CRServo ExtendGripper;
 
     public DcMotorImplEx ScissorLeft, ScissorRight;
 
@@ -40,13 +41,13 @@ public class Comp2Configure {
 
     public static final int TOLERANCE = 10;
 
-    public static final double LEFT_OPEN = 0.4;
-    public static final double LEFT_CLOSE = 0;
-    public static final double RIGHT_OPEN = 0.6;
-    public static final double RIGHT_CLOSE = 1;
+    public static final double LEFT_OPEN = 0.723;
+    public static final double LEFT_CLOSE = 0.25;
+    public static final double RIGHT_OPEN = 0.4;
+    public static final double RIGHT_CLOSE = 0.883;
 
-    public static final double GRIPPER_CLOSED = 0.47;
-    public static final double GRIPPER_OPEN = 0.2;
+    public static final double GRIPPER_CLOSED = 1;
+    public static final double GRIPPER_OPEN = 0;
 
     public static final double ROTATE_GRIPPER_STRAIGHT = 0.88;
     public static final double ROTATE_GRIPPER_SIDEWAYS = 0.38;
@@ -137,6 +138,8 @@ public class Comp2Configure {
         ScissorRight = hwMap.get(DcMotorImplEx.class, "scissor_right");
         IngesterLeft = hwMap.get(DcMotorImplEx.class, "ingester_left");
         IngesterRight = hwMap.get(DcMotorImplEx.class, "ingester_right");
+        Gripper = hwMap.get(Servo.class, "gripper");
+        ExtendGripper = hwMap.get(CRServo.class, "extend_gripper");
 
         Motors[1].setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         Motors[2].setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);

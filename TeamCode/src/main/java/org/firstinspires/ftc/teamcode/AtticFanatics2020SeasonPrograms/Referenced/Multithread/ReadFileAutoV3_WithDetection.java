@@ -15,8 +15,8 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
 
-@Autonomous(name="Read File V3")
-public class ReadFileAuto_V3 extends LinearOpMode {
+@Autonomous(name="Read File V3 Detect")
+public class ReadFileAutoV3_WithDetection extends LinearOpMode {
 
     private final String fileName = "Test.txt";
     double[] tempValues = new double[11], prevLine = new double[11];
@@ -103,8 +103,8 @@ public class ReadFileAuto_V3 extends LinearOpMode {
         if(prevLine[4] != oneLine[4]) robot.Motors[4].setPower(oneLine[4]);
         if(prevLine[5] != oneLine[5]) robot.IngesterLeft.setPower(oneLine[5]);
         if(prevLine[6] != oneLine[6]) robot.IngesterRight.setPower(oneLine[6]);
-        if(prevLine[7] != oneLine[7]) robot.FoundationLeft.setPosition(oneLine[7]);
-        if(prevLine[8] != oneLine[8]) robot.FoundationRight.setPosition(oneLine[8]);
+        if(prevLine[7] != oneLine[7]) robot.FoundationRight.setPosition(oneLine[7]);
+        //if(prevLine[8] != oneLine[8]) robot.ExtendGripper.setPower(oneLine[8]);
         if(prevLine[9] != oneLine[9]) robot.RotateGripper.setPosition(oneLine[9]);
         if(prevLine[10] != oneLine[10]) robot.Gripper.setPosition(oneLine[10]);
     }

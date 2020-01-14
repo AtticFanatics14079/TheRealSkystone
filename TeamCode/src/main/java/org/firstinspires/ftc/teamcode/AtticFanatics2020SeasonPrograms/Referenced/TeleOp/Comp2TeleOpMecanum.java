@@ -9,10 +9,9 @@ import org.firstinspires.ftc.teamcode.AtticFanatics2020SeasonPrograms.Referenced
 public class Comp2TeleOpMecanum extends Comp2Configure {
 
     private int level = 0;
-    private double Rotation = ROTATE_GRIPPER_STRAIGHT;
     private HardwareMap hwMap;
 
-    private double GAS;
+    private double GAS, straightGas, sideGas, turnGas;
 
     private boolean ScissorOverload = false, ExtendOverload = false, Pressed = false, IngesterOut = false, StopIngester = false, IngesterPressed = false;
 
@@ -33,14 +32,21 @@ public class Comp2TeleOpMecanum extends Comp2Configure {
 
         if(G2.x) GAS = -GAS; //Inverted movement
 
-        if(Math.abs(G1.left_stick_y) >= 0.3 && Math.abs(G1.left_stick_x) < 0.3) setPower(0, G1.left_stick_y * GAS, Math.pow(G1.right_stick_x, 3) * GAS); //Enables easier direct forward movement
+        straightGas = sideGas = turnGas = GAS;
 
-        else if(Math.abs(G1.left_stick_x) >= 0.3 && Math.abs(G1.left_stick_y) < 0.3) setPower(-G1.left_stick_x * GAS, 0, Math.pow(G1.right_stick_x, 3) * GAS); //Enables easier direct sideways movement
+        turnGas = Math.abs(turnGas);
 
-        else setPower(-G1.left_stick_x * GAS, G1.left_stick_y * GAS, Math.pow(G1.right_stick_x, 3) * GAS); //Normal move, no bells and whistles here
+        if(Math.abs(G1.left_stick_y) >= 0.3 && Math.abs(G1.left_stick_x) < 0.3) sideGas = 0; //Enables easier direct forward movement
+
+        else if(Math.abs(G1.left_stick_x) >= 0.3 && Math.abs(G1.left_stick_y) < 0.3) straightGas = 0; //Enables easier direct sideways movement
+
+        setPower(-G1.left_stick_x * sideGas, G1.left_stick_y * straightGas, Math.pow(G1.right_stick_x, 3) * turnGas); //Normal move, no bells and whistles here
 
         if(G1.dpad_down) {FoundationLeft.setPosition(LEFT_CLOSE); FoundationRight.setPosition(RIGHT_CLOSE);} //Set grabbers down
         else if(G1.dpad_up) {FoundationLeft.setPosition(LEFT_OPEN); FoundationRight.setPosition(RIGHT_OPEN);} //Set grabbers up
+
+        if(G1.a) Gripper.setPosition(GRIPPER_CLOSED);
+        else if(G1.b) Gripper.setPosition(GRIPPER_OPEN);
 
         //if(G2.left_trigger != 0) Gripper.setPosition(0.5);
         //else if(G2.y) Gripper.setPosition(Gripper.getPosition() + 0.01); //Gradual movement for recalibration. NOTE: The servo yeets itself if it is not at a position before moving.
@@ -78,6 +84,10 @@ public class Comp2TeleOpMecanum extends Comp2Configure {
             else if(G2.right_bumper && !IngesterPressed) {IngesterOut = true; IngesterPressed = true;}
             setIngesters(-0.5);
         }
+
+        if(G1.dpad_left) ExtendGripper.setPower(1);
+        else if(G1.dpad_right) ExtendGripper.setPower(-1);
+        else ExtendGripper.setPower(0);
 
         /*if(G2.left_trigger > 0.5 && G2.dpad_left) {
             ExtendGripper.setMode(DcMotor.RunMode.RUN_USING_ENCODER);

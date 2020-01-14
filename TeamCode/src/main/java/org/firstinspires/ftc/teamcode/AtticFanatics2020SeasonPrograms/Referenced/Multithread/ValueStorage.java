@@ -22,9 +22,12 @@ public class ValueStorage {
 
     public int skystonePosition = -1;
 
+    public volatile boolean receivedDesiredVals = false;
+
     public double[] hardware(boolean writing, double[] values){
         if(writing) {
             hardwareValues = values.clone();
+            return null;
         }
         return hardwareValues;
     }
@@ -32,13 +35,17 @@ public class ValueStorage {
     public synchronized boolean[] changedParts(boolean Writing, boolean[] desiredParts){
         if (Writing) {
             changedParts = desiredParts.clone();
+            receivedDesiredVals = false;
+            return null;
         }
+        receivedDesiredVals = true;
         return changedParts;
     }
 
     public synchronized double[] runValues(boolean Writing, double[] values){
         if(Writing) {
             runValues = values.clone();
+            return null;
         }
         return runValues;
     }
