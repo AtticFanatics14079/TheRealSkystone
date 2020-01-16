@@ -1,6 +1,7 @@
 package org.firstinspires.ftc.teamcode.AtticFanatics2020SeasonPrograms.Run.Autonomous.LiteralPaths;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.util.ElapsedTime;
 import com.vuforia.CameraDevice;
@@ -10,7 +11,7 @@ import org.firstinspires.ftc.teamcode.AtticFanatics2020SeasonPrograms.Referenced
 import org.firstinspires.ftc.teamcode.AtticFanatics2020SeasonPrograms.Skystone.CameraDetect;
 
 @Autonomous(name = "Red Side - Dropping Skystones")
-
+@Disabled
 public class RedSideDropSkystones extends LinearOpMode{
     MecanumDrive Robot = new MecanumDrive();
     CameraDetect camera = new CameraDetect();

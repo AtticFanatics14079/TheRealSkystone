@@ -3,6 +3,7 @@ package org.firstinspires.ftc.teamcode.AtticFanatics2020SeasonPrograms.Reference
 import android.os.Environment;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
@@ -13,6 +14,7 @@ import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.Scanner;
 
+@Disabled
 @Autonomous(name="Read File V2")
 public class ReadFileAuto_V2 extends LinearOpMode {
 

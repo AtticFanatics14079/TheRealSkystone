@@ -1,10 +1,12 @@
 package org.firstinspires.ftc.teamcode.AtticFanatics2020SeasonPrograms.Run.Autonomous.LiteralPaths;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
 import org.firstinspires.ftc.teamcode.AtticFanatics2020SeasonPrograms.Referenced.Autonomous.MecanumDrive;
 
+@Disabled
 @Autonomous(name = "Red Foundation - Wall")
 public class RedJustFoundationWall extends LinearOpMode {
     MecanumDrive Robot = new MecanumDrive();

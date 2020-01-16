@@ -9,7 +9,7 @@ public class ValueStorage {
 
     private double[] hardwareValues = new double[10]; //Current values are:
     // motor power (0-3), ingester powers (4 and 5), foundation hook left and right positions (6 and 7),
-    // extend power (8), and gripper position (9).
+    // extend power (8), gripper position (9), and scissor powers (10 and 11).
     // Add more as needed, but talk to me to make sure the positions line up.
 
     public double[] runValues = new double[10]; //Same values as above, but used after algorithms

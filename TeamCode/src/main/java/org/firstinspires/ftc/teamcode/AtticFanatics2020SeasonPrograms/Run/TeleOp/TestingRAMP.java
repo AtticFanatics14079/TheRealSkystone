@@ -1,9 +1,11 @@
 package org.firstinspires.ftc.teamcode.AtticFanatics2020SeasonPrograms.Run.TeleOp;
 
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
 
+@Disabled
 @TeleOp(name = "RampTest")
 public class TestingRAMP extends LinearOpMode {
     private final double INPUT_RAMP_DIFF = 0.001, EXTEND_LIMIT_FORWARD = 500000000, EXTEND_LIMIT_BACK = -500000000;

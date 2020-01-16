@@ -3,6 +3,7 @@ package org.firstinspires.ftc.teamcode.AtticFanatics2020SeasonPrograms.Reference
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.Gamepad;
 import com.qualcomm.robotcore.hardware.HardwareMap;
+import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.teamcode.AtticFanatics2020SeasonPrograms.Referenced.Comp2Configure;
 
@@ -11,13 +12,17 @@ public class Comp2TeleOpMecanum extends Comp2Configure {
     private int level = 0;
     private HardwareMap hwMap;
 
-    private double GAS, straightGas, sideGas, turnGas;
+    private double GAS, straightGas, sideGas, turnGas, extenderTime, extendDirection = 0;
 
     private boolean ScissorOverload = false, ExtendOverload = false, Pressed = false, IngesterOut = false, StopIngester = false, IngesterPressed = false;
+
+    ElapsedTime time;
 
     public void Move(HardwareMap ahwMap, Gamepad G1, Gamepad G2)
     {
         hwMap = ahwMap;
+
+        if(time == null) time = new ElapsedTime();
 
         /*if(G2.a) setIngesters(0);
         else if(G2.b) setIngesters(-1);
@@ -85,9 +90,17 @@ public class Comp2TeleOpMecanum extends Comp2Configure {
             setIngesters(-0.5);
         }
 
-        if(G1.dpad_left) ExtendGripper.setPower(1);
-        else if(G1.dpad_right) ExtendGripper.setPower(-1);
-        else ExtendGripper.setPower(0);
+        if(!G1.left_bumper){
+            //if(G1.dpad_left) Extend(true);
+            //else if(G1.dpad_right) Extend(false);
+            ExtendGripper.setPower(0);
+        }
+        else{
+            if(G1.dpad_left) ExtendGripper.setPower(1);
+            else if(G1.dpad_right) ExtendGripper.setPower(-1);
+            else ExtendGripper.setPower(0);
+        }
+        //else ExtendGripper.setPower(0);
 
         /*if(G2.left_trigger > 0.5 && G2.dpad_left) {
             ExtendGripper.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
@@ -188,9 +201,25 @@ public class Comp2TeleOpMecanum extends Comp2Configure {
         }
         else {
             ScissorLeft.setPower(-1);
-            ScissorRight.setPower(1);
+            ScissorRight.setPower(-1);
         }
-        Pressed = true;
+        Pressed = true; //Can take out this line if we are using a new system, everything else should be essential.
+    }
+
+    private void Extend(boolean Out){
+        if(extendDirection != 0 && time.seconds() - extenderTime < 2) {
+            ExtendGripper.setPower(extendDirection);
+        }
+        else if(extendDirection != 0){
+            if(extendDirection == 1) ExtendGripper.setPower(0.2);
+            else ExtendGripper.setPower(0);
+            extendDirection = 0;
+        }
+        else {
+            if(Out) extendDirection = 1;
+            else extendDirection = -1;
+            extenderTime = time.seconds();
+        }
     }
 
     /*private void grabBlock(){

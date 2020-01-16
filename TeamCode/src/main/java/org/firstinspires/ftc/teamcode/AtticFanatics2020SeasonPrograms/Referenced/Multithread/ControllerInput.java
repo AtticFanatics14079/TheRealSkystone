@@ -15,7 +15,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-@TeleOp(name= "Write TeleOp to File for Autonomous (Chris ignore this, don't start this code, don't do it, I SWEAR IF YOU DO IT)")
+@TeleOp(name= "Write TeleOp to File for Autonomous")
 public class ControllerInput extends LinearOpMode {
 
     static ValueStorage vals = new ValueStorage();
@@ -31,7 +31,7 @@ public class ControllerInput extends LinearOpMode {
 
     public final String FileName = "Test.txt"; //Change to record different paths
     public String FilePath;
-    private double GAS = 1;
+    private double GAS = 1, straightGas, sideGas, turnGas;
 
     private boolean IngesterOut = false, StopIngester = false, IngesterPressed = false, HooksOpen = true;
     private int loopNumb = 0;
@@ -106,28 +106,21 @@ public class ControllerInput extends LinearOpMode {
 
         GAS = 1;
 
-        if(gamepad1.right_bumper) GAS = 0.25;
+        /*else */if(gamepad1.right_bumper) GAS = 0.25; //Quarter speed option
 
-        if(gamepad2.x) GAS = -GAS;
+        if(gamepad2.x) GAS = -GAS; //Inverted movement
 
-        if(Math.abs(gamepad1.left_stick_x) >= 0.3 && Math.abs(gamepad1.left_stick_y) < 0.3 && Math.abs(gamepad1.right_stick_x) < 0.3){
-            double[] p = move.getPower(hardwareActions, gamepad1.left_stick_x * GAS, 0, 0);
-            for(int i = 0; i < 4; i++) hardwareActions[i] = p[i];
-        }
-        else if(Math.abs(gamepad1.left_stick_y) >= 0.3 && Math.abs(gamepad1.left_stick_x) < 0.3 || Math.abs(gamepad1.right_stick_x) < 0.3){
-            double[] p = move.getPower(hardwareActions, 0, -gamepad1.left_stick_y * GAS, 0);
-            for(int i = 0; i < 4; i++) hardwareActions[i] = p[i];
-        }
-        else if(Math.abs(gamepad1.left_stick_x) >= 0.3 || Math.abs(gamepad1.left_stick_y) >= 0.3 || Math.abs(gamepad1.right_stick_x) >= 0.3){
-            double[] p = move.getPower(hardwareActions, gamepad1.left_stick_x * GAS, -gamepad1.left_stick_y * GAS, Math.pow(gamepad1.right_stick_x, 3) * Math.abs(GAS));
-            for(int i = 0; i < 4; i++) hardwareActions[i] = p[i];
-        }
-        else {
-            hardwareActions[0] = 0.0;
-            hardwareActions[1] = 0.0;
-            hardwareActions[2] = 0.0;
-            hardwareActions[3] = 0.0;
-        }
+        straightGas = sideGas = GAS;
+
+        turnGas = Math.abs(GAS);
+
+        if(Math.abs(gamepad1.left_stick_y) >= 0.3 && Math.abs(gamepad1.left_stick_x) < 0.3) sideGas = 0; //Enables easier direct forward movement
+
+        else if(Math.abs(gamepad1.left_stick_x) >= 0.3 && Math.abs(gamepad1.left_stick_y) < 0.3) straightGas = 0; //Enables easier direct sideways movement
+
+        double[] p = move.getPower(hardwareActions, gamepad1.left_stick_x * sideGas, -gamepad1.left_stick_y * straightGas, Math.pow(gamepad1.right_stick_x, 3) * turnGas); //Normal move, no bells and whistles here
+
+        for(int i = 0; i < 4; i++) hardwareActions[i] = p[i];
 
         if(loopNumb < 1000){
             changedParts[4] = true;
@@ -157,6 +150,14 @@ public class ControllerInput extends LinearOpMode {
         else if(gamepad1.dpad_down) {openHooks(false);}
         //else openHooks(HooksOpen);
 
+        if(gamepad1.x) setScissors(-1);
+        else if(gamepad1.y) setScissors(1);
+        else setScissors(0);
+
+        if(gamepad1.dpad_left) extend(1);
+        else if(gamepad1.dpad_right) extend(-1);
+        else extend(0);
+
         //No fancy algorithms atm, just passing velocities.
         vals.changedParts(true, changedParts);
         vals.runValues(true, hardwareActions);
@@ -168,9 +169,9 @@ public class ControllerInput extends LinearOpMode {
         if(hardwareActions[5] != power){
             changedParts[4] = true;
             changedParts[5] = true;
+            hardwareActions[4] = power;
+            hardwareActions[5] = power;
         }
-        hardwareActions[4] = power;
-        hardwareActions[5] = power;
     }
 
     private void openHooks(boolean open){
@@ -179,5 +180,21 @@ public class ControllerInput extends LinearOpMode {
         changedParts[7] = true;
         if(open){hardwareActions[6] = LEFT_OPEN; hardwareActions[7] = RIGHT_OPEN; HooksOpen = true;}
         else {hardwareActions[6] = LEFT_CLOSE; hardwareActions[7] = RIGHT_CLOSE; HooksOpen = false;}
+    }
+
+    private void setScissors(double power){
+        if(Math.abs(hardwareActions[10] - power) > 0.1){
+            changedParts[10] = true;
+            changedParts[11] = true;
+            hardwareActions[10] = power;
+            hardwareActions[11] = power;
+        }
+    }
+
+    private void extend(double power){
+        if(Math.abs(hardwareActions[8] - power) > 0.1) {
+            changedParts[8] = true;
+            hardwareActions[8] = power;
+        }
     }
 }

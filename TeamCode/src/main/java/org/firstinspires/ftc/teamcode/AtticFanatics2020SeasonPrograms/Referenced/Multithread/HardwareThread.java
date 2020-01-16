@@ -19,7 +19,7 @@ public class HardwareThread extends Thread {
     public boolean ready = false;
     private boolean setTime = false;
     private final double MAX_ACCELERATION = 2;
-    private double FoundLeftPos = config.LEFT_OPEN, FoundRightPos = config.RIGHT_OPEN, GripPos = 0, ExtendGripPos = 0;
+    private double FoundLeftPos = config.LEFT_OPEN, FoundRightPos = config.RIGHT_OPEN, GripPos = 0, ExtendGripPow = 0;
     private boolean FoundLeftOpen = true, FoundRightOpen = true;
 
     HardwareThread(ValueStorage Vals, HardwareMap hwMap){
@@ -90,10 +90,16 @@ public class HardwareThread extends Thread {
                         hardware[7] = Vals[7];
                         break;
                     case 8:
-                        hardware[8] = ExtendGripPos;
+                        hardware[8] = ExtendGripPow;
                         break;
                     case 9:
                         hardware[9] = GripPos;
+                        break;
+                    case 10:
+                        hardware[10] = config.ScissorLeft.getPower();
+                        break;
+                    case 11:
+                        hardware[11] = config.ScissorRight.getPower();
                         break;
                 }
             }
@@ -144,11 +150,17 @@ public class HardwareThread extends Thread {
                         break;
                     case 8:
                         //if(Vals[8] - prevVals[8] > MAX_ACCELERATION) Vals[8] = prevVals[8] + MAX_ACCELERATION;
-                        config.ExtendGripper.setPower((ExtendGripPos = Vals[8]));
+                        config.ExtendGripper.setPower((ExtendGripPow = Vals[8]));
                         break;
                     case 9:
                         //if(Vals[9] - prevVals[9] > MAX_ACCELERATION) Vals[9] = prevVals[9] + MAX_ACCELERATION;
                         config.Gripper.setPosition((GripPos = Vals[9]));
+                        break;
+                    case 10:
+                        config.ScissorLeft.setPower(Vals[10]);
+                        break;
+                    case 11:
+                        config.ScissorRight.setPower(Vals[11]);
                         break;
                 }
             }

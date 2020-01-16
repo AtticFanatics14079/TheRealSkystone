@@ -47,7 +47,7 @@ public class Comp2Configure {
     public static final double RIGHT_CLOSE = 0.883;
 
     public static final double GRIPPER_CLOSED = 1;
-    public static final double GRIPPER_OPEN = 0;
+    public static final double GRIPPER_OPEN = 0.2;
 
     public static final double ROTATE_GRIPPER_STRAIGHT = 0.88;
     public static final double ROTATE_GRIPPER_SIDEWAYS = 0.38;

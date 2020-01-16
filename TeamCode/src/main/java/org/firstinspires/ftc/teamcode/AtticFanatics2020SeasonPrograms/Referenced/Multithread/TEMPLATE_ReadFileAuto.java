@@ -3,6 +3,7 @@ package org.firstinspires.ftc.teamcode.AtticFanatics2020SeasonPrograms.Reference
 import android.os.Environment;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
@@ -15,10 +16,14 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
 
-@Autonomous(name="Read File V3 Detect")
-public class ReadFileAutoV3_WithDetection extends LinearOpMode {
+@Disabled //UNCOMMENT WHEN MAKING A COPY!!!
+@Autonomous(name="Name Of Path") //CHANGE TO MATCH AUTO PATH NAME!!!
+public class TEMPLATE_ReadFileAuto extends LinearOpMode {
 
-    private final String fileName = "Test.txt";
+    private final String fileName = "filename.txt"; //CHANGE THIS VARIABLE TO MATCH FILE NAME!!!
+
+    //The only values that should be changed are marked above, everything below should remain a black box. Tell me if something goes wrong.
+
     double[] tempValues = new double[11], prevLine = new double[11];
     ArrayList<double[]> Values = new ArrayList<>();
     BufferedReader reader;
