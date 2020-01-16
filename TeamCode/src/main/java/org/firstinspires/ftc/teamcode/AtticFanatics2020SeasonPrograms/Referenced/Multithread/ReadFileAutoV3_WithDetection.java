@@ -1,6 +1,7 @@
 package org.firstinspires.ftc.teamcode.AtticFanatics2020SeasonPrograms.Referenced.Multithread;
 
 import android.os.Environment;
+import android.util.Log;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
@@ -27,13 +28,14 @@ public class ReadFileAutoV3_WithDetection extends LinearOpMode {
     double tempTime;
     Comp2Configure robot = new Comp2Configure();
     public ArrayList<String> lines = new ArrayList<>();
-
+    private static final String TAG = "info";
     @Override
     public void runOpMode() throws InterruptedException {
 
         File file = new File(Environment.getExternalStorageDirectory().getPath()+"/"+fileName);
 
         robot.Configure(hardwareMap);
+        Log.i(TAG,"Config finished.");
 
         try {
             fis = new FileInputStream(file);
@@ -54,6 +56,7 @@ public class ReadFileAutoV3_WithDetection extends LinearOpMode {
         }
 
         telemetry.addLine("File read, beginning string parsing.");
+        Log.i(TAG, "Beginning string parsing...");
         telemetry.update();
 
         try {
@@ -71,9 +74,11 @@ public class ReadFileAutoV3_WithDetection extends LinearOpMode {
             for(int n = 1; n < 11; n++) tempValues[n] = Double.valueOf(lines.get(i).substring(index, (index += 7)));
             Values.add(tempValues);
             tempValues = new double[11];
+            Log.v(TAG, "parsing line " + i);
         }
 
         telemetry.addLine("Parsing complete, finished initialization.");
+        Log.i(TAG,"Parsing was successful");
         telemetry.update();
 
         waitForStart();
