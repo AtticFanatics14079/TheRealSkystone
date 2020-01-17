@@ -49,11 +49,6 @@ public class Comp2Configure {
     public static final double GRIPPER_CLOSED = 1;
     public static final double GRIPPER_OPEN = 0.2;
 
-    public static final double ROTATE_GRIPPER_STRAIGHT = 0.88;
-    public static final double ROTATE_GRIPPER_SIDEWAYS = 0.38;
-
-    public static final int EXTENDED = -3700;
-
     public static final int[] levels = {0, 1300, 2700, 4000, 4640, 6000, 7500, 9100, 11000, 12900};
 
     public double getTargetPosition(int motor){
@@ -148,6 +143,7 @@ public class Comp2Configure {
         ScissorLeft.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         ScissorRight.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
+
         Motors[3].setDirection(DcMotor.Direction.REVERSE);
         Motors[4].setDirection(DcMotor.Direction.REVERSE);
         IngesterLeft.setDirection(DcMotorSimple.Direction.REVERSE);
@@ -160,8 +156,12 @@ public class Comp2Configure {
 
 
          */
+        ScissorLeft.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        ScissorRight.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         ScissorLeft.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         ScissorRight.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        ScissorLeft.setTargetPositionTolerance(50);
+        ScissorRight.setTargetPositionTolerance(50);
 
         return hwMap;
         }
