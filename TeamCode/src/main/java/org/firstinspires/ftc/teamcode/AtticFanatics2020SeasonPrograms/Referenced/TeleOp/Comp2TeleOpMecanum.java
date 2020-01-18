@@ -11,7 +11,7 @@ import org.firstinspires.ftc.teamcode.AtticFanatics2020SeasonPrograms.Referenced
 
 public class Comp2TeleOpMecanum extends Comp2Configure {
 
-    private int level = 0; //0: Pick up Block from inside robot. 1: Above level 1
+    public int level = 0; //0: Pick up Block from inside robot. 1: Above level 1
     private HardwareMap hwMap;
 
     private double GAS, straightGas, sideGas, turnGas, startExtend, extendDirection = 0;
@@ -109,6 +109,7 @@ public class Comp2TeleOpMecanum extends Comp2Configure {
         }
         else if(G1.dpad_down && !Pressed){ //
             setScissorLevel(0);
+            level = 0;
         }
         else if(G1.x){ // DROP BLOCK - ALREADY LINED UP
             ScissorRight.setMode(DcMotor.RunMode.RUN_TO_POSITION);
