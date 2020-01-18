@@ -1,6 +1,7 @@
-package org.firstinspires.ftc.teamcode.AtticFanatics2020SeasonPrograms.Referenced.Multithread;
+package org.firstinspires.ftc.teamcode.AtticFanatics2020SeasonPrograms.Run.Autonomous.Recorded;
 
 import android.os.Environment;
+import android.util.Log;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.Disabled;
@@ -27,8 +28,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-@Disabled //UNCOMMENT WHEN MAKING A COPY!!!
-@Autonomous(name="Name Of Path") //CHANGE TO MATCH AUTO PATH NAME!!!
+@Autonomous(name="BlueSingleStone") //CHANGE TO MATCH AUTO PATH NAME!!!
 public class ReadFileAutoV3_WithDetection extends LinearOpMode {
 
     private final String fileNameLeft = "BlueLeftSingleSkybridge.txt"; //CHANGE THIS VARIABLE TO MATCH FILE NAME!!!
@@ -70,9 +70,9 @@ public class ReadFileAutoV3_WithDetection extends LinearOpMode {
     private static float offsetX = 0f / 8f;//changing this moves the three rects and the three circles left or right, range : (-2, 2) not inclusive
     private static float offsetY = 0f / 8f;//changing this moves the three rects and circles up or down, range: (-4, 4) not inclusive
 
-    private static float[] midPos = {4f / 8f + offsetX, 4f / 8f + offsetY};//0 = col, 1 = row
-    private static float[] leftPos = {4f / 8f + offsetX, 2f / 8f + offsetY};
-    private static float[] rightPos = {4f / 8f + offsetX, 6f / 8f + offsetY};
+    private static float[] midPos = {4f / 8f + offsetX, 3f / 8f + offsetY};//0 = col, 1 = row
+    private static float[] leftPos = {4f / 8f + offsetX, 1f / 8f + offsetY};
+    private static float[] rightPos = {4f / 8f + offsetX, 5f / 8f + offsetY};
     //moves all rectangles right or left by amount. units are in ratio to monitor
 
     private final int rows = 640;
@@ -180,7 +180,7 @@ public class ReadFileAutoV3_WithDetection extends LinearOpMode {
 
         if(valMid == 0){
             tempTime = ValuesMiddle.get(0)[0];
-
+            Log.e("TAG","valMid");
             while(!isStopRequested()){
                 if(time.milliseconds() > tempTime){
                     setHardware(ValuesMiddle.get(count));
@@ -192,7 +192,7 @@ public class ReadFileAutoV3_WithDetection extends LinearOpMode {
             }
         }else if(valRight == 0){
             tempTime = ValuesRight.get(0)[0];
-
+            Log.e("TAG","valMid");
             while(!isStopRequested()){
                 if(time.milliseconds() > tempTime){
                     setHardware(ValuesRight.get(count));
@@ -205,14 +205,17 @@ public class ReadFileAutoV3_WithDetection extends LinearOpMode {
         }
         else{ //do ValLeft Stuff
             tempTime = ValuesLeft.get(0)[0];
-
+            Log.e("TAG","valMid");
             while(!isStopRequested()){
                 if(time.milliseconds() > tempTime){
+                    Log.e("TAG","valMid1");
                     setHardware(ValuesLeft.get(count));
                     prevLine = ValuesLeft.get(count);
+                    Log.e("TAG","valMid2");
                     count++;
                     if(count == ValuesLeft.size()) break;
                     tempTime = ValuesLeft.get(count)[0];
+                    Log.e("TAG","valMid3");
                 }
             }
         }

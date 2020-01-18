@@ -16,7 +16,7 @@ public class Comp2TeleOpMecanum extends Comp2Configure {
 
     private double GAS, straightGas, sideGas, turnGas, startExtend, extendDirection = 0;
 
-    private boolean ScissorOverload = false, ExtendOverload = false, Pressed = false, IngesterOut = false, StopIngester = false, IngesterPressed = false;
+    private boolean Extending = false, Pressed = false, IngesterOut = false, StopIngester = false, IngesterPressed = false;
     ElapsedTime time;
 
     public void Move(HardwareMap ahwMap, Gamepad G1, Gamepad G2) {
@@ -47,12 +47,16 @@ public class Comp2TeleOpMecanum extends Comp2Configure {
 
         setPower(-G1.left_stick_x * sideGas, G1.left_stick_y * straightGas, Math.pow(G1.right_stick_x, 3) * turnGas); //Normal move, no bells and whistles here
 
-        if(G1.left_bumper){
+        if(G1.left_bumper && !Extending){
             ExtendGripper.setPower(1);
             startExtend = time.milliseconds();
+            Extending = true;
         }
-        if(startExtend+1000<time.milliseconds()){
+        if(startExtend+1000<time.milliseconds() && Extending){
             ExtendGripper.setPower(0.6);
+        }
+        if(Extending && G1.left_bumper){
+            ExtendGripper.setPower(0);
         }
         if (G2.dpad_down) {
             FoundationLeft.setPosition(LEFT_CLOSE);
@@ -100,7 +104,6 @@ public class Comp2TeleOpMecanum extends Comp2Configure {
             }
             setIngesters(-0.5);
         }
-        //TODO: SCISSOR LEVELS
         //TODO: MACROS
 
         if(G1.dpad_up && !Pressed && level<levels.length-1){ //READY TO PLACE NEXT LEVEL

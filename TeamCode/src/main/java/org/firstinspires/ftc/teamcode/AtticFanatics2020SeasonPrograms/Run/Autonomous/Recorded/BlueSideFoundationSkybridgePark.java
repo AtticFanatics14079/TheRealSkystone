@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.AtticFanatics2020SeasonPrograms.Run.Autonomous.LiteralPaths;
+package org.firstinspires.ftc.teamcode.AtticFanatics2020SeasonPrograms.Run.Autonomous.Recorded;
 
 import android.os.Environment;
 
@@ -15,10 +15,10 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
 
-@Autonomous(name="Blue Side Foundation - Inside Bridge")
-public class BlueSideFoundationInsideBridgeComp2 extends LinearOpMode {
+@Autonomous(name="BlueSideFoundationSkybridgePark")
+public class BlueSideFoundationSkybridgePark extends LinearOpMode {
 
-    private final String fileName = "BlueSideFoundationInside.txt";
+    private final String fileName = "BlueSideFoundationSkybridgePark.txt";
     double[] tempValues = new double[11], prevLine = new double[11];
     ArrayList<double[]> Values = new ArrayList<>();
     BufferedReader reader;
