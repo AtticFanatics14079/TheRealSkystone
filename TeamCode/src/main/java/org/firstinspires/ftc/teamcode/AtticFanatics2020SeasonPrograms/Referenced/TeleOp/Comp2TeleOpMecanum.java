@@ -8,7 +8,7 @@ import org.firstinspires.ftc.teamcode.AtticFanatics2020SeasonPrograms.Referenced
 
 public class Comp2TeleOpMecanum extends Comp2Configure {
 
-    private int level = 0;
+    public int level = 0;
     private HardwareMap hwMap;
 
     private double GAS, straightGas, sideGas, turnGas;
@@ -175,7 +175,7 @@ public class Comp2TeleOpMecanum extends Comp2Configure {
         if(RampDiff < 1)
             RampDiff += INPUT_RAMP_DIFF;
     }
-     */
+
 
     private void setScissorLevel(int level){
         ScissorLeft.setTargetPositionTolerance(100);
@@ -192,7 +192,7 @@ public class Comp2TeleOpMecanum extends Comp2Configure {
         }
         Pressed = true;
     }
-
+    */
     /*private void grabBlock(){
         try {
             setPower(0, 0, 0);
