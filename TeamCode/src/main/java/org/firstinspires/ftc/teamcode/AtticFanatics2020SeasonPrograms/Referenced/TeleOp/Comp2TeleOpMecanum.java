@@ -106,10 +106,12 @@ public class Comp2TeleOpMecanum extends Comp2Configure {
         if(G1.dpad_up && !Pressed && level<levels.length-1){ //READY TO PLACE NEXT LEVEL
             level++;
             setScissorLevel(level);
+            Pressed = true;
         }
         else if(G1.dpad_down && !Pressed){ //
             setScissorLevel(0);
             level = 0;
+            Pressed = true;
         }
         else if(G1.x){ // DROP BLOCK - ALREADY LINED UP
             ScissorRight.setMode(DcMotor.RunMode.RUN_TO_POSITION);
@@ -164,8 +166,6 @@ public class Comp2TeleOpMecanum extends Comp2Configure {
         ScissorRight.setTargetPosition(levels[level]);
         ScissorLeft.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         ScissorRight.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        ScissorLeft.setPower(1);
-        ScissorRight.setPower(1);
     }
     private void resetScissor(){
         ScissorLeft.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
