@@ -49,7 +49,7 @@ public class Comp2Configure {
     public static final double GRIPPER_CLOSED = 1;
     public static final double GRIPPER_OPEN = 0;
 
-    public static final int[] levels = {0,300,600,900,1200,1500};
+    public static final int[] levels = {0,600,1100,1500,1900,2300,2700, 3100, 3500, 3900};
 
     public double getTargetPosition(int motor){
         return targetPosition[motor];
@@ -141,6 +141,10 @@ public class Comp2Configure {
 
 
          */
+        Motors[1].setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        Motors[2].setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        Motors[3].setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        Motors[4].setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         ScissorLeft.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         ScissorRight.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         ScissorLeft.setMode(DcMotor.RunMode.RUN_USING_ENCODER);

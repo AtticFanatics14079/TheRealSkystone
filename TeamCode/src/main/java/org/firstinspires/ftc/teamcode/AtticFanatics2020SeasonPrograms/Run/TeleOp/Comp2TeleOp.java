@@ -30,6 +30,7 @@ public class Comp2TeleOp extends OpMode {
             telemetry.addData("Scissor Right", Drive.ScissorRight.getCurrentPosition());
             telemetry.addData("Level: ", Drive.level);
             telemetry.addData("Gripper: ", Drive.Gripper.getPosition());
+            telemetry.addData("Extend Gripper: ", Drive.ExtendGripper.getPower());
             telemetry.update();
     }
 }
