@@ -22,12 +22,15 @@ public class HardwareThread extends Thread {
     private double FoundLeftPos = config.LEFT_OPEN, FoundRightPos = config.RIGHT_OPEN, GripPos = 0, ExtendGripPow = 0;
     private boolean FoundLeftOpen = true, FoundRightOpen = true;
 
+    public double voltMult;
+
     HardwareThread(ValueStorage Vals, HardwareMap hwMap){
         this.vals = Vals;
         config.Configure(hwMap);
         config.FoundationLeft.setPosition(config.LEFT_OPEN);
         config.FoundationRight.setPosition(config.RIGHT_OPEN);
         vals.time(true, 0.0);
+        voltMult = 13.0/config.voltSense.getVoltage();
     }
 
     public void run(){

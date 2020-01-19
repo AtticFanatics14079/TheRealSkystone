@@ -36,6 +36,8 @@ public class ControllerInput extends LinearOpMode {
     private boolean IngesterOut = false, StopIngester = false, IngesterPressed = false, HooksOpen = true;
     private int loopNumb = 0;
 
+    private double voltMult;
+
     @Override
     public void runOpMode() throws InterruptedException {
         System.out.println(3);
@@ -60,7 +62,10 @@ public class ControllerInput extends LinearOpMode {
         hardware.startTime();
         write.Start();
         HooksOpen = true;
+        waitForStart();
         //Anything else we want to do at the start of pressing play
+        this.voltMult = hardware.voltMult;
+
         while(!isStopRequested()){
             //Main loop of the class
             telemetry.addData("File: ", write.file);
@@ -96,17 +101,14 @@ public class ControllerInput extends LinearOpMode {
         //Write what each input should correspond to (e.g. translating gamepad 1 left stick to
         //velocities for hardwareActions 1-4). Make sure to add it to the changedParts list every time.
 
-        //At the moment, including drive train only.
-        changedParts[0] = true; //This line is because we will always be moving the motors.
-        changedParts[1] = true; //This line is because we will always be moving the motors.
-        changedParts[2] = true; //This line is because we will always be moving the motors.
-        changedParts[3] = true; //This line is because we will always be moving the motors.
-        //changedParts[4] = true; //This line is because we will always be moving the motors.
-        //changedParts[5] = true; //This line is because we will always be moving the motors.
+        changedParts[0] = true; //This line is because we will always be changing these motors.
+        changedParts[1] = true; //This line is because we will always be changing these motors.
+        changedParts[2] = true; //This line is because we will always be changing these motors.
+        changedParts[3] = true; //This line is because we will always be changing these motors.
 
-        GAS = 1;
+        GAS = voltMult;
 
-        /*else */if(gamepad1.right_bumper) GAS = 0.25; //Quarter speed option
+        /*else */if(gamepad1.right_bumper) GAS = 0.25 * GAS; //Quarter speed option
 
         if(gamepad2.x) GAS = -GAS; //Inverted movement
 
@@ -122,28 +124,20 @@ public class ControllerInput extends LinearOpMode {
 
         for(int i = 0; i < 4; i++) hardwareActions[i] = p[i];
 
-        if(loopNumb < 1000){
-            changedParts[4] = true;
-            changedParts[5] = true;
-        }
-
         if(IngesterOut){
             if(!gamepad2.right_bumper && !gamepad2.left_bumper && IngesterPressed) IngesterPressed = false;
-            else if(gamepad2.right_bumper && !IngesterPressed) {IngesterOut = false; IngesterPressed = true;}
-            else if(gamepad2.left_bumper && !IngesterPressed){IngesterOut = false; StopIngester = true; IngesterPressed = true;}
-            setIngesters(0.5);
+            else if(gamepad2.right_bumper && !IngesterPressed) {IngesterOut = false; IngesterPressed = true; setIngesters(-0.5);}
+            else if(gamepad2.left_bumper && !IngesterPressed){IngesterOut = false; StopIngester = true; IngesterPressed = true; setIngesters(0);}
         }
         else if(StopIngester){
             if(!gamepad2.left_bumper && !gamepad2.right_bumper && IngesterPressed) IngesterPressed = false;
-            else if(gamepad2.left_bumper && !IngesterPressed) {StopIngester = false; IngesterPressed = true;}
-            else if(gamepad2.right_bumper && !IngesterPressed){StopIngester = false; IngesterOut = true; IngesterPressed = true;}
-            setIngesters(0);
+            else if(gamepad2.left_bumper && !IngesterPressed) {StopIngester = false; IngesterPressed = true; setIngesters(-0.5);}
+            else if(gamepad2.right_bumper && !IngesterPressed){StopIngester = false; IngesterOut = true; IngesterPressed = true; setIngesters(0.5);}
         }
         else{
             if(!gamepad2.left_bumper && !gamepad2.right_bumper && IngesterPressed) IngesterPressed = false;
-            else if(gamepad2.left_bumper && !IngesterPressed) {StopIngester = true; IngesterPressed = true;}
-            else if(gamepad2.right_bumper && !IngesterPressed) {IngesterOut = true; IngesterPressed = true;}
-            setIngesters(-0.5);
+            else if(gamepad2.left_bumper && !IngesterPressed) {StopIngester = true; IngesterPressed = true; setIngesters(0);}
+            else if(gamepad2.right_bumper && !IngesterPressed) {IngesterOut = true; IngesterPressed = true; setIngesters(0.5);}
         }
 
         if(gamepad1.dpad_up) {openHooks(true);}
@@ -173,9 +167,7 @@ public class ControllerInput extends LinearOpMode {
     }
 
     private void openHooks(boolean open){
-        //if(open != HooksOpen){changedParts[6] = true; changedParts[7] = true;}
-        changedParts[6] = true;
-        changedParts[7] = true;
+        if(open != HooksOpen){changedParts[6] = true; changedParts[7] = true;}
         if(open){hardwareActions[6] = LEFT_OPEN; hardwareActions[7] = RIGHT_OPEN; HooksOpen = true;}
         else {hardwareActions[6] = LEFT_CLOSE; hardwareActions[7] = RIGHT_CLOSE; HooksOpen = false;}
     }

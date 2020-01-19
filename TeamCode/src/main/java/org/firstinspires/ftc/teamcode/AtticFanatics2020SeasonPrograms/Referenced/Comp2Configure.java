@@ -8,6 +8,7 @@ import com.qualcomm.robotcore.hardware.DcMotorImplEx;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
+import com.qualcomm.robotcore.hardware.VoltageSensor;
 
 import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
 
@@ -34,6 +35,8 @@ public class Comp2Configure {
     public CRServo ExtendGripper;
 
     public DcMotorImplEx ScissorLeft, ScissorRight;
+
+    public VoltageSensor voltSense;
 
     public DcMotor IngesterLeft, IngesterRight;
 
@@ -121,6 +124,7 @@ public class Comp2Configure {
         IngesterRight = hwMap.get(DcMotorImplEx.class, "ingester_right");
         Gripper = hwMap.get(Servo.class, "gripper");
         ExtendGripper = hwMap.get(CRServo.class, "extend_gripper");
+        voltSense = hwMap.get(VoltageSensor.class, "Motor Controller 1"); //I have no idea what the voltage sensor name is so...
 
         Motors[1].setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         Motors[2].setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
