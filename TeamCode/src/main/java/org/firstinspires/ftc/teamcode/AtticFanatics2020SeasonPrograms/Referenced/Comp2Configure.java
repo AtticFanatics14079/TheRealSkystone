@@ -49,29 +49,10 @@ public class Comp2Configure {
     public static final double GRIPPER_CLOSED = 1;
     public static final double GRIPPER_OPEN = 0.2;
 
-    public static final double ROTATE_GRIPPER_STRAIGHT = 0.88;
-    public static final double ROTATE_GRIPPER_SIDEWAYS = 0.38;
-
-    public static final int EXTENDED = -3700;
-
-    public static final int[] levels = {0, 1300, 2700, 4000, 4640, 6000, 7500, 9100, 11000, 12900};
+    public static final int[] levels = {0,300,600,900,1200,1500};
 
     public double getTargetPosition(int motor){
         return targetPosition[motor];
-    }
-
-    public void setTolerance(){
-        Motors[1].setTargetPositionTolerance(TOLERANCE);
-        Motors[2].setTargetPositionTolerance(TOLERANCE);
-        Motors[3].setTargetPositionTolerance(TOLERANCE);
-        Motors[4].setTargetPositionTolerance(TOLERANCE);
-    }
-
-    public void setTolerance(int Tolerance){
-        Motors[1].setTargetPositionTolerance(Tolerance);
-        Motors[2].setTargetPositionTolerance(Tolerance);
-        Motors[3].setTargetPositionTolerance(Tolerance);
-        Motors[4].setTargetPositionTolerance(Tolerance);
     }
 
     public void resetMotorEncoders(){
@@ -160,6 +141,8 @@ public class Comp2Configure {
 
 
          */
+        ScissorLeft.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        ScissorRight.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         ScissorLeft.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         ScissorRight.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 

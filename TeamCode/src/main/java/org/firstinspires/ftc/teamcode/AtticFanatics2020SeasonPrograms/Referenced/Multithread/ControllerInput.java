@@ -166,12 +166,10 @@ public class ControllerInput extends LinearOpMode {
     }
 
     private void setIngesters(double power){
-        if(hardwareActions[5] != power){
-            changedParts[4] = true;
-            changedParts[5] = true;
-            hardwareActions[4] = power;
-            hardwareActions[5] = power;
-        }
+        changedParts[4] = true;
+        changedParts[5] = true;
+        hardwareActions[4] = power;
+        hardwareActions[5] = power;
     }
 
     private void openHooks(boolean open){
