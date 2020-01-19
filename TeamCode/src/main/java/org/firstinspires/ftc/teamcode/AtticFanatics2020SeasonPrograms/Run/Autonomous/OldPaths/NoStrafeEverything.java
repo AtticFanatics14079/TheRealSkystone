@@ -10,7 +10,7 @@ import org.firstinspires.ftc.teamcode.AtticFanatics2020SeasonPrograms.Referenced
 import org.firstinspires.ftc.teamcode.AtticFanatics2020SeasonPrograms.Referenced.Comp1Configure;
 import org.firstinspires.ftc.teamcode.AtticFanatics2020SeasonPrograms.Skystone.CameraDetect;
 
-
+@Disabled
 @Autonomous(name = "NoStrafeEverything")
 @Disabled
 public class NoStrafeEverything extends LinearOpMode{

@@ -9,6 +9,7 @@ import com.vuforia.CameraDevice;
 import org.firstinspires.ftc.teamcode.AtticFanatics2020SeasonPrograms.Referenced.Autonomous.MecanumDrive;
 import org.firstinspires.ftc.teamcode.AtticFanatics2020SeasonPrograms.Skystone.CameraDetect;
 
+@Disabled
 @Autonomous(name = "Blue Side - Dropping Skystones")
 @Disabled
 public class BlueSideDropSkystones extends LinearOpMode{

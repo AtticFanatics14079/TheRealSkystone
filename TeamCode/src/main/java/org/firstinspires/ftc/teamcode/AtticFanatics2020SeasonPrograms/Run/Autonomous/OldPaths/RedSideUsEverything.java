@@ -9,7 +9,7 @@ import com.vuforia.CameraDevice;
 import org.firstinspires.ftc.teamcode.AtticFanatics2020SeasonPrograms.Referenced.Autonomous.MecanumDrive;
 import org.firstinspires.ftc.teamcode.AtticFanatics2020SeasonPrograms.Referenced.Comp1Configure;
 import org.firstinspires.ftc.teamcode.AtticFanatics2020SeasonPrograms.Skystone.CameraDetect;
-
+@Disabled
 @Autonomous(name = "Red Side Everything")
 @Disabled
 public class RedSideUsEverything extends LinearOpMode{
