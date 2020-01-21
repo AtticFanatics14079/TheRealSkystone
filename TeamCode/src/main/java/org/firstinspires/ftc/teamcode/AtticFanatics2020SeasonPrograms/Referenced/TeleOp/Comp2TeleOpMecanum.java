@@ -102,8 +102,31 @@ public class Comp2TeleOpMecanum extends Comp2Configure {
         }
         //TODO: SCISSOR LEVELS
         //TODO: MACROS
+        if(G1.dpad_up && G1.left_bumper && !Pressed && level<levels.length-1){ // meant to grab block, go up, extend, drop, go back in, go back down
+            Gripper.setPosition(GRIPPER_CLOSED); //grab
+           try{
+               wait(400);
+           }
+           catch(Exception e){
+               System.out.println(e);
+            }
+           level++;
+           setScissorLevel(level); //go up
+           double extend = time.milliseconds();
+           while((time.milliseconds() - extend) < 1000){
+               ExtendGripper.setPower(.6);
+           } //extend
+            setScissorLevel(level - 2);
+           Gripper.setPosition(GRIPPER_OPEN);
+            setScissorLevel(level);
+            double extend2 = time.milliseconds();
+            while((time.milliseconds() - extend2) < 1000){
+                ExtendGripper.setPower(.3);
+            } //extend back in
+            setScissorLevel(0); //go back down
 
-        if(G1.dpad_up && !Pressed && level<levels.length-1){ //READY TO PLACE NEXT LEVEL
+        }
+        else if(G1.dpad_up && !Pressed && level<levels.length-1){ //READY TO PLACE NEXT LEVEL
             level++;
             setScissorLevel(level);
         }
