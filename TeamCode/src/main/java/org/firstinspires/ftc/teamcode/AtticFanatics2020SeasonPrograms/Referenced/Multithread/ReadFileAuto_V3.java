@@ -44,33 +44,25 @@ public class ReadFileAuto_V3 extends LinearOpMode {
 
         String tempString = "";
 
+        int index;
+
         while(!isStopRequested()){
             try {
                 if((tempString = reader.readLine()) == null) break;
-                lines.add(tempString);
+                tempValues[0] = Double.valueOf(tempString.substring(0, (index = tempString.indexOf(" "))));
+                for(int n = 1; n < 11; n++) tempValues[n] = Double.valueOf(tempString.substring(index, (index += 7)));
+                Values.add(tempValues);
+                tempValues = new double[11];
             }
             catch (IOException e) {
             }
         }
-
-        telemetry.addLine("File read, beginning string parsing.");
-        telemetry.update();
 
         try {
             reader.close();
             fis.getFD().sync();
             fis.close();
         } catch (IOException e) {
-
-        }
-
-        int index;
-
-        for(int i = 0; i < lines.size() && !isStopRequested(); i++){
-            tempValues[0] = Double.valueOf(lines.get(i).substring(0, (index = lines.get(i).indexOf(" "))));
-            for(int n = 1; n < 11; n++) tempValues[n] = Double.valueOf(lines.get(i).substring(index, (index += 7)));
-            Values.add(tempValues);
-            tempValues = new double[11];
         }
 
         telemetry.addLine("Parsing complete, finished initialization.");
@@ -107,7 +99,13 @@ public class ReadFileAuto_V3 extends LinearOpMode {
         if(prevLine[8] != oneLine[8]) robot.FoundationRight.setPosition(oneLine[8]);
         if(prevLine[9] != oneLine[9]) robot.ExtendGripper.setPower(oneLine[9]);
         if(prevLine[10] != oneLine[10]) robot.Gripper.setPosition(oneLine[10]);
-        if(prevLine[11] != oneLine[11]) robot.ScissorLeft.setPower(oneLine[11]);
-        if(prevLine[12] != oneLine[12]) robot.ScissorRight.setPower(oneLine[12]);
+        if(prevLine[11] != oneLine[11]) {
+            robot.ScissorLeft.setTargetPosition((int)oneLine[11]);
+            robot.ScissorLeft.setPower(oneLine[11]/Math.abs(oneLine[11]));
+        }
+        if(prevLine[12] != oneLine[12]) {
+            robot.ScissorRight.setTargetPosition((int)oneLine[12]);
+            robot.ScissorRight.setPower(oneLine[11]/Math.abs(oneLine[11]));
+        }
     }
 }

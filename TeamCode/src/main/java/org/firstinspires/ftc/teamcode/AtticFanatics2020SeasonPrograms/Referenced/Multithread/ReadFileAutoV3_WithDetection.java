@@ -37,9 +37,7 @@ public class ReadFileAutoV3_WithDetection extends LinearOpMode {
 
     //The only values that should be changed are marked above, everything below should remain a black box. Tell me if something goes wrong.
 
-    double[] tempValuesLeft = new double[11];
-    double[] tempValuesMiddle = new double[11];
-    double[] tempValuesRight = new double[11];
+    double[] tempValues = new double[11];
     ArrayList<double[]> ValuesLeft = new ArrayList<>();
     ArrayList<double[]> ValuesMiddle = new ArrayList<>();
     ArrayList<double[]> ValuesRight = new ArrayList<>();
@@ -109,10 +107,15 @@ public class ReadFileAutoV3_WithDetection extends LinearOpMode {
 
         String tempString = "";
 
+        int index;
+
         while(!isStopRequested()){
             try {
                 if((tempString = reader1.readLine()) == null) break;
-                linesLeft.add(tempString);
+                tempValues[0] = Double.valueOf(tempString.substring(0, (index = tempString.indexOf(" "))));
+                for(int n = 1; n < 11; n++) tempValues[n] = Double.valueOf(tempString.substring(index, (index += 7)));
+                ValuesLeft.add(tempValues);
+                tempValues = new double[11];
             }
             catch (IOException e) {
             }
@@ -120,7 +123,10 @@ public class ReadFileAutoV3_WithDetection extends LinearOpMode {
         while(!isStopRequested()){
             try {
                 if((tempString = reader2.readLine()) == null) break;
-                linesMiddle.add(tempString);
+                tempValues[0] = Double.valueOf(tempString.substring(0, (index = tempString.indexOf(" "))));
+                for(int n = 1; n < 11; n++) tempValues[n] = Double.valueOf(tempString.substring(index, (index += 7)));
+                ValuesMiddle.add(tempValues);
+                tempValues = new double[11];
             }
             catch (IOException e) {
             }
@@ -128,14 +134,14 @@ public class ReadFileAutoV3_WithDetection extends LinearOpMode {
         while(!isStopRequested()){
             try {
                 if((tempString = reader3.readLine()) == null) break;
-                linesRight.add(tempString);
+                tempValues[0] = Double.valueOf(tempString.substring(0, (index = tempString.indexOf(" "))));
+                for(int n = 1; n < 11; n++) tempValues[n] = Double.valueOf(tempString.substring(index, (index += 7)));
+                ValuesRight.add(tempValues);
+                tempValues = new double[11];
             }
             catch (IOException e) {
             }
         }
-
-        telemetry.addLine("File read, beginning string parsing.");
-        telemetry.update();
 
         try {
             reader1.close();
@@ -148,28 +154,6 @@ public class ReadFileAutoV3_WithDetection extends LinearOpMode {
             fis3.getFD().sync();
             fis3.close();
         } catch (IOException e) {
-
-        }
-
-        int index;
-
-        for(int i = 0; i < linesLeft.size() && !isStopRequested(); i++){
-            tempValuesLeft[0] = Double.valueOf(linesLeft.get(i).substring(0, (index = linesLeft.get(i).indexOf(" "))));
-            for(int n = 1; n < 11; n++) tempValuesLeft[n] = Double.valueOf(linesLeft.get(i).substring(index, (index += 7)));
-            ValuesLeft.add(tempValuesLeft);
-            tempValuesLeft = new double[11];
-        }
-        for(int i = 0; i < linesMiddle.size() && !isStopRequested(); i++){
-            tempValuesMiddle[0] = Double.valueOf(linesMiddle.get(i).substring(0, (index = linesMiddle.get(i).indexOf(" "))));
-            for(int n = 1; n < 11; n++) tempValuesMiddle[n] = Double.valueOf(linesMiddle.get(i).substring(index, (index += 7)));
-            ValuesMiddle.add(tempValuesMiddle);
-            tempValuesMiddle = new double[11];
-        }
-        for(int i = 0; i < linesRight.size() && !isStopRequested(); i++){
-            tempValuesRight[0] = Double.valueOf(linesRight.get(i).substring(0, (index = linesRight.get(i).indexOf(" "))));
-            for(int n = 1; n < 11; n++) tempValuesRight[n] = Double.valueOf(linesRight.get(i).substring(index, (index += 7)));
-            ValuesRight.add(tempValuesRight);
-            tempValuesRight = new double[11];
         }
 
         telemetry.addLine("Parsing complete");
@@ -231,8 +215,14 @@ public class ReadFileAutoV3_WithDetection extends LinearOpMode {
         if(prevLine[8] != oneLine[8]) robot.FoundationRight.setPosition(oneLine[8]);
         if(prevLine[9] != oneLine[9]) robot.ExtendGripper.setPower(oneLine[9]);
         if(prevLine[10] != oneLine[10]) robot.Gripper.setPosition(oneLine[10]);
-        if(prevLine[11] != oneLine[11]) robot.ScissorLeft.setPower(oneLine[11]);
-        if(prevLine[12] != oneLine[12]) robot.ScissorRight.setPower(oneLine[12]);
+        if(prevLine[11] != oneLine[11]) {
+            robot.ScissorLeft.setTargetPosition((int)oneLine[11]);
+            robot.ScissorLeft.setPower(oneLine[11]/Math.abs(oneLine[11]));
+        }
+        if(prevLine[12] != oneLine[12]) {
+            robot.ScissorRight.setTargetPosition((int)oneLine[12]);
+            robot.ScissorRight.setPower(oneLine[11]/Math.abs(oneLine[11]));
+        }
     }
 
     static class StageSwitchingPipeline extends OpenCvPipeline
