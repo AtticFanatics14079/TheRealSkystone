@@ -133,6 +133,7 @@ public class Comp2Configure {
         ScissorLeft.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         ScissorRight.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
+
         Motors[3].setDirection(DcMotor.Direction.REVERSE);
         Motors[4].setDirection(DcMotor.Direction.REVERSE);
         IngesterLeft.setDirection(DcMotorSimple.Direction.REVERSE);
@@ -153,6 +154,8 @@ public class Comp2Configure {
         ScissorRight.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         ScissorLeft.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         ScissorRight.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        ScissorLeft.setTargetPositionTolerance(50);
+        ScissorRight.setTargetPositionTolerance(50);
 
         return hwMap;
         }

@@ -1,6 +1,7 @@
 package org.firstinspires.ftc.teamcode.AtticFanatics2020SeasonPrograms.Referenced.Multithread;
 
 import android.os.Environment;
+import android.util.Log;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.Disabled;
@@ -93,6 +94,7 @@ public class ReadFileAutoV3_WithDetection extends LinearOpMode {
         File fileRight = new File(Environment.getExternalStorageDirectory().getPath()+"/"+fileNameRight);
 
         robot.Configure(hardwareMap);
+        Log.i(TAG,"Config finished.");
 
         try {
             fis1 = new FileInputStream(fileLeft);
