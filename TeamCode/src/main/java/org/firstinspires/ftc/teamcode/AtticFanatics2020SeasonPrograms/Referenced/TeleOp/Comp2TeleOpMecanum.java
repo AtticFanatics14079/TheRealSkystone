@@ -11,18 +11,19 @@ import org.firstinspires.ftc.teamcode.AtticFanatics2020SeasonPrograms.Referenced
 
 public class Comp2TeleOpMecanum extends Comp2Configure {
 
-    private int level = 0; //0: Pick up Block from inside robot. 1: Above level 1
+    public int level = 0; //0: Pick up Block from inside robot. 1: Above level 1
     private HardwareMap hwMap;
 
     private double GAS, straightGas, sideGas, turnGas, startExtend, extendDirection = 0;
 
-    private boolean ScissorOverload = false, ExtendOverload = false, Pressed = false, IngesterOut = false, StopIngester = false, IngesterPressed = false;
-    ElapsedTime time;
+    private boolean Extending = false, Pressed = false, IngesterOut = false, StopIngester = false, IngesterPressed = false;
+    ElapsedTime time, startTime;
 
     public void Move(HardwareMap ahwMap, Gamepad G1, Gamepad G2) {
         hwMap = ahwMap;
 
         if (time == null) time = new ElapsedTime();
+        if (startTime == null) startTime = new ElapsedTime();
 
         /*if(G2.a) setIngesters(0);
         else if(G2.b) setIngesters(-1);
@@ -33,7 +34,6 @@ public class Comp2TeleOpMecanum extends Comp2Configure {
 
         if (G1.right_bumper) GAS = 0.25; //Quarter speed option
 
-        if (G2.x) GAS = -GAS; //Inverted movement
 
         straightGas = sideGas = turnGas = GAS;
 
@@ -47,29 +47,23 @@ public class Comp2TeleOpMecanum extends Comp2Configure {
 
         setPower(-G1.left_stick_x * sideGas, G1.left_stick_y * straightGas, Math.pow(G1.right_stick_x, 3) * turnGas); //Normal move, no bells and whistles here
 
-        if(G1.left_bumper){
-            ExtendGripper.setPower(1);
-            startExtend = time.milliseconds();
-        }
-        if(startExtend+1000<time.milliseconds()){
-            ExtendGripper.setPower(0.6);
-        }
-        if (G2.dpad_down) {
+        if (G1.dpad_down) {
             FoundationLeft.setPosition(LEFT_CLOSE);
             FoundationRight.setPosition(RIGHT_CLOSE);
         } //Set grabbers down
-        else if (G2.dpad_up) {
+        else if (G1.dpad_up) {
             FoundationLeft.setPosition(LEFT_OPEN);
             FoundationRight.setPosition(RIGHT_OPEN);
         } //Set grabbers up
 
-        if (G1.a) Gripper.setPosition(GRIPPER_CLOSED);
-        else if (G1.b) Gripper.setPosition(GRIPPER_OPEN);
+
+        if (G1.a || G2.a) Gripper.setPosition(GRIPPER_CLOSED);
+        else if (G1.b || G2.b) Gripper.setPosition(GRIPPER_OPEN);
 
 
         if (IngesterOut) {
-            if (!G2.right_bumper && !G2.left_bumper && IngesterPressed) IngesterPressed = false;
-            else if (G2.right_bumper && !IngesterPressed) {
+            if (!G1.y && !G2.left_bumper && IngesterPressed) IngesterPressed = false;
+            else if (G1.y && !IngesterPressed) {
                 IngesterOut = false;
                 IngesterPressed = true;
             } else if (G2.left_bumper && !IngesterPressed) {
@@ -79,98 +73,37 @@ public class Comp2TeleOpMecanum extends Comp2Configure {
             }
             setIngesters(0.5);
         } else if (StopIngester) {
-            if (!G2.left_bumper && !G2.right_bumper && IngesterPressed) IngesterPressed = false;
-            else if (G2.left_bumper && !IngesterPressed) {
+            if (!G1.x && !G1.y && IngesterPressed) IngesterPressed = false;
+            else if (G1.x && !IngesterPressed) {
                 StopIngester = false;
                 IngesterPressed = true;
-            } else if (G2.right_bumper && !IngesterPressed) {
+            } else if (G1.y && !IngesterPressed) {
                 StopIngester = false;
                 IngesterOut = true;
                 IngesterPressed = true;
             }
             setIngesters(0);
         } else {
-            if (!G2.left_bumper && !G2.right_bumper && IngesterPressed) IngesterPressed = false;
-            else if (G2.left_bumper && !IngesterPressed) {
+            if (!G1.x && !G1.y && IngesterPressed) IngesterPressed = false;
+            else if (G1.x && !IngesterPressed) {
                 StopIngester = true;
                 IngesterPressed = true;
-            } else if (G2.right_bumper && !IngesterPressed) {
+            } else if (G1.y && !IngesterPressed) {
                 IngesterOut = true;
                 IngesterPressed = true;
             }
             setIngesters(-0.5);
         }
-        //TODO: SCISSOR LEVELS
         //TODO: MACROS
-        if(G1.dpad_up && G1.left_bumper && !Pressed && level<levels.length-1){ // meant to grab block, go up, extend, drop, go back in, go back down
-            Gripper.setPosition(GRIPPER_CLOSED); //grab
-           try{
-               wait(400);
-           }
-           catch(Exception e){
-               System.out.println(e);
-            }
-           level++;
-           setScissorLevel(level); //go up
-           double extend = time.milliseconds();
-           while((time.milliseconds() - extend) < 1000){
-               ExtendGripper.setPower(.6);
-           } //extend
-            setScissorLevel(level - 2);
-           Gripper.setPosition(GRIPPER_OPEN);
-            setScissorLevel(level);
-            double extend2 = time.milliseconds();
-            while((time.milliseconds() - extend2) < 1000){
-                ExtendGripper.setPower(.3);
-            } //extend back in
-            setScissorLevel(0); //go back down
-
-        }
-        else if(G1.dpad_up && !Pressed && level<levels.length-1){ //READY TO PLACE NEXT LEVEL
-            level++;
-            setScissorLevel(level);
-        }
-        else if(G1.dpad_down && !Pressed){ //
-            setScissorLevel(0);
-        }
-        else if(G1.x){ // DROP BLOCK - ALREADY LINED UP
-            ScissorRight.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-            ScissorLeft.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-            ScissorRight.setTargetPosition(levels[level]-1000); // DROP OFFSET
-            ScissorLeft.setTargetPosition(levels[level]-1000);
-            Gripper.setPosition(GRIPPER_OPEN); // While coming down, open gripper
-            try{
-                Thread.sleep(500);
-            }
-            catch(Exception e){
-                System.out.println(e);
-            }
-            setScissorLevel(level); // return to original position
-        }
-        else if(!G1.dpad_down && !G1.dpad_up){
-            Pressed = false;
-        }
-
         /*
         G2
         OVERLOADS
         START
         HERE
          */
-        if(G2.x){ //While this is pressed, this will destroy Driver 1's scissor control
-            ScissorLeft.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-            ScissorRight.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-            ScissorLeft.setPower(G2.left_stick_y);
-            ScissorRight.setPower(G2.left_stick_y);
-            if(G2.a){ //PRESS BOTH TO STORE CURRENT POSITION AS LEVEL 0
-                resetScissor();
-            }
-        }
-        if (G2.y) { //FULL MANUAL CONTROL OF EXTENSION
-            if (G2.right_trigger != 0) ExtendGripper.setPower(0.5+0.5*(G2.right_trigger));
-            if (G2.left_trigger != 0) ExtendGripper.setPower(0.5*(G2.left_trigger));
-            else ExtendGripper.setPower(0);
-        }
+        ScissorRight.setPower(-G2.left_stick_y);
+        ScissorLeft.setPower(-G2.left_stick_y);
+        ExtendGripper.setPower(-(G2.right_stick_y)/2);
 
         /*
         G2
@@ -186,32 +119,21 @@ public class Comp2TeleOpMecanum extends Comp2Configure {
         ScissorRight.setTargetPosition(levels[level]);
         ScissorLeft.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         ScissorRight.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        ScissorLeft.setPower(1);
         ScissorRight.setPower(1);
+        ScissorLeft.setPower(1);
     }
     private void resetScissor(){
         ScissorLeft.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         ScissorRight.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         level = 0;
     }
-    /*
+
     private void Extend(boolean Out){
-        if(extendDirection != 0 && time.seconds() - extenderTime < 2) {
-            ExtendGripper.setPower(extendDirection);
-        }
-        else if(extendDirection != 0){
-            if(extendDirection == 1) ExtendGripper.setPower(0.2);
-            else ExtendGripper.setPower(0);
-            extendDirection = 0;
-        }
-        else {
-            if(Out) extendDirection = 1;
-            else extendDirection = -1;
-            extenderTime = time.seconds();
-        }
+        startTime.reset();
+
     }
 
-     */
+
 
     private void setIngesters(double power){
         IngesterLeft.setPower(power);

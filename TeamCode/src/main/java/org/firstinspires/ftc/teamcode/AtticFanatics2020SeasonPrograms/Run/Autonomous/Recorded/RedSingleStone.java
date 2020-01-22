@@ -1,10 +1,9 @@
-package org.firstinspires.ftc.teamcode.AtticFanatics2020SeasonPrograms.Referenced.Multithread;
+package org.firstinspires.ftc.teamcode.AtticFanatics2020SeasonPrograms.Run.Autonomous.Recorded;
 
 import android.os.Environment;
 import android.util.Log;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
-import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
@@ -28,13 +27,12 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-@Disabled //UNCOMMENT WHEN MAKING A COPY!!!
-@Autonomous(name="Name Of Path") //CHANGE TO MATCH AUTO PATH NAME!!!
-public class ReadFileAutoV3_WithDetection extends LinearOpMode {
+@Autonomous(name="RedSingleStone") //CHANGE TO MATCH AUTO PATH NAME!!!
+public class RedSingleStone extends LinearOpMode {
 
-    private final String fileNameLeft = "BlueLeftSingleSkybridge.txt"; //CHANGE THIS VARIABLE TO MATCH FILE NAME!!!
-    private final String fileNameMiddle = "BlueMiddleSingleSkybridge.txt"; //CHANGE THIS VARIABLE TO MATCH FILE NAME!!!
-    private final String fileNameRight = "BlueRightSingleSkybridge.txt"; //CHANGE THIS VARIABLE TO MATCH FILE NAME!!!
+    private final String fileNameLeft = "RedLeftSingleSkybridge.txt"; //CHANGE THIS VARIABLE TO MATCH FILE NAME!!!
+    private final String fileNameMiddle = "RedMiddleSingleSkybridge.txt"; //CHANGE THIS VARIABLE TO MATCH FILE NAME!!!
+    private final String fileNameRight = "RedRightSingleSkybridge.txt"; //CHANGE THIS VARIABLE TO MATCH FILE NAME!!!
 
     //The only values that should be changed are marked above, everything below should remain a black box. Tell me if something goes wrong.
 
@@ -69,11 +67,11 @@ public class ReadFileAutoV3_WithDetection extends LinearOpMode {
     private static float rectWidth = .6f / 8f;
 
     private static float offsetX = 0f / 8f;//changing this moves the three rects and the three circles left or right, range : (-2, 2) not inclusive
-    private static float offsetY = 0f / 8f;//changing this moves the three rects and circles up or down, range: (-4, 4) not inclusive
+    private static float offsetY = 3f / 8f;//changing this moves the three rects and circles up or down, range: (-4, 4) not inclusive
 
-    private static float[] midPos = {4f / 8f + offsetX, 4f / 8f + offsetY};//0 = col, 1 = row
-    private static float[] leftPos = {4f / 8f + offsetX, 2f / 8f + offsetY};
-    private static float[] rightPos = {4f / 8f + offsetX, 6f / 8f + offsetY};
+    private static float[] midPos = {4f / 8f + offsetX, 3f / 10f + offsetY};//0 = col, 1 = row
+    private static float[] leftPos = {4f / 8f + offsetX, 1f / 10f + offsetY};
+    private static float[] rightPos = {4f / 8f + offsetX, 5f / 10f + offsetY};
     //moves all rectangles right or left by amount. units are in ratio to monitor
 
     private final int rows = 640;
@@ -96,7 +94,6 @@ public class ReadFileAutoV3_WithDetection extends LinearOpMode {
         File fileRight = new File(Environment.getExternalStorageDirectory().getPath()+"/"+fileNameRight);
 
         robot.Configure(hardwareMap);
-        Log.i(TAG,"Config finished.");
 
         try {
             fis1 = new FileInputStream(fileLeft);
@@ -137,7 +134,6 @@ public class ReadFileAutoV3_WithDetection extends LinearOpMode {
         }
 
         telemetry.addLine("File read, beginning string parsing.");
-        Log.i(TAG, "Beginning string parsing...");
         telemetry.update();
 
         try {
@@ -183,7 +179,7 @@ public class ReadFileAutoV3_WithDetection extends LinearOpMode {
 
         if(valMid == 0){
             tempTime = ValuesMiddle.get(0)[0];
-
+            Log.e("TAG","valMid");
             while(!isStopRequested()){
                 if(time.milliseconds() > tempTime){
                     setHardware(ValuesMiddle.get(count));
@@ -193,9 +189,9 @@ public class ReadFileAutoV3_WithDetection extends LinearOpMode {
                     tempTime = ValuesMiddle.get(count)[0];
                 }
             }
-        }else if(valRight == 0){
+        }else if(valLeft == 0){ // DONT ASK
             tempTime = ValuesRight.get(0)[0];
-
+            Log.e("TAG","valRight");
             while(!isStopRequested()){
                 if(time.milliseconds() > tempTime){
                     setHardware(ValuesRight.get(count));
@@ -208,14 +204,18 @@ public class ReadFileAutoV3_WithDetection extends LinearOpMode {
         }
         else{ //do ValLeft Stuff
             tempTime = ValuesLeft.get(0)[0];
-
+            Log.e("TAG","valLeft");
             while(!isStopRequested()){
+                Log.e("TAG","Entered Loop");
                 if(time.milliseconds() > tempTime){
+                    Log.e("TAG","1");
                     setHardware(ValuesLeft.get(count));
+                    Log.e("TAG","2");
                     prevLine = ValuesLeft.get(count);
                     count++;
                     if(count == ValuesLeft.size()) break;
                     tempTime = ValuesLeft.get(count)[0];
+                    Log.e("TAG","3");
                 }
             }
         }
@@ -224,18 +224,16 @@ public class ReadFileAutoV3_WithDetection extends LinearOpMode {
     }
 
     private void setHardware(double[] oneLine){
-        if(prevLine[1] != oneLine[1]) robot.Motors[1].setPower(oneLine[1]);
-        if(prevLine[2] != oneLine[2]) robot.Motors[2].setPower(oneLine[2]);
-        if(prevLine[3] != oneLine[3]) robot.Motors[3].setPower(oneLine[3]);
-        if(prevLine[4] != oneLine[4]) robot.Motors[4].setPower(oneLine[4]);
+        if(prevLine[1] != oneLine[1]) robot.Motors[1].setPower(0.8*oneLine[1]);
+        if(prevLine[2] != oneLine[2]) robot.Motors[2].setPower(0.8*oneLine[2]);
+        if(prevLine[3] != oneLine[3]) robot.Motors[3].setPower(0.8*oneLine[3]);
+        if(prevLine[4] != oneLine[4]) robot.Motors[4].setPower(0.8*oneLine[4]);
         if(prevLine[5] != oneLine[5]) robot.IngesterLeft.setPower(oneLine[5]);
         if(prevLine[6] != oneLine[6]) robot.IngesterRight.setPower(oneLine[6]);
         if(prevLine[7] != oneLine[7]) robot.FoundationLeft.setPosition(oneLine[7]);
         if(prevLine[8] != oneLine[8]) robot.FoundationRight.setPosition(oneLine[8]);
-        if(prevLine[9] != oneLine[9]) robot.ExtendGripper.setPower(oneLine[9]);
+        if(prevLine[9] != oneLine[9]) robot.RotateGripper.setPosition(oneLine[9]);
         if(prevLine[10] != oneLine[10]) robot.Gripper.setPosition(oneLine[10]);
-        if(prevLine[11] != oneLine[11]) robot.ScissorLeft.setPower(oneLine[11]);
-        if(prevLine[12] != oneLine[12]) robot.ScissorRight.setPower(oneLine[12]);
     }
 
     static class StageSwitchingPipeline extends OpenCvPipeline
