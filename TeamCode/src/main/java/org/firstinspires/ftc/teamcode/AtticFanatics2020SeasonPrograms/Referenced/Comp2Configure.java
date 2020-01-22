@@ -8,6 +8,7 @@ import com.qualcomm.robotcore.hardware.DcMotorImplEx;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
+import com.qualcomm.robotcore.hardware.VoltageSensor;
 
 import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
 
@@ -35,6 +36,8 @@ public class Comp2Configure {
 
     public DcMotorImplEx ScissorLeft, ScissorRight;
 
+    public VoltageSensor voltSense;
+
     public DcMotor IngesterLeft, IngesterRight;
 
     public boolean Configured = false;
@@ -49,24 +52,10 @@ public class Comp2Configure {
     public static final double GRIPPER_CLOSED = 1;
     public static final double GRIPPER_OPEN = 0.2;
 
-    public static final int[] levels = {0, 1300, 2700, 4000, 4640, 6000, 7500, 9100, 11000, 12900};
+    public static final int[] levels = {0,600,1100,1500,1900,2300,2700, 3100, 3500, 3900};
 
     public double getTargetPosition(int motor){
         return targetPosition[motor];
-    }
-
-    public void setTolerance(){
-        Motors[1].setTargetPositionTolerance(TOLERANCE);
-        Motors[2].setTargetPositionTolerance(TOLERANCE);
-        Motors[3].setTargetPositionTolerance(TOLERANCE);
-        Motors[4].setTargetPositionTolerance(TOLERANCE);
-    }
-
-    public void setTolerance(int Tolerance){
-        Motors[1].setTargetPositionTolerance(Tolerance);
-        Motors[2].setTargetPositionTolerance(Tolerance);
-        Motors[3].setTargetPositionTolerance(Tolerance);
-        Motors[4].setTargetPositionTolerance(Tolerance);
     }
 
     public void resetMotorEncoders(){
@@ -135,6 +124,7 @@ public class Comp2Configure {
         IngesterRight = hwMap.get(DcMotorImplEx.class, "ingester_right");
         Gripper = hwMap.get(Servo.class, "gripper");
         ExtendGripper = hwMap.get(CRServo.class, "extend_gripper");
+        voltSense = hwMap.get(VoltageSensor.class, "Motor Controller 1"); //I have no idea what the voltage sensor name is so...
 
         Motors[1].setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         Motors[2].setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
@@ -156,6 +146,10 @@ public class Comp2Configure {
 
 
          */
+        Motors[1].setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        Motors[2].setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        Motors[3].setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        Motors[4].setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         ScissorLeft.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         ScissorRight.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         ScissorLeft.setMode(DcMotor.RunMode.RUN_USING_ENCODER);

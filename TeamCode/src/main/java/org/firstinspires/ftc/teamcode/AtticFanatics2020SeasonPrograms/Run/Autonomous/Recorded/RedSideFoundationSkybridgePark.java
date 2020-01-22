@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.AtticFanatics2020SeasonPrograms.Run.Autonomous.LiteralPaths;
+package org.firstinspires.ftc.teamcode.AtticFanatics2020SeasonPrograms.Run.Autonomous.Recorded;
 
 import android.os.Environment;
 
@@ -15,10 +15,10 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
 
-@Autonomous(name="Blue Side Foundation - Inside Bridge")
-public class BlueSideFoundationInsideBridgeComp2 extends LinearOpMode {
+@Autonomous(name="RedSideFoundationSkybridgePark")
+public class RedSideFoundationSkybridgePark extends LinearOpMode {
 
-    private final String fileName = "BlueSideFoundationInside.txt";
+    private final String fileName = "RedSideFoundationSkybridgePark.txt";
     double[] tempValues = new double[11], prevLine = new double[11];
     ArrayList<double[]> Values = new ArrayList<>();
     BufferedReader reader;
@@ -97,10 +97,10 @@ public class BlueSideFoundationInsideBridgeComp2 extends LinearOpMode {
     }
 
     private void setHardware(double[] oneLine){
-        if(prevLine[1] != oneLine[1]) robot.Motors[1].setPower(oneLine[1]);
-        if(prevLine[2] != oneLine[2]) robot.Motors[2].setPower(oneLine[2]);
-        if(prevLine[3] != oneLine[3]) robot.Motors[3].setPower(oneLine[3]);
-        if(prevLine[4] != oneLine[4]) robot.Motors[4].setPower(oneLine[4]);
+        if(prevLine[1] != oneLine[1]) robot.Motors[1].setPower(0.8*oneLine[1]);
+        if(prevLine[2] != oneLine[2]) robot.Motors[2].setPower(0.8*oneLine[2]);
+        if(prevLine[3] != oneLine[3]) robot.Motors[3].setPower(0.8*oneLine[3]);
+        if(prevLine[4] != oneLine[4]) robot.Motors[4].setPower(0.8*oneLine[4]);
         if(prevLine[5] != oneLine[5]) robot.IngesterLeft.setPower(oneLine[5]);
         if(prevLine[6] != oneLine[6]) robot.IngesterRight.setPower(oneLine[6]);
         if(prevLine[7] != oneLine[7]) robot.FoundationLeft.setPosition(oneLine[7]);
