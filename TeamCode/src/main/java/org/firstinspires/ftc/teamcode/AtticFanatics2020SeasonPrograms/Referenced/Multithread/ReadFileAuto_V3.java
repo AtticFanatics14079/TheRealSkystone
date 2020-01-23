@@ -24,7 +24,7 @@ public class ReadFileAuto_V3 extends LinearOpMode {
     BufferedReader reader;
     FileInputStream fis;
     int count = 0;
-    double tempTime;
+    double tempTime, voltMult;
     Comp2Configure robot = new Comp2Configure();
     public ArrayList<String> lines = new ArrayList<>();
 
@@ -34,6 +34,8 @@ public class ReadFileAuto_V3 extends LinearOpMode {
         File file = new File(Environment.getExternalStorageDirectory().getPath()+"/"+fileName);
 
         robot.Configure(hardwareMap);
+
+        voltMult = 13.0/robot.voltSense.getVoltage();
 
         try {
             fis = new FileInputStream(file);

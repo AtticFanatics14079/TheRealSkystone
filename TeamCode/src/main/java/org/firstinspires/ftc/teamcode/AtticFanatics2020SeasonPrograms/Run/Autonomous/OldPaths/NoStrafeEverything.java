@@ -12,7 +12,6 @@ import org.firstinspires.ftc.teamcode.AtticFanatics2020SeasonPrograms.Skystone.C
 
 @Disabled
 @Autonomous(name = "NoStrafeEverything")
-@Disabled
 public class NoStrafeEverything extends LinearOpMode{
     MecanumDrive Robot = new MecanumDrive();
     CameraDetect camera = new CameraDetect();

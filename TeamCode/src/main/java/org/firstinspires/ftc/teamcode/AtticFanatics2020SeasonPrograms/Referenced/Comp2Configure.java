@@ -1,6 +1,7 @@
 package org.firstinspires.ftc.teamcode.AtticFanatics2020SeasonPrograms.Referenced;
 
 import com.qualcomm.hardware.bosch.BNO055IMU;
+import com.qualcomm.hardware.lynx.LynxModule;
 import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.DcMotor;
@@ -11,6 +12,8 @@ import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.hardware.VoltageSensor;
 
 import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
+
+import java.util.List;
 
 
 @Disabled
@@ -32,7 +35,7 @@ public class Comp2Configure {
 
     public Servo FoundationRight;
 
-    public CRServo ExtendGripper;
+    public DcMotorImplEx ExtendGripper;
 
     public DcMotorImplEx ScissorLeft, ScissorRight;
 
@@ -123,7 +126,7 @@ public class Comp2Configure {
         IngesterLeft = hwMap.get(DcMotorImplEx.class, "ingester_left");
         IngesterRight = hwMap.get(DcMotorImplEx.class, "ingester_right");
         Gripper = hwMap.get(Servo.class, "gripper");
-        ExtendGripper = hwMap.get(CRServo.class, "extend_gripper");
+        ExtendGripper = hwMap.get(DcMotorImplEx.class, "extend_gripper");
         voltSense = hwMap.get(VoltageSensor.class, "Motor Controller 1"); //I have no idea what the voltage sensor name is so...
 
         Motors[1].setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
@@ -156,6 +159,12 @@ public class Comp2Configure {
         ScissorRight.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         ScissorLeft.setTargetPositionTolerance(50);
         ScissorRight.setTargetPositionTolerance(50);
+
+        List<LynxModule> allHubs = hwMap.getAll(LynxModule.class);
+
+        for (LynxModule module : allHubs) {
+            module.setBulkCachingMode(LynxModule.BulkCachingMode.AUTO);
+        }
 
         return hwMap;
         }

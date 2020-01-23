@@ -18,10 +18,6 @@ public class HardwareThread extends Thread {
     public volatile boolean stop;
     public boolean ready = false;
     private boolean setTime = false;
-    private final double MAX_ACCELERATION = 2;
-    private double FoundLeftPos = config.LEFT_OPEN, FoundRightPos = config.RIGHT_OPEN, GripPos = 0, ExtendGripPow = 0;
-    private boolean FoundLeftOpen = true, FoundRightOpen = true;
-
     public double voltMult;
 
     HardwareThread(ValueStorage Vals, HardwareMap hwMap){
@@ -69,16 +65,16 @@ public class HardwareThread extends Thread {
             if(DesiredVals[i]) {
                 switch (i) {
                     case 0:
-                        hardware[0] = config.Motors[1].getPower();
+                        hardware[0] = config.Motors[1].getPower() / voltMult;
                         break;
                     case 1:
-                        hardware[1] = config.Motors[2].getPower();
+                        hardware[1] = config.Motors[2].getPower() / voltMult;
                         break;
                     case 2:
-                        hardware[2] = config.Motors[3].getPower();
+                        hardware[2] = config.Motors[3].getPower() / voltMult;
                         break;
                     case 3:
-                        hardware[3] = config.Motors[4].getPower();
+                        hardware[3] = config.Motors[4].getPower() / voltMult;
                         break;
                     case 4:
                         hardware[4] = config.IngesterLeft.getPower();
@@ -93,16 +89,16 @@ public class HardwareThread extends Thread {
                         hardware[7] = Vals[7];
                         break;
                     case 8:
-                        hardware[8] = ExtendGripPow;
+                        hardware[8] = Vals[8];
                         break;
                     case 9:
-                        hardware[9] = GripPos;
+                        hardware[9] = Vals[9];
                         break;
                     case 10:
-                        hardware[10] = config.ScissorLeft.getPower();
+                        hardware[10] = Vals[10];
                         break;
                     case 11:
-                        hardware[11] = config.ScissorRight.getPower();
+                        hardware[11] = Vals[11];
                         break;
                 }
             }
@@ -145,7 +141,6 @@ public class HardwareThread extends Thread {
                     case 6:
                         //if(Vals[6] - prevVals[6] > MAX_ACCELERATION) Vals[6] = prevVals[6] + MAX_ACCELERATION;
                         config.FoundationLeft.setPosition(Vals[6]);
-                        System.out.println("FoundLeft");
                         break;
                     case 7:
                         //if(Vals[7] - prevVals[7] > MAX_ACCELERATION) Vals[7] = prevVals[7] + MAX_ACCELERATION;
@@ -153,17 +148,20 @@ public class HardwareThread extends Thread {
                         break;
                     case 8:
                         //if(Vals[8] - prevVals[8] > MAX_ACCELERATION) Vals[8] = prevVals[8] + MAX_ACCELERATION;
-                        config.ExtendGripper.setPower((ExtendGripPow = Vals[8]));
+                        config.ExtendGripper.setTargetPosition((int)Vals[8]);
+                        config.ExtendGripper.setPower(Vals[8]/Math.abs(Vals[8]));
                         break;
                     case 9:
                         //if(Vals[9] - prevVals[9] > MAX_ACCELERATION) Vals[9] = prevVals[9] + MAX_ACCELERATION;
-                        config.Gripper.setPosition((GripPos = Vals[9]));
+                        config.Gripper.setPosition(Vals[9]);
                         break;
                     case 10:
-                        config.ScissorLeft.setPower(Vals[10]);
+                        config.ScissorLeft.setTargetPosition((int)Vals[10]);
+                        config.ScissorLeft.setPower(Vals[10]/Math.abs(Vals[10]));
                         break;
                     case 11:
-                        config.ScissorRight.setPower(Vals[11]);
+                        config.ScissorRight.setTargetPosition((int)Vals[11]);
+                        config.ScissorRight.setPower(Vals[11]/Math.abs(Vals[11]));
                         break;
                 }
             }
