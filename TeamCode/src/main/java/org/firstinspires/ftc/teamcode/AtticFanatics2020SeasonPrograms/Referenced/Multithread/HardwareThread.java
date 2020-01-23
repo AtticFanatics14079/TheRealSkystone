@@ -19,7 +19,7 @@ public class HardwareThread extends Thread {
     public volatile boolean stop;
     public boolean ready = false;
     private boolean setTime = false;
-    public double voltMult;
+    public double voltMult = 1;
 
     HardwareThread(ValueStorage Vals, HardwareMap hwMap){
         this.vals = Vals;
@@ -27,7 +27,7 @@ public class HardwareThread extends Thread {
         config.FoundationLeft.setPosition(config.LEFT_OPEN);
         config.FoundationRight.setPosition(config.RIGHT_OPEN);
         vals.time(true, 0.0);
-        voltMult = 13.0/config.voltSense.getVoltage();
+        //voltMult = 13.0/config.voltSense.getVoltage();
         config.setBulkCachingManual();
     }
 

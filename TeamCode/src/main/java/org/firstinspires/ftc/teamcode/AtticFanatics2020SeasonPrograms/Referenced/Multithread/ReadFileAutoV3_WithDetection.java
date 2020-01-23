@@ -48,9 +48,6 @@ public class ReadFileAutoV3_WithDetection extends LinearOpMode {
     FileInputStream fis1;
     FileInputStream fis2;
     FileInputStream fis3;
-    public ArrayList<String> linesLeft = new ArrayList<>();
-    public ArrayList<String> linesMiddle = new ArrayList<>();
-    public ArrayList<String> linesRight = new ArrayList<>();
 
     double [] prevLine = new double[11];
     int count = 0;

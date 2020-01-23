@@ -36,7 +36,7 @@ public class ControllerInput extends LinearOpMode {
     private boolean IngesterOut = false, StopIngester = false, IngesterPressed = false, HooksOpen = true;
     private int loopNumb = 0;
 
-    private double voltMult;
+    private double voltMult = 1;
 
     @Override
     public void runOpMode() throws InterruptedException {
@@ -64,7 +64,7 @@ public class ControllerInput extends LinearOpMode {
         HooksOpen = true;
         waitForStart();
         //Anything else we want to do at the start of pressing play
-        this.voltMult = hardware.voltMult;
+        //this.voltMult = hardware.voltMult;
 
         while(!isStopRequested()){
             //Main loop of the class

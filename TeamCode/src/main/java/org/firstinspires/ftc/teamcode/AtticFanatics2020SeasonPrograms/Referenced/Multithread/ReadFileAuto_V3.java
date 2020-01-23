@@ -24,7 +24,7 @@ public class ReadFileAuto_V3 extends LinearOpMode {
     BufferedReader reader;
     FileInputStream fis;
     int count = 0;
-    double tempTime, voltMult;
+    double tempTime, voltMult = 1;
     Comp2Configure robot = new Comp2Configure();
     public ArrayList<String> lines = new ArrayList<>();
 
@@ -35,7 +35,7 @@ public class ReadFileAuto_V3 extends LinearOpMode {
 
         robot.Configure(hardwareMap);
 
-        voltMult = 13.0/robot.voltSense.getVoltage();
+        //voltMult = 13.0/robot.voltSense.getVoltage();
 
         try {
             fis = new FileInputStream(file);
@@ -91,10 +91,10 @@ public class ReadFileAuto_V3 extends LinearOpMode {
     }
 
     private void setHardware(double[] oneLine){
-        if(prevLine[1] != oneLine[1]) robot.Motors[1].setPower(oneLine[1]);
-        if(prevLine[2] != oneLine[2]) robot.Motors[2].setPower(oneLine[2]);
-        if(prevLine[3] != oneLine[3]) robot.Motors[3].setPower(oneLine[3]);
-        if(prevLine[4] != oneLine[4]) robot.Motors[4].setPower(oneLine[4]);
+        if(prevLine[1] != oneLine[1]) robot.Motors[1].setPower(oneLine[1] * voltMult);
+        if(prevLine[2] != oneLine[2]) robot.Motors[2].setPower(oneLine[2] * voltMult);
+        if(prevLine[3] != oneLine[3]) robot.Motors[3].setPower(oneLine[3] * voltMult);
+        if(prevLine[4] != oneLine[4]) robot.Motors[4].setPower(oneLine[4] * voltMult);
         if(prevLine[5] != oneLine[5]) robot.IngesterLeft.setPower(oneLine[5]);
         if(prevLine[6] != oneLine[6]) robot.IngesterRight.setPower(oneLine[6]);
         if(prevLine[7] != oneLine[7]) robot.FoundationLeft.setPosition(oneLine[7]);
