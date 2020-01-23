@@ -1,5 +1,6 @@
 package org.firstinspires.ftc.teamcode.AtticFanatics2020SeasonPrograms.Referenced.Multithread;
 
+import com.qualcomm.hardware.lynx.LynxModule;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
@@ -27,6 +28,7 @@ public class HardwareThread extends Thread {
         config.FoundationRight.setPosition(config.RIGHT_OPEN);
         vals.time(true, 0.0);
         voltMult = 13.0/config.voltSense.getVoltage();
+        config.setBulkCachingManual();
     }
 
     public void run(){
@@ -56,8 +58,8 @@ public class HardwareThread extends Thread {
     }
 
     private void readHardware(boolean[] desiredVals){
-        //For sake of runtime, asking for drive motors will be 1 in desiredVals, scissor will be 2,
-        //gripper will be 3, foundation hooks will be 4, extender will be 5, and rotate will be 6.
+
+        config.clearBulkCache();
 
         DesiredVals = desiredVals.clone();
 

@@ -57,6 +57,10 @@ public class Comp2Configure {
 
     public static final int[] levels = {0,600,1100,1500,1900,2300,2700, 3100, 3500, 3900};
 
+    HardwareMap hwMap;
+
+    List<LynxModule> allHubs;
+
     public double getTargetPosition(int motor){
         return targetPosition[motor];
     }
@@ -99,9 +103,21 @@ public class Comp2Configure {
         targetPosition[4] = (Ticks);
     }
 
+    public void setBulkCachingManual(){
+        for (LynxModule module : allHubs) {
+            module.setBulkCachingMode(LynxModule.BulkCachingMode.MANUAL);
+        }
+    }
+
+    public void clearBulkCache(){
+        for (LynxModule module : allHubs) {
+            module.clearBulkCache();
+        }
+    }
+
     public HardwareMap Configure(HardwareMap ahwMap)
     {
-        HardwareMap hwMap = ahwMap;
+        hwMap = ahwMap;
 
         /*BNO055IMU.Parameters parameters = new BNO055IMU.Parameters();
         parameters.angleUnit = BNO055IMU.AngleUnit.DEGREES;
@@ -160,12 +176,12 @@ public class Comp2Configure {
         ScissorLeft.setTargetPositionTolerance(50);
         ScissorRight.setTargetPositionTolerance(50);
 
-        List<LynxModule> allHubs = hwMap.getAll(LynxModule.class);
+        allHubs = hwMap.getAll(LynxModule.class);
 
         for (LynxModule module : allHubs) {
             module.setBulkCachingMode(LynxModule.BulkCachingMode.AUTO);
         }
 
         return hwMap;
-        }
+    }
 }
