@@ -11,7 +11,6 @@ import org.firstinspires.ftc.teamcode.AtticFanatics2020SeasonPrograms.Skystone.C
 
 @Disabled
 @Autonomous(name = "Blue Side - Dropping Skystones")
-@Disabled
 public class BlueSideDropSkystones extends LinearOpMode{
     MecanumDrive Robot = new MecanumDrive();
     CameraDetect camera = new CameraDetect();

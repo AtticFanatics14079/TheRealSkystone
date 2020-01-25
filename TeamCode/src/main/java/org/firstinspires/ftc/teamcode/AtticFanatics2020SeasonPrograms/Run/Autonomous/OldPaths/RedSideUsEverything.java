@@ -11,7 +11,6 @@ import org.firstinspires.ftc.teamcode.AtticFanatics2020SeasonPrograms.Referenced
 import org.firstinspires.ftc.teamcode.AtticFanatics2020SeasonPrograms.Skystone.CameraDetect;
 @Disabled
 @Autonomous(name = "Red Side Everything")
-@Disabled
 public class RedSideUsEverything extends LinearOpMode{
     MecanumDrive Robot = new MecanumDrive();
     CameraDetect camera = new CameraDetect();
