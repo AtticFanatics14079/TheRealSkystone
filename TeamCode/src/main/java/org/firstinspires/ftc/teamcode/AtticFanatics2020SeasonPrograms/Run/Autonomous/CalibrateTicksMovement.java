@@ -12,8 +12,7 @@ public class CalibrateTicksMovement extends LinearOpMode {
     public void runOpMode() throws InterruptedException {
         robot.Configure(hardwareMap);
         waitForStart();
-        robot.Move(100); // halfway
-        robot.Turn(90);
+        robot.Move(12.25); // halfway
         //robot.TurnDegreesCurrentPos(1440,hardwareMap); // four full rotations
 
         telemetry.addData("Motor 1 Position: ", robot.Motors[1].getCurrentPosition());

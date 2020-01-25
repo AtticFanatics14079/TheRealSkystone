@@ -1,21 +1,22 @@
 package org.firstinspires.ftc.teamcode.AtticFanatics2020SeasonPrograms.Referenced;
 
 import com.qualcomm.hardware.bosch.BNO055IMU;
-import com.qualcomm.hardware.bosch.JustLoggingAccelerationIntegrator;
+import com.qualcomm.hardware.lynx.LynxModule;
 import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorImplEx;
+import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
+import com.qualcomm.robotcore.hardware.VoltageSensor;
 
-import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
-import org.firstinspires.ftc.robotcore.external.navigation.AxesOrder;
-import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
 import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
+
+import java.util.List;
 
 
 @Disabled
-public class Comp1Configure {
+public class StatesConfigure {
 
     public BNO055IMU imu;
 
@@ -35,45 +36,32 @@ public class Comp1Configure {
 
     public DcMotorImplEx ExtendGripper;
 
-    public DcMotorImplEx Scissor;
+    public DcMotorImplEx ScissorLeft, ScissorRight;
 
-    public DcMotor ingester1, ingester2;
+    public VoltageSensor voltSense;
+
+    public DcMotor IngesterLeft, IngesterRight;
 
     public boolean Configured = false;
 
     public static final int TOLERANCE = 10;
 
-    public static final double LEFT_OPEN = 0.3333;
-    public static final double LEFT_CLOSE = 0.7599;
-    public static final double RIGHT_OPEN = 0.7899;
-    public static final double RIGHT_CLOSE = 0.3633;
+    public static final double LEFT_OPEN = 0.723;
+    public static final double LEFT_CLOSE = 0.25;
+    public static final double RIGHT_OPEN = 0.4;
+    public static final double RIGHT_CLOSE = 0.883;
 
-    public static final double GRIPPER_CLOSED = 0.47;
+    public static final double GRIPPER_CLOSED = 1;
     public static final double GRIPPER_OPEN = 0.2;
 
-    public static final double ROTATE_GRIPPER_STRAIGHT = 0.88;
-    public static final double ROTATE_GRIPPER_SIDEWAYS = 0.38;
+    public static final int[] levels = {0,600,1100,1500,1900,2300,2700, 3100, 3500, 3900};
 
-    public static final int EXTENDED = -3700;
+    HardwareMap hwMap;
 
-    public static final int[] levels = {0, -1300, -2700, -4000, -4640, -6000, -7500, -9100, -11000, -12900};
+    List<LynxModule> allHubs;
 
     public double getTargetPosition(int motor){
         return targetPosition[motor];
-    }
-
-    public void setTolerance(){
-        Motors[1].setTargetPositionTolerance(TOLERANCE);
-        Motors[2].setTargetPositionTolerance(TOLERANCE);
-        Motors[3].setTargetPositionTolerance(TOLERANCE);
-        Motors[4].setTargetPositionTolerance(TOLERANCE);
-    }
-
-    public void setTolerance(int Tolerance){
-        Motors[1].setTargetPositionTolerance(Tolerance);
-        Motors[2].setTargetPositionTolerance(Tolerance);
-        Motors[3].setTargetPositionTolerance(Tolerance);
-        Motors[4].setTargetPositionTolerance(Tolerance);
     }
 
     public void resetMotorEncoders(){
@@ -114,9 +102,21 @@ public class Comp1Configure {
         targetPosition[4] = (Ticks);
     }
 
+    public void setBulkCachingManual(){
+        for (LynxModule module : allHubs) {
+            module.setBulkCachingMode(LynxModule.BulkCachingMode.MANUAL);
+        }
+    }
+
+    public void clearBulkCache(){
+        for (LynxModule module : allHubs) {
+            module.clearBulkCache();
+        }
+    }
+
     public HardwareMap Configure(HardwareMap ahwMap)
     {
-        HardwareMap hwMap = ahwMap;
+        hwMap = ahwMap;
 
         /*BNO055IMU.Parameters parameters = new BNO055IMU.Parameters();
         parameters.angleUnit = BNO055IMU.AngleUnit.DEGREES;
@@ -134,24 +134,27 @@ public class Comp1Configure {
         Motors[2] = hwMap.get(DcMotorImplEx.class, "front_left_motor");
         Motors[3] = hwMap.get(DcMotorImplEx.class, "front_right_motor");
         Motors[4] = hwMap.get(DcMotorImplEx.class, "back_right_motor");
-        //Gripper = hwMap.get(Servo.class, "gripper");
-        //RotateGripper = hwMap.get(Servo.class, "rotate_gripper");
-        //ExtendGripper = hwMap.get(DcMotorImplEx.class, "extend_gripper");
         //FoundationLeft = hwMap.get(Servo.class, "foundation_left");
         //FoundationRight = hwMap.get(Servo.class, "foundation_right");
-        //Scissor = hwMap.get(DcMotorImplEx.class, "scissor");
-        //ingester1 = hwMap.get(DcMotor.class, "ingester_left");
-        //ingester2 = hwMap.get(DcMotor.class, "ingester_right");
+        //ScissorLeft = hwMap.get(DcMotorImplEx.class, "scissor_left");
+        //ScissorRight = hwMap.get(DcMotorImplEx.class, "scissor_right");
+        //IngesterLeft = hwMap.get(DcMotorImplEx.class, "ingester_left");
+        //IngesterRight = hwMap.get(DcMotorImplEx.class, "ingester_right");
+        //Gripper = hwMap.get(Servo.class, "gripper");
+        //ExtendGripper = hwMap.get(DcMotorImplEx.class, "extend_gripper");
+        //voltSense = hwMap.get(VoltageSensor.class, "Motor Controller 1"); //I have no idea what the voltage sensor name is so...
 
         Motors[1].setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         Motors[2].setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         Motors[3].setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         Motors[4].setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        //Scissor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        //ExtendGripper.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        //ScissorLeft.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        //ScissorRight.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+
 
         Motors[3].setDirection(DcMotor.Direction.REVERSE);
         Motors[4].setDirection(DcMotor.Direction.REVERSE);
+        //IngesterLeft.setDirection(DcMotorSimple.Direction.REVERSE);
 
         /*imu = hwMap.get(BNO055IMU.class, "imu");
         imu.initialize(new BNO055IMU.Parameters());
@@ -159,14 +162,25 @@ public class Comp1Configure {
 
         CurrentPos = imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
 
+        */
 
-         */
-        //Scissor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        //Scissor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        Motors[1].setMode(DcMotorImplEx.RunMode.RUN_USING_ENCODER);
+        Motors[2].setMode(DcMotorImplEx.RunMode.RUN_USING_ENCODER);
+        Motors[3].setMode(DcMotorImplEx.RunMode.RUN_USING_ENCODER);
+        Motors[4].setMode(DcMotorImplEx.RunMode.RUN_USING_ENCODER);
+        //ScissorLeft.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        //ScissorRight.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        //ScissorLeft.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        //ScissorRight.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        //ScissorLeft.setTargetPositionTolerance(50);
+        //ScissorRight.setTargetPositionTolerance(50);
 
-        //ExtendGripper.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        //ExtendGripper.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        //allHubs = hwMap.getAll(LynxModule.class);
+
+        //for (LynxModule module : allHubs) {
+            //module.setBulkCachingMode(LynxModule.BulkCachingMode.AUTO);
+        //}
 
         return hwMap;
-        }
+    }
 }
