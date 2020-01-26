@@ -87,7 +87,6 @@ public class StatesConfigure {
     }
 
     public void setTargetPosition(double[] PosMod, double Ticks){
-
         targetPosition[1] = (Ticks * PosMod[1]);
         targetPosition[2] = (Ticks * PosMod[2]);
         targetPosition[3] = (Ticks * PosMod[3]);
@@ -95,11 +94,21 @@ public class StatesConfigure {
     }
 
     public void setTargetPosition(double Ticks){
-
         targetPosition[1] = (Ticks);
         targetPosition[2] = (Ticks);
         targetPosition[3] = (Ticks);
         targetPosition[4] = (Ticks);
+    }
+
+    public void setTargetPosition(int Ticks){
+        Motors[1].setTargetPosition(Ticks);
+        Motors[2].setTargetPosition(Ticks);
+        Motors[3].setTargetPosition(Ticks);
+        Motors[4].setTargetPosition(Ticks);
+        Motors[1].setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        Motors[2].setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        Motors[3].setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        Motors[4].setMode(DcMotor.RunMode.RUN_TO_POSITION);
     }
 
     public void setBulkCachingManual(){
@@ -134,12 +143,12 @@ public class StatesConfigure {
         Motors[2] = hwMap.get(DcMotorImplEx.class, "front_left_motor");
         Motors[3] = hwMap.get(DcMotorImplEx.class, "front_right_motor");
         Motors[4] = hwMap.get(DcMotorImplEx.class, "back_right_motor");
-        //FoundationLeft = hwMap.get(Servo.class, "foundation_left");
-        //FoundationRight = hwMap.get(Servo.class, "foundation_right");
+        FoundationLeft = hwMap.get(Servo.class, "foundation_left");
+        FoundationRight = hwMap.get(Servo.class, "foundation_right");
         //ScissorLeft = hwMap.get(DcMotorImplEx.class, "scissor_left");
         //ScissorRight = hwMap.get(DcMotorImplEx.class, "scissor_right");
-        //IngesterLeft = hwMap.get(DcMotorImplEx.class, "ingester_left");
-        //IngesterRight = hwMap.get(DcMotorImplEx.class, "ingester_right");
+        IngesterLeft = hwMap.get(DcMotorImplEx.class, "ingester_left");
+        IngesterRight = hwMap.get(DcMotorImplEx.class, "ingester_right");
         //Gripper = hwMap.get(Servo.class, "gripper");
         //ExtendGripper = hwMap.get(DcMotorImplEx.class, "extend_gripper");
         //voltSense = hwMap.get(VoltageSensor.class, "Motor Controller 1"); //I have no idea what the voltage sensor name is so...
@@ -154,7 +163,7 @@ public class StatesConfigure {
 
         Motors[3].setDirection(DcMotor.Direction.REVERSE);
         Motors[4].setDirection(DcMotor.Direction.REVERSE);
-        //IngesterLeft.setDirection(DcMotorSimple.Direction.REVERSE);
+        IngesterLeft.setDirection(DcMotorSimple.Direction.REVERSE);
 
         /*imu = hwMap.get(BNO055IMU.class, "imu");
         imu.initialize(new BNO055IMU.Parameters());
