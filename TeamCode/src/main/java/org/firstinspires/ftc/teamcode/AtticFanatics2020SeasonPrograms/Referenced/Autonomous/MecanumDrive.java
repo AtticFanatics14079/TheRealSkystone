@@ -210,7 +210,7 @@ public class MecanumDrive extends Comp1Configure {
 
     private void drive(double[] Power, boolean strafe)
     {
-        setPower(Power);
+        //setPower(Power);
 
         ElapsedTime time = new ElapsedTime();
 
@@ -233,18 +233,19 @@ public class MecanumDrive extends Comp1Configure {
      */
 
     private void slowToTarget(double[] motorPower){
-        double avrPos = 0;
-        if((avrPos = (Math.abs(Motors[1].getCurrentPosition()) + Math.abs(Motors[2].getCurrentPosition()) + Math.abs(Motors[3].getCurrentPosition()) + Math.abs(Motors[4].getCurrentPosition()))/4.0) < 600) {
-            Motors[1].setPower((Math.abs(avrPos) + 10) / 610 * Math.abs(motorPower[1]));
-            Motors[4].setPower((Math.abs(avrPos) + 10) / 610 * Math.abs(motorPower[4]));
-            Motors[3].setPower((Math.abs(avrPos) + 10) / 610 * Math.abs(motorPower[3]));
-            Motors[2].setPower((Math.abs(avrPos) + 10) / 610 * Math.abs(motorPower[2]));
+        double avrPos;
+        if((avrPos = (Math.pow(Motors[1].getCurrentPosition(), 3/2)+ Math.pow(Motors[2].getCurrentPosition(), 3/2) + Math.pow(Motors[3].getCurrentPosition(), 3/2) + Math.pow(Motors[4].getCurrentPosition(), 3/2))/4) < 16000) {
+            Motors[1].setPower(avrPos * 0.00005 * motorPower[1] + 0.15 * motorPower[1] / Math.abs(motorPower[1]));
+            Motors[2].setPower(avrPos * 0.00005 * motorPower[2] + 0.15 * motorPower[2] / Math.abs(motorPower[2]));
+            Motors[3].setPower(avrPos * 0.00005 * motorPower[3] + 0.15 * motorPower[3] / Math.abs(motorPower[3]));
+            Motors[4].setPower(avrPos * 0.00005 * motorPower[4] + 0.15 * motorPower[4] / Math.abs(motorPower[4]));
         }
-        else if(avrPos > 1200){
-            Motors[1].setPower(0);
-            Motors[4].setPower(0);
-            Motors[3].setPower(0);
-            Motors[2].setPower(0);
+        else if(Math.abs(Math.pow(targetPosition[1], 2) - avrPos) < 16000){
+            avrPos = Math.abs(Math.pow(targetPosition[1], 2) - avrPos);
+            Motors[1].setPower(avrPos * 0.00005 * motorPower[1] + 0.15 * motorPower[1] / Math.abs(motorPower[1]));
+            Motors[2].setPower(avrPos * 0.00005 * motorPower[2] + 0.15 * motorPower[2] / Math.abs(motorPower[2]));
+            Motors[3].setPower(avrPos * 0.00005 * motorPower[3] + 0.15 * motorPower[3] / Math.abs(motorPower[3]));
+            Motors[4].setPower(avrPos * 0.00005 * motorPower[4] + 0.15 * motorPower[4] / Math.abs(motorPower[4]));
         }
         /*else {
             Motors[1].setPower((targetPosition[1] - posM1) / 1000 * Math.abs(motorPower[1]));

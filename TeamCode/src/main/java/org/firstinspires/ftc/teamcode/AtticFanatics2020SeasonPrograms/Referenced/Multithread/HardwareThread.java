@@ -19,7 +19,7 @@ public class HardwareThread extends Thread {
     public volatile boolean stop;
     public boolean ready = false;
     private boolean setTime = false;
-    public double voltMult = 1;
+    public double voltMult = 1, lastTime = 0;
 
     HardwareThread(ValueStorage Vals, HardwareMap hwMap){
         this.vals = Vals;
@@ -34,16 +34,12 @@ public class HardwareThread extends Thread {
     public void run(){
         while(!setTime && !stop){ready = true;}
         while(!stop) {
-            try {
+            if(time.milliseconds() - lastTime >= 1) {
                 readHardware(vals.changedParts(false, null));
                 vals.hardware(true, hardware);
                 vals.time(true, time.milliseconds());
-                runHardware(vals.runValues(false, null), vals.changedParts(false, null));
-                //That line looks sketch but I'm pretty sure it's runtime efficient.
-            } catch (Exception e) {
-                System.out.print("Houston, we have a problem. (Hardware thread), ");
-                System.out.println(e);
             }
+            runHardware(vals.runValues(false, null), vals.changedParts(false, null));
         }
         //SET EVERYTHING WE USE TO 0, VERY IMPORTANT!!!
         config.Motors[1].setPower(0);
@@ -52,8 +48,8 @@ public class HardwareThread extends Thread {
         config.Motors[4].setPower(0);
     }
 
-    public void startTime(){
-        time = new ElapsedTime();
+    public void startTime(ElapsedTime time){
+        this.time = time;
         setTime = true;
     }
 
