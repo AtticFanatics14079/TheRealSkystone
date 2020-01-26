@@ -11,6 +11,7 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 @Autonomous(group = "tuning")
 public class StraightTest extends LinearOpMode {
     private static double distance = 72;
+    ;
 
     @Override
     public void runOpMode() throws InterruptedException {
@@ -23,5 +24,8 @@ public class StraightTest extends LinearOpMode {
         waitForStart();
 
         drive.followTrajectorySync(trajectory);
+        while(!isStopRequested()){
+            telemetry.addLine("Waiting for stop");
+        }
     }
 }
