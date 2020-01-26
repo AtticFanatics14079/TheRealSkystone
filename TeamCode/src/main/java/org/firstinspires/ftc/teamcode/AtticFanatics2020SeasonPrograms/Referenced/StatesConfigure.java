@@ -148,7 +148,6 @@ public class StatesConfigure {
         parameters.loggingEnabled = true;
         parameters.loggingTag = "IMU";
         parameters.accelerationIntegrationAlgorithm = new JustLoggingAccelerationIntegrator();
-
          */
 
         //Return IMU declaration if we use it, this is to preserve a whole lotta runtime.
