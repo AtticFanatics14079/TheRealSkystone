@@ -379,6 +379,7 @@ public class FtcRobotControllerActivity extends Activity
     logDeviceSerialNumber();
     AndroidBoard.getInstance().logAndroidBoardInfo();
     RobotLog.logDeviceInfo();
+    FtcDashboard.start();
 
     if (preferencesHelper.readBoolean(getString(R.string.pref_wifi_automute), false)) {
       initWifiMute(true);
@@ -462,6 +463,7 @@ public class FtcRobotControllerActivity extends Activity
     if (preferencesHelper != null) preferencesHelper.getSharedPreferences().unregisterOnSharedPreferenceChangeListener(sharedPreferencesListener);
 
     RobotLog.cancelWriteLogcatToDisk();
+    FtcDashboard.stop();
   }
 
   protected void bindToService() {
@@ -534,6 +536,7 @@ public class FtcRobotControllerActivity extends Activity
   @Override
   public boolean onCreateOptionsMenu(Menu menu) {
     getMenuInflater().inflate(R.menu.ftc_robot_controller, menu);
+    FtcDashboard.populateMenu(menu);
     return true;
   }
 
