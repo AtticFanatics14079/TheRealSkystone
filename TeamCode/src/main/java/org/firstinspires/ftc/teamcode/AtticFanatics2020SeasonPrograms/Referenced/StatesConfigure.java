@@ -175,11 +175,11 @@ public class StatesConfigure {
         //ScissorLeft.setTargetPositionTolerance(50);
         //ScissorRight.setTargetPositionTolerance(50);
 
-        //allHubs = hwMap.getAll(LynxModule.class);
+        allHubs = hwMap.getAll(LynxModule.class);
 
-        //for (LynxModule module : allHubs) {
-            //module.setBulkCachingMode(LynxModule.BulkCachingMode.AUTO);
-        //}
+        for (LynxModule module : allHubs) {
+            module.setBulkCachingMode(LynxModule.BulkCachingMode.AUTO);
+        }
 
         return hwMap;
     }

@@ -150,8 +150,8 @@ public class HardwareThread extends Thread {
                         break;
                     case 8:
                         //if(Vals[8] - prevVals[8] > MAX_ACCELERATION) Vals[8] = prevVals[8] + MAX_ACCELERATION;
-                        config.ExtendGripper.setTargetPosition((int)Vals[8]);
-                        config.ExtendGripper.setPower(Vals[8]/Math.abs(Vals[8]));
+                        //config.ExtendGripper.setTargetPosition((int)Vals[8]);
+                        //config.ExtendGripper.setPower(Vals[8]/Math.abs(Vals[8]));
                         break;
                     case 9:
                         //if(Vals[9] - prevVals[9] > MAX_ACCELERATION) Vals[9] = prevVals[9] + MAX_ACCELERATION;

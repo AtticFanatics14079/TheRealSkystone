@@ -6,9 +6,13 @@ import com.acmerobotics.roadrunner.control.PIDCoefficients;
 import com.qualcomm.hardware.bosch.BNO055IMU;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
+import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.PIDFCoefficients;
 
+import org.firstinspires.ftc.robotcore.external.navigation.AxesOrder;
+import org.firstinspires.ftc.teamcode.AtticFanatics2020SeasonPrograms.Utils.AxesSigns;
+import org.firstinspires.ftc.teamcode.AtticFanatics2020SeasonPrograms.Utils.BNO055IMUUtil;
 import org.firstinspires.ftc.teamcode.AtticFanatics2020SeasonPrograms.Utils.LynxModuleUtil;
 
 import java.util.ArrayList;
@@ -42,12 +46,12 @@ public class SampleMecanumDriveREV extends SampleMecanumDriveBase {
 
         // TODO: if your hub is mounted vertically, remap the IMU axes so that the z-axis points
         // upward (normal to the floor) using a command like the following:
-        // BNO055IMUUtil.remapAxes(imu, AxesOrder.XYZ, AxesSigns.NPN);
+        BNO055IMUUtil.remapAxes(imu, AxesOrder.XYZ, AxesSigns.NPN);
 
-        leftFront = hardwareMap.get(DcMotorEx.class, "leftFront");
-        leftRear = hardwareMap.get(DcMotorEx.class, "leftRear");
-        rightRear = hardwareMap.get(DcMotorEx.class, "rightRear");
-        rightFront = hardwareMap.get(DcMotorEx.class, "rightFront");
+        leftFront = hardwareMap.get(DcMotorEx.class, "front_left_motor");
+        leftRear = hardwareMap.get(DcMotorEx.class, "back_left_motor");
+        rightRear = hardwareMap.get(DcMotorEx.class, "back_right_motor");
+        rightFront = hardwareMap.get(DcMotorEx.class, "front_right_motor");
 
         motors = Arrays.asList(leftFront, leftRear, rightRear, rightFront);
 
@@ -63,7 +67,8 @@ public class SampleMecanumDriveREV extends SampleMecanumDriveBase {
         }
 
         // TODO: reverse any motors using DcMotor.setDirection()
-
+        motors.get(2).setDirection(DcMotorSimple.Direction.REVERSE);
+        motors.get(3).setDirection(DcMotorSimple.Direction.REVERSE);
         // TODO: if desired, use setLocalizer() to change the localization method
         // for instance, setLocalizer(new ThreeTrackingWheelLocalizer(...));
     }

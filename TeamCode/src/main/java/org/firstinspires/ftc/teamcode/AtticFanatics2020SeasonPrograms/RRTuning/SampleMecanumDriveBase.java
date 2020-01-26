@@ -67,7 +67,7 @@ public abstract class SampleMecanumDriveBase extends MecanumDrive {
         super(kV, kA, kStatic, TRACK_WIDTH);
 
         dashboard = FtcDashboard.getInstance();
-        dashboard.setTelemetryTransmissionInterval(25);
+        //dashboard.setTelemetryTransmissionInterval(25);
 
         clock = NanoClock.system();
 
@@ -196,7 +196,7 @@ public abstract class SampleMecanumDriveBase extends MecanumDrive {
             }
         }
 
-        dashboard.sendTelemetryPacket(packet);
+        //dashboard.sendTelemetryPacket(packet);
     }
 
     public void waitForIdle() {

@@ -103,7 +103,7 @@ public class Comp2TeleOpMecanum extends Comp2Configure {
          */
         ScissorRight.setPower(-G2.left_stick_y);
         ScissorLeft.setPower(-G2.left_stick_y);
-        ExtendGripper.setPower(-(G2.right_stick_y)/2);
+        //ExtendGripper.setPower(-(G2.right_stick_y)/2);
 
         /*
         G2

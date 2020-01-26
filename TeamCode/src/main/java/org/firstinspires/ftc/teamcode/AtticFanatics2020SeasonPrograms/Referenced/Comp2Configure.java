@@ -35,11 +35,11 @@ public class Comp2Configure {
 
     public Servo FoundationRight;
 
-    public DcMotorImplEx ExtendGripper;
+    //public DcMotorImplEx ExtendGripper;
 
     public DcMotorImplEx ScissorLeft, ScissorRight;
 
-    public VoltageSensor voltSense;
+    //public VoltageSensor voltSense;
 
     public DcMotor IngesterLeft, IngesterRight;
 
@@ -142,8 +142,8 @@ public class Comp2Configure {
         IngesterLeft = hwMap.get(DcMotorImplEx.class, "ingester_left");
         IngesterRight = hwMap.get(DcMotorImplEx.class, "ingester_right");
         Gripper = hwMap.get(Servo.class, "gripper");
-        ExtendGripper = hwMap.get(DcMotorImplEx.class, "extend_gripper");
-        voltSense = hwMap.get(VoltageSensor.class, "Motor Controller 1"); //I have no idea what the voltage sensor name is so...
+        //ExtendGripper = hwMap.get(DcMotorImplEx.class, "extend_gripper");
+        //voltSense = hwMap.get(VoltageSensor.class, "Motor Controller 1"); //I have no idea what the voltage sensor name is so...
 
         Motors[1].setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         Motors[2].setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);

@@ -211,7 +211,7 @@ public class ReadFileAutoV3_WithDetection extends LinearOpMode {
         if(prevLine[6] != oneLine[6]) robot.IngesterRight.setPower(oneLine[6]);
         if(prevLine[7] != oneLine[7]) robot.FoundationLeft.setPosition(oneLine[7]);
         if(prevLine[8] != oneLine[8]) robot.FoundationRight.setPosition(oneLine[8]);
-        if(prevLine[9] != oneLine[9]) robot.ExtendGripper.setPower(oneLine[9]);
+        //if(prevLine[9] != oneLine[9]) robot.ExtendGripper.setPower(oneLine[9]);
         if(prevLine[10] != oneLine[10]) robot.Gripper.setPosition(oneLine[10]);
         if(prevLine[11] != oneLine[11]) {
             robot.ScissorLeft.setTargetPosition((int)oneLine[11]);
