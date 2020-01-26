@@ -7,7 +7,7 @@ public class MovementAlgorithms extends Comp1Configure {
     //Input any and all algorithms here, this function will be used to repeatedly run checks. Most
     //likely only used in Autonomous.
 
-    private final double MAX_DRIVE_ACCELERATION = 0.001;
+    private final double MAX_DRIVE_ACCELERATION = 0.003;
 
     public double[] getPower(double[] prevValues, double sidewaysPower, double forwardPower, double angularPower){
         double[] p = new double[4];

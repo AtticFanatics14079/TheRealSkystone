@@ -56,6 +56,20 @@ public class StatesConfigure {
 
     public static final int[] levels = {0,600,1100,1500,1900,2300,2700, 3100, 3500, 3900};
 
+    public enum Ingester{
+        IN, OUT, STOPPEDIN, STOPPEDOUT
+    }
+
+    public Ingester ingesterStates = Ingester.IN;
+
+    enum Scissor{
+        STAGE1, STAGE2, STAGE3, STAGE4, STAGE5, STAGE6, STAGE7, STAGE8, STAGE9, STAGE10, STAGE11, STAGE12
+    }
+
+    enum Robot{
+        INTAKING, TRANSPORTING, LIFTING, PLACE
+    }
+
     HardwareMap hwMap;
 
     List<LynxModule> allHubs;
@@ -134,8 +148,7 @@ public class StatesConfigure {
         parameters.loggingEnabled = true;
         parameters.loggingTag = "IMU";
         parameters.accelerationIntegrationAlgorithm = new JustLoggingAccelerationIntegrator();
-
-         */
+        */
 
         //Return IMU declaration if we use it, this is to preserve a whole lotta runtime.
 

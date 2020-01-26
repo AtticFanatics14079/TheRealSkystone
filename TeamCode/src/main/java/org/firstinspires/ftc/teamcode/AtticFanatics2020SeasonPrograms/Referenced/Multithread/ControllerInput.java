@@ -31,7 +31,7 @@ public class ControllerInput extends LinearOpMode {
 
     public final String FileName = "Test.txt"; //Change to record different paths
     public String FilePath;
-    private double GAS = 1, straightGas, sideGas, turnGas;
+    private double GAS = 1, straightGas, sideGas, turnGas, lastTime = 0;
 
     private boolean IngesterOut = false, StopIngester = false, IngesterPressed = false, HooksOpen = true;
     private int loopNumb = 0;
@@ -40,52 +40,34 @@ public class ControllerInput extends LinearOpMode {
 
     @Override
     public void runOpMode() throws InterruptedException {
-        System.out.println(3);
         HardwareThread hardware = new HardwareThread(vals, hardwareMap);
-        System.out.println(4);
         hardware.start();
-        System.out.println(5);
         WritingThread write = new WritingThread(vals, FileName);
-        System.out.println(6);
         write.start();
-        hardwareActions[4] = 0;
-        hardwareActions[5] = 0;
         //All other code in init() goes above here
         while(!opModeIsActive()){
             //do stuff if we want to loop before pressing play
-            telemetry.addData("File: ", write.file);
-            telemetry.addData("Write Exists: ", write.isAlive());
-            telemetry.addData("Write Ready: ", write.trace1);
-            telemetry.addData("Hardware Ready: ", hardware.ready);
-            telemetry.update();
         }
-        hardware.startTime();
+        ElapsedTime time = new ElapsedTime();
+        hardware.startTime(time);
         write.Start();
         HooksOpen = true;
-        waitForStart();
         //Anything else we want to do at the start of pressing play
         //this.voltMult = hardware.voltMult;
 
         while(!isStopRequested()){
             //Main loop of the class
-            telemetry.addData("File: ", write.file);
-            telemetry.addData("Write Exists: ", write.isAlive());
-            telemetry.addData("Hardware Time: ", hardware.time);
-            telemetry.addData("Time Written: ", vals.timeWritten);
-            telemetry.update();
-            try{
+            if(time.milliseconds() - lastTime >= 1) {
+                lastTime = time.milliseconds();
                 getInput();
-            }
-            catch (Exception e){
-                System.out.println("Problem in main thread! \n" + e);
             }
         }
         hardware.Stop();
         write.Stop();
 
-        ElapsedTime time = new ElapsedTime();
+        ElapsedTime time2 = new ElapsedTime();
 
-        while(hardware.isAlive() || write.isAlive() && time.seconds() < 1.0){
+        while(hardware.isAlive() || write.isAlive() && time2.seconds() < 1.0){
         }
 
         if(write.isAlive()) {
