@@ -37,20 +37,29 @@ public class StatesTeleOpMecanum extends StatesConfigure {
                     ingesterStates = Ingester.STOPPEDIN;
                     break;
                 case STOPPEDIN:
-                    setIngesters(-1);
+                    setIngesters(-0.5);
                     ingesterStates = Ingester.IN;
+                    break;
                 case STOPPEDOUT:
-                    setIngesters(1);
+                    setIngesters(0.5);
                     ingesterStates = Ingester.OUT;
+                    break;
                 case OUT:
                     setIngesters(0);
                     ingesterStates = Ingester.STOPPEDOUT;
+                    break;
             }
         }
         else if(G1.y){
             switch(ingesterStates){
                 case IN:
-
+                    setIngesters(0.5);
+                    ingesterStates = Ingester.OUT;
+                    break;
+                case OUT:
+                    setIngesters(-0.5);
+                    ingesterStates = Ingester.IN;
+                    break;
             }
         }
 
