@@ -3,12 +3,12 @@ package org.firstinspires.ftc.teamcode.AtticFanatics2020SeasonPrograms.Run.TeleO
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 
 import org.firstinspires.ftc.teamcode.AtticFanatics2020SeasonPrograms.Referenced.TeleOp.Comp2TeleOpMecanum;
-import org.firstinspires.ftc.teamcode.AtticFanatics2020SeasonPrograms.Referenced.TeleOp.StatesTeleOpMecanum;
+import org.firstinspires.ftc.teamcode.AtticFanatics2020SeasonPrograms.Referenced.TeleOp.Comp3TeleOpMecanum;
 
-@com.qualcomm.robotcore.eventloop.opmode.TeleOp(name = "Comp 2 TeleOp", group = "Sensor")
+@com.qualcomm.robotcore.eventloop.opmode.TeleOp(name = "States TeleOp", group = "Sensor")
 public class StatesTeleOp extends OpMode {
 
-    StatesTeleOpMecanum Drive = new StatesTeleOpMecanum();
+    Comp3TeleOpMecanum Drive = new Comp3TeleOpMecanum();
 
     @Override
     public void init() {
@@ -19,19 +19,6 @@ public class StatesTeleOp extends OpMode {
     @Override
     public void loop() {
             Drive.Move(hardwareMap, gamepad1, gamepad2);
-            /*telemetry.addData("Rotate Position: ", Drive.RotateGripper.getPosition());
-            telemetry.addData("Scissor Position: ", -Drive.Scissor.getCurrentPosition());
-            telemetry.addData("Extend Gripper Position: ", Drive.ExtendGripper.getCurrentPosition());
-            telemetry.addData("Foundation Left: ", Drive.FoundationLeft.getPosition());
-            telemetry.addData("Foundation Right: ", Drive.FoundationRight.getPosition());
-            telemetry.addData("Gripper: ", Drive.Gripper.getPosition());
-
-            */
-            telemetry.addData("Scissor Left", Drive.ScissorLeft.getCurrentPosition());
-            telemetry.addData("Scissor Right", Drive.ScissorRight.getCurrentPosition());
-            telemetry.addData("Level: ", Drive.level);
-            telemetry.addData("Gripper: ", Drive.Gripper.getPosition());
-            //telemetry.addData("Extend Gripper: ", Drive.ExtendGripper.getPower());
-            telemetry.update();
+            telemetry.addData("Running Back: ", Drive.runningBack);
     }
 }
