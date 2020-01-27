@@ -34,7 +34,7 @@ public class DriveConstants {
      * MOTOR_VELO_PID with the tuned coefficients from DriveVelocityPIDTuner.
      */
     public static final boolean RUN_USING_ENCODER = true;
-    public static final PIDCoefficients MOTOR_VELO_PID = new PIDCoefficients(30,0.2,12);
+    public static final PIDCoefficients MOTOR_VELO_PID = new PIDCoefficients(45,0.2,12);
 
     /*
      * These are physical constants that can be determined from your robot (including the track
@@ -67,7 +67,7 @@ public class DriveConstants {
      * forces acceleration-limited profiling).
      */
     public static DriveConstraints BASE_CONSTRAINTS = new DriveConstraints(
-            50.0, 25.0, 0.0,
+            30.0, 20.0, 0.0,
             Math.toRadians(90.0), Math.toRadians(90.0), 0.0
     );
 

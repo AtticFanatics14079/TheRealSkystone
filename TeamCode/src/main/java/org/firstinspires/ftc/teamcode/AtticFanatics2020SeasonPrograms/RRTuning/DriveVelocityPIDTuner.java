@@ -130,6 +130,7 @@ public class DriveVelocityPIDTuner extends LinearOpMode {
         }
 
         telemetry = new MultipleTelemetry(telemetry, dashboard.getTelemetry());
+        dashboard.setTelemetryTransmissionInterval(25);
         TelemetryPacket fast = new TelemetryPacket();
         drive = new SampleMecanumDriveREV(hardwareMap);
 
