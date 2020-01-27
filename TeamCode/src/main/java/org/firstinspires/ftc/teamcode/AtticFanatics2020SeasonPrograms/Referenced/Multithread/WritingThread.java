@@ -18,7 +18,6 @@ public class WritingThread extends Thread{
     BufferedWriter fileWrite;
     FileWriter fWriter;
     double[] Values = new double[10];
-    boolean trace1, trace2, trace3, trace4, trace5, trace6, trace7;
     private FileOutputStream fos;
 
     WritingThread(ValueStorage Vals, String fileName) {
@@ -72,9 +71,7 @@ public class WritingThread extends Thread{
     public void run(){
         double LastTime = -1, Time;
         DecimalFormat df = new DecimalFormat("+0.000;-");
-        while(!Start && !stop){
-            trace1 = true;
-        }
+        while(!Start && !stop){}
         while(!stop){
             try{
                 //if((time = vals.time(false, 0)) - 1 >  lastTime){

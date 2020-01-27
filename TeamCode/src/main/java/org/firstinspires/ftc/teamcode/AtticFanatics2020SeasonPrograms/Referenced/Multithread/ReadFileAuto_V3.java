@@ -7,6 +7,7 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.teamcode.AtticFanatics2020SeasonPrograms.Referenced.Comp2Configure;
+import org.firstinspires.ftc.teamcode.AtticFanatics2020SeasonPrograms.Referenced.StatesConfigure;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -25,7 +26,7 @@ public class ReadFileAuto_V3 extends LinearOpMode {
     FileInputStream fis;
     int count = 0;
     double tempTime, voltMult = 1;
-    Comp2Configure robot = new Comp2Configure();
+    StatesConfigure robot = new StatesConfigure();
     public ArrayList<String> lines = new ArrayList<>();
 
     @Override
@@ -91,6 +92,7 @@ public class ReadFileAuto_V3 extends LinearOpMode {
     }
 
     private void setHardware(double[] oneLine){
+        voltMult = 13.0/robot.voltSense.getVoltage();
         if(prevLine[1] != oneLine[1]) robot.Motors[1].setPower(oneLine[1] * voltMult);
         if(prevLine[2] != oneLine[2]) robot.Motors[2].setPower(oneLine[2] * voltMult);
         if(prevLine[3] != oneLine[3]) robot.Motors[3].setPower(oneLine[3] * voltMult);
@@ -99,7 +101,7 @@ public class ReadFileAuto_V3 extends LinearOpMode {
         if(prevLine[6] != oneLine[6]) robot.IngesterRight.setPower(oneLine[6]);
         if(prevLine[7] != oneLine[7]) robot.FoundationLeft.setPosition(oneLine[7]);
         if(prevLine[8] != oneLine[8]) robot.FoundationRight.setPosition(oneLine[8]);
-        //if(prevLine[9] != oneLine[9]) robot.ExtendGripper.setPower(oneLine[9]);
+        if(prevLine[9] != oneLine[9]) robot.ExtendGripper.setPower(oneLine[9]);
         if(prevLine[10] != oneLine[10]) robot.Gripper.setPosition(oneLine[10]);
         if(prevLine[11] != oneLine[11]) {
             robot.ScissorLeft.setTargetPosition((int)oneLine[11]);
