@@ -1,10 +1,12 @@
 package org.firstinspires.ftc.teamcode.AtticFanatics2020SeasonPrograms.Run.Autonomous;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
 import org.firstinspires.ftc.teamcode.AtticFanatics2020SeasonPrograms.Referenced.Autonomous.MecanumDrive;
 
+@Disabled
 @Autonomous(name = "StrafeCalibrate", group = "AutoOpModes")
 public class CalibrateTicksStrafing extends LinearOpMode {
     MecanumDrive robot = new MecanumDrive();
