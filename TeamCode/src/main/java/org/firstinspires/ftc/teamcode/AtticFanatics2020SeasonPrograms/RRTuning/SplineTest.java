@@ -1,6 +1,7 @@
 package org.firstinspires.ftc.teamcode.AtticFanatics2020SeasonPrograms.RRTuning;
 
 import com.acmerobotics.roadrunner.geometry.Pose2d;
+import com.acmerobotics.roadrunner.trajectory.Trajectory;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
@@ -12,24 +13,14 @@ public class SplineTest extends LinearOpMode {
     @Override
     public void runOpMode() throws InterruptedException {
         SampleMecanumDriveBase drive = new SampleMecanumDriveREV(hardwareMap);
-
         waitForStart();
 
         if (isStopRequested()) return;
-
         drive.followTrajectorySync(
                 drive.trajectoryBuilder()
-                        .splineTo(new Pose2d(30, 30, 0))
-                        .splineTo(new Pose2d(0,0,Math.PI/2))
-                        .build()
-        );
-
-        sleep(2000);
-
-        drive.followTrajectorySync(
-                drive.trajectoryBuilder()
+                        .splineTo(new Pose2d(30, 30, Math.toRadians(90)))
                         .reverse()
-                        .splineTo(new Pose2d(0, 0, 0))
+                        .splineTo(new Pose2d(0,0,0))
                         .build()
         );
     }

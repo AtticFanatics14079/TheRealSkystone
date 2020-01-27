@@ -37,7 +37,7 @@ import static org.firstinspires.ftc.teamcode.AtticFanatics2020SeasonPrograms.RRT
 @Config
 @Autonomous(group = "drive")
 public class DriveVelocityPIDTuner extends LinearOpMode {
-    public static double DISTANCE = 96;
+    public static double DISTANCE = 72;
 
     private static final String PID_VAR_NAME = "VELO_PID";
 
@@ -130,7 +130,7 @@ public class DriveVelocityPIDTuner extends LinearOpMode {
         }
 
         telemetry = new MultipleTelemetry(telemetry, dashboard.getTelemetry());
-        dashboard.setTelemetryTransmissionInterval(25);
+        dashboard.setTelemetryTransmissionInterval(10);
         TelemetryPacket fast = new TelemetryPacket();
         drive = new SampleMecanumDriveREV(hardwareMap);
 
