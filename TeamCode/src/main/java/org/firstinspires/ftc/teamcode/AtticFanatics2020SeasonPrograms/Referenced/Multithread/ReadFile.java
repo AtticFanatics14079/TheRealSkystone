@@ -23,7 +23,7 @@ public class ReadFile extends LinearOpMode {
         telemetry.addData("File exists: ", read.file.exists());
         telemetry.update();
         waitForStart();
-        hardware.startTime();
+        hardware.startTime(new ElapsedTime());
         read.startTime();
         while(!isStopRequested() && read.isAlive()){
             telemetry.addData("Trace1: ", read.trace1);

@@ -28,7 +28,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-@Disabled //UNCOMMENT WHEN MAKING A COPY!!!
+ //UNCOMMENT WHEN MAKING A COPY!!!
 @Autonomous(name="Name Of Path") //CHANGE TO MATCH AUTO PATH NAME!!!
 public class ReadFileAutoV3_WithDetection extends LinearOpMode {
 

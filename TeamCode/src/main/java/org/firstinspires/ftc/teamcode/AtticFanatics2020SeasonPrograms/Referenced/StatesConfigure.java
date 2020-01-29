@@ -186,10 +186,10 @@ public class StatesConfigure {
 
         */
 
-        Motors[1].setMode(DcMotorImplEx.RunMode.RUN_USING_ENCODER);
-        Motors[2].setMode(DcMotorImplEx.RunMode.RUN_USING_ENCODER);
-        Motors[3].setMode(DcMotorImplEx.RunMode.RUN_USING_ENCODER);
-        Motors[4].setMode(DcMotorImplEx.RunMode.RUN_USING_ENCODER);
+        Motors[1].setMode(DcMotorImplEx.RunMode.RUN_WITHOUT_ENCODER);
+        Motors[2].setMode(DcMotorImplEx.RunMode.RUN_WITHOUT_ENCODER);
+        Motors[3].setMode(DcMotorImplEx.RunMode.RUN_WITHOUT_ENCODER);
+        Motors[4].setMode(DcMotorImplEx.RunMode.RUN_WITHOUT_ENCODER);
         //ScissorLeft.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         //ScissorRight.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         //ScissorLeft.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
