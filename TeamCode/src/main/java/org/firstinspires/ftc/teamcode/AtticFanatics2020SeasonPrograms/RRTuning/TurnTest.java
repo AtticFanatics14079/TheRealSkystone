@@ -10,7 +10,7 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 @Config
 @Autonomous(group = "drive")
 public class TurnTest extends LinearOpMode {
-    public final double ANGLE = 90; // deg
+    public final double ANGLE = 360*4; // deg
 
     @Override
     public void runOpMode() throws InterruptedException {

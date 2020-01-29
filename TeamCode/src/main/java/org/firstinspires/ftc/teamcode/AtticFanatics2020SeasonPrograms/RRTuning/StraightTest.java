@@ -18,7 +18,7 @@ public class StraightTest extends LinearOpMode {
         SampleMecanumDriveBase drive = new SampleMecanumDriveREV(hardwareMap);
 
         Trajectory trajectory = drive.trajectoryBuilder()
-                .forward(distance)
+                .strafeLeft(distance)
                 .build();
 
         waitForStart();
