@@ -13,6 +13,7 @@ public class StatesTeleOpMecanum extends StatesConfigure {
 
     private double GAS, straightGas, sideGas, turnGas;
 
+    private boolean Pressed = false;
 
     public void Move(HardwareMap ahwMap, Gamepad G1, Gamepad G2) {
         HardwareMap hwMap = ahwMap;
@@ -33,19 +34,19 @@ public class StatesTeleOpMecanum extends StatesConfigure {
         if(G1.x){ //
             switch(ingesterStates){
                 case IN:
-                    setIngesters(0);
+                    ingester.setPower(0);
                     ingesterStates = Ingester.STOPPEDIN;
                     break;
                 case STOPPEDIN:
-                    setIngesters(-0.5);
+                    ingester.setPower(-0.5);
                     ingesterStates = Ingester.IN;
                     break;
                 case STOPPEDOUT:
-                    setIngesters(0.5);
+                    ingester.setPower(0.5);
                     ingesterStates = Ingester.OUT;
                     break;
                 case OUT:
-                    setIngesters(0);
+                    ingester.setPower(0);
                     ingesterStates = Ingester.STOPPEDOUT;
                     break;
             }
@@ -53,11 +54,11 @@ public class StatesTeleOpMecanum extends StatesConfigure {
         else if(G1.y){
             switch(ingesterStates){
                 case IN:
-                    setIngesters(0.5);
+                    ingester.setPower(0.5);
                     ingesterStates = Ingester.OUT;
                     break;
                 case OUT:
-                    setIngesters(-0.5);
+                    ingester.setPower(-0.5);
                     ingesterStates = Ingester.IN;
                     break;
             }
@@ -78,12 +79,24 @@ public class StatesTeleOpMecanum extends StatesConfigure {
             FoundationRight.setPosition(RIGHT_OPEN);
         } //Set grabbers up
 
+        if(G1.dpad_left) extend(true);
+        else if(G1.dpad_right) extend(false);
+
         if (G1.a || G2.a) Gripper.setPosition(GRIPPER_CLOSED);
         else if (G1.b || G2.b) Gripper.setPosition(GRIPPER_OPEN);
 
+        if(G2.dpad_up && level <= levels.length - 1 && !Pressed) {level++; Pressed = true;}
+        else if(G2.dpad_down && level > 0 && !Pressed) {level--; Pressed = true;}
+        else if(!G2.dpad_up && !G2.dpad_down) Pressed = false;
+
+        if(Math.abs(G2.left_stick_y) < 0.2){
+            ScissorRight.setPower((levels[level] - ScissorRight.getCurrentPosition())/100);
+            ScissorLeft.setPower((levels[level] - ScissorLeft.getCurrentPosition())/100);
+        }
+
         ScissorRight.setPower(-G2.left_stick_y);
         ScissorLeft.setPower(-G2.left_stick_y);
-        //ExtendGripper.setPower(-(G2.right_stick_y)/2);
+        ExtendGripper.setPower(-(G2.right_stick_y)/2);
 
         /*
         G2
@@ -94,23 +107,16 @@ public class StatesTeleOpMecanum extends StatesConfigure {
 
     }
 
-    private void setScissorLevel(int level){
-        ScissorLeft.setTargetPosition(levels[level]);
-        ScissorRight.setTargetPosition(levels[level]);
-        ScissorLeft.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        ScissorRight.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        ScissorRight.setPower(1);
-        ScissorLeft.setPower(1);
-    }
     private void resetScissor(){
         ScissorLeft.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         ScissorRight.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         level = 0;
     }
 
-    private void setIngesters(double power){
-        IngesterLeft.setPower(power);
-        IngesterRight.setPower(power);
+    private void extend(boolean Out){
+        if(Out) ExtendGripper.setTargetPosition(EXTEND_OUT);
+        else ExtendGripper.setTargetPosition(0);
+        ExtendGripper.setPower(1);
     }
 
     //The following method is code from Team 16072's virtual_robot program. Small changes are only to make it fit our format, the bulk of the method was written by them.

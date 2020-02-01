@@ -4,6 +4,7 @@ import android.os.Environment;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
+import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.teamcode.AtticFanatics2020SeasonPrograms.Referenced.Comp2Configure;
@@ -97,18 +98,23 @@ public class ReadFileAuto_V3 extends LinearOpMode {
         if(prevLine[2] != oneLine[2]) robot.Motors[2].setPower(oneLine[2] * voltMult);
         if(prevLine[3] != oneLine[3]) robot.Motors[3].setPower(oneLine[3] * voltMult);
         if(prevLine[4] != oneLine[4]) robot.Motors[4].setPower(oneLine[4] * voltMult);
-        if(prevLine[5] != oneLine[5]) robot.IngesterLeft.setPower(oneLine[5]);
-        if(prevLine[6] != oneLine[6]) robot.IngesterRight.setPower(oneLine[6]);
-        if(prevLine[7] != oneLine[7]) robot.FoundationLeft.setPosition(oneLine[7]);
-        if(prevLine[8] != oneLine[8]) robot.FoundationRight.setPosition(oneLine[8]);
-        if(prevLine[9] != oneLine[9]) robot.ExtendGripper.setPower(oneLine[9]);
-        if(prevLine[10] != oneLine[10]) robot.Gripper.setPosition(oneLine[10]);
+        if(prevLine[5] != oneLine[5]) robot.ingester.setPower(oneLine[5]);
+        if(prevLine[7] != oneLine[6]) robot.FoundationLeft.setPosition(oneLine[6]);
+        if(prevLine[8] != oneLine[7]) robot.FoundationRight.setPosition(oneLine[7]);
+        if(prevLine[9] != oneLine[8]) {
+            robot.ExtendGripper.setTargetPosition((int)oneLine[8]);
+            robot.ExtendGripper.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+            robot.ExtendGripper.setPower(1);
+        }
+        if(prevLine[10] != oneLine[9]) robot.Gripper.setPosition(oneLine[9]);
         if(prevLine[11] != oneLine[11]) {
             robot.ScissorLeft.setTargetPosition((int)oneLine[11]);
+            robot.ScissorLeft.setMode(DcMotor.RunMode.RUN_TO_POSITION);
             robot.ScissorLeft.setPower(oneLine[11]/Math.abs(oneLine[11]));
         }
         if(prevLine[12] != oneLine[12]) {
             robot.ScissorRight.setTargetPosition((int)oneLine[12]);
+            robot.ScissorRight.setMode(DcMotor.RunMode.RUN_TO_POSITION);
             robot.ScissorRight.setPower(oneLine[11]/Math.abs(oneLine[11]));
         }
     }

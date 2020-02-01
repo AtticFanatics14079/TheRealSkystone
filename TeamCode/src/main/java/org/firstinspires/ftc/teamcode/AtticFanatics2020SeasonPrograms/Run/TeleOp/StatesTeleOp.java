@@ -13,12 +13,14 @@ public class StatesTeleOp extends OpMode {
     @Override
     public void init() {
         Drive.Configure(hardwareMap);
+        Drive.setBulkCachingManual();
         //Drive.RotateGripper.setPosition(Drive.ROTATE_GRIPPER_STRAIGHT);
     }
 
     @Override
     public void loop() {
             Drive.Move(hardwareMap, gamepad1, gamepad2);
-            telemetry.addData("Running Back: ", Drive.runningBack);
+            telemetry.addData("Level: ", Drive.level);
+            telemetry.update();
     }
 }

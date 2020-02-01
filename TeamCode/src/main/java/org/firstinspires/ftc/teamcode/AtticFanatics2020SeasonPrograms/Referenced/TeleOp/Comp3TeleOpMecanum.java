@@ -186,8 +186,8 @@ public class Comp3TeleOpMecanum extends StatesConfigure {
 
 
     private void setIngesters(double power){
-        IngesterLeft.setPower(power);
-        IngesterRight.setPower(power);
+        //IngesterLeft.setPower(power);
+        //IngesterRight.setPower(power);
     }
 
     //The following method is code from Team 16072's virtual_robot program. Small changes are only to make it fit our format, the bulk of the method was written by them.

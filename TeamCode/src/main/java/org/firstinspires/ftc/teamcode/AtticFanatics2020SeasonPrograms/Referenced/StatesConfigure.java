@@ -50,7 +50,7 @@ public class StatesConfigure {
 
     public VoltageSensor voltSense;
 
-    public DcMotor IngesterLeft, IngesterRight;
+    public DcMotor ingester;
 
     public boolean Configured = false;
 
@@ -60,6 +60,7 @@ public class StatesConfigure {
     public static final double LEFT_CLOSE = 0.25;
     public static final double RIGHT_OPEN = 0.4;
     public static final double RIGHT_CLOSE = 0.883;
+    public static final int EXTEND_OUT = 0;
 
     public static final double GRIPPER_CLOSED = 1;
     public static final double GRIPPER_OPEN = 0.2;
@@ -71,10 +72,6 @@ public class StatesConfigure {
     }
 
     public Ingester ingesterStates = Ingester.IN;
-
-    enum Scissor{
-        STAGE1, STAGE2, STAGE3, STAGE4, STAGE5, STAGE6, STAGE7, STAGE8, STAGE9, STAGE10, STAGE11, STAGE12
-    }
 
     enum Robot{
         INTAKING, TRANSPORTING, LIFTING, PLACE
@@ -166,24 +163,22 @@ public class StatesConfigure {
         Motors[4] = hwMap.get(DcMotorImplEx.class, "back_right_motor");
         FoundationLeft = hwMap.get(Servo.class, "foundation_left");
         FoundationRight = hwMap.get(Servo.class, "foundation_right");
-        //ScissorLeft = hwMap.get(DcMotorImplEx.class, "scissor_left");
-        //ScissorRight = hwMap.get(DcMotorImplEx.class, "scissor_right");
-        IngesterLeft = hwMap.get(DcMotorImplEx.class, "ingester_left");
-        IngesterRight = hwMap.get(DcMotorImplEx.class, "ingester_right");
-        //Gripper = hwMap.get(Servo.class, "gripper");
-        //ExtendGripper = hwMap.get(DcMotorImplEx.class, "extend_gripper");
+        ScissorLeft = hwMap.get(DcMotorImplEx.class, "scissor_left");
+        ScissorRight = hwMap.get(DcMotorImplEx.class, "scissor_right");
+        ingester = hwMap.get(DcMotorImplEx.class, "ingester");
+        Gripper = hwMap.get(Servo.class, "gripper");
+        ExtendGripper = hwMap.get(DcMotorImplEx.class, "extend_gripper");
         //voltSense = hwMap.get(VoltageSensor.class, "Motor Controller 1"); //I have no idea what the voltage sensor name is so...
 
         Motors[1].setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         Motors[2].setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         Motors[3].setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         Motors[4].setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        //ScissorLeft.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        //ScissorRight.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        ScissorLeft.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        ScissorRight.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
         Motors[3].setDirection(DcMotor.Direction.REVERSE);
         Motors[4].setDirection(DcMotor.Direction.REVERSE);
-        IngesterLeft.setDirection(DcMotorSimple.Direction.REVERSE);
 
         /*imu = hwMap.get(BNO055IMU.class, "imu");
         BNO055IMU.Parameters parameters = new BNO055IMU.Parameters();
@@ -198,12 +193,12 @@ public class StatesConfigure {
         Motors[2].setMode(DcMotorImplEx.RunMode.RUN_WITHOUT_ENCODER);
         Motors[3].setMode(DcMotorImplEx.RunMode.RUN_WITHOUT_ENCODER);
         Motors[4].setMode(DcMotorImplEx.RunMode.RUN_WITHOUT_ENCODER);
-        //ScissorLeft.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        //ScissorRight.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        //ScissorLeft.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        //ScissorRight.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        //ScissorLeft.setTargetPositionTolerance(50);
-        //ScissorRight.setTargetPositionTolerance(50);
+        ScissorLeft.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        ScissorRight.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        ScissorLeft.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        ScissorRight.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        ScissorLeft.setTargetPositionTolerance(50);
+        ScissorRight.setTargetPositionTolerance(50);
 
         allHubs = hwMap.getAll(LynxModule.class);
 
