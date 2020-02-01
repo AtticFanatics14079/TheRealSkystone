@@ -36,7 +36,7 @@ public class RoadRunnerAutoConfigure {
 
     public VoltageSensor voltSense;
 
-    public DcMotor IngesterLeft, IngesterRight;
+    public DcMotor IngesterMotor;
 
     public boolean Configured = false;
 
@@ -97,16 +97,13 @@ public class RoadRunnerAutoConfigure {
         FoundationRight = hwMap.get(Servo.class, "foundation_right");
         //ScissorLeft = hwMap.get(DcMotorImplEx.class, "scissor_left");
         //ScissorRight = hwMap.get(DcMotorImplEx.class, "scissor_right");
-        IngesterLeft = hwMap.get(DcMotorImplEx.class, "ingester_left");
-        IngesterRight = hwMap.get(DcMotorImplEx.class, "ingester_right");
+        IngesterMotor = hwMap.get(DcMotorImplEx.class, "ingester");
         //Gripper = hwMap.get(Servo.class, "gripper");
         //ExtendGripper = hwMap.get(DcMotorImplEx.class, "extend_gripper");
         //voltSense = hwMap.get(VoltageSensor.class, "Motor Controller 1"); //I have no idea what the voltage sensor name is so...
 
         //ScissorLeft.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         //ScissorRight.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-
-        IngesterLeft.setDirection(DcMotorSimple.Direction.REVERSE);
 
         /*imu = hwMap.get(BNO055IMU.class, "imu");
         imu.initialize(new BNO055IMU.Parameters());

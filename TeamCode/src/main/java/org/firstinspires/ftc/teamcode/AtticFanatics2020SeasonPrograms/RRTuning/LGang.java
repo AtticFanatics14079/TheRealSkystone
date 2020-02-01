@@ -13,11 +13,11 @@ import org.firstinspires.ftc.teamcode.AtticFanatics2020SeasonPrograms.Referenced
  */
 @Autonomous(group = "drive")
 public class LGang extends LinearOpMode {
-    RoadRunnerAutoConfigure mech = new RoadRunnerAutoConfigure();
+    //RoadRunnerAutoConfigure mech = new RoadRunnerAutoConfigure();
     SampleMecanumDriveBase drive;
     @Override
     public void runOpMode() throws InterruptedException {
-        mech.Configure(hardwareMap);
+        //mech.Configure(hardwareMap);
         drive = new SampleMecanumDriveREV(hardwareMap);
         Trajectory onward = drive.trajectoryBuilder()
                 .forward(84)

@@ -43,7 +43,7 @@ public class FoundationTest extends LinearOpMode {
                 .build();
         waitForStart();
         if (isStopRequested()) return;
-        mech.FoundationLeft.setPosition(RoadRunnerAutoConfigure.LEFT_OPEN);
+        /*mech.FoundationLeft.setPosition(RoadRunnerAutoConfigure.LEFT_OPEN);
         mech.FoundationRight.setPosition(RoadRunnerAutoConfigure.RIGHT_OPEN);
         drive.setPoseEstimate(new Pose2d(0,0,0));
         drive.followTrajectorySync(driveToFoundation);
@@ -62,9 +62,16 @@ public class FoundationTest extends LinearOpMode {
         mech.FoundationRight.setPosition(RoadRunnerAutoConfigure.RIGHT_OPEN);
         drive.setPoseEstimate(new Pose2d(0,0,0));
         drive.followTrajectorySync(park);
+
+         */
+
+        turnToDegree(90, 0.8);
     }
 
     public void turnToDegree(double Degree, double Power){
+
+        if(Degree > drive.getExternalHeading()) Power = -1 * Math.abs(Power);
+        else Power = Math.abs(Power);
 
         double[] P = {0, -Power, -Power, Power, Power};
 
