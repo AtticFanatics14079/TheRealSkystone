@@ -1,6 +1,7 @@
 package org.firstinspires.ftc.teamcode.AtticFanatics2020SeasonPrograms.Referenced;
 
 import com.qualcomm.hardware.bosch.BNO055IMU;
+import com.qualcomm.hardware.bosch.JustLoggingAccelerationIntegrator;
 import com.qualcomm.hardware.lynx.LynxModule;
 import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.hardware.DcMotor;
@@ -10,9 +11,18 @@ import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.hardware.VoltageSensor;
 
+import org.firstinspires.ftc.robotcore.external.Func;
+import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
+import org.firstinspires.ftc.robotcore.external.navigation.AxesOrder;
+import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
 import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
+import org.firstinspires.ftc.robotcore.external.navigation.Position;
+import org.firstinspires.ftc.robotcore.external.navigation.Velocity;
+import org.firstinspires.ftc.teamcode.AtticFanatics2020SeasonPrograms.Utils.AxesSigns;
+import org.firstinspires.ftc.teamcode.AtticFanatics2020SeasonPrograms.Utils.BNO055IMUUtil;
 
 import java.util.List;
+import java.util.Locale;
 
 
 @Disabled
@@ -20,7 +30,7 @@ public class StatesConfigure {
 
     public BNO055IMU imu;
 
-    public Orientation CurrentPos;
+    public Orientation angles;
 
     public DcMotorImplEx[] Motors = new DcMotorImplEx[5];
 
@@ -141,14 +151,12 @@ public class StatesConfigure {
     {
         hwMap = ahwMap;
 
-        /*BNO055IMU.Parameters parameters = new BNO055IMU.Parameters();
+        imu = hwMap.get(BNO055IMU.class, "imu");
+        BNO055IMU.Parameters parameters = new BNO055IMU.Parameters();
         parameters.angleUnit = BNO055IMU.AngleUnit.DEGREES;
-        parameters.accelUnit = BNO055IMU.AccelUnit.METERS_PERSEC_PERSEC;
-        parameters.calibrationDataFile = "BNO055IMUCalibration.json"; // see the calibration sample opmode
-        parameters.loggingEnabled = true;
-        parameters.loggingTag = "IMU";
-        parameters.accelerationIntegrationAlgorithm = new JustLoggingAccelerationIntegrator();
-        */
+        imu.initialize(parameters);
+
+        System.out.println("Yate");
 
         //Return IMU declaration if we use it, this is to preserve a whole lotta runtime.
 
@@ -173,18 +181,18 @@ public class StatesConfigure {
         //ScissorLeft.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         //ScissorRight.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
-
         Motors[3].setDirection(DcMotor.Direction.REVERSE);
         Motors[4].setDirection(DcMotor.Direction.REVERSE);
         IngesterLeft.setDirection(DcMotorSimple.Direction.REVERSE);
 
         /*imu = hwMap.get(BNO055IMU.class, "imu");
-        imu.initialize(new BNO055IMU.Parameters());
-        //See above for reason why this is commented out
+        BNO055IMU.Parameters parameters = new BNO055IMU.Parameters();
+        parameters.angleUnit = BNO055IMU.AngleUnit.DEGREES;
+        imu.initialize(parameters);
 
-        CurrentPos = imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
+         */
 
-        */
+        //BNO055IMUUtil.remapAxes(imu, AxesOrder.YXZ, AxesSigns.NPN);
 
         Motors[1].setMode(DcMotorImplEx.RunMode.RUN_WITHOUT_ENCODER);
         Motors[2].setMode(DcMotorImplEx.RunMode.RUN_WITHOUT_ENCODER);
@@ -204,5 +212,21 @@ public class StatesConfigure {
         }
 
         return hwMap;
+    }
+
+    //----------------------------------------------------------------------------------------------
+    // Formatting
+    //----------------------------------------------------------------------------------------------
+
+    String formatAngle(AngleUnit angleUnit, double angle) {
+        return formatDegrees(AngleUnit.DEGREES.fromUnit(angleUnit, angle));
+    }
+
+    String formatDegrees(double degrees){
+        return String.format(Locale.getDefault(), "%.1f", AngleUnit.DEGREES.normalize(degrees));
+    }
+
+    public double getHeading() {
+        return imu.getAngularOrientation().firstAngle;
     }
 }

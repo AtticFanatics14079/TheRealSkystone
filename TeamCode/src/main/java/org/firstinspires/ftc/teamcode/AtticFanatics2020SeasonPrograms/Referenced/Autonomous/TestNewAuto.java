@@ -14,7 +14,7 @@ public class TestNewAuto extends LinearOpMode {
     public void runOpMode() throws InterruptedException {
         drive.Configure(hardwareMap);
         waitForStart();
-        drive.drive(50);
+        //drive.drive(50);
         while(opModeIsActive()){
             telemetry.addData("Motor 1 Pos: ", drive.Motors[1].getCurrentPosition());
             telemetry.addData("Motor 2 Pos: ", drive.Motors[2].getCurrentPosition());

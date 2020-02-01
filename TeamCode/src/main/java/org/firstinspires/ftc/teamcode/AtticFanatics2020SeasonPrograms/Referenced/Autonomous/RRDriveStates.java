@@ -1,15 +1,12 @@
 package org.firstinspires.ftc.teamcode.AtticFanatics2020SeasonPrograms.Referenced.Autonomous;
 
-import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
-import org.firstinspires.ftc.teamcode.AtticFanatics2020SeasonPrograms.Referenced.Comp1Configure;
-import org.firstinspires.ftc.teamcode.AtticFanatics2020SeasonPrograms.Referenced.Comp2Configure;
 import org.firstinspires.ftc.teamcode.AtticFanatics2020SeasonPrograms.Referenced.StatesConfigure;
 
 //This Class contains SetPower, MoveEncoderTicks, and TurnDegrees, for MECANUM
 
-public class MecanumDriveStates extends StatesConfigure {
+public class RRDriveStates extends StatesConfigure {
 
     float HeadingAdjust, CurrentOrientation;
 
@@ -196,17 +193,17 @@ public void setScissorLevel(int level, boolean Wait){
         setPowerZero();
     }
 
-    public void turnToDegree(double Degree, double Power){
+    public void turnToDegree(double Degrees, double Power){
 
         resetMotorEncoders();
 
         double[] P = {0, -Power, -Power, Power, Power};
 
-        double currentPos, startPos = Math.abs(getHeading() - Degree); //target = imuAccount(originalPos + Degrees);
+        double currentPos, startPos = Math.abs(getHeading() - Degrees); //target = imuAccount(originalPos + Degrees);
 
-        //setPower(P);
+        setPower(P);
 
-        while((currentPos = Math.abs(Degree - getHeading())) - 1 >= 0){
+        while((currentPos = Math.abs(Degrees - getHeading())) - 1 >= 0){
             //System.out.println(originalPos);
             /*if(startPos - currentPos < 10){
                 Motors[1].setPower(P[1] * (currentPos - startPos) / 10.0 + 0.2 * findPositivity(P[1]));
@@ -214,11 +211,11 @@ public void setScissorLevel(int level, boolean Wait){
                 Motors[3].setPower(P[3] * (currentPos - startPos) / 10.0 + 0.2 * findPositivity(P[3]));
                 Motors[4].setPower(P[4] * (currentPos - startPos) / 10.0 + 0.2 * findPositivity(P[4]));
             }
-            */if(currentPos < 50){
-                Motors[1].setPower(P[1] * Math.pow(currentPos / 50.0, Math.abs(Power/0.2)) + 0.05 * P[1]);
-                Motors[2].setPower(P[2] * Math.pow(currentPos / 50.0, Math.abs(Power/0.2)) + 0.05 * P[2]);
-                Motors[3].setPower(P[3] * Math.pow(currentPos / 50.0, Math.abs(Power/0.2)) + 0.05 * P[3]);
-                Motors[4].setPower(P[4] * Math.pow(currentPos / 50.0, Math.abs(Power/0.2)) + 0.05 * P[4]);
+            */if(currentPos < 60){
+                Motors[1].setPower(P[1] * Math.pow(currentPos / 60.0, 2) + 0.1 * findPositivity(P[1]));
+                Motors[2].setPower(P[2] * Math.pow(currentPos / 60.0, 2) + 0.1 * findPositivity(P[2]));
+                Motors[3].setPower(P[3] * Math.pow(currentPos / 60.0, 2) + 0.1 * findPositivity(P[3]));
+                Motors[4].setPower(P[4] * Math.pow(currentPos / 60.0, 2) + 0.1 * findPositivity(P[4]));
             }
             else setPower(P);
         }
