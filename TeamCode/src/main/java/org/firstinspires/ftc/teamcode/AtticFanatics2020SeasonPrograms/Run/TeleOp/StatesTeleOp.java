@@ -1,6 +1,7 @@
 package org.firstinspires.ftc.teamcode.AtticFanatics2020SeasonPrograms.Run.TeleOp;
 
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
+import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.teamcode.AtticFanatics2020SeasonPrograms.Referenced.TeleOp.Comp2TeleOpMecanum;
 import org.firstinspires.ftc.teamcode.AtticFanatics2020SeasonPrograms.Referenced.TeleOp.Comp3TeleOpMecanum;
@@ -20,6 +21,9 @@ public class StatesTeleOp extends OpMode {
 
     @Override
     public void loop() {
+            Drive.ingester.setPower(0.5);
+            ElapsedTime time = new ElapsedTime();
+            Drive.time = time;
             Drive.Move(hardwareMap, gamepad1, gamepad2);
             telemetry.addData("Level: ", Drive.level);
             telemetry.addData("Extend: ", Drive.ExtendGripper.getCurrentPosition());
