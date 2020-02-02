@@ -199,6 +199,8 @@ public class StatesConfigure {
         ScissorRight.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         ScissorLeft.setTargetPositionTolerance(50);
         ScissorRight.setTargetPositionTolerance(50);
+        ExtendGripper.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        ExtendGripper.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
         allHubs = hwMap.getAll(LynxModule.class);
 

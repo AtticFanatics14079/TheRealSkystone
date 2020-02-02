@@ -66,21 +66,18 @@ public class FoundationTest extends LinearOpMode {
 
     public void turnToDegree(double Degree, double Power){
 
+        double currentPos = Math.toDegrees(drive.getExternalHeading());
+
+        if(Math.abs(currentPos - Degree) < 360 - Degree + currentPos){
+            if(currentPos > Degree) Power = Math.abs(Power);
+            else Power = -Math.abs(Power);
+        }
+        else if(currentPos > Degree) Power = -Math.abs(Power);
+        else Power = Math.abs(Power);
+
         double[] P = {0, -Power, -Power, Power, Power};
 
-        double currentPos, startPos = Math.abs(drive.getExternalHeading() - Degree); //target = imuAccount(originalPos + Degrees);
-
-        //setPower(P);
-
         while((currentPos = Math.abs(Degree - Math.toDegrees(drive.getExternalHeading()))) - 1 >= 0){
-            //System.out.println(originalPos);
-            /*if(startPos - currentPos < 10){
-                Motors[1].setPower(P[1] * (currentPos - startPos) / 10.0 + 0.2 * findPositivity(P[1]));
-                Motors[2].setPower(P[2] * (currentPos - startPos) / 10.0 + 0.2 * findPositivity(P[2]));
-                Motors[3].setPower(P[3] * (currentPos - startPos) / 10.0 + 0.2 * findPositivity(P[3]));
-                Motors[4].setPower(P[4] * (currentPos - startPos) / 10.0 + 0.2 * findPositivity(P[4]));
-            }
-            */
             if(currentPos < 80){
                 drive.setMotorPowers(P[1] * (Math.pow(currentPos / 81.0, Math.abs(Power/0.4)) + 0.1), P[2] * (Math.pow(currentPos / 81.0, Math.abs(Power/0.4)) + 0.1), P[3] * (Math.pow(currentPos / 81.0, Math.abs(Power/0.4)) + 0.1), P[4] * (Math.pow(currentPos / 81.0, Math.abs(Power/0.4)) + 0.1));
             }
@@ -88,7 +85,5 @@ public class FoundationTest extends LinearOpMode {
         }
 
         drive.setMotorPowers(0, 0, 0, 0);
-
-        drive.setPoseEstimate(new Pose2d(0,0,0));
     }
 }

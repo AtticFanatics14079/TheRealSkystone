@@ -16,7 +16,10 @@ public class StatesTeleOpMecanum extends StatesConfigure {
     private boolean Pressed = false;
 
     public void Move(HardwareMap ahwMap, Gamepad G1, Gamepad G2) {
+
         HardwareMap hwMap = ahwMap;
+
+        clearBulkCache();
 
         GAS = 1;
         if (G1.right_bumper) GAS = 0.25; //Quarter speed option
@@ -70,6 +73,7 @@ public class StatesTeleOpMecanum extends StatesConfigure {
         START
         HERE
          */
+
         if (G1.dpad_down) {
             FoundationLeft.setPosition(LEFT_CLOSE);
             FoundationRight.setPosition(RIGHT_CLOSE);
@@ -90,12 +94,13 @@ public class StatesTeleOpMecanum extends StatesConfigure {
         else if(!G2.dpad_up && !G2.dpad_down) Pressed = false;
 
         if(Math.abs(G2.left_stick_y) < 0.2){
-            ScissorRight.setPower((levels[level] - ScissorRight.getCurrentPosition())/100);
-            ScissorLeft.setPower((levels[level] - ScissorLeft.getCurrentPosition())/100);
+            ScissorRight.setPower((levels[level] - ScissorRight.getCurrentPosition())/50);
+            ScissorLeft.setPower((levels[level] - ScissorLeft.getCurrentPosition())/50);
         }
-
-        ScissorRight.setPower(-G2.left_stick_y);
-        ScissorLeft.setPower(-G2.left_stick_y);
+        else {
+            ScissorRight.setPower(-G2.left_stick_y);
+            ScissorLeft.setPower(-G2.left_stick_y);
+        }
         ExtendGripper.setPower(-(G2.right_stick_y)/2);
 
         /*
