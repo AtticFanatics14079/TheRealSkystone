@@ -66,6 +66,17 @@ public class StatesTeleOpMecanum extends StatesConfigure {
                     break;
             }
         }
+        else switch(ingesterStates){
+                case IN:
+                    ingester.setPower(0.5);
+                    break;
+                case OUT:
+                    ingester.setPower(-0.5);
+                    break;
+                default:
+                    ingester.setPower(0);
+                    break;
+            }
 
         //TODO: MACROS
         /*
@@ -94,8 +105,8 @@ public class StatesTeleOpMecanum extends StatesConfigure {
         else if(!G2.dpad_up && !G2.dpad_down) Pressed = false;
 
         if(Math.abs(G2.left_stick_y) < 0.2){
-            ScissorRight.setPower((levels[level] - ScissorRight.getCurrentPosition())/50);
-            ScissorLeft.setPower((levels[level] - ScissorLeft.getCurrentPosition())/50);
+            ScissorRight.setPower((levels[level] - ScissorRight.getCurrentPosition())/200);
+            ScissorLeft.setPower((levels[level] - ScissorLeft.getCurrentPosition())/200);
         }
         else {
             ScissorRight.setPower(-G2.left_stick_y);
