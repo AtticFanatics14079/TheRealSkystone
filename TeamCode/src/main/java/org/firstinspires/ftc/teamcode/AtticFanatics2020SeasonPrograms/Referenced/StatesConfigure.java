@@ -60,7 +60,7 @@ public class StatesConfigure {
     public static final double LEFT_CLOSE = 0.25;
     public static final double RIGHT_OPEN = 0.4;
     public static final double RIGHT_CLOSE = 0.883;
-    public static final int EXTEND_OUT = 0;
+    public static final int EXTEND_OUT = 2250;
 
     public static final double GRIPPER_CLOSED = 1;
     public static final double GRIPPER_OPEN = 0.2;
@@ -199,6 +199,8 @@ public class StatesConfigure {
         ScissorRight.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         ScissorLeft.setTargetPositionTolerance(50);
         ScissorRight.setTargetPositionTolerance(50);
+        ExtendGripper.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        ExtendGripper.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
         allHubs = hwMap.getAll(LynxModule.class);
 
