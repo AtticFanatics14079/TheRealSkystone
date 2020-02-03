@@ -6,16 +6,19 @@ import com.acmerobotics.roadrunner.trajectory.Trajectory;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
+import org.firstinspires.ftc.teamcode.AtticFanatics2020SeasonPrograms.Referenced.NoDriveConfigure;
 import org.firstinspires.ftc.teamcode.AtticFanatics2020SeasonPrograms.Referenced.RoadRunner.SampleMecanumDriveBase;
 import org.firstinspires.ftc.teamcode.AtticFanatics2020SeasonPrograms.Referenced.RoadRunner.SampleMecanumDriveREV;
 
 @Autonomous(group = "drive")
 public class MassivePath extends LinearOpMode {
-    //NoDriveConfigure mech = new NoDriveConfigure();
-    SampleMecanumDriveBase drive;
     @Override
     public void runOpMode() throws InterruptedException {
-        drive = new SampleMecanumDriveREV(hardwareMap);
+        SampleMecanumDriveREV drive = new SampleMecanumDriveREV(hardwareMap);
+
+        NoDriveConfigure mech = new NoDriveConfigure();
+        mech.Configure(hardwareMap);
+
         drive.setPoseEstimate(new Pose2d(-20.0, -63.0, toRadians(90.0)));
         Trajectory toStone1 = drive.trajectoryBuilder()
                 .splineTo(new Pose2d(-28.0,-26.0, toRadians(150))) // MIDDLE STONE POSITION
