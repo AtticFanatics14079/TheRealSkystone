@@ -77,6 +77,12 @@ public class StatesConfigure {
         INTAKING, TRANSPORTING, LIFTING, PLACE
     }
 
+    public enum Macros{
+        GRABBING, STACKING, GRABBED, LIFTED, NOACTION
+    }
+
+    public Macros Macro = Macros.NOACTION;
+
     HardwareMap hwMap;
 
     List<LynxModule> allHubs;

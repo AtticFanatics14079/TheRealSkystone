@@ -92,7 +92,7 @@ public class StatesTeleOpMecanum extends StatesConfigure {
         //if (G1.a || G2.a) Gripper.setPosition(GRIPPER_CLOSED);
         //else if (G1.b || G2.b) Gripper.setPosition(GRIPPER_OPEN);
 
-        if (G2.dpad_up && level <= levels.length - 1 && !Pressed && !grabbing && !stacking) {
+        /*if (G2.dpad_up && level <= levels.length - 1 && !Pressed && !grabbing && !stacking) {
             level++;
             Pressed = true;
         } else if (G2.dpad_down && level > 0 && !Pressed && !grabbing && !stacking) {
@@ -100,15 +100,61 @@ public class StatesTeleOpMecanum extends StatesConfigure {
             Pressed = true;
         } else if (!G2.dpad_up && !G2.dpad_down && !grabbing && !stacking) Pressed = false;
 
-        if (Math.abs(G2.left_stick_y) < 0.2) {
-            ScissorRight.setPower((levels[level] - ScissorRight.getCurrentPosition()) / 50);
-            ScissorLeft.setPower((levels[level] - ScissorLeft.getCurrentPosition()) / 50);
+         */
+
+        if (Math.abs(G2.left_stick_y) < 0.3) {
+            ScissorRight.setPower((levels[level] - ScissorRight.getCurrentPosition()) / 100.0 + 0.05);
+            ScissorLeft.setPower((levels[level] - ScissorLeft.getCurrentPosition()) / 100.0 + 0.05);
         } else if (!grabbing && !stacking) {
             ScissorRight.setPower(-G2.left_stick_y);
             ScissorLeft.setPower(-G2.left_stick_y);
         }
 
-        if (grabbing) grab();
+        switch(Macro){
+            case GRABBING:
+                grab();
+                break;
+            case STACKING:
+                stack();
+                break;
+            case GRABBED:
+                if(G1.a && !Pressed) {
+                    raiseToStack();
+                    Macro = Macros.LIFTED;
+                    Pressed = true;
+                }
+                else if(G2.a) Macro = Macros.NOACTION;
+                break;
+            case LIFTED:
+                if(G1.a && !Pressed){
+                    Macro = Macros.STACKING;
+                    blockdropped = false;
+                    extend(true);
+                    Pressed = true;
+                    stack();
+                }
+                break;
+            case NOACTION:
+                if(G1.a){
+                    level = 0;
+                    Gripper.setPosition(GRIPPER_OPEN);
+                    Macro = Macros.GRABBING;
+                    Pressed = true;
+                    grab();
+                }
+                else if(G2.dpad_up && level < levels.length - 1 && !Pressed){
+                    nextStack++;
+                    Pressed = true;
+                }
+                else if(G2.dpad_down && level > 0 && !Pressed){
+                    nextStack--;
+                    Pressed = true;
+                }
+                else if (!G2.dpad_up && !G2.dpad_down && !grabbing && !stacking) Pressed = false;
+                break;
+        }
+
+        /*if (grabbing) grab();
         else if (stacking) stack();
         else if (G1.a) {
             level = 0;
@@ -121,6 +167,8 @@ public class StatesTeleOpMecanum extends StatesConfigure {
             extend(true);
             stack();
         } else if (G1.right_trigger != 0) raiseToStack();
+        
+         */
 
         /*
         G2
@@ -135,10 +183,11 @@ public class StatesTeleOpMecanum extends StatesConfigure {
         if (Math.abs(ScissorRight.getCurrentPosition() - levels[0]) < 50 && Math.abs(ScissorLeft.getCurrentPosition() - levels[0]) < 100) {
             Gripper.setPosition(GRIPPER_CLOSED);
             if(startTime == 0) startTime = time.milliseconds();
-            if(time.milliseconds() - startTime > 1500) {
+            if(time.milliseconds() - startTime > 1200) {
                 level = 1;
-                grabbing = false;
+                Macro = Macros.GRABBED;
                 startTime = 0;
+                Pressed = false;
             }
         }
     }
@@ -159,17 +208,18 @@ public class StatesTeleOpMecanum extends StatesConfigure {
             if(Math.abs(ScissorLeft.getCurrentPosition() - levels[level]) < 50 && Math.abs(ScissorRight.getCurrentPosition() - levels[level]) < 50) {
                 extend(false);
                 level = 1;
-                stacking = false;
+                Macro = Macros.NOACTION;
                 blockdropped = false;
+                Pressed = false;
                 nextStack++;
             }
         }
         else if(Math.abs(EXTEND_OUT - ExtendGripper.getCurrentPosition()) <150){
             level = nextStack;
-            if(Math.abs(ScissorLeft.getCurrentPosition() - levels[level]) < 50 && Math.abs(ScissorRight.getCurrentPosition() - levels[level]) < 50) {
+            if(Math.abs(ScissorLeft.getCurrentPosition() - levels[level]) < 150 && Math.abs(ScissorRight.getCurrentPosition() - levels[level]) < 50) {
                 Gripper.setPosition(GRIPPER_OPEN);
                 if(startTime == 0) startTime = time.milliseconds();
-                if(time.milliseconds() - startTime > 1500){
+                if(time.milliseconds() - startTime > 1200){
                     blockdropped = true;
                     startTime = 0;
                 }
