@@ -8,7 +8,7 @@ import com.vuforia.CameraDevice;
 
 import org.firstinspires.ftc.teamcode.AtticFanatics2020SeasonPrograms.Referenced.Autonomous.MecanumDrive;
 import org.firstinspires.ftc.teamcode.AtticFanatics2020SeasonPrograms.Referenced.Comp1Configure;
-import org.firstinspires.ftc.teamcode.AtticFanatics2020SeasonPrograms.Skystone.CameraDetect;
+import org.firstinspires.ftc.teamcode.AtticFanatics2020SeasonPrograms.Vision.CameraDetect;
 
 @Disabled
 @Autonomous(name = "Blue Side Everything")
