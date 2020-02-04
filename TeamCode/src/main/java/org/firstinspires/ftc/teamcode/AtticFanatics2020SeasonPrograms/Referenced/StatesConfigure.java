@@ -65,7 +65,7 @@ public class StatesConfigure {
     public static final double GRIPPER_CLOSED = 1;
     public static final double GRIPPER_OPEN = 0.2;
 
-    public static final int[] levels = {0,600,1100,1500,1900,2300,2700, 3100, 3500, 3900};
+    public static final int[] levels = {0,400,900,1300,1700,2100,2500, 2900, 3300, 3700};
 
     public enum Ingester{
         IN, OUT, STOPPEDIN, STOPPEDOUT
@@ -78,7 +78,7 @@ public class StatesConfigure {
     }
 
     public enum Macros{
-        GRABBING, STACKING, GRABBED, LIFTED, NOACTION
+        GRABBING, STACKING, GRABBED, LIFTING, LIFTED, NOACTION
     }
 
     public Macros Macro = Macros.NOACTION;

@@ -77,7 +77,7 @@ public class MassivePath extends LinearOpMode {
         drive.followTrajectorySync(toFoundation1);
         drive.followTrajectorySync(pullFoundation);
         drive.followTrajectorySync(toStone2);
-        drive.followTrajectorySync(toStone2);
+        drive.followTrajectorySync(ingestStone2);
         drive.followTrajectorySync(toFoundation2);
         drive.followTrajectorySync(park);
 
