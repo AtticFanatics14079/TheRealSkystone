@@ -68,7 +68,7 @@ public class NoDriveConfigure {
 
         imu = hwMap.get(BNO055IMU.class, "imu");
         BNO055IMU.Parameters parameters = new BNO055IMU.Parameters();
-        parameters.angleUnit = BNO055IMU.AngleUnit.DEGREES;
+        parameters.angleUnit = BNO055IMU.AngleUnit.RADIANS;
         imu.initialize(parameters);
 
         FoundationLeft = hwMap.get(Servo.class, "foundation_left");
