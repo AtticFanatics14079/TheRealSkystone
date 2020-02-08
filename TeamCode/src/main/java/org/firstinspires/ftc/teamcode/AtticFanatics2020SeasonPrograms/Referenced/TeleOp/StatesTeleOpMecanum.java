@@ -8,16 +8,22 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 import org.firstinspires.ftc.teamcode.AtticFanatics2020SeasonPrograms.Referenced.Comp2Configure;
 import org.firstinspires.ftc.teamcode.AtticFanatics2020SeasonPrograms.Referenced.StatesConfigure;
 
+import javax.crypto.Mac;
+
 import static java.lang.Thread.sleep;
 
 public class StatesTeleOpMecanum extends StatesConfigure {
     public int level = 0, nextStack = 1; //0: Pick up Block from inside robot. 1: Above level 1
 
-    private double GAS, straightGas, sideGas, turnGas, startTime = 0;
+    public double GAS, straightGas, sideGas, turnGas, startTime = 0;
 
-    private boolean Pressed = false, grabbing = false, stacking = false, blockdropped = false;
+    public boolean Pressed = false, grabbing = false, stacking = false, blockdropped = false, IngestPressed;
 
     public ElapsedTime time;
+
+    public void startTime(){
+        time = new ElapsedTime();
+    }
 
     public void Move(HardwareMap ahwMap, Gamepad G1, Gamepad G2) {
 
@@ -38,37 +44,43 @@ public class StatesTeleOpMecanum extends StatesConfigure {
 
         setPower(-G1.left_stick_x * sideGas, G1.left_stick_y * straightGas, Math.pow(G1.right_stick_x, 3) * turnGas); //Normal move, no bells and whistles here
 
-        if (G1.x) { //
+        if (G1.x && !IngestPressed) {
             switch (ingesterStates) {
                 case IN:
                     ingester.setPower(0);
                     ingesterStates = Ingester.STOPPEDIN;
+                    IngestPressed = true;
                     break;
                 case STOPPEDIN:
                     ingester.setPower(-0.5);
                     ingesterStates = Ingester.IN;
+                    IngestPressed = true;
                     break;
                 case STOPPEDOUT:
                     ingester.setPower(0.5);
                     ingesterStates = Ingester.OUT;
+                    IngestPressed = true;
                     break;
                 case OUT:
                     ingester.setPower(0);
                     ingesterStates = Ingester.STOPPEDOUT;
+                    IngestPressed = true;
                     break;
             }
-        } else if (G1.y) {
+        } else if (G1.y && !IngestPressed) {
             switch (ingesterStates) {
                 case IN:
                     ingester.setPower(0.5);
                     ingesterStates = Ingester.OUT;
+                    IngestPressed = true;
                     break;
                 case OUT:
                     ingester.setPower(-0.5);
                     ingesterStates = Ingester.IN;
+                    IngestPressed = true;
                     break;
             }
-        }
+        } else if (!G1.y && !G1.x) IngestPressed = false;
 
         //TODO: MACROS
         /*
@@ -92,7 +104,7 @@ public class StatesTeleOpMecanum extends StatesConfigure {
         //if (G1.a || G2.a) Gripper.setPosition(GRIPPER_CLOSED);
         //else if (G1.b || G2.b) Gripper.setPosition(GRIPPER_OPEN);
 
-        if (G2.dpad_up && level <= levels.length - 1 && !Pressed && !grabbing && !stacking) {
+        /*if (G2.dpad_up && level <= levels.length - 1 && !Pressed && !grabbing && !stacking) {
             level++;
             Pressed = true;
         } else if (G2.dpad_down && level > 0 && !Pressed && !grabbing && !stacking) {
@@ -100,15 +112,68 @@ public class StatesTeleOpMecanum extends StatesConfigure {
             Pressed = true;
         } else if (!G2.dpad_up && !G2.dpad_down && !grabbing && !stacking) Pressed = false;
 
-        if (Math.abs(G2.left_stick_y) < 0.2) {
-            ScissorRight.setPower((levels[level] - ScissorRight.getCurrentPosition()) / 50);
-            ScissorLeft.setPower((levels[level] - ScissorLeft.getCurrentPosition()) / 50);
-        } else if (!grabbing && !stacking) {
+         */
+
+        if (!G2.left_bumper) {
+            ScissorRight.setPower(((levels[level] - ScissorRight.getCurrentPosition()) / 10)/100.0 + 0.01);
+            ScissorLeft.setPower(((levels[level] - ScissorLeft.getCurrentPosition()) / 10)/100.0 + 0.01);
+        } else {
             ScissorRight.setPower(-G2.left_stick_y);
             ScissorLeft.setPower(-G2.left_stick_y);
         }
 
-        if (grabbing) grab();
+        switch(Macro){
+            case GRABBING:
+                grab();
+                break;
+            case STACKING:
+                stack();
+                break;
+            case LIFTING:
+                raiseToStack();
+                break;
+            case GRABBED:
+                if(G1.a && !Pressed) {
+                    raiseToStack();
+                    Macro = Macros.LIFTING;
+                    Pressed = true;
+                }
+                else if(G2.a) Macro = Macros.NOACTION;
+                break;
+            case LIFTED:
+                if(G1.a && !Pressed){
+                    Macro = Macros.STACKING;
+                    blockdropped = false;
+                    extend(true);
+                    Pressed = true;
+                    stack();
+                }
+                break;
+            case NOACTION:
+                if(G1.a){
+                    level = 0;
+                    Gripper.setPosition(GRIPPER_OPEN);
+                    Macro = Macros.GRABBING;
+                    Pressed = true;
+                    grab();
+                }
+                else if(G2.dpad_up && nextStack < levels.length - 1 && !Pressed){
+                    nextStack++;
+                    Pressed = true;
+                }
+                else if(G2.dpad_down && nextStack > 0 && !Pressed){
+                    nextStack--;
+                    Pressed = true;
+                }
+                else if(G2.right_trigger > 0.1) level = nextStack;
+                else if (!G2.dpad_up && !G2.dpad_down) Pressed = false;
+                break;
+        }
+
+        if(G2.a) Gripper.setPosition(GRIPPER_CLOSED);
+        else if(G2.b) Gripper.setPosition(GRIPPER_OPEN);
+
+        /*if (grabbing) grab();
         else if (stacking) stack();
         else if (G1.a) {
             level = 0;
@@ -121,6 +186,8 @@ public class StatesTeleOpMecanum extends StatesConfigure {
             extend(true);
             stack();
         } else if (G1.right_trigger != 0) raiseToStack();
+        
+         */
 
         /*
         G2
@@ -132,13 +199,16 @@ public class StatesTeleOpMecanum extends StatesConfigure {
     }
 
     private void grab() {
-        if (Math.abs(ScissorRight.getCurrentPosition() - levels[0]) < 50 && Math.abs(ScissorLeft.getCurrentPosition() - levels[0]) < 100) {
+        if (Math.abs(ScissorRight.getCurrentPosition() - levels[0]) < 100 && Math.abs(ScissorLeft.getCurrentPosition() - levels[0]) < 100) {
             Gripper.setPosition(GRIPPER_CLOSED);
-            if(startTime == 0) startTime = time.milliseconds();
-            if(time.milliseconds() - startTime > 1500) {
+            if(startTime == 0) {
+                startTime = time.milliseconds();
+            }
+            if(time.milliseconds() - startTime > 1200) {
                 level = 1;
-                grabbing = false;
+                Macro = Macros.GRABBED;
                 startTime = 0;
+                Pressed = false;
             }
         }
     }
@@ -151,25 +221,34 @@ public class StatesTeleOpMecanum extends StatesConfigure {
         level = 0;
     }
 
-    private void raiseToStack(){ level = nextStack + 1; }
+    private void raiseToStack(){
+        level = nextStack + 1;
+        if(Math.abs(ScissorLeft.getCurrentPosition() - levels[level]) < 100 && Math.abs(ScissorRight.getCurrentPosition() - levels[level]) < 100){
+            Pressed = false;
+            Macro = Macros.LIFTED;
+        }
+    }
 
     private void stack(){
         if(blockdropped){
             level = nextStack + 1;
-            if(Math.abs(ScissorLeft.getCurrentPosition() - levels[level]) < 50 && Math.abs(ScissorRight.getCurrentPosition() - levels[level]) < 50) {
+            if(Math.abs(ScissorLeft.getCurrentPosition() - levels[level]) < 100 && Math.abs(ScissorRight.getCurrentPosition() - levels[level]) < 100) {
                 extend(false);
-                level = 1;
-                stacking = false;
-                blockdropped = false;
-                nextStack++;
+                if(Math.abs(EXTEND_OUT - ExtendGripper.getCurrentPosition()) < 150) {
+                    level = 1;
+                    Macro = Macros.NOACTION;
+                    blockdropped = false;
+                    Pressed = false;
+                    nextStack++;
+                }
             }
         }
-        else if(Math.abs(EXTEND_OUT - ExtendGripper.getCurrentPosition()) <150){
+        else if(Math.abs(EXTEND_OUT - ExtendGripper.getCurrentPosition()) < 150){
             level = nextStack;
-            if(Math.abs(ScissorLeft.getCurrentPosition() - levels[level]) < 50 && Math.abs(ScissorRight.getCurrentPosition() - levels[level]) < 50) {
+            if(Math.abs(ScissorLeft.getCurrentPosition() - levels[level]) < 100 && Math.abs(ScissorRight.getCurrentPosition() - levels[level]) < 100) {
                 Gripper.setPosition(GRIPPER_OPEN);
                 if(startTime == 0) startTime = time.milliseconds();
-                if(time.milliseconds() - startTime > 1500){
+                if(time.milliseconds() - startTime > 1200){
                     blockdropped = true;
                     startTime = 0;
                 }
