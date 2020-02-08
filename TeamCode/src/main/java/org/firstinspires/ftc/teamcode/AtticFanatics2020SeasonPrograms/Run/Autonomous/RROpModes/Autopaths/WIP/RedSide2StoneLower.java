@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.AtticFanatics2020SeasonPrograms.Run.Autonomous.RROpModes;
+package org.firstinspires.ftc.teamcode.AtticFanatics2020SeasonPrograms.Run.Autonomous.RROpModes.Autopaths.WIP;
 
 import com.acmerobotics.roadrunner.geometry.Pose2d;
 import com.acmerobotics.roadrunner.geometry.Vector2d;
@@ -12,7 +12,7 @@ import org.firstinspires.ftc.teamcode.AtticFanatics2020SeasonPrograms.Referenced
 //import org.firstinspires.ftc.teamcode.AtticFanatics2020SeasonPrograms.Referenced.RoadRunner.SampleMecanumDriveBase;
 
 @Autonomous(group = "drive")
-public class RedSide2StoneUpper extends LinearOpMode {
+public class RedSide2StoneLower extends LinearOpMode {
     @Override
     public void runOpMode() throws InterruptedException {
         SampleMecanumDriveREV drive = new SampleMecanumDriveREV(hardwareMap);
@@ -20,8 +20,8 @@ public class RedSide2StoneUpper extends LinearOpMode {
         NoDriveConfigure mech = new NoDriveConfigure();
         mech.Configure(hardwareMap);
         Pose2d startPose = new Pose2d(-20.0,  -63.0, Math.toRadians(90.0));// changing this might make the path faster
-        Pose2d ingest1 = new Pose2d(-22.0,-24.0, Math.toRadians(135.0));
-        Pose2d ingest2 = new Pose2d(-46.0,-35.0, Math.toRadians(180.0));
+        Pose2d ingest1 = new Pose2d(-38.0,-24.0, Math.toRadians(135.0));
+        Pose2d ingest2 = new Pose2d(-47.0,-35.0, Math.toRadians(180.0));
         Pose2d foundationgrab = new Pose2d(50.0,-25.0,Math.toRadians(270.0));
         Pose2d foundationdump = new Pose2d(20.0,-40.0,Math.toRadians(180.0));
         Pose2d foundationshove = new Pose2d(50.0,-40.0,Math.toRadians(180.0));
@@ -61,9 +61,9 @@ public class RedSide2StoneUpper extends LinearOpMode {
 
         drive.setPoseEstimate(new Pose2d(-38.0, -35.0, toRadians(135)));
         Trajectory ingestStone2 = drive.trajectoryBuilder()
-                .splineTo (new Pose2d(ingest2.getX()-10.0, ingest2.getY()+10.0, ingest2.getHeading()))
-                .reverse()
-                .splineTo (ingest2)
+                .strafeTo(new Vector2d(ingest2.getX()-10, ingest2.getY()+14))
+                .splineTo(new Pose2d(ingest2.getX()-16,ingest2.getY()+14, ingest2.getHeading()))
+                .strafeTo (ingest2.vec())
                 .build();
 
         drive.setPoseEstimate(new Pose2d(-38.0,-21.0,toRadians(180)));
