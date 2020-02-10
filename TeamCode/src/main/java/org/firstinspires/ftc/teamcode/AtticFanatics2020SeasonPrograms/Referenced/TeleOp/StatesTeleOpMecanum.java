@@ -29,11 +29,10 @@ public class StatesTeleOpMecanum extends StatesConfigure {
     }
 
     public void Move(HardwareMap ahwMap, Gamepad G1, Gamepad G2) {
-
-        HardwareMap hwMap = ahwMap;
-
         clearBulkCache();
-
+        /*
+        DRIVETRAIN MOVEMENTS START HERE
+        */
         GAS = 1;
         if (G1.right_bumper) GAS = 0.25; //Quarter speed option
         straightGas = sideGas = turnGas = GAS;
@@ -46,6 +45,10 @@ public class StatesTeleOpMecanum extends StatesConfigure {
             straightGas = 0; //Enables easier direct sideways movement
 
         setPower(-G1.left_stick_x * sideGas, G1.left_stick_y * straightGas, Math.pow(G1.right_stick_x, 3) * turnGas); //Normal move, no bells and whistles here
+
+        /*
+        INGESTER STATES
+         */
 
         if (G1.x && !IngestPressed) {
             switch (ingesterStates) {
@@ -85,6 +88,10 @@ public class StatesTeleOpMecanum extends StatesConfigure {
             }
         } else if (!G1.y && !G1.x) IngestPressed = false;
 
+        /*
+        CAPSTONE MODE TOGGLE
+         */
+
         if(G2.a && !CapPressed) {
             if(Capping) Capping = false;
             else Capping = true;
@@ -94,12 +101,9 @@ public class StatesTeleOpMecanum extends StatesConfigure {
             CapPressed = false;
         }
 
-        //TODO: MACROS
         /*
-        MANUAL CONTROLS
-        START
-        HERE
-         */
+        FOUNDATION HOOKS TOGGLE
+        */
 
         if (G1.dpad_down) {
             FoundationLeft.setPosition(LEFT_CLOSE);
@@ -110,23 +114,18 @@ public class StatesTeleOpMecanum extends StatesConfigure {
             FoundationRight.setPosition(RIGHT_OPEN);
         } //Set grabbers up
 
+        //TODO WHY IS THIS STILL HERE JONATHAN
         if (G1.dpad_left) extend(true);
         else if (G1.dpad_right) extend(false);
 
         //if (G1.a || G2.a) Gripper.setPosition(GRIPPER_CLOSED);
         //else if (G1.b || G2.b) Gripper.setPosition(GRIPPER_OPEN);
 
-        /*if (G2.dpad_up && level <= levels.length - 1 && !Pressed && !grabbing && !stacking) {
-            level++;
-            Pressed = true;
-        } else if (G2.dpad_down && level > 0 && !Pressed && !grabbing && !stacking) {
-            level--;
-            Pressed = true;
-        } else if (!G2.dpad_up && !G2.dpad_down && !grabbing && !stacking) Pressed = false;
-
+        /*
+        G2 OVERLOADS FOR SCISSOR AND EXTEND
          */
 
-        if (!G2.left_bumper) {
+        if (!G2.left_bumper) { // LEFT BUMPER BEGINS OVERLOADS
             if(levels[level] > ScissorRight.getCurrentPosition() || levels[level] > ScissorLeft.getCurrentPosition()) {
                 ScissorRight.setPower((levels[level] - ScissorRight.getCurrentPosition()) / 30.0);
                 ScissorLeft.setPower((levels[level] - ScissorLeft.getCurrentPosition()) / 30.0);
@@ -140,6 +139,36 @@ public class StatesTeleOpMecanum extends StatesConfigure {
             ScissorLeft.setPower(-G2.left_stick_y);
             ExtendGripper.setPower(-G2.right_stick_y);
         }
+
+        /*
+        G2 CHANGES ROBOT MODE
+         */
+
+        if(G2.x) Gripper.setPosition(GRIPPER_CLOSED);
+        else if(G2.y) Gripper.setPosition(GRIPPER_OPEN);
+
+        if(G2.back && !statusPressed) {
+            statusPressed = true;
+            switch (status){
+                case BALANCED:
+                    status = Robot.STACKING;
+                    break;
+                case STACKING:
+                    status = Robot.STATIONARY;
+                    break;
+                case STATIONARY:
+                    status = Robot.SHUTTLING;
+                    break;
+                case SHUTTLING:
+                    status = Robot.BALANCED;
+                    break;
+            }
+        }
+        else if(!G2.back) statusPressed = false;
+
+        /*
+        MACRO STARTS HERE
+         */
 
         switch(Macro){
             case RESETTING:
@@ -198,28 +227,6 @@ public class StatesTeleOpMecanum extends StatesConfigure {
                 else if (!G2.dpad_up && !G2.dpad_down) Pressed = false;
                 break;
         }
-
-        if(G2.x) Gripper.setPosition(GRIPPER_CLOSED);
-        else if(G2.y) Gripper.setPosition(GRIPPER_OPEN);
-
-        if(G2.back && !statusPressed) {
-            statusPressed = true;
-            switch (status){
-                case BALANCED:
-                    status = Robot.STACKING;
-                    break;
-                case STACKING:
-                    status = Robot.STATIONARY;
-                    break;
-                case STATIONARY:
-                    status = Robot.SHUTTLING;
-                    break;
-                case SHUTTLING:
-                    status = Robot.BALANCED;
-                    break;
-            }
-        }
-        else if(!G2.back) statusPressed = false;
     }
 
     private void reset(){
@@ -270,14 +277,6 @@ public class StatesTeleOpMecanum extends StatesConfigure {
                 }
             }
         }
-    }
-
-    private void resetScissor(){
-        ScissorLeft.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        ScissorRight.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        ScissorLeft.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        ScissorRight.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        level = 0;
     }
 
     private void raiseToStack(){
