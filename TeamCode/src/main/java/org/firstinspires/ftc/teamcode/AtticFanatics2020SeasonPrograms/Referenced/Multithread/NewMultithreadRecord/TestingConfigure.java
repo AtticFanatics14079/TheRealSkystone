@@ -10,7 +10,7 @@ public class TestingConfigure extends LinearOpMode {
     @Override
     public void runOpMode() throws InterruptedException {
         //If this works I am a legend.
-        config.hardware.get("ingester").set(0.5);
+        //config.hardware.get("ingester").set(0.5);
         while(!isStopRequested()){}
     }
 }

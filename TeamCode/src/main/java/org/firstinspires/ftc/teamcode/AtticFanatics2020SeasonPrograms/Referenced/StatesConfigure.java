@@ -44,6 +44,8 @@ public class StatesConfigure {
 
     public Servo FoundationRight;
 
+    public Servo Capstone;
+
     public DcMotorImplEx ExtendGripper;
 
     public DcMotorImplEx ScissorLeft, ScissorRight;
@@ -61,11 +63,16 @@ public class StatesConfigure {
     public static final double RIGHT_OPEN = 0.4;
     public static final double RIGHT_CLOSE = 0.883;
     public static final int EXTEND_OUT = 2250;
+    public static final int EXTEND_TO_CAP = 900;
+    public static final int EXTEND_TO_REST = 900;
 
     public static final double GRIPPER_CLOSED = 1;
+    public static final double GRIPPER_LOOSE = 0.6;
     public static final double GRIPPER_OPEN = 0.2;
+    public static final double CAPSTONE_OPEN = 0.8;
+    public static final double CAPSTONE_CLOSED = 0.97;
 
-    public static final int[] levels = {0,400,900,1300,1700,2100,2500, 2900, 3300, 3700};
+    public static final int[] levels = {0, 750, 1050, /*START OF STACKING LEVELS*/ 700, 1040, 1400, 1850, 2450, 3170, 4000, 5000, 6540};
 
     public enum Ingester{
         IN, OUT, STOPPEDIN, STOPPEDOUT
@@ -73,12 +80,14 @@ public class StatesConfigure {
 
     public Ingester ingesterStates = Ingester.IN;
 
-    enum Robot{
-        INTAKING, TRANSPORTING, LIFTING, PLACE
+    public enum Robot{
+        STACKING, SHUTTLING, BALANCED, STATIONARY
     }
 
+    public Robot status = Robot.BALANCED;
+
     public enum Macros{
-        GRABBING, STACKING, GRABBED, LIFTING, LIFTED, NOACTION
+        GRABBING, STACKING, GRABBED, LIFTING, LIFTED, NOACTION, RESETTING
     }
 
     public Macros Macro = Macros.NOACTION;
@@ -174,6 +183,7 @@ public class StatesConfigure {
         ingester = hwMap.get(DcMotorImplEx.class, "ingester");
         Gripper = hwMap.get(Servo.class, "gripper");
         ExtendGripper = hwMap.get(DcMotorImplEx.class, "extend_gripper");
+        Capstone = hwMap.get(Servo.class, "capstone_servo");
         //voltSense = hwMap.get(VoltageSensor.class, "Motor Controller 1"); //I have no idea what the voltage sensor name is so...
 
         Motors[1].setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
