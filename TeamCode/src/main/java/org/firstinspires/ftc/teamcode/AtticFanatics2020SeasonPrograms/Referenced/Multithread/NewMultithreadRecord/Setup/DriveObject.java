@@ -4,6 +4,7 @@ import com.qualcomm.hardware.bosch.BNO055IMU;
 import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorImplEx;
+import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
 
@@ -134,6 +135,22 @@ public class DriveObject {
             default:
                 System.out.println("Invalid type, returning null.");
                 return null;
+        }
+    }
+
+    public void reverse(){
+        switch(thisType){
+            case DcMotorImplEx:
+                motor.setDirection(DcMotorSimple.Direction.REVERSE);
+                break;
+            case CRServo:
+                crservo.setDirection(DcMotorSimple.Direction.REVERSE);
+                break;
+            case Servo:
+                servo.setDirection(Servo.Direction.REVERSE);
+                break;
+            default:
+                System.out.println("Invalid type for setting to reverse.");
         }
     }
 }
