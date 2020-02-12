@@ -16,11 +16,11 @@ import static java.lang.Thread.sleep;
 
 public class StatesTeleOpMecanum extends StatesConfigure {
 
-    public int level = 0, nextStack = 3; //0: Lowest point, 1: Resting position (under skybridge), 2: clears crossbeam.
+    public int level = 0, nextStack = 3, targetPos = 0; //0: Lowest point, 1: Resting position (under skybridge), 2: clears crossbeam.
 
     public double GAS, straightGas, sideGas, turnGas, startTime = 0;
 
-    public boolean CapPressed = false, statusPressed = false, Pressed = false, grabbing = false, stacking = false, blockdropped = false, IngestPressed, Capping = false, blockPickedUp;
+    public boolean overloadPressed = false, overloading = false, manual = false, CapPressed = false, statusPressed = false, Pressed = false, grabbing = false, stacking = false, blockdropped = false, IngestPressed, Capping = false, blockPickedUp;
 
     public ElapsedTime time;
 
@@ -29,10 +29,13 @@ public class StatesTeleOpMecanum extends StatesConfigure {
     }
 
     public void Move(HardwareMap ahwMap, Gamepad G1, Gamepad G2) {
+
         clearBulkCache();
+
         /*
         DRIVETRAIN MOVEMENTS START HERE
         */
+
         GAS = 1;
         if (G1.right_bumper) GAS = 0.25; //Quarter speed option
         straightGas = sideGas = turnGas = GAS;
@@ -114,7 +117,6 @@ public class StatesTeleOpMecanum extends StatesConfigure {
             FoundationRight.setPosition(RIGHT_OPEN);
         } //Set grabbers up
 
-        //TODO WHY IS THIS STILL HERE JONATHAN
         if (G1.dpad_left) extend(true);
         else if (G1.dpad_right) extend(false);
 
@@ -125,7 +127,18 @@ public class StatesTeleOpMecanum extends StatesConfigure {
         G2 OVERLOADS FOR SCISSOR AND EXTEND
          */
 
-        if (!G2.left_bumper) { // LEFT BUMPER BEGINS OVERLOADS
+        if(G2.left_bumper && !overloadPressed){
+            if(manual) {
+                manual = false;
+            }
+            else {
+                manual = true;
+            }
+            overloadPressed = true;
+        }
+        else if(!G2.left_bumper) overloadPressed = false;
+
+        if (!overloading && !manual) { // LEFT BUMPER BEGINS OVERLOADS
             if(levels[level] > ScissorRight.getCurrentPosition() || levels[level] > ScissorLeft.getCurrentPosition()) {
                 ScissorRight.setPower((levels[level] - ScissorRight.getCurrentPosition()) / 30.0);
                 ScissorLeft.setPower((levels[level] - ScissorLeft.getCurrentPosition()) / 30.0);
@@ -134,10 +147,20 @@ public class StatesTeleOpMecanum extends StatesConfigure {
                 ScissorRight.setPower((levels[level] - ScissorRight.getCurrentPosition()) / 200.0);
                 ScissorLeft.setPower((levels[level] - ScissorLeft.getCurrentPosition()) / 200.0);
             }
-        } else {
+        } else if(manual){
             ScissorRight.setPower(-G2.left_stick_y);
             ScissorLeft.setPower(-G2.left_stick_y);
             ExtendGripper.setPower(-G2.right_stick_y);
+        }
+        else {
+            if(targetPos > ScissorRight.getCurrentPosition() || targetPos > ScissorLeft.getCurrentPosition()) {
+                ScissorRight.setPower((targetPos - ScissorRight.getCurrentPosition()) / 30.0);
+                ScissorLeft.setPower((targetPos - ScissorLeft.getCurrentPosition()) / 30.0);
+            }
+            else{
+                ScissorRight.setPower((targetPos - ScissorRight.getCurrentPosition()) / 200.0);
+                ScissorLeft.setPower((targetPos - ScissorLeft.getCurrentPosition()) / 200.0);
+            }
         }
 
         /*
@@ -157,9 +180,6 @@ public class StatesTeleOpMecanum extends StatesConfigure {
                     status = Robot.STATIONARY;
                     break;
                 case STATIONARY:
-                    status = Robot.SHUTTLING;
-                    break;
-                case SHUTTLING:
                     status = Robot.BALANCED;
                     break;
             }
@@ -247,9 +267,9 @@ public class StatesTeleOpMecanum extends StatesConfigure {
                     Gripper.setPosition(GRIPPER_LOOSE);
                     level = 1;
                     if(startTime == 0) startTime = time.milliseconds();
-                    if(time.milliseconds() - startTime > 800) {
+                    if(time.milliseconds() - startTime > 600) {
                         Gripper.setPosition(GRIPPER_CLOSED);
-                        if(time.milliseconds() - startTime > 1600) {
+                        if(time.milliseconds() - startTime > 1000) {
                             Macro = Macros.GRABBED;
                             startTime = 0;
                             Pressed = false;
@@ -264,7 +284,7 @@ public class StatesTeleOpMecanum extends StatesConfigure {
         else if (Math.abs(ScissorRight.getCurrentPosition() - levels[0]) < 100 && Math.abs(ScissorLeft.getCurrentPosition() - levels[0]) < 100) {
             Gripper.setPosition(GRIPPER_CLOSED);
             if(startTime == 0) startTime = time.milliseconds();
-            if(time.milliseconds() - startTime > 1500) {
+            if(time.milliseconds() - startTime > 700) {
                 startTime = 0;
                 blockPickedUp = true;
                 level = 2;
@@ -286,7 +306,7 @@ public class StatesTeleOpMecanum extends StatesConfigure {
             Macro = Macros.LIFTED;
             return;
         }
-        level = nextStack + 1;
+        level = nextStack;
         if(Math.abs(ScissorLeft.getCurrentPosition() - levels[level]) < 100 && Math.abs(ScissorRight.getCurrentPosition() - levels[level]) < 100){
             Pressed = false;
             Macro = Macros.LIFTED;
@@ -301,7 +321,7 @@ public class StatesTeleOpMecanum extends StatesConfigure {
                 if(Math.abs(ScissorLeft.getCurrentPosition() - levels[level]) < 50 && Math.abs(ScissorRight.getCurrentPosition() - levels[level]) < 50) {
                     Gripper.setPosition(GRIPPER_OPEN);
                     if (startTime == 0) startTime = time.milliseconds();
-                    if (time.milliseconds() - startTime > 1000) {
+                    if (time.milliseconds() - startTime > 500) {
                         level = 2;
                         blockdropped = true;
                         startTime = 0;
@@ -313,7 +333,7 @@ public class StatesTeleOpMecanum extends StatesConfigure {
             if(Capping) cap();
             else {
                 extend(false);
-                if(Math.abs(ExtendGripper.getCurrentPosition()) < 110) {
+                if(Math.abs(ExtendGripper.getCurrentPosition()) < 150) {
                     level = 0;
                     Macro = Macros.NOACTION;
                     blockdropped = false;
@@ -322,12 +342,12 @@ public class StatesTeleOpMecanum extends StatesConfigure {
                 }
             }
         }
-        else if(Math.abs(EXTEND_OUT - ExtendGripper.getCurrentPosition()) < 150){
+        else if(Math.abs(EXTEND_OUT - ExtendGripper.getCurrentPosition()) < 60){
             level = nextStack;
             if(Math.abs(ScissorLeft.getCurrentPosition() - levels[level]) < 50 && Math.abs(ScissorRight.getCurrentPosition() - levels[level]) < 50) {
                 Gripper.setPosition(GRIPPER_OPEN);
                 if(startTime == 0) startTime = time.milliseconds();
-                if(time.milliseconds() - startTime > 1000){
+                if(time.milliseconds() - startTime > 500){
                     blockdropped = true;
                     startTime = 0;
                 }
@@ -337,12 +357,15 @@ public class StatesTeleOpMecanum extends StatesConfigure {
 
     private void cap(){
         extendCap();
-        if(Math.abs(EXTEND_TO_CAP - ExtendGripper.getCurrentPosition()) < 150) {
+        targetPos = levels[level] - (80 + level * 20);
+        overloading = true;
+        if(Math.abs(EXTEND_TO_CAP - ExtendGripper.getCurrentPosition()) < 50) {
             Capstone.setPosition(CAPSTONE_OPEN);
             if(startTime == 0) startTime = time.milliseconds();
-            if(time.milliseconds() - startTime > 1000) {
+            if(time.milliseconds() - startTime > 800) {
                 startTime = 0;
                 Capping = false;
+                overloading = false;
                 extend(false);
             }
         }
