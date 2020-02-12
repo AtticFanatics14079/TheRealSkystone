@@ -62,17 +62,17 @@ public class StatesConfigure {
     public static final double LEFT_CLOSE = 0.25;
     public static final double RIGHT_OPEN = 0.4;
     public static final double RIGHT_CLOSE = 0.883;
-    public static final int EXTEND_OUT = 2250;
-    public static final int EXTEND_TO_CAP = 900;
+    public static final int EXTEND_OUT = 2240;
+    public static final int EXTEND_TO_CAP = 1400;
     public static final int EXTEND_TO_REST = 900;
 
     public static final double GRIPPER_CLOSED = 1;
-    public static final double GRIPPER_LOOSE = 0.6;
-    public static final double GRIPPER_OPEN = 0.2;
+    public static final double GRIPPER_LOOSE = 0.7;
+    public static final double GRIPPER_OPEN = 0.4;
     public static final double CAPSTONE_OPEN = 0.8;
     public static final double CAPSTONE_CLOSED = 0.97;
 
-    public static final int[] levels = {0, 750, 1050, /*START OF STACKING LEVELS*/ 700, 1040, 1400, 1850, 2450, 3170, 4000, 5000, 6540};
+    public static final int[] levels = {0, 750, 1050, /*START OF STACKING LEVELS*/ 700, 1100, 1430, 1850, 2380, 3200, 3900, 4920, 6040, 7240, 8600, 10100, 12120};
 
     public enum Ingester{
         IN, OUT, STOPPEDIN, STOPPEDOUT
@@ -81,7 +81,7 @@ public class StatesConfigure {
     public Ingester ingesterStates = Ingester.IN;
 
     public enum Robot{
-        STACKING, SHUTTLING, BALANCED, STATIONARY
+        STACKING, BALANCED, STATIONARY
     }
 
     public Robot status = Robot.BALANCED;

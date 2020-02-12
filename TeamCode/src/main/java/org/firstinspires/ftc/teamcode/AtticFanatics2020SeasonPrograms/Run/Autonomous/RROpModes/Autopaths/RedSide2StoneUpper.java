@@ -93,9 +93,9 @@ public class RedSide2StoneUpper extends LinearOpMode {
         drive.setPoseEstimate(startPose);
 
         waitForStart();
-        mech.IngesterMotor.setPower(0.5); //Off is the same but setPower(0)
         drive.followTrajectorySync(toStone1);
         drive.followTrajectorySync(ingestStone1);
+        mech.IngesterMotor.setPower(0.5); //Off is the same but setPower(0)
         drive.followTrajectorySync(toFoundation1);
             mech.FoundationLeft.setPosition(NoDriveConfigure.LEFT_CLOSE);
             mech.FoundationRight.setPosition(NoDriveConfigure.RIGHT_CLOSE);
