@@ -61,12 +61,12 @@ public class StatesTeleOpMecanum extends StatesConfigure {
                     IngestPressed = true;
                     break;
                 case STOPPEDIN:
-                    ingester.setPower(-0.65);
+                    ingester.setPower(0.65);
                     ingesterStates = Ingester.IN;
                     IngestPressed = true;
                     break;
                 case STOPPEDOUT:
-                    ingester.setPower(0.65);
+                    ingester.setPower(-0.3);
                     ingesterStates = Ingester.OUT;
                     IngestPressed = true;
                     break;
@@ -84,7 +84,7 @@ public class StatesTeleOpMecanum extends StatesConfigure {
                     IngestPressed = true;
                     break;
                 case OUT:
-                    ingester.setPower(-0.65);
+                    ingester.setPower(-0.3);
                     ingesterStates = Ingester.IN;
                     IngestPressed = true;
                     break;
