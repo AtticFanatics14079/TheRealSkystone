@@ -5,6 +5,7 @@ import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
+import org.firstinspires.ftc.teamcode.AtticFanatics2020SeasonPrograms.Referenced.StatesConfigure;
 import org.firstinspires.ftc.teamcode.AtticFanatics2020SeasonPrograms.Referenced.TeleOp.Comp2TeleOpMecanum;
 import org.firstinspires.ftc.teamcode.AtticFanatics2020SeasonPrograms.Referenced.TeleOp.Comp3TeleOpMecanum;
 import org.firstinspires.ftc.teamcode.AtticFanatics2020SeasonPrograms.Referenced.TeleOp.StatesTeleOpMecanum;
@@ -34,6 +35,7 @@ public class StatesTeleOp extends LinearOpMode {
         Drive.ScissorLeft.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         Drive.ScissorRight.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         waitForStart();
+        Drive.ingesterStates = StatesConfigure.Ingester.IN;
         Drive.ingester.setPower(0.65);
         Drive.Capstone.setPosition(Drive.CAPSTONE_CLOSED);
         Drive.startTime();

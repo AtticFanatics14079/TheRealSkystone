@@ -88,6 +88,12 @@ public class StatesTeleOpMecanum extends StatesConfigure {
                     ingesterStates = Ingester.IN;
                     IngestPressed = true;
                     break;
+                case STOPPEDIN:
+                    ingesterStates = Ingester.STOPPEDOUT;
+                    IngestPressed = true;
+                case STOPPEDOUT:
+                    ingesterStates = Ingester.STOPPEDIN;
+                    IngestPressed = true;
             }
         } else if (!G1.y && !G1.x) IngestPressed = false;
 
