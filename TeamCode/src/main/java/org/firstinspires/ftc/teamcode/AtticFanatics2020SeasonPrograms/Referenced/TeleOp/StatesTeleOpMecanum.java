@@ -231,24 +231,29 @@ public class StatesTeleOpMecanum extends StatesConfigure {
                     ingester.setPower(0);
                     grab();
                 }
-                else if(G2.dpad_up && nextStack < levels.length - 1 && !Pressed){
-                    nextStack++;
-                    Pressed = true;
-                }
-                else if(G2.dpad_down && nextStack > 0 && !Pressed){
-                    nextStack--;
-                    Pressed = true;
-                }
-                else if(G2.right_trigger > 0.1) targetPos = levels[level = nextStack];
-                else if (!G2.dpad_up && !G2.dpad_down) Pressed = false;
                 break;
         }
+
+        if(G2.dpad_up && nextStack < levels.length - 1 && !Pressed){
+            nextStack++;
+            Pressed = true;
+        }
+        else if(G2.dpad_down && nextStack > 0 && !Pressed){
+            nextStack--;
+            Pressed = true;
+        }
+        else if(G2.right_trigger > 0.1) targetPos = levels[level = nextStack];
+        else if (!G2.dpad_up && !G2.dpad_down) Pressed = false;
     }
 
     private void reset(){
+        if(level != 0 && level < 3 && ScissorRight.getCurrentPosition() < levels[2] - 200 && ScissorLeft.getCurrentPosition() < levels[2] - 200) {
+            targetPos = levels[level = 2];
+            return;
+        }
         extend(false);
         Gripper.setPosition(GRIPPER_OPEN);
-        if(Math.abs(ExtendGripper.getCurrentPosition() - 10) < 50) {
+        if(Math.abs(ExtendGripper.getCurrentPosition() - 10) < 250) {
             targetPos = levels[level = 0];
             Macro = Macros.NOACTION;
         }
