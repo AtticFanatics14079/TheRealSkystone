@@ -20,7 +20,7 @@ public class StatesTeleOpMecanum extends StatesConfigure {
 
     public double GAS, straightGas, sideGas, turnGas, startTime = 0;
 
-    public boolean overloadPressed = false, overloading = false, manual = false, CapPressed = false, statusPressed = false, Pressed = false, grabbing = false, stacking = false, blockdropped = false, IngestPressed, Capping = false, blockPickedUp;
+    public boolean manualCap = false, lock = false, overloadPressed = false, overloading = false, manual = false, CapPressed = false, statusPressed = false, Pressed = false, grabbing = false, stacking = false, blockdropped = false, IngestPressed, Capping = false, blockPickedUp;
 
     public ElapsedTime time;
 
@@ -102,9 +102,20 @@ public class StatesTeleOpMecanum extends StatesConfigure {
          */
 
         if(G2.a && !CapPressed) {
-            if(Capping) Capping = false;
-            else Capping = true;
-            CapPressed = true;
+            switch (stack){
+                case NORMAL:
+                    stack = Stacking.LOCKING;
+                    CapPressed = true;
+                    break;
+                case LOCKING:
+                    stack = Stacking.CAPPING;
+                    CapPressed = true;
+                    break;
+                case CAPPING:
+                    stack = Stacking.NORMAL;
+                    CapPressed = true;
+                    break;
+            }
         }
         else if(!G2.a){
             CapPressed = false;
@@ -244,16 +255,24 @@ public class StatesTeleOpMecanum extends StatesConfigure {
         }
         else if(G2.right_trigger > 0.1) targetPos = levels[level = nextStack];
         else if (!G2.dpad_up && !G2.dpad_down) Pressed = false;
+
+        if(G2.right_bumper || manualCap) {
+            manualCap = true;
+            targetPos = levels[level = 2];
+            if (Math.abs(ScissorRight.getCurrentPosition() - targetPos) < 50 && Math.abs(ScissorLeft.getCurrentPosition() - targetPos) < 50) {
+                cap();
+            }
+        }
     }
 
     private void reset(){
-        if(level != 0 && level < 3 && ScissorRight.getCurrentPosition() < levels[2] - 200 && ScissorLeft.getCurrentPosition() < levels[2] - 200) {
+        if((level == 1 || level == 2) && ScissorRight.getCurrentPosition() < levels[2] - 200 && ScissorLeft.getCurrentPosition() < levels[2] - 200) {
             targetPos = levels[level = 2];
             return;
         }
         extend(false);
-        Gripper.setPosition(GRIPPER_OPEN);
-        if(Math.abs(ExtendGripper.getCurrentPosition() - 10) < 250) {
+        if(Math.abs(ExtendGripper.getCurrentPosition() - 10) < 50) {
+            Gripper.setPosition(GRIPPER_OPEN);
             targetPos = levels[level = 0];
             Macro = Macros.NOACTION;
         }
@@ -261,7 +280,7 @@ public class StatesTeleOpMecanum extends StatesConfigure {
 
     private void grab() {
         if(blockPickedUp){
-            if(Math.abs(ScissorRight.getCurrentPosition() - targetPos) < 10 && Math.abs(ScissorLeft.getCurrentPosition() - targetPos) < 10) {
+            if(Math.abs(ScissorRight.getCurrentPosition() - targetPos) < 50 && Math.abs(ScissorLeft.getCurrentPosition() - targetPos) < 50) {
                 //This statement was having issues when moving down, should be fixed now but may still fail.
                 extendRest();
                 if(Math.abs(EXTEND_TO_REST - ExtendGripper.getCurrentPosition()) < 100) {
@@ -285,7 +304,7 @@ public class StatesTeleOpMecanum extends StatesConfigure {
         else if (Math.abs(ScissorRight.getCurrentPosition()) < 100 && Math.abs(ScissorLeft.getCurrentPosition()) < 100) {
             Gripper.setPosition(GRIPPER_CLOSED);
             if(startTime == 0) startTime = time.milliseconds();
-            if(time.milliseconds() - startTime > 600) {
+            if(time.milliseconds() - startTime > 350) {
                 startTime = 0;
                 blockPickedUp = true;
                 targetPos = levels[level = 2];
@@ -304,8 +323,12 @@ public class StatesTeleOpMecanum extends StatesConfigure {
         if(nextStack == 3) { //aka stacking the first block
             targetPos = levels[level = 2];
             if(Math.abs(ScissorLeft.getCurrentPosition() - levels[2]) < 200 && Math.abs(ScissorRight.getCurrentPosition() - levels[2]) < 200) {
-                Pressed = false;
-                Macro = Macros.LIFTED;
+                extend(true);
+                if(Math.abs(EXTEND_OUT - ExtendGripper.getCurrentPosition()) < 250) {
+                    targetPos = levels[level = 3];
+                    Pressed = false;
+                    Macro = Macros.LIFTED;
+                }
             }
             return;
         }
@@ -320,22 +343,19 @@ public class StatesTeleOpMecanum extends StatesConfigure {
 
     private void stack(){
         if(nextStack == 3 && !blockdropped){
-            extend(true);
-            if(Math.abs(EXTEND_OUT - ExtendGripper.getCurrentPosition()) < 50) {
-                targetPos = levels[level = 1];
-                if(Math.abs(ScissorLeft.getCurrentPosition() - targetPos) < 50 && Math.abs(ScissorRight.getCurrentPosition() - targetPos) < 50) {
-                    Gripper.setPosition(GRIPPER_OPEN);
-                    if (startTime == 0) startTime = time.milliseconds();
-                    if (time.milliseconds() - startTime > 500) {
-                        targetPos = levels[level = 2];
-                        blockdropped = true;
-                        startTime = 0;
-                    }
+            targetPos = levels[level = 3];
+            if(Math.abs(ScissorLeft.getCurrentPosition() - targetPos) < 50 && Math.abs(ScissorRight.getCurrentPosition() - targetPos) < 50) {
+                Gripper.setPosition(GRIPPER_OPEN);
+                if (startTime == 0) startTime = time.milliseconds();
+                if (time.milliseconds() - startTime > 500) {
+                    targetPos = levels[level = 2];
+                    blockdropped = true;
+                    startTime = 0;
                 }
             }
         }
         else if(blockdropped){
-            if(Capping) cap();
+            if(stack == Stacking.CAPPING) cap();
             else {
                 extend(false);
                 int retractConfidence = 150;
@@ -350,7 +370,11 @@ public class StatesTeleOpMecanum extends StatesConfigure {
             }
         }
         else if(Math.abs(EXTEND_OUT - ExtendGripper.getCurrentPosition()) < 60){
-            targetPos = levels[level = nextStack];
+            if(stack == Stacking.LOCKING) {
+                targetPos = levels[level = nextStack] - (80 * level);
+                return;
+            }
+            else targetPos = levels[level = nextStack];
             if(Math.abs(ScissorLeft.getCurrentPosition() - targetPos) < 50 && Math.abs(ScissorRight.getCurrentPosition() - targetPos) < 50) {
                 Gripper.setPosition(GRIPPER_OPEN);
                 if(startTime == 0) startTime = time.milliseconds();
@@ -364,13 +388,14 @@ public class StatesTeleOpMecanum extends StatesConfigure {
 
     private void cap(){
         extendCap();
-        targetPos = levels[level] - (80 + level * 20);
+        if(!manualCap) targetPos = levels[level] - (level * 80);
         if(Math.abs(EXTEND_TO_CAP - ExtendGripper.getCurrentPosition()) < 50) {
             Capstone.setPosition(CAPSTONE_OPEN);
             if(startTime == 0) startTime = time.milliseconds();
             if(time.milliseconds() - startTime > 800) {
                 startTime = 0;
-                Capping = false;
+                stack = Stacking.NORMAL;
+                manualCap = false;
                 extend(false);
             }
         }
