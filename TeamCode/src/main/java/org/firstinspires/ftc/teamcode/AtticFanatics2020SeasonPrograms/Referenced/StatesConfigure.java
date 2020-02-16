@@ -52,7 +52,7 @@ public class StatesConfigure {
 
     public VoltageSensor voltSense;
 
-    public DcMotor ingester;
+    public DcMotorImplEx ingester;
 
     public boolean Configured = false;
 
@@ -62,17 +62,17 @@ public class StatesConfigure {
     public static final double LEFT_CLOSE = 0.19;
     public static final double RIGHT_OPEN = 0.4;
     public static final double RIGHT_CLOSE = 0.87;
-    public static final int EXTEND_OUT = 1140;
-    public static final int EXTEND_TO_CAP = 686;
-    public static final int EXTEND_TO_REST = 432;
+    public static final int EXTEND_OUT = 1100;
+    public static final int EXTEND_TO_CAP = 710;
+    public static final int EXTEND_TO_REST = 430;
 
-    public static final double GRIPPER_CLOSED = 0.95;
+    public static final double GRIPPER_CLOSED = 1;
     public static final double GRIPPER_LOOSE = 0.7;
     public static final double GRIPPER_OPEN = 0.55;
     public static final double CAPSTONE_OPEN = 0.8;
     public static final double CAPSTONE_CLOSED = 0.97;
 
-    public static final int[] levels = {0, 750, 1050, /*START OF STACKING LEVELS*/ 700, 1100, 1430, 1850, 2380, 3200, 3900, 4920, 6040, 7240, 8600, 10400, 12220};
+    public static final int[] levels = {0, 760, 1170, /*START OF STACKING LEVELS*/ 700, 1150, 1470, 1880, 2380, 3250, 3900, 4920, 6040, 7240, 8600, 10400, 12220};
 
     public enum Ingester{
         IN, OUT, STOPPEDIN, STOPPEDOUT
@@ -199,6 +199,7 @@ public class StatesConfigure {
 
         Motors[3].setDirection(DcMotor.Direction.REVERSE);
         Motors[4].setDirection(DcMotor.Direction.REVERSE);
+        ExtendGripper.setDirection(DcMotorSimple.Direction.REVERSE);
 
         /*imu = hwMap.get(BNO055IMU.class, "imu");
         BNO055IMU.Parameters parameters = new BNO055IMU.Parameters();
