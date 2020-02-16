@@ -30,10 +30,10 @@ public class NoDriveConfigure {
     public DcMotorImplEx ScissorLeft, ScissorRight;
     public DcMotorImplEx IngesterMotor;
 
-    public static final double LEFT_OPEN = 0.723;
-    public static final double LEFT_CLOSE = 0.25;
+    public static final double LEFT_OPEN = 0.65;
+    public static final double LEFT_CLOSE = 0.19;
     public static final double RIGHT_OPEN = 0.4;
-    public static final double RIGHT_CLOSE = 0.883;
+    public static final double RIGHT_CLOSE = 0.87;
 
     public static final double GRIPPER_CLOSED = 1;
     public static final double GRIPPER_OPEN = 0.2;

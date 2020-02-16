@@ -5,6 +5,8 @@ import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
+import org.firstinspires.ftc.robotcore.external.navigation.CurrentUnit;
+import org.firstinspires.ftc.teamcode.AtticFanatics2020SeasonPrograms.Referenced.StatesConfigure;
 import org.firstinspires.ftc.teamcode.AtticFanatics2020SeasonPrograms.Referenced.TeleOp.Comp2TeleOpMecanum;
 import org.firstinspires.ftc.teamcode.AtticFanatics2020SeasonPrograms.Referenced.TeleOp.Comp3TeleOpMecanum;
 import org.firstinspires.ftc.teamcode.AtticFanatics2020SeasonPrograms.Referenced.TeleOp.StatesTeleOpMecanum;
@@ -34,19 +36,28 @@ public class StatesTeleOp extends LinearOpMode {
         Drive.ScissorLeft.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         Drive.ScissorRight.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         waitForStart();
-        Drive.ingester.setPower(0.5);
+        Drive.ingesterStates = StatesConfigure.Ingester.IN;
+        //Drive.ingester.setPower(0.65);
         Drive.Capstone.setPosition(Drive.CAPSTONE_CLOSED);
         Drive.startTime();
         while(!isStopRequested()) {
             Drive.Move(hardwareMap, gamepad1, gamepad2);
-            telemetry.addData("Level: ", Drive.level);
+            telemetry.addData("Block Level: ", Drive.level - 2);
             telemetry.addData("NextStack: ", Drive.nextStack);
             telemetry.addData("Extend: ", Drive.ExtendGripper.getCurrentPosition());
             telemetry.addData("ScissorLeft: ", Drive.ScissorLeft.getCurrentPosition());
             telemetry.addData("ScissorRight: ", Drive.ScissorRight.getCurrentPosition());
             telemetry.addData("Macro State: ", Drive.Macro);
-            telemetry.addData("Capping Mode: ", Drive.Capping);
+            telemetry.addData("Capping Mode: ", Drive.stack);
             telemetry.addData("Robot Role: ", Drive.status);
+            telemetry.addData("Motor1 Current: ", Drive.Motors[1].getCurrent(CurrentUnit.MILLIAMPS));
+            telemetry.addData("Motor2 Current: ", Drive.Motors[2].getCurrent(CurrentUnit.MILLIAMPS));
+            telemetry.addData("Motor3 Current: ", Drive.Motors[3].getCurrent(CurrentUnit.MILLIAMPS));
+            telemetry.addData("Motor4 Current: ", Drive.Motors[4].getCurrent(CurrentUnit.MILLIAMPS));
+            telemetry.addData("Ingester Current: ", Drive.ingester.getCurrent(CurrentUnit.MILLIAMPS));
+            telemetry.addData("ScissorLeft Current: ", Drive.ScissorLeft.getCurrent(CurrentUnit.MILLIAMPS));
+            telemetry.addData("ScissorRight Current: ", Drive.ScissorRight.getCurrent(CurrentUnit.MILLIAMPS));
+            telemetry.addData("ExtendGripper Current: ", Drive.ExtendGripper.getCurrent(CurrentUnit.MILLIAMPS));
             telemetry.update();
         }
     }

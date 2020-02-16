@@ -52,27 +52,27 @@ public class StatesConfigure {
 
     public VoltageSensor voltSense;
 
-    public DcMotor ingester;
+    public DcMotorImplEx ingester;
 
     public boolean Configured = false;
 
     public static final int TOLERANCE = 10;
 
-    public static final double LEFT_OPEN = 0.723;
-    public static final double LEFT_CLOSE = 0.25;
+    public static final double LEFT_OPEN = 0.65;
+    public static final double LEFT_CLOSE = 0.19;
     public static final double RIGHT_OPEN = 0.4;
-    public static final double RIGHT_CLOSE = 0.883;
-    public static final int EXTEND_OUT = 2240;
-    public static final int EXTEND_TO_CAP = 1400;
-    public static final int EXTEND_TO_REST = 900;
+    public static final double RIGHT_CLOSE = 0.87;
+    public static final int EXTEND_OUT = 1100;
+    public static final int EXTEND_TO_CAP = 710;
+    public static final int EXTEND_TO_REST = 430;
 
     public static final double GRIPPER_CLOSED = 1;
     public static final double GRIPPER_LOOSE = 0.7;
-    public static final double GRIPPER_OPEN = 0.4;
+    public static final double GRIPPER_OPEN = 0.55;
     public static final double CAPSTONE_OPEN = 0.8;
     public static final double CAPSTONE_CLOSED = 0.97;
 
-    public static final int[] levels = {0, 750, 1050, /*START OF STACKING LEVELS*/ 700, 1100, 1430, 1850, 2380, 3200, 3900, 4920, 6040, 7240, 8600, 10100, 12120};
+    public static final int[] levels = {0, 760, 1170, /*START OF STACKING LEVELS*/ 700, 1150, 1470, 1880, 2380, 3250, 3900, 4920, 6040, 7240, 8600, 10400, 12220};
 
     public enum Ingester{
         IN, OUT, STOPPEDIN, STOPPEDOUT
@@ -91,6 +91,12 @@ public class StatesConfigure {
     }
 
     public Macros Macro = Macros.NOACTION;
+
+    public enum Stacking{
+        NORMAL, LOCKING, CAPPING
+    }
+
+    public Stacking stack = Stacking.NORMAL;
 
     HardwareMap hwMap;
 
@@ -168,8 +174,6 @@ public class StatesConfigure {
         parameters.angleUnit = BNO055IMU.AngleUnit.DEGREES;
         imu.initialize(parameters);
 
-        System.out.println("Yate");
-
         //Return IMU declaration if we use it, this is to preserve a whole lotta runtime.
 
         Motors[1] = hwMap.get(DcMotorImplEx.class, "back_left_motor");
@@ -195,6 +199,7 @@ public class StatesConfigure {
 
         Motors[3].setDirection(DcMotor.Direction.REVERSE);
         Motors[4].setDirection(DcMotor.Direction.REVERSE);
+        ExtendGripper.setDirection(DcMotorSimple.Direction.REVERSE);
 
         /*imu = hwMap.get(BNO055IMU.class, "imu");
         BNO055IMU.Parameters parameters = new BNO055IMU.Parameters();
@@ -209,6 +214,12 @@ public class StatesConfigure {
         Motors[2].setMode(DcMotorImplEx.RunMode.RUN_WITHOUT_ENCODER);
         Motors[3].setMode(DcMotorImplEx.RunMode.RUN_WITHOUT_ENCODER);
         Motors[4].setMode(DcMotorImplEx.RunMode.RUN_WITHOUT_ENCODER);
+        /*
+        Motors[1].setMode(DcMotorImplEx.RunMode.RUN_USING_ENCODER);
+        Motors[2].setMode(DcMotorImplEx.RunMode.RUN_USING_ENCODER);
+        Motors[3].setMode(DcMotorImplEx.RunMode.RUN_USING_ENCODER);
+        Motors[4].setMode(DcMotorImplEx.RunMode.RUN_USING_ENCODER);
+         */
         ScissorLeft.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         ScissorRight.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         ScissorLeft.setMode(DcMotor.RunMode.RUN_USING_ENCODER);

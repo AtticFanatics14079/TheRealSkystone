@@ -27,8 +27,8 @@ public class RedSide2StoneUpper extends LinearOpMode {
         Pose2d ingest2 = new Pose2d(-50.0,-24.0, Math.toRadians(135.0));
         Pose2d ingest2stop = new Pose2d(-60.0,-14.0, Math.toRadians(135.0));
         Pose2d foundationgrab = new Pose2d(50.0,-25.0,Math.toRadians(270.0));
-        Pose2d foundationmid = new Pose2d (40.0, -50.0, Math.toRadians(225.0));
-        Pose2d foundationdump = new Pose2d(20.0,-55.0,Math.toRadians(180.0));
+        Pose2d foundationmid = new Pose2d (30.0, -50.0, Math.toRadians(225.0));
+        Pose2d foundationdump = new Pose2d(10.0,-55.0,Math.toRadians(180.0));
         Pose2d foundationpickup = new Pose2d (20.0,-40.0,Math.toRadians(180.0));
         Pose2d foundationshove = new Pose2d(50.0,-40.0,Math.toRadians(180.0));
         Pose2d middlepassage = new Pose2d(0.0, -40.0, Math.toRadians(180.0));
