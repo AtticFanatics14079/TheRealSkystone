@@ -52,7 +52,7 @@ public class StatesConfigure {
 
     public VoltageSensor voltSense;
 
-    public DcMotor ingester;
+    public DcMotorImplEx ingester;
 
     public boolean Configured = false;
 

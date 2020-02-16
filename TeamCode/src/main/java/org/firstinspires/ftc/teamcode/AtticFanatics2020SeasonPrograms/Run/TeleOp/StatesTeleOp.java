@@ -5,6 +5,7 @@ import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
+import org.firstinspires.ftc.robotcore.external.navigation.CurrentUnit;
 import org.firstinspires.ftc.teamcode.AtticFanatics2020SeasonPrograms.Referenced.StatesConfigure;
 import org.firstinspires.ftc.teamcode.AtticFanatics2020SeasonPrograms.Referenced.TeleOp.Comp2TeleOpMecanum;
 import org.firstinspires.ftc.teamcode.AtticFanatics2020SeasonPrograms.Referenced.TeleOp.Comp3TeleOpMecanum;
@@ -49,6 +50,14 @@ public class StatesTeleOp extends LinearOpMode {
             telemetry.addData("Macro State: ", Drive.Macro);
             telemetry.addData("Capping Mode: ", Drive.Capping);
             telemetry.addData("Robot Role: ", Drive.status);
+            telemetry.addData("Motor1Current: ", Drive.Motors[1].getCurrent(CurrentUnit.MILLIAMPS));
+            telemetry.addData("Motor1Current: ", Drive.Motors[2].getCurrent(CurrentUnit.MILLIAMPS));
+            telemetry.addData("Motor1Current: ", Drive.Motors[3].getCurrent(CurrentUnit.MILLIAMPS));
+            telemetry.addData("Motor1Current: ", Drive.Motors[4].getCurrent(CurrentUnit.MILLIAMPS));
+            telemetry.addData("Motor1Current: ", Drive.ingester.getCurrent(CurrentUnit.MILLIAMPS));
+            telemetry.addData("Motor1Current: ", Drive.ScissorLeft.getCurrent(CurrentUnit.MILLIAMPS));
+            telemetry.addData("Motor1Current: ", Drive.ScissorRight.getCurrent(CurrentUnit.MILLIAMPS));
+            telemetry.addData("Motor1Current: ", Drive.ExtendGripper.getCurrent(CurrentUnit.MILLIAMPS));
             telemetry.update();
         }
     }
