@@ -331,9 +331,13 @@ public class StatesTeleOpMecanum extends StatesConfigure {
             }
             return;
         }
-        if(status == Robot.BALANCED) targetPos = levels[level = nextStack] - 30 * level + 90; //This is untested, if there's an issue tell me
-        else targetPos = levels[level = nextStack];
-        int heightConfidence = 60;
+        if(status == Robot.BALANCED){
+            targetPos = levels[level = nextStack]-100;
+        }
+        else {
+            targetPos = levels[level = nextStack];
+        }
+        int heightConfidence = 100;
         if(status == Robot.STATIONARY && nextStack > 6) heightConfidence = 100 + level * 25; //If stationary, arc up/sideways movement.
         if(Math.abs(ScissorLeft.getCurrentPosition() - targetPos) < heightConfidence && Math.abs(ScissorRight.getCurrentPosition() - targetPos) < heightConfidence){
             Pressed = false;
@@ -379,7 +383,7 @@ public class StatesTeleOpMecanum extends StatesConfigure {
                 targetPos = levels[level = nextStack] - (80 * level);
                 return;
             }
-            else targetPos = levels[level = nextStack];
+            else targetPos = levels[level = nextStack]-100;
             if(Math.abs(ScissorLeft.getCurrentPosition() - targetPos) < 20 && Math.abs(ScissorRight.getCurrentPosition() - targetPos) < 20) {
                 Gripper.setPosition(GRIPPER_OPEN);
                 if(startTime == 0) startTime = time.milliseconds();
