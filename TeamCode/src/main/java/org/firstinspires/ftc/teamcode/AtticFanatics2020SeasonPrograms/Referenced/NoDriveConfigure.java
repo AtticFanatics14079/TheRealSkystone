@@ -38,7 +38,9 @@ public class NoDriveConfigure {
     public static final double GRIPPER_CLOSED = 1;
     public static final double GRIPPER_OPEN = 0.2;
 
-    public static final int[] levels = {0,600,1100,1500,1900,2300,2700, 3100, 3500, 3900};
+    public static final int EXTEND_OUT = 1100;
+
+    public static final int[] levels = {0,600,900,1500,1900,2300,2700, 3100, 3500, 3900};
 
     public enum Ingester{
         IN, OUT, STOPPEDIN, STOPPEDOUT
@@ -86,6 +88,7 @@ public class NoDriveConfigure {
         ScissorRight.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         ScissorLeft.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         ScissorRight.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        ExtendGripper.setDirection(DcMotorSimple.Direction.REVERSE);
 
         allHubs = hwMap.getAll(LynxModule.class);
 

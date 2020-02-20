@@ -289,15 +289,15 @@ public class StatesTeleOpMecanum extends StatesConfigure {
                     targetPos = levels[level = 1];
                     //if(startTime == 0) startTime = time.milliseconds();
                     //if(time.milliseconds() - startTime > 600) {
-                        //Gripper.setPosition(GRIPPER_CLOSED);
-                        //if(time.milliseconds() - startTime > 1000) {
-                            Macro = Macros.GRABBED;
-                            startTime = 0;
-                            Pressed = false;
-                            blockPickedUp = false;
-                            ingesterStates = Ingester.IN;
-                            ingester.setPower(0.65);
-                        //}
+                    //Gripper.setPosition(GRIPPER_CLOSED);
+                    //if(time.milliseconds() - startTime > 1000) {
+                    Macro = Macros.GRABBED;
+                    startTime = 0;
+                    Pressed = false;
+                    blockPickedUp = false;
+                    ingesterStates = Ingester.IN;
+                    ingester.setPower(0.65);
+                    //}
                     //}
                 }
             }
@@ -331,9 +331,13 @@ public class StatesTeleOpMecanum extends StatesConfigure {
             }
             return;
         }
-        if(status == Robot.BALANCED) targetPos = levels[level = nextStack] - 30 * level + 90; //This is untested, if there's an issue tell me
-        else targetPos = levels[level = nextStack];
-        int heightConfidence = 60;
+        if(status == Robot.BALANCED){
+            targetPos = levels[level = nextStack]-100;
+        }
+        else {
+            targetPos = levels[level = nextStack];
+        }
+        int heightConfidence = 100;
         if(status == Robot.STATIONARY && nextStack > 6) heightConfidence = 100 + level * 25; //If stationary, arc up/sideways movement.
         if(Math.abs(ScissorLeft.getCurrentPosition() - targetPos) < heightConfidence && Math.abs(ScissorRight.getCurrentPosition() - targetPos) < heightConfidence){
             Pressed = false;

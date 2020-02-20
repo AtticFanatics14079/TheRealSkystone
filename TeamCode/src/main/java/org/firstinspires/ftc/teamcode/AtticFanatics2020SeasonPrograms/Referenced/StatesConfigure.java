@@ -199,7 +199,7 @@ public class StatesConfigure {
 
         Motors[3].setDirection(DcMotor.Direction.REVERSE);
         Motors[4].setDirection(DcMotor.Direction.REVERSE);
-        ExtendGripper.setDirection(DcMotorSimple.Direction.REVERSE);
+        ExtendGripper.setDirection(DcMotor.Direction.REVERSE);
 
         /*imu = hwMap.get(BNO055IMU.class, "imu");
         BNO055IMU.Parameters parameters = new BNO055IMU.Parameters();
