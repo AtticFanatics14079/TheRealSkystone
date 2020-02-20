@@ -90,7 +90,7 @@ public class MacroThreads__SKETCH_DO_NOT_TRUST_TO_WORK_OR_DELETE extends Thread{
             ElapsedTime time = new ElapsedTime();
             while(time.milliseconds() < 500){}
             targetPos = levels[level = 2];
-            while(Math.abs(config.ScissorLeft.getCurrentPosition() - targetPos) > 100 && Math.abs(config.ScissorRight.getCurrentPosition() - targetPos) > 100) scissorP();
+            while(targetPos - config.ScissorLeft.getCurrentPosition() > 100 && targetPos - config.ScissorRight.getCurrentPosition() > 100) scissorP();
         }
         else {
             config.ExtendGripper.setTargetPosition(EXTEND_OUT);
