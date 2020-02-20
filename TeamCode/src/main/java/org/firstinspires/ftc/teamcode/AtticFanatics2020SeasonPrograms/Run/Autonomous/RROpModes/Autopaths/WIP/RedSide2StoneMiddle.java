@@ -12,6 +12,7 @@ import org.firstinspires.ftc.teamcode.AtticFanatics2020SeasonPrograms.Referenced
 import org.firstinspires.ftc.teamcode.AtticFanatics2020SeasonPrograms.Referenced.RoadRunner.DriveConstants;
 import org.firstinspires.ftc.teamcode.AtticFanatics2020SeasonPrograms.Referenced.RoadRunner.SampleMecanumDriveREV;
 import org.firstinspires.ftc.teamcode.AtticFanatics2020SeasonPrograms.Referenced.TeleOp.StatesTeleOpMecanum;
+import org.firstinspires.ftc.teamcode.AtticFanatics2020SeasonPrograms.Run.Autonomous.RROpModes.MacroThreads__SKETCH_DO_NOT_TRUST_TO_WORK_OR_DELETE;
 
 import java.util.prefs.NodeChangeEvent;
 
@@ -26,6 +27,10 @@ public class RedSide2StoneMiddle extends LinearOpMode {
         SampleMecanumDriveREV drive = new SampleMecanumDriveREV(hardwareMap);
         NoDriveConfigure mech = new NoDriveConfigure();
         mech.Configure(hardwareMap);
+        MacroThreads__SKETCH_DO_NOT_TRUST_TO_WORK_OR_DELETE grab1 = new MacroThreads__SKETCH_DO_NOT_TRUST_TO_WORK_OR_DELETE(MacroThreads__SKETCH_DO_NOT_TRUST_TO_WORK_OR_DELETE.Macros.PICKUP, 3, mech);
+        MacroThreads__SKETCH_DO_NOT_TRUST_TO_WORK_OR_DELETE stack1 = new MacroThreads__SKETCH_DO_NOT_TRUST_TO_WORK_OR_DELETE(MacroThreads__SKETCH_DO_NOT_TRUST_TO_WORK_OR_DELETE.Macros.STACK, 3, mech);
+        MacroThreads__SKETCH_DO_NOT_TRUST_TO_WORK_OR_DELETE grab2 = new MacroThreads__SKETCH_DO_NOT_TRUST_TO_WORK_OR_DELETE(MacroThreads__SKETCH_DO_NOT_TRUST_TO_WORK_OR_DELETE.Macros.PICKUP, 4, mech);
+        MacroThreads__SKETCH_DO_NOT_TRUST_TO_WORK_OR_DELETE stack2 = new MacroThreads__SKETCH_DO_NOT_TRUST_TO_WORK_OR_DELETE(MacroThreads__SKETCH_DO_NOT_TRUST_TO_WORK_OR_DELETE.Macros.STACK, 4, mech);
         Pose2d startPose = new Pose2d(-20.0,  -63.0, Math.toRadians(90.0));// changing this might make the path faster
         Pose2d ingest1 = new Pose2d(-36.0,-26.0, Math.toRadians(80.0));
         Pose2d ingest1stop = new Pose2d(-37, -13, Math.toRadians(90.0));
@@ -128,38 +133,29 @@ public class RedSide2StoneMiddle extends LinearOpMode {
         mech.IngesterMotor.setPower(0.6); //Off is the same but setPower(0)
         drive.followTrajectorySync(toStone1);
         drive.followTrajectorySync(ingestStone1);
-        mech.Gripper.setPosition(NoDriveConfigure.GRIPPER_CLOSED);
-        sleep(300);
+        grab1.start();
         drive.followTrajectorySync(toFoundation1);
-        mech.ExtendGripper.setTargetPosition(NoDriveConfigure.EXTEND_OUT);
+        stack1.start();
+        /*mech.ExtendGripper.setTargetPosition(NoDriveConfigure.EXTEND_OUT);
         mech.ExtendGripper.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         mech.ExtendGripper.setPower(1);
+        */
         mech.FoundationLeft.setPosition(NoDriveConfigure.LEFT_CLOSE);
         mech.FoundationRight.setPosition(NoDriveConfigure.RIGHT_CLOSE);
         sleep(500);
-        mech.Gripper.setPosition(NoDriveConfigure.GRIPPER_OPEN);
-        sleep(600);
-        mech.ExtendGripper.setTargetPosition(0);
         drive.followTrajectorySync(pullFoundation);
         mech.FoundationLeft.setPosition(NoDriveConfigure.LEFT_OPEN);
         mech.FoundationRight.setPosition(NoDriveConfigure.RIGHT_OPEN);
         sleep(500);
         drive.followTrajectorySync(toStone2);
         drive.followTrajectorySync(ingestStone2);
-        mech.Gripper.setPosition(NoDriveConfigure.GRIPPER_CLOSED);
-        sleep(300);
+        grab2.start();
         drive.followTrajectorySync(toFoundation2);
-        mech.ExtendGripper.setTargetPosition(NoDriveConfigure.EXTEND_OUT);
-        sleep(200);
-        mech.Gripper.setPosition(NoDriveConfigure.GRIPPER_OPEN);
-        sleep(600);
-        mech.ExtendGripper.setTargetPosition(0);
-        sleep(400);
+        stack2.start();
+        while(stack2.isAlive()){}
         drive.followTrajectorySync(park);
         mech.Gripper.setPosition(NoDriveConfigure.GRIPPER_OPEN);
         sleep(1000);
-
-
     }
 
     private double toRadians(double degrees){
