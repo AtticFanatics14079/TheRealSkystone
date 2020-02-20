@@ -67,7 +67,7 @@ public class MacroThreads__SKETCH_DO_NOT_TRUST_TO_WORK_OR_DELETE extends Thread{
     private void raise(){
         if(level == 3) { //aka stacking the first block
             targetPos = levels[2];
-            while(Math.abs(config.ScissorLeft.getCurrentPosition() - levels[2]) > 200 && Math.abs(config.ScissorRight.getCurrentPosition() - levels[2]) > 200) scissorP();
+            while(levels[2] - config.ScissorLeft.getCurrentPosition() > 200 && levels[2] - config.ScissorRight.getCurrentPosition() > 200) scissorP();
             config.ExtendGripper.setTargetPosition(EXTEND_OUT);
             config.ExtendGripper.setMode(DcMotor.RunMode.RUN_TO_POSITION);
             while(Math.abs(EXTEND_OUT - config.ExtendGripper.getCurrentPosition()) > 250) {}
