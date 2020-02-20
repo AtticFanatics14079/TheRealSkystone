@@ -59,6 +59,7 @@ public class MacroThreads__SKETCH_DO_NOT_TRUST_TO_WORK_OR_DELETE extends Thread{
         config.ScissorRight.setPower(0);
         config.ExtendGripper.setTargetPosition(EXTEND_TO_REST);
         config.ExtendGripper.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        config.ExtendGripper.setPower(1);
         while(Math.abs(EXTEND_TO_REST - config.ExtendGripper.getCurrentPosition()) > 100){}
         targetPos = levels[1];
         while(Math.abs(config.ScissorRight.getCurrentPosition() - targetPos) > 50 && Math.abs(config.ScissorLeft.getCurrentPosition() - targetPos) > 50) scissorP();
