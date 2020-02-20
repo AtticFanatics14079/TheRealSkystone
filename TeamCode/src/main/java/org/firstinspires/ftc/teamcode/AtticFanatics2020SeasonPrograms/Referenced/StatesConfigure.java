@@ -196,6 +196,7 @@ public class StatesConfigure {
         Motors[4].setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         ScissorLeft.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         ScissorRight.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        ExtendGripper.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
         Motors[3].setDirection(DcMotor.Direction.REVERSE);
         Motors[4].setDirection(DcMotor.Direction.REVERSE);

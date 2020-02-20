@@ -35,8 +35,13 @@ public class StatesTeleOp extends LinearOpMode {
         Drive.ScissorRight.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         Drive.ScissorLeft.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         Drive.ScissorRight.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        Drive.ExtendGripper.setTargetPosition(30);
+        Drive.ExtendGripper.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        while(!isStopRequested() && Drive.ExtendGripper.isBusy() && !isStarted()){}
+        Drive.ExtendGripper.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        Drive.ExtendGripper.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         waitForStart();
-        Drive.ingesterStates = StatesConfigure.Ingester.IN;
+        Drive.ingesterStates = StatesConfigure.Ingester.STOPPEDIN;
         //Drive.ingester.setPower(0.65);
         Drive.Capstone.setPosition(Drive.CAPSTONE_CLOSED);
         Drive.startTime();
