@@ -54,7 +54,9 @@ public class MacroThreads__SKETCH_DO_NOT_TRUST_TO_WORK_OR_DELETE extends Thread{
         ElapsedTime time = new ElapsedTime();
         while(time.milliseconds() < 350){}
         targetPos = levels[2];
-        while(Math.abs(config.ScissorRight.getCurrentPosition() - targetPos) > 50 && Math.abs(config.ScissorLeft.getCurrentPosition() - targetPos) > 50) scissorP();
+        while(targetPos - config.ScissorRight.getCurrentPosition() > 50 && targetPos - config.ScissorLeft.getCurrentPosition() > 50) scissorP();
+        config.ScissorLeft.setPower(0);
+        config.ScissorRight.setPower(0);
         config.ExtendGripper.setTargetPosition(EXTEND_TO_REST);
         config.ExtendGripper.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         while(Math.abs(EXTEND_TO_REST - config.ExtendGripper.getCurrentPosition()) > 100){}
@@ -68,6 +70,8 @@ public class MacroThreads__SKETCH_DO_NOT_TRUST_TO_WORK_OR_DELETE extends Thread{
         if(level == 3) { //aka stacking the first block
             targetPos = levels[2];
             while(levels[2] - config.ScissorLeft.getCurrentPosition() > 200 && levels[2] - config.ScissorRight.getCurrentPosition() > 200) scissorP();
+            config.ScissorLeft.setPower(0);
+            config.ScissorRight.setPower(0);
             config.ExtendGripper.setTargetPosition(EXTEND_OUT);
             config.ExtendGripper.setMode(DcMotor.RunMode.RUN_TO_POSITION);
             while(Math.abs(EXTEND_OUT - config.ExtendGripper.getCurrentPosition()) > 250) {}
