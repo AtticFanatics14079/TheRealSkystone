@@ -66,7 +66,7 @@ public class StatesConfigure {
     public static final int EXTEND_TO_CAP = 710;
     public static final int EXTEND_TO_REST = 430;
 
-    public static final double GRIPPER_CLOSED = 1;
+    public static final double GRIPPER_CLOSED = 0.95;
     public static final double GRIPPER_LOOSE = 0.7;
     public static final double GRIPPER_OPEN = 0.55;
     public static final double CAPSTONE_OPEN = 0.8;

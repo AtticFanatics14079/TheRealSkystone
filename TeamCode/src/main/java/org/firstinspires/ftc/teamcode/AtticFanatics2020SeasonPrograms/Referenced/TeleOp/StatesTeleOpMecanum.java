@@ -332,7 +332,9 @@ public class StatesTeleOpMecanum extends StatesConfigure {
             return;
         }
         if(status == Robot.BALANCED){
-            targetPos = levels[level = nextStack]-100;
+            targetPos = levels[level = nextStack] - level * 30 + 20;
+            //THESE ARE THE NUMBERS WE NEED TO MESS WITH, SHOULD BE CONSISTENT BETWEEN THESE TWO LINES.
+            //WE NEED A SCALING VALUE BECAUSE AS THE SCISSORS GET HIGHER THE SAME NUMBER OF TICKS MEANS LESS, AND THE STATIC VALUE IS TO ACCOMMODATE FOR THE LOWER LEVELS.
         }
         else {
             targetPos = levels[level = nextStack];
@@ -383,6 +385,9 @@ public class StatesTeleOpMecanum extends StatesConfigure {
                 targetPos = levels[level = nextStack] - (80 * level);
                 return;
             }
+            else if(status == Robot.BALANCED) targetPos = levels[level = nextStack] - level & 30 + 20;
+            //THESE ARE THE NUMBERS WE NEED TO MESS WITH, SHOULD BE CONSISTENT BETWEEN THESE TWO LINES.
+            //WE NEED A SCALING VALUE BECAUSE AS THE SCISSORS GET HIGHER THE SAME NUMBER OF TICKS MEANS LESS, AND THE STATIC VALUE IS TO ACCOMMODATE FOR THE LOWER LEVELS.
             else targetPos = levels[level = nextStack];
             if(Math.abs(ScissorLeft.getCurrentPosition() - targetPos) < 20 && Math.abs(ScissorRight.getCurrentPosition() - targetPos) < 20) {
                 Gripper.setPosition(GRIPPER_OPEN);
