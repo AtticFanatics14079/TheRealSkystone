@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.AtticFanatics2020SeasonPrograms.Run.Autonomous.RROpModes.Autopaths.WIP;
+package org.firstinspires.ftc.teamcode.AtticFanatics2020SeasonPrograms.Run.Autonomous.RROpModes.Autopaths;
 
 import com.acmerobotics.dashboard.config.Config;
 import com.acmerobotics.roadrunner.geometry.Pose2d;
@@ -84,11 +84,11 @@ public class RedSide2StoneVision extends LinearOpMode {
 
 
             Pose2d startPoselower = new Pose2d(-30.5,  -63.0, Math.toRadians(90.0));// changing this might make the path faster
-            Pose2d ingest1lower = new Pose2d(-43.0, -26.0, Math.toRadians(80.0));
+            Pose2d ingest1lower = new Pose2d(-42.5, -25.5, Math.toRadians(75.0));
             Pose2d ingest1stoplower = new Pose2d(-44, -13, Math.toRadians(90.0));
-            Pose2d ingest2lower = new Pose2d(-50.0, -20.0, Math.toRadians(90.0));
-            Pose2d ingest2stoplower = new Pose2d(-46.0, -23.5, Math.toRadians(180.0));
-            Pose2d ingest2drivelower = new Pose2d(-54.0, -25.0, Math.toRadians(180.0));
+            Pose2d ingest2lower = new Pose2d(-48.5, -18.0, Math.toRadians(90.0));
+            Pose2d ingest2stoplower = new Pose2d(-45.0, -23, Math.toRadians(180.0));
+            Pose2d ingest2drivelower = new Pose2d(-55.0, -26.0, Math.toRadians(180.0));
             Pose2d foundationgrablower = new Pose2d(48.0, -25.0, Math.toRadians(270.0));
             Pose2d foundationmidlower = new Pose2d(40.0, -40.0, Math.toRadians(225.0));
             Pose2d foundationdumplower = new Pose2d(20.0, -45.0, Math.toRadians(180.0));
@@ -98,8 +98,8 @@ public class RedSide2StoneVision extends LinearOpMode {
             Pose2d parkpositionlower = new Pose2d(4.0, -36.0, Math.toRadians(180.0));
 
             Pose2d startPosemiddle = new Pose2d(-30.5,  -63.0, Math.toRadians(90.0));// changing this might make the path faster
-            Pose2d ingest1middle = new Pose2d(-36.0,-26.5, Math.toRadians(75.0));
-            Pose2d ingest1stopmiddle = new Pose2d(-37, -13, Math.toRadians(90.0));
+        Pose2d ingest1middle = new Pose2d(-36.0,-25.5, Math.toRadians(70.0));
+        Pose2d ingest1stopmiddle = new Pose2d(-37, -13, Math.toRadians(90.0));
             Pose2d ingest2middle = new Pose2d(-55.0,-24.0, Math.toRadians(90.0));
             Pose2d ingest2stopmiddle = new Pose2d(-55.0,-14.0, Math.toRadians(90.0));
             Pose2d foundationgrabmiddle = new Pose2d(48.0,-25.0,Math.toRadians(270.0));
@@ -111,7 +111,7 @@ public class RedSide2StoneVision extends LinearOpMode {
             Pose2d parkpositionmiddle = new Pose2d(4.0,-36.0, Math.toRadians(180.0));
 
             Pose2d startPoseupper = new Pose2d(-30.5,  -63.0, Math.toRadians(90.0));// changing this might make the path faster
-            Pose2d ingest1upper = new Pose2d(-28.0,-26.0, Math.toRadians(80.0));
+            Pose2d ingest1upper = new Pose2d(-26.5,-25.5, Math.toRadians(60.0));
             Pose2d ingest1stopupper = new Pose2d(-29, -13, Math.toRadians(90.0));
             Pose2d ingest2upper = new Pose2d(-47.0,-24.0, Math.toRadians(90.0));
             Pose2d ingest2stopupper = new Pose2d(-47.0,-14.0, Math.toRadians(90.0));
@@ -367,7 +367,8 @@ public class RedSide2StoneVision extends LinearOpMode {
                     })
                     .splineTo(parkpositionupper)
                     .build();
-
+            telemetry.addLine("Trajectories Done Calculating");
+            telemetry.update();
         waitForStart();
         runtime.reset();
         phoneCam.pauseViewport(); // stops livestream video to save CPU resources

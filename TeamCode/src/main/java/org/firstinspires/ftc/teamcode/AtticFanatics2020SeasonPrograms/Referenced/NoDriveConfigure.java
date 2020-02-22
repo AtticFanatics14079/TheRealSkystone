@@ -40,7 +40,7 @@ public class NoDriveConfigure {
 
     public static final int EXTEND_OUT = 1100;
 
-    public static final int[] levels = {0,600,900,1500,1900,2300,2700, 3100, 3500, 3900};
+    public static final int[] levels = {0,600,1000,1500,1900,2300,2700, 3100, 3500, 3900};
 
     public enum Ingester{
         IN, OUT, STOPPEDIN, STOPPEDOUT
