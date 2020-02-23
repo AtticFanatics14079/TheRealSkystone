@@ -173,7 +173,7 @@ public class RedSide3StoneUpper extends LinearOpMode {
                 .splineTo(ingest3stop)
                 .build();
 
-        drive.setPoseEstimate(ingest3);
+        drive.setPoseEstimate(ingest3stop);
         Trajectory toFoundation3 = drive.trajectoryBuilder()
                 .reverse()
                 .splineTo(middlepassage)
@@ -210,6 +210,11 @@ public class RedSide3StoneUpper extends LinearOpMode {
                 })
                 .addMarker(2.1,() ->{
                     mech.ExtendGripper.setTargetPosition(0);
+                    return Unit.INSTANCE;
+                })
+                .addMarker(2.4,() ->{
+                    mech.ScissorLeft.setTargetPosition(NoDriveConfigure.levels[0]);
+                    mech.ScissorRight.setTargetPosition(NoDriveConfigure.levels[0]);
                     return Unit.INSTANCE;
                 })
                 .build();
