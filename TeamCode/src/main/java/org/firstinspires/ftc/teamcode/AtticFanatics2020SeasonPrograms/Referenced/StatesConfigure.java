@@ -68,11 +68,11 @@ public class StatesConfigure {
 
     public static final double GRIPPER_CLOSED = 0.95;
     public static final double GRIPPER_LOOSE = 0.7;
-    public static final double GRIPPER_OPEN = 0.55;
+    public static final double GRIPPER_OPEN = 0.45;
     public static final double CAPSTONE_OPEN = 0.8;
     public static final double CAPSTONE_CLOSED = 0.97;
 
-    public static final int[] levels = {0, 760, 1170, /*START OF STACKING LEVELS*/ 800, 1150, 1470, 1880, 2380, 3250, 3900, 4920, 6040, 7240, 8600, 10400, 12220};
+    public static final int[] levels = {0, 700, 1170, /*START OF STACKING LEVELS*/ 800, 1220, 1470, 1880, 2450, 3250, 3900, 4900, 6000, 7200, 8600, 10400, 12220};
 
     public enum Ingester{
         IN, OUT, STOPPEDIN, STOPPEDOUT
