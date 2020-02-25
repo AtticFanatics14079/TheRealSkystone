@@ -36,7 +36,7 @@ public class NoDriveConfigure {
     public static final double RIGHT_CLOSE = 0.87;
 
     public static final double GRIPPER_CLOSED = 1;
-    public static final double GRIPPER_OPEN = 0.2;
+    public static final double GRIPPER_OPEN = 0.45;
 
     public static final int EXTEND_OUT = 1100;
 

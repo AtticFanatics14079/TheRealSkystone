@@ -13,6 +13,8 @@ import org.firstinspires.ftc.teamcode.AtticFanatics2020SeasonPrograms.Referenced
 import kotlin.Unit;
 
 import static org.firstinspires.ftc.teamcode.AtticFanatics2020SeasonPrograms.Referenced.StatesConfigure.EXTEND_OUT;
+import static org.firstinspires.ftc.teamcode.AtticFanatics2020SeasonPrograms.Referenced.StatesConfigure.GRIPPER_CLOSED;
+import static org.firstinspires.ftc.teamcode.AtticFanatics2020SeasonPrograms.Referenced.StatesConfigure.GRIPPER_OPEN;
 
 //import org.firstinspires.ftc.teamcode.AtticFanatics2020SeasonPrograms.Referenced.RoadRunner.SampleMecanumDriveBase;
 
@@ -45,35 +47,35 @@ public class mechanismmovements3stone extends LinearOpMode {
 //        mech.ingester.setPower(0.5);
         drive.setPoseEstimate(Position1);
         Trajectory foundationshoving = drive.trajectoryBuilder()
-                .addMarker(() -> {
+                .addMarker(0, () -> {
                     mech.IngesterMotor.setPower(0);
                     mech.ScissorLeft.setTargetPosition(NoDriveConfigure.levels[2]);
                     mech.ScissorRight.setTargetPosition(NoDriveConfigure.levels[2]);
                     return Unit.INSTANCE;
                 })
-                .addMarker(1,() ->{
+                .addMarker(0.5,() ->{
                     mech.ExtendGripper.setTargetPosition(NoDriveConfigure.EXTEND_OUT);
                     return Unit.INSTANCE;
                 })
-                .addMarker(3,() ->{
+                .addMarker(0.9,() ->{
                     mech.ScissorLeft.setTargetPosition(NoDriveConfigure.levels[1]);
                     mech.ScissorRight.setTargetPosition(NoDriveConfigure.levels[1]);
                     return Unit.INSTANCE;
                 })
-                .addMarker(1.5,() ->{
+                .addMarker(1,() ->{
                     mech.Gripper.setPosition(NoDriveConfigure.GRIPPER_OPEN);
                     return Unit.INSTANCE;
                 })
-                .addMarker(1.6,() ->{
+                .addMarker(1.2,() ->{
                     mech.ScissorLeft.setTargetPosition(NoDriveConfigure.levels[2]);
                     mech.ScissorRight.setTargetPosition(NoDriveConfigure.levels[2]);
                     return Unit.INSTANCE;
                 })
-                .addMarker(2.1,() ->{
+                .addMarker(1.6,() ->{
                     mech.ExtendGripper.setTargetPosition(0);
                     return Unit.INSTANCE;
                 })
-                .addMarker(2.4,() ->{
+                .addMarker(2,() ->{
                     mech.ScissorLeft.setTargetPosition(NoDriveConfigure.levels[0]);
                     mech.ScissorRight.setTargetPosition(NoDriveConfigure.levels[0]);
                     return Unit.INSTANCE;
@@ -95,10 +97,11 @@ public class mechanismmovements3stone extends LinearOpMode {
                 .build();
 
         drive.setPoseEstimate(startPose);
+        mech.Gripper.setPosition(GRIPPER_CLOSED);
         waitForStart();
         drive.followTrajectorySync(foundationshoving);
         drive.followTrajectorySync(drive2);
-        drive.followTrajectorySync(drive3);
+        //drive.followTrajectorySync(drive3);
     }
 
     private double toRadians(double degrees){
