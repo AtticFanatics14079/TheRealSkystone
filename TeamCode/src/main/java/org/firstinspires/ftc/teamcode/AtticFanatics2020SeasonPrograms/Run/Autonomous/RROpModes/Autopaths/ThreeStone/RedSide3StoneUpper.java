@@ -78,6 +78,8 @@ public class RedSide3StoneUpper extends LinearOpMode {
         Trajectory pullFoundation = drive.trajectoryBuilder()
                 .addMarker(0.0,() ->{
                     mech.ExtendGripper.setTargetPosition(NoDriveConfigure.EXTEND_OUT);
+                    mech.ExtendGripper.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+                    mech.ExtendGripper.setPower(1);
                     return Unit.INSTANCE;
                 })
                 .addMarker(0.2,() ->{
