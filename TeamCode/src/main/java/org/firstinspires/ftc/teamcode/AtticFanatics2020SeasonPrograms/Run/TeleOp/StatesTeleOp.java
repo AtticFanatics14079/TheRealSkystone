@@ -40,6 +40,10 @@ public class StatesTeleOp extends LinearOpMode {
         while(!isStopRequested() && Drive.ExtendGripper.isBusy() && !isStarted()){}
         Drive.ExtendGripper.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         Drive.ExtendGripper.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        while(!isStopRequested()) {
+            telemetry.addData("Pressed: ", Drive.BlockSense.getValue() > 0);
+            telemetry.update();
+        }
         waitForStart();
         Drive.ingesterStates = StatesConfigure.Ingester.STOPPEDIN;
         //Drive.ingester.setPower(0.65);

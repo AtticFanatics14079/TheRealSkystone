@@ -9,6 +9,7 @@ import com.qualcomm.robotcore.hardware.DcMotorImplEx;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
+import com.qualcomm.robotcore.hardware.TouchSensor;
 import com.qualcomm.robotcore.hardware.VoltageSensor;
 
 import org.firstinspires.ftc.robotcore.external.Func;
@@ -53,6 +54,8 @@ public class StatesConfigure {
     public VoltageSensor voltSense;
 
     public DcMotorImplEx ingester;
+
+    public TouchSensor BlockSense;
 
     public boolean Configured = false;
 
@@ -188,6 +191,7 @@ public class StatesConfigure {
         Gripper = hwMap.get(Servo.class, "gripper");
         ExtendGripper = hwMap.get(DcMotorImplEx.class, "extend_gripper");
         Capstone = hwMap.get(Servo.class, "capstone_servo");
+        BlockSense = hwMap.get(TouchSensor.class, "block_sensor");
         //voltSense = hwMap.get(VoltageSensor.class, "Motor Controller 1"); //I have no idea what the voltage sensor name is so...
 
         Motors[1].setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);

@@ -144,10 +144,6 @@ public class RedSide2StoneVision extends LinearOpMode {
                         mech.IngesterMotor.setPower(0);
                         mech.ScissorLeft.setTargetPosition(NoDriveConfigure.levels[2]);
                         mech.ScissorRight.setTargetPosition(NoDriveConfigure.levels[2]);
-                        mech.ScissorLeft.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-                        mech.ScissorRight.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-                        mech.ScissorLeft.setPower(1);
-                        mech.ScissorRight.setPower(1);
                         return Unit.INSTANCE;
                     })
                     .strafeTo(new Vector2d(middlepassagelower.getX()+40, middlepassagelower.getY()))
@@ -163,6 +159,10 @@ public class RedSide2StoneVision extends LinearOpMode {
                         mech.IngesterMotor.setPower(0.5);
                         mech.ScissorLeft.setTargetPosition(NoDriveConfigure.levels[0]);
                         mech.ScissorRight.setTargetPosition(NoDriveConfigure.levels[0]);
+                        mech.ScissorLeft.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+                        mech.ScissorRight.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+                        mech.ScissorLeft.setPower(1);
+                        mech.ScissorRight.setPower(1);
                         return Unit.INSTANCE;
                     })
                     .splineTo(foundationdumplower)
@@ -228,10 +228,6 @@ public class RedSide2StoneVision extends LinearOpMode {
                     mech.IngesterMotor.setPower(0);
                     mech.ScissorLeft.setTargetPosition(NoDriveConfigure.levels[2]);
                     mech.ScissorRight.setTargetPosition(NoDriveConfigure.levels[2]);
-                    mech.ScissorLeft.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-                    mech.ScissorRight.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-                    mech.ScissorLeft.setPower(1);
-                    mech.ScissorRight.setPower(1);
                     return Unit.INSTANCE;
                 })
                 .strafeTo(new Vector2d(middlepassagemiddle.getX()+40, middlepassagemiddle.getY()))
@@ -308,10 +304,6 @@ public class RedSide2StoneVision extends LinearOpMode {
                         mech.IngesterMotor.setPower(0);
                         mech.ScissorLeft.setTargetPosition(NoDriveConfigure.levels[2]);
                         mech.ScissorRight.setTargetPosition(NoDriveConfigure.levels[2]);
-                        mech.ScissorLeft.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-                        mech.ScissorRight.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-                        mech.ScissorLeft.setPower(1);
-                        mech.ScissorRight.setPower(1);
                         return Unit.INSTANCE;
                     })
                     .strafeTo(new Vector2d(middlepassageupper.getX()+40, middlepassageupper.getY()))
@@ -369,6 +361,25 @@ public class RedSide2StoneVision extends LinearOpMode {
                     .build();
             telemetry.addLine("Trajectories Done Calculating");
             telemetry.update();
+        ElapsedTime time = new ElapsedTime();
+        double prevTime = time.seconds();
+        while(time.seconds() - prevTime < 1) {
+            mech.ScissorLeft.setPower(-0.2);
+            mech.ScissorRight.setPower(-0.2);
+        }
+        while(time.seconds() - prevTime < 2) {
+           mech.ScissorLeft.setPower(0);
+           mech.ScissorRight.setPower(0);
+        }
+       mech.ScissorLeft.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+       mech.ScissorRight.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+       mech.ScissorLeft.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+       mech.ScissorRight.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+       mech.ExtendGripper.setTargetPosition(30);
+       mech.ExtendGripper.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        while(!isStopRequested() &&mech.ExtendGripper.isBusy() && !isStarted()){}
+       mech.ExtendGripper.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+       mech.ExtendGripper.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         waitForStart();
         runtime.reset();
         phoneCam.pauseViewport(); // stops livestream video to save CPU resources

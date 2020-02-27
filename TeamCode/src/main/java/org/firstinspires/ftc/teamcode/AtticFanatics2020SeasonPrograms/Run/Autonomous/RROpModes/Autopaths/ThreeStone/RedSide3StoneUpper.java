@@ -48,8 +48,8 @@ public class RedSide3StoneUpper extends LinearOpMode {
         Pose2d foundationmid = new Pose2d (40.0, -40.0, Math.toRadians(225.0));
         Pose2d foundationdump = new Pose2d(20.0,-45.0,Math.toRadians(180.0));
         Pose2d foundationpickup = new Pose2d (22.0,-35.0,Math.toRadians(180.0));
-        Pose2d foundationshove = new Pose2d(51.0,-40.0,Math.toRadians(180.0));
-        Pose2d middlepassage = new Pose2d(0.0, -35.0, Math.toRadians(180.0));
+        Pose2d foundationshove = new Pose2d(51.0,-41.0,Math.toRadians(180.0));
+        Pose2d middlepassage = new Pose2d(0.0, -37.0, Math.toRadians(180.0));
         Pose2d parkposition = new Pose2d(4.0,-36.0, Math.toRadians(180.0));
 
 
@@ -68,25 +68,24 @@ public class RedSide3StoneUpper extends LinearOpMode {
                 })
                 .reverse()
                 .splineTo(middlepassage)
-                .addMarker(0.0, () -> {
+                .addMarker(() -> {
                     mech.IngesterMotor.setPower(0);
                     mech.ScissorLeft.setTargetPosition(mech.levels[2]);
                     mech.ScissorRight.setTargetPosition(mech.levels[2]);
                     return Unit.INSTANCE;
                 })
-                .addMarker(0.6,() ->{
+                .strafeTo(new Vector2d(middlepassage.getX()+40, middlepassage.getY()))
+                .addMarker(() ->{
                     mech.ExtendGripper.setTargetPosition(mech.EXTEND_OUT);
                     return Unit.INSTANCE;
                 })
-                .strafeTo(new Vector2d(middlepassage.getX()+40, middlepassage.getY()))
                 .splineTo(new Pose2d(foundationgrab.getX(), foundationgrab.getY()-8, foundationgrab.getHeading()))
                 .strafeTo(new Vector2d(foundationgrab.getX(),foundationgrab.getY()))
                 .build();
 
-
         drive.setPoseEstimate(foundationgrab);
         Trajectory pullFoundation = drive.trajectoryBuilder()
-                .addMarker(0.0, () ->{
+                .addMarker(() ->{
                     mech.ScissorLeft.setTargetPosition(mech.levels[1]);
                     mech.ScissorRight.setTargetPosition(mech.levels[1]);
                     return Unit.INSTANCE;
@@ -156,34 +155,30 @@ public class RedSide3StoneUpper extends LinearOpMode {
                 })
                 .splineTo(middlepassage)
                 .splineTo(ingest2) // MIDDLE STONE POSITION
+                .addMarker(() -> {
+                    mech.Gripper.setPosition(mech.GRIPPER_CLOSED);
+                    return Unit.INSTANCE;
+                })
                 .build();
 
         drive.setPoseEstimate(ingest2);
         Trajectory toFoundation2 = drive.trajectoryBuilder()
                 .reverse()
                 .addMarker(() -> {
-                    mech.Gripper.setPosition(mech.GRIPPER_CLOSED);
+                    mech.ScissorLeft.setTargetPosition(mech.levels[1]);
+                    mech.ScissorLeft.setTargetPosition(mech.levels[1]);
                     return Unit.INSTANCE;
                 })
                 .splineTo(middlepassage)
-                .addMarker(0.0, () -> {
+                .addMarker(() -> {
                     mech.IngesterMotor.setPower(0);
                     mech.ScissorLeft.setTargetPosition(mech.levels[2]);
                     mech.ScissorRight.setTargetPosition(mech.levels[2]);
                     return Unit.INSTANCE;
                 })
-                .addMarker(0.7,() ->{
-                    mech.ExtendGripper.setTargetPosition(mech.EXTEND_OUT);
-                    return Unit.INSTANCE;
-                })
                 .splineTo(foundationpickup)
-                .addMarker(0.5, () ->{
-                    mech.ScissorLeft.setTargetPosition(mech.levels[1]);
-                    mech.ScissorRight.setTargetPosition(mech.levels[1]);
-                    return Unit.INSTANCE;
-                })
-                .addMarker(0.9,() ->{
-                    mech.Gripper.setPosition(mech.GRIPPER_OPEN);
+                .addMarker(() ->{
+                    mech.ExtendGripper.setTargetPosition(mech.EXTEND_OUT);
                     return Unit.INSTANCE;
                 })
                 /*.addMarker(0.4, () -> {
@@ -225,21 +220,20 @@ public class RedSide3StoneUpper extends LinearOpMode {
 
         drive.setPoseEstimate(foundationpickup);
         Trajectory toStone3 = drive.trajectoryBuilder()
-                .splineTo(middlepassage)
                 .addMarker(() ->{
-                    mech.ScissorLeft.setTargetPosition(mech.levels[2]);
-                    mech.ScissorRight.setTargetPosition(mech.levels[2]);
+                    mech.Gripper.setPosition(mech.GRIPPER_OPEN);
                     return Unit.INSTANCE;
                 })
-                .addMarker(0.3,() ->{
+                .addMarker(() ->{
                     mech.ExtendGripper.setTargetPosition(0);
                     return Unit.INSTANCE;
                 })
-                .addMarker(0.5,() ->{
+                .addMarker(1.0, () ->{
                     mech.ScissorLeft.setTargetPosition(mech.levels[0]);
                     mech.ScissorRight.setTargetPosition(mech.levels[0]);
                     return Unit.INSTANCE;
                 })
+                .splineTo(middlepassage)
                 .splineTo(ingest3)
                 .splineTo(ingest3stop)
                 .build();
@@ -252,14 +246,14 @@ public class RedSide3StoneUpper extends LinearOpMode {
                     return Unit.INSTANCE;
                 })
                 .splineTo(middlepassage)
-                .splineTo(foundationpickup)
                 .addMarker(() -> {
                     mech.IngesterMotor.setPower(0);
-                    mech.ScissorLeft.setTargetPosition(mech.levels[2]);
-                    mech.ScissorRight.setTargetPosition(mech.levels[2]);
+                    mech.ScissorLeft.setTargetPosition(mech.levels[5]);
+                    mech.ScissorRight.setTargetPosition(mech.levels[5]);
                     return Unit.INSTANCE;
                 })
-                .addMarker(0.7,() ->{
+                .splineTo(foundationpickup)
+                .addMarker(() ->{
                     mech.ExtendGripper.setTargetPosition(mech.EXTEND_OUT);
                     return Unit.INSTANCE;
                 })
@@ -267,32 +261,21 @@ public class RedSide3StoneUpper extends LinearOpMode {
 
         drive.setPoseEstimate(foundationpickup);
         Trajectory foundationshoving = drive.trajectoryBuilder()
-                .reverse()
-                .splineTo(foundationshove)
-                .addMarker(0.0, () ->{
-                    mech.ScissorLeft.setTargetPosition(mech.levels[1]);
-                    mech.ScissorRight.setTargetPosition(mech.levels[1]);
-                    return Unit.INSTANCE;
-                })
-                .addMarker(0.2,() ->{
-                    mech.Gripper.setPosition(mech.GRIPPER_OPEN);
-                    return Unit.INSTANCE;
-                })
-                .addMarker(0.6, () ->{
-                    mech.ScissorLeft.setTargetPosition(mech.levels[2]);
-                    mech.ScissorRight.setTargetPosition(mech.levels[2]);
-                    return Unit.INSTANCE;
-                })
-                .addMarker(1.0,() ->{
+                .addMarker(1.9,() ->{
                     mech.ExtendGripper.setTargetPosition(0);
                     return Unit.INSTANCE;
                 })
-                .addMarker(1.4,() ->{
+                .addMarker(2.1,() ->{
                     mech.ScissorLeft.setTargetPosition(mech.levels[0]);
                     mech.ScissorRight.setTargetPosition(mech.levels[0]);
                     return Unit.INSTANCE;
                 })
-
+                .addMarker(1.5, () ->{
+                    mech.Gripper.setPosition(mech.GRIPPER_OPEN);
+                    return Unit.INSTANCE;
+                })
+                .reverse()
+                .splineTo(foundationshove)
                 /*.addMarker(() -> {
                     mech.IngesterMotor.setPower(0);
                     mech.ScissorLeft.setTargetPosition(mech.levels[2]);
@@ -339,7 +322,29 @@ public class RedSide3StoneUpper extends LinearOpMode {
 
         drive.setPoseEstimate(startPose);
         mech.Gripper.setPosition(mech.GRIPPER_OPEN);
+        ElapsedTime time = new ElapsedTime();
+        double prevTime = time.seconds();
+        while(time.seconds() - prevTime < 1) {
+            mech.ScissorLeft.setPower(-0.2);
+            mech.ScissorRight.setPower(-0.2);
+        }
+        while(time.seconds() - prevTime < 2) {
+            mech.ScissorLeft.setPower(0);
+            mech.ScissorRight.setPower(0);
+        }
+        mech.ScissorLeft.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        mech.ScissorRight.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        mech.ScissorLeft.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        mech.ScissorRight.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        mech.ScissorRight.setTargetPosition(0);
+        mech.ScissorLeft.setTargetPosition(0);
+        mech.ScissorRight.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        mech.ScissorLeft.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        mech.ScissorRight.setPower(1);
+        mech.ScissorLeft.setPower(1);
         mech.ExtendGripper.setTargetPosition(0);
+        mech.ExtendGripper.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        mech.ExtendGripper.setPower(0.8);
         waitForStart();
         mech.IngesterMotor.setPower(0.5); //Off is the same but setPower(0)
         drive.followTrajectorySync(toStone1);

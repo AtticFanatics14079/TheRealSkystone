@@ -20,7 +20,7 @@ public class StatesTeleOpMecanum extends StatesConfigure {
 
     public double GAS, straightGas, sideGas, turnGas, startTime = 0;
 
-    public boolean justCapped = false, manualCap = false, lock = false, overloadPressed = false, overloading = false, manual = false, CapPressed = false, statusPressed = false, Pressed = false, grabbing = false, stacking = false, blockdropped = false, IngestPressed, Capping = false, blockPickedUp;
+    public boolean blockIn = false, justCapped = false, manualCap = false, lock = false, overloadPressed = false, overloading = false, manual = false, CapPressed = false, statusPressed = false, Pressed = false, grabbing = false, stacking = false, blockdropped = false, IngestPressed, Capping = false, blockPickedUp;
 
     public ElapsedTime time;
 
@@ -233,7 +233,7 @@ public class StatesTeleOpMecanum extends StatesConfigure {
                 }
                 break;
             case NOACTION:
-                if(G1.a || G2.b){
+                if(G1.a || G2.b || BlockSense.isPressed()){
                     targetPos = levels[level = 0];
                     Gripper.setPosition(GRIPPER_OPEN);
                     Macro = Macros.GRABBING;
