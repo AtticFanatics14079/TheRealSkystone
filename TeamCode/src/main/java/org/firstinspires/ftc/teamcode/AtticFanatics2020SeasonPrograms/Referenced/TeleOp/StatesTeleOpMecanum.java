@@ -311,6 +311,8 @@ public class StatesTeleOpMecanum extends StatesConfigure {
                     Macro = Macros.GRABBED;
                     Pressed = false;
                     blockPickedUp = false;
+                    ingesterStates = Ingester.IN;
+                    ingester.setPower(0.65);
                 }
             }
         }
@@ -338,7 +340,7 @@ public class StatesTeleOpMecanum extends StatesConfigure {
         else {
             targetPos = levels[level = nextStack];
         }
-        int heightConfidence = 100;
+        int heightConfidence = 150;
         if(status == Robot.STATIONARY && nextStack > 6) heightConfidence = 100 + level * 25; //If stationary, arc up/sideways movement.
         if(Math.abs(ScissorLeft.getCurrentPosition() - targetPos) < heightConfidence && Math.abs(ScissorRight.getCurrentPosition() - targetPos) < heightConfidence){
             Pressed = false;
@@ -352,7 +354,7 @@ public class StatesTeleOpMecanum extends StatesConfigure {
             if(Math.abs(ScissorLeft.getCurrentPosition() - targetPos) < 50 && Math.abs(ScissorRight.getCurrentPosition() - targetPos) < 50) {
                 Gripper.setPosition(GRIPPER_OPEN);
                 if (startTime == 0) startTime = time.milliseconds();
-                if (time.milliseconds() - startTime > 500) {
+                if (time.milliseconds() - startTime > 800) {
                     targetPos = levels[level = 2];
                     blockdropped = true;
                     startTime = 0;
@@ -362,24 +364,19 @@ public class StatesTeleOpMecanum extends StatesConfigure {
         else if(blockdropped){
             if(stack == Stacking.CAPPING) cap();
             else {
-                if(justCapped) targetPos = levels[level]; //This is untested, if there's an issue tell me
-                if(Math.abs(ScissorLeft.getCurrentPosition() - targetPos) < 150 && Math.abs(ScissorRight.getCurrentPosition() - targetPos) < 150) {
-                    extend(false);
-                    int retractConfidence = 150;
-                    if (status == Robot.STATIONARY && level > 5)
-                        retractConfidence = 400 + 20 * level;
-                    if (Math.abs(ExtendGripper.getCurrentPosition()) < retractConfidence) {
-                        targetPos = levels[level = 0];
-                        Macro = Macros.NOACTION;
-                        blockdropped = false;
-                        Pressed = false;
-                        if (nextStack < levels.length - 1) nextStack++;
-                        justCapped = true;
-                    }
+                extend(false);
+                int retractConfidence = 150;
+                if(status == Robot.STATIONARY && level > 5) retractConfidence = 600 + 20 * level;
+                if(Math.abs(ExtendGripper.getCurrentPosition()) < retractConfidence) {
+                    targetPos = levels[level = 0];
+                    Macro = Macros.NOACTION;
+                    blockdropped = false;
+                    Pressed = false;
+                    if(nextStack < levels.length - 1) nextStack++;
                 }
             }
         }
-        else if(Math.abs(EXTEND_OUT - ExtendGripper.getCurrentPosition()) < 30){
+        else if(Math.abs(EXTEND_OUT - ExtendGripper.getCurrentPosition()) < 60){
             if(stack == Stacking.LOCKING) {
                 targetPos = levels[level = nextStack] - (80 * level);
                 return;
@@ -391,7 +388,7 @@ public class StatesTeleOpMecanum extends StatesConfigure {
             if(Math.abs(ScissorLeft.getCurrentPosition() - targetPos) < 20 && Math.abs(ScissorRight.getCurrentPosition() - targetPos) < 20) {
                 Gripper.setPosition(GRIPPER_OPEN);
                 if(startTime == 0) startTime = time.milliseconds();
-                if(time.milliseconds() - startTime > 500){
+                if(time.milliseconds() - startTime > 800){
                     blockdropped = true;
                     startTime = 0;
                 }
@@ -402,32 +399,23 @@ public class StatesTeleOpMecanum extends StatesConfigure {
     private void cap(){
         extendCap();
         if(!manualCap) targetPos = levels[level] - (level * 100) + 150;
-        if(Math.abs(EXTEND_TO_CAP - ExtendGripper.getCurrentPosition()) < 50 && Math.abs(ScissorLeft.getCurrentPosition() - targetPos) < 20 && Math.abs(ScissorRight.getCurrentPosition() - targetPos) < 20) {
+        if(Math.abs(EXTEND_TO_CAP - ExtendGripper.getCurrentPosition()) < 50) {
             Capstone.setPosition(CAPSTONE_OPEN);
             if(startTime == 0) startTime = time.milliseconds();
             if(time.milliseconds() - startTime > 800) {
                 startTime = 0;
                 stack = Stacking.NORMAL;
-                if(manualCap) extend(false);
                 manualCap = false;
-                justCapped = true;
+                extend(false);
             }
         }
     }
 
     private void extend(boolean Out){
-        if(Out) {
-            ExtendGripper.setTargetPosition(EXTEND_OUT);
-            ExtendGripper.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-            //ExtendGripper.setPositionPIDFCoefficients(10);
-            ExtendGripper.setPower(1);
-        }
-        else {
-            ExtendGripper.setTargetPosition(0);
-            ExtendGripper.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-            //ExtendGripper.setPositionPIDFCoefficients(15);
-            ExtendGripper.setPower(1);
-        }
+        if(Out) ExtendGripper.setTargetPosition(EXTEND_OUT);
+        else ExtendGripper.setTargetPosition(10);
+        ExtendGripper.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        ExtendGripper.setPower(1);
     }
 
     private void extendCap(){
