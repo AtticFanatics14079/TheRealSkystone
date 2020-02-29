@@ -333,7 +333,7 @@ public class StatesTeleOpMecanum extends StatesConfigure {
             return;
         }
         if(status == Robot.BALANCED){
-            targetPos = levels[level = nextStack] - level * 39 + 135;
+            targetPos = levels[level = nextStack] - level * 38 + 135;
             //THESE ARE THE NUMBERS WE NEED TO MESS WITH, SHOULD BE CONSISTENT BETWEEN THESE TWO LINES.
             //WE NEED A SCALING VALUE BECAUSE AS THE SCISSORS GET HIGHER THE SAME NUMBER OF TICKS MEANS LESS, AND THE STATIC VALUE IS TO ACCOMMODATE FOR THE LOWER LEVELS.
         }
@@ -372,6 +372,10 @@ public class StatesTeleOpMecanum extends StatesConfigure {
                     Macro = Macros.NOACTION;
                     blockdropped = false;
                     Pressed = false;
+                    if(status == Robot.BALANCED) {
+                        ingesterStates = Ingester.IN;
+                        ingester.setPower(0.65);
+                    }
                     if(nextStack < levels.length - 1) nextStack++;
                 }
             }
@@ -381,7 +385,7 @@ public class StatesTeleOpMecanum extends StatesConfigure {
                 targetPos = levels[level = nextStack] - (80 * level);
                 return;
             }
-            else if(status == Robot.BALANCED) targetPos = levels[level = nextStack] - level * 39 + 135;
+            else if(status == Robot.BALANCED) targetPos = levels[level = nextStack] - level * 38 + 135;
                 //THESE ARE THE NUMBERS WE NEED TO MESS WITH, SHOULD BE CONSISTENT BETWEEN THESE TWO LINES.
                 //WE NEED A SCALING VALUE BECAUSE AS THE SCISSORS GET HIGHER THE SAME NUMBER OF TICKS MEANS LESS, AND THE STATIC VALUE IS TO ACCOMMODATE FOR THE LOWER LEVELS.
             else targetPos = levels[level = nextStack];
