@@ -1,22 +1,22 @@
-package org.firstinspires.ftc.teamcode.AtticFanatics2020SeasonPrograms.Referenced.Multithread.NewMultithreadRecord.WritingProcesses;
+package org.firstinspires.ftc.teamcode.AtticFanatics2020SeasonPrograms.Referenced.Multithread.DriveObjectLibrary;
 
 public class ValueStorage {
 
-    private volatile Double Time = 0.0; //In milliseconds
+    private volatile double Time = 0.0; //In milliseconds
 
     private double[] hardwareValues;
 
     private double[] runValues; //Same values as above, but used after algorithms
     //determine what the power should be.
 
-    private boolean[] changedParts; //Same as hardwareValues. Tells which parts
+    private Boolean[] changedParts; //Same as hardwareValues. Tells which parts
     // should be updated.
 
     public volatile boolean receivedDesiredVals = false;
 
     public void setup(int size){
         hardwareValues = runValues = new double[size];
-        changedParts = new boolean[size];
+        changedParts = new Boolean[size];
     }
 
     public synchronized double[] hardware(boolean writing, double[] values){
@@ -27,9 +27,10 @@ public class ValueStorage {
         return hardwareValues;
     }
 
-    public synchronized boolean[] changedParts(boolean Writing, boolean[] desiredParts){
+    public synchronized Boolean[] changedParts(boolean Writing, Boolean[] desiredParts){
         if (Writing) {
-            changedParts = desiredParts.clone();
+            if(receivedDesiredVals) for(int i = 0; i < changedParts.length; i++) changedParts[i] = false;
+            for(int i = 0; i < desiredParts.length; i++) if(desiredParts[i] != null) changedParts[i] = desiredParts[i];
             receivedDesiredVals = false;
             return null;
         }
@@ -37,11 +38,12 @@ public class ValueStorage {
         return changedParts;
     }
 
-    public synchronized double[] runValues(boolean Writing, double[] values){
+    public synchronized double[] runValues(boolean Writing, Double[] values){
         if(Writing) {
-            runValues = values.clone();
+            for(int i = 0; i < values.length; i++) if(values[i] != null) runValues[i] = values[i];
             return null;
         }
+        System.out.println(runValues[0]);
         return runValues;
     }
 

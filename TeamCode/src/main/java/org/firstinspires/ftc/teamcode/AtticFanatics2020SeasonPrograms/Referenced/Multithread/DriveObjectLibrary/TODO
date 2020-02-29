@@ -1,0 +1,16 @@
+- Implement waiting for previous action in Sequence
+- Get IMU set up, possibly incorporate IMU turning
+- Get touch sensors set up
+- At this point, clean up recording and re-running software. Should not be much work, but optimize and use new DriveObjects more liberally
+- Add ways for recording software to measure target positions easier
+
+Known potential issues:
+- No way to recognize end of servo movement (?)
+- Not sure how to implement setting multiple positions (!)
+- Need to eventually allow Action and Sequence to take multiple actions at once (!)
+- Starting a thread while one is already active will result in weird results for a part (!)
+
+Shortcuts:
+- -> means implies
+- (?) -> not sure if needed
+- (!) -> done, but unsure if works
