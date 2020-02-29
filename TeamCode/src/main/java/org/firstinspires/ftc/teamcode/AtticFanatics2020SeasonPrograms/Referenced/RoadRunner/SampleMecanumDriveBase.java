@@ -1,6 +1,7 @@
 package org.firstinspires.ftc.teamcode.AtticFanatics2020SeasonPrograms.Referenced.RoadRunner;
 
 import static org.firstinspires.ftc.teamcode.AtticFanatics2020SeasonPrograms.Referenced.RoadRunner.DriveConstants.BASE_CONSTRAINTS;
+import static org.firstinspires.ftc.teamcode.AtticFanatics2020SeasonPrograms.Referenced.RoadRunner.DriveConstants.GAS_CONSTRAINTS;
 import static org.firstinspires.ftc.teamcode.AtticFanatics2020SeasonPrograms.Referenced.RoadRunner.DriveConstants.TRACK_WIDTH;
 import static org.firstinspires.ftc.teamcode.AtticFanatics2020SeasonPrograms.Referenced.RoadRunner.DriveConstants.kA;
 import static org.firstinspires.ftc.teamcode.AtticFanatics2020SeasonPrograms.Referenced.RoadRunner.DriveConstants.kV;
@@ -57,7 +58,7 @@ public abstract class SampleMecanumDriveBase extends MecanumDrive {
     private MotionProfile turnProfile;
     private double turnStart;
 
-    private DriveConstraints constraints;
+    private DriveConstraints constraints, gasConstraints;
     private TrajectoryFollower follower;
 
     private List<Double> lastWheelPositions;
@@ -77,11 +78,16 @@ public abstract class SampleMecanumDriveBase extends MecanumDrive {
         turnController.setInputBounds(0, 2 * Math.PI);
 
         constraints = new MecanumConstraints(BASE_CONSTRAINTS, TRACK_WIDTH);
+        gasConstraints = new MecanumConstraints(GAS_CONSTRAINTS,TRACK_WIDTH);
         follower = new HolonomicPIDVAFollower(TRANSLATIONAL_PID, TRANSLATIONAL_PID, HEADING_PID);
     }
 
     public TrajectoryBuilder trajectoryBuilder() {
         return new TrajectoryBuilder(getPoseEstimate(), constraints);
+    }
+
+    public TrajectoryBuilder GasTrajectoryBuilder() {
+        return new TrajectoryBuilder(getPoseEstimate(), gasConstraints);
     }
 
     public void turn(double angle) {

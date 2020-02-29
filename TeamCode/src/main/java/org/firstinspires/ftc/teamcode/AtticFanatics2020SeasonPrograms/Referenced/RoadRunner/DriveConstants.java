@@ -66,11 +66,15 @@ public class DriveConstants {
      * acceleration values are required, and the jerk values are optional (setting a jerk of 0.0
      * forces acceleration-limited profiling).
      */
-    public static DriveConstraints BASE_CONSTRAINTS = new DriveConstraints(
+    public static DriveConstraints GAS_CONSTRAINTS = new DriveConstraints(
             50.0, 30.0, 0.0,
             Math.toRadians(120.0), Math.toRadians(90.0), 0.0
     );
 
+    public static DriveConstraints BASE_CONSTRAINTS = new DriveConstraints(
+            30.0, 20.0, 0.0,
+            Math.toRadians(120.0), Math.toRadians(90.0), 0.0
+    );
 
     public static double encoderTicksToInches(double ticks) {
         return WHEEL_RADIUS * 2 * Math.PI * GEAR_RATIO * ticks / MOTOR_CONFIG.getTicksPerRev();
