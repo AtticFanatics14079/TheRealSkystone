@@ -375,11 +375,15 @@ public class RedSide2StoneVision extends LinearOpMode {
        mech.ScissorRight.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
        mech.ScissorLeft.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
        mech.ScissorRight.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-       mech.ExtendGripper.setTargetPosition(30);
+       mech.ScissorLeft.setTargetPosition(0);
+       mech.ScissorRight.setTargetPosition(0);
+       mech.ScissorLeft.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+       mech.ScissorRight.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+       mech.ScissorLeft.setPower(1);
+       mech.ScissorRight.setPower(1);
+       mech.ExtendGripper.setTargetPosition(0);
        mech.ExtendGripper.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        while(!isStopRequested() &&mech.ExtendGripper.isBusy() && !isStarted()){}
-       mech.ExtendGripper.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-       mech.ExtendGripper.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+       mech.ExtendGripper.setPower(0.8);
         waitForStart();
         runtime.reset();
         phoneCam.pauseViewport(); // stops livestream video to save CPU resources
