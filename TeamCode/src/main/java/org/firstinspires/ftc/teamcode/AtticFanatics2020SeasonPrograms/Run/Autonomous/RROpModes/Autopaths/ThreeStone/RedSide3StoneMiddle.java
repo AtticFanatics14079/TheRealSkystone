@@ -22,30 +22,17 @@ public class RedSide3StoneMiddle extends LinearOpMode {
         SampleMecanumDriveREV drive = new SampleMecanumDriveREV(hardwareMap);
         NoDriveConfigure mech = new NoDriveConfigure();
         mech.Configure(hardwareMap);
-        mech.ScissorLeft.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        mech.ScissorRight.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        mech.ScissorLeft.setTargetPosition(0);
-        mech.ScissorRight.setTargetPosition(0);
-        mech.ScissorLeft.setPower(1);
-        mech.ScissorRight.setPower(1);
-        mech.ScissorLeft.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        mech.ScissorRight.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        mech.ExtendGripper.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        mech.ExtendGripper.setTargetPosition(0);
-        mech.ExtendGripper.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        mech.ExtendGripper.setPower(0.8);
-
 
         Pose2d startPose = new Pose2d(-30.5,  -63.0, Math.toRadians(90.0));// changing this might make the path faster
         Pose2d ingest1 = new Pose2d(-34.5,-25.5, Math.toRadians(60.0));
-        Pose2d ingest2 = new Pose2d(-40,-19.5, Math.toRadians(90.0));
+        Pose2d ingest2 = new Pose2d(-40.5,-17.25, Math.toRadians(90.0));
         Pose2d ingest2stop = new Pose2d(ingest2.getX()+3.5, ingest2.getY()-3.3, Math.toRadians(180.0));
         Pose2d ingest2drive = new Pose2d(ingest2.getX()-7.5, ingest2.getY()-5.0, Math.toRadians(180.0));
-        Pose2d ingest3 = new Pose2d(-55.0, -23, Math.toRadians(180.0));
+        Pose2d ingest3 = new Pose2d(-58, -20.75, Math.toRadians(180.0));
         Pose2d foundationgrab = new Pose2d(48.0,-25.0,Math.toRadians(270.0));
         Pose2d foundationmid = new Pose2d (40.0, -40.0, Math.toRadians(225.0));
         Pose2d foundationdump = new Pose2d(20.0,-43.0,Math.toRadians(180.0));
-        Pose2d foundationpickup = new Pose2d (24.0,-38.0,Math.toRadians(180.0));
+        Pose2d foundationpickup = new Pose2d (23.0,-35.0,Math.toRadians(180.0));
         Pose2d foundationshove = new Pose2d(51.0,-44.0,Math.toRadians(180.0));
         Pose2d middlepassage = new Pose2d(2.0, -37.5, Math.toRadians(180.0));
         Pose2d parkposition = new Pose2d(4.0,-39.0, Math.toRadians(180.0));
@@ -55,7 +42,7 @@ public class RedSide3StoneMiddle extends LinearOpMode {
 
         drive.setPoseEstimate(startPose);
         Trajectory toStone1 = drive.GasTrajectoryBuilder()
-                .strafeTo(new Vector2d(startPose.getX()-7.0, startPose.getY()+8.0))
+                .strafeTo(new Vector2d(startPose.getX()-7.2, startPose.getY()+8.0))
                 .splineTo(ingest1) // MIDDLE STONE POSITION
                 .build();
 
@@ -184,8 +171,8 @@ public class RedSide3StoneMiddle extends LinearOpMode {
                 .splineTo(middlepassage)
                 .addMarker(() -> {
                     mech.IngesterMotor.setPower(0);
-                    mech.ScissorLeft.setTargetPosition(mech.levels[2]);
-                    mech.ScissorRight.setTargetPosition(mech.levels[2]);
+                    mech.ScissorLeft.setTargetPosition(mech.levels[4] + 150);
+                    mech.ScissorRight.setTargetPosition(mech.levels[4] + 150);
                     return Unit.INSTANCE;
                 })
                 .addMarker(2.4, () ->{
@@ -274,7 +261,7 @@ public class RedSide3StoneMiddle extends LinearOpMode {
                     mech.ExtendGripper.setTargetPosition(mech.EXTEND_OUT);
                     return Unit.INSTANCE;
                 })
-                .addMarker(0.7, () ->{
+                .addMarker(0.5, () ->{
                     mech.Gripper.setPosition(mech.GRIPPER_OPEN);
                     return Unit.INSTANCE;
                 })
