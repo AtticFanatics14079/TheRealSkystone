@@ -27,15 +27,15 @@ public class RedSide3StoneUpper extends LinearOpMode {
         mech.Configure(hardwareMap);
 
         Pose2d startPose = new Pose2d(-30.5,  -63.0, Math.toRadians(90.0));// changing this might make the path faster
-        Pose2d ingest1 = new Pose2d(-26.5,-25.5, Math.toRadians(60.0));
-        Pose2d ingest2 = new Pose2d(-34,-19.5, Math.toRadians(90.0));
-        Pose2d ingest2stop = new Pose2d(ingest2.getX()+3.5, ingest2.getY()-3, Math.toRadians(180.0));
-        Pose2d ingest2drive = new Pose2d(ingest2.getX()-6.5, ingest2.getY()-5.0, Math.toRadians(180.0));
-        Pose2d ingest3 = new Pose2d(-49.0, -22.5, Math.toRadians(180.0));
+        Pose2d ingest1 = new Pose2d(-26.5,-25, Math.toRadians(55.0));
+        Pose2d ingest2 = new Pose2d(-35,-19, Math.toRadians(90.0));
+        Pose2d ingest2stop = new Pose2d(ingest2.getX()+3.5, ingest2.getY()-3, Math.toRadians(185.0));
+        Pose2d ingest2drive = new Pose2d(ingest2.getX()-6.5, ingest2.getY()-5.0, Math.toRadians(185.0));
+        Pose2d ingest3 = new Pose2d(-49.0, -22, Math.toRadians(185.0));
         Pose2d foundationgrab = new Pose2d(48.0,-25.0,Math.toRadians(270.0));
         Pose2d foundationmid = new Pose2d (40.0, -40.0, Math.toRadians(225.0));
         Pose2d foundationdump = new Pose2d(20.0,-43.0,Math.toRadians(180.0));
-        Pose2d foundationpickup = new Pose2d (23.0,-38.0,Math.toRadians(180.0));
+        Pose2d foundationpickup = new Pose2d (22.0,-35.0,Math.toRadians(180.0));
         Pose2d foundationshove = new Pose2d(51.0,-44.0,Math.toRadians(180.0));
         Pose2d middlepassage = new Pose2d(2.0, -37.5, Math.toRadians(180.0));
         Pose2d parkposition = new Pose2d(4.0,-39.0, Math.toRadians(180.0));
@@ -173,8 +173,8 @@ public class RedSide3StoneUpper extends LinearOpMode {
                 .splineTo(middlepassage)
                 .addMarker(() -> {
                     mech.IngesterMotor.setPower(0);
-                    mech.ScissorLeft.setTargetPosition(mech.levels[4] + 100);
-                    mech.ScissorRight.setTargetPosition(mech.levels[4] + 100);
+                    mech.ScissorLeft.setTargetPosition(mech.levels[4]);
+                    mech.ScissorRight.setTargetPosition(mech.levels[4]);
                     return Unit.INSTANCE;
                 })
                 .addMarker(2.4, () ->{
@@ -260,7 +260,7 @@ public class RedSide3StoneUpper extends LinearOpMode {
                     mech.ExtendGripper.setTargetPosition(mech.EXTEND_OUT);
                     return Unit.INSTANCE;
                 })
-                .addMarker(0.7, () ->{
+                .addMarker(0.5, () ->{
                     mech.Gripper.setPosition(mech.GRIPPER_OPEN);
                     return Unit.INSTANCE;
                 })

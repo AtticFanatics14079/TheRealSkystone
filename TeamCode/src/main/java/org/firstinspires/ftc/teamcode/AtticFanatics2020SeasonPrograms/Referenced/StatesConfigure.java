@@ -65,9 +65,9 @@ public class StatesConfigure {
     public static final double LEFT_CLOSE = 0.19;
     public static final double RIGHT_OPEN = 0.4;
     public static final double RIGHT_CLOSE = 0.87;
-    public static final int EXTEND_OUT = 1100;
+    public static final int EXTEND_OUT = 1090;
     public static final int EXTEND_TO_CAP = 710;
-    public static final int EXTEND_TO_REST = 430;
+    public static final int EXTEND_TO_REST = 500;
 
     public static final double GRIPPER_CLOSED = 1;
     public static final double GRIPPER_LOOSE = 0.65;
@@ -75,7 +75,7 @@ public class StatesConfigure {
     public static final double CAPSTONE_OPEN = 0.8;
     public static final double CAPSTONE_CLOSED = 0.97;
 
-    public static final int[] levels = {0, 700, 1170, /*START OF STACKING LEVELS*/ 820, 1250, 1550, 1900, 2450, 3300, 3900, 4920, 6040, 7240, 8600, 10400, 12220};
+    public static final int[] levels = {0, 700, 1170, /*START OF STACKING LEVELS*/ 820, 1250, 1550, 1950, 2450, 3300, 3900, 4920, 6040, 7240, 8600, 10400, 12220};
 
     public enum Ingester{
         IN, OUT, STOPPEDIN, STOPPEDOUT
@@ -90,7 +90,7 @@ public class StatesConfigure {
     public Robot status = Robot.BALANCED;
 
     public enum Macros{
-        GRABBING, STACKING, GRABBED, LIFTING, LIFTED, NOACTION, RESETTING
+        GRABBING, STACKING, GRABBED, LIFTING, LIFTED, NOACTION, RESETTING, REGRABBING
     }
 
     public Macros Macro = Macros.NOACTION;
@@ -191,7 +191,7 @@ public class StatesConfigure {
         Gripper = hwMap.get(Servo.class, "gripper");
         ExtendGripper = hwMap.get(DcMotorImplEx.class, "extend_gripper");
         Capstone = hwMap.get(Servo.class, "capstone_servo");
-        BlockSense = hwMap.get(TouchSensor.class, "block_sensor");
+        //BlockSense = hwMap.get(TouchSensor.class, "block_sensor");
         //voltSense = hwMap.get(VoltageSensor.class, "Motor Controller 1"); //I have no idea what the voltage sensor name is so...
 
         Motors[1].setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
