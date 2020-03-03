@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.AtticFanatics2020SeasonPrograms.Run.Autonomous.RROpModes.Autopaths.WIP;
+package org.firstinspires.ftc.teamcode.AtticFanatics2020SeasonPrograms.Run.Autonomous.RROpModes.Autopaths.Blue;
 
 import com.acmerobotics.roadrunner.geometry.Pose2d;
 import com.acmerobotics.roadrunner.geometry.Vector2d;
@@ -14,7 +14,7 @@ import org.firstinspires.ftc.teamcode.AtticFanatics2020SeasonPrograms.Referenced
 //import org.firstinspires.ftc.teamcode.AtticFanatics2020SeasonPrograms.Referenced.RoadRunner.SampleMecanumDriveBase;
 
 @Autonomous(group = "drive")
-public class BlueSide2StoneLower extends LinearOpMode {
+public class BlueSide2StoneMiddle extends LinearOpMode {
     @Override
     public void runOpMode() throws InterruptedException {
         SampleMecanumDriveREV drive = new SampleMecanumDriveREV(hardwareMap);
@@ -23,10 +23,10 @@ public class BlueSide2StoneLower extends LinearOpMode {
 
         mech.Configure(hardwareMap);
         Pose2d startPose = new Pose2d(-20.0,  63.0, Math.toRadians(270.0));// changing this might make the path faster
-        Pose2d ingest1 = new Pose2d(-39.0,24.0, Math.toRadians(225.0));
-        Pose2d ingest1stop = new Pose2d(-49.0, 14.0, Math.toRadians(225.0));
-        Pose2d ingest2 = new Pose2d(-51.0,24.0, Math.toRadians(180.0));
-        Pose2d ingest2stop = new Pose2d(-62.0, 21.0, Math.toRadians(180.0));
+        Pose2d ingest1 = new Pose2d(-31.0,24.0, Math.toRadians(225.0));
+        Pose2d ingest1stop = new Pose2d(-41.0, 14.0, Math.toRadians(25.0));
+        Pose2d ingest2 = new Pose2d(-43.0,24.0, Math.toRadians(180.0));
+        Pose2d ingest2stop = new Pose2d(-54.0, 21.0, Math.toRadians(180.0));
         Pose2d foundationgrab = new Pose2d(50.0,25.0,Math.toRadians(90.0));
         Pose2d foundationmid = new Pose2d (40.0, 50.0, Math.toRadians(135.0));
         Pose2d foundationdump = new Pose2d(20.0,55.0,Math.toRadians(180.0));
