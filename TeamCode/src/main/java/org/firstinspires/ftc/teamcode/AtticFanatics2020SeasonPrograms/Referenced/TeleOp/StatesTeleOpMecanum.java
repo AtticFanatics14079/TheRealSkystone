@@ -18,9 +18,9 @@ public class StatesTeleOpMecanum extends StatesConfigure {
 
     public int level = 0, nextStack = 3, targetPos = 0; //0: Lowest point, 1: Resting position (under skybridge), 2: clears crossbeam.
 
-    public double GAS, straightGas, sideGas, turnGas, startTime = 0;
+    public double GAS = 1, straightGas, sideGas, turnGas, startTime = 0;
 
-    public boolean startRegrab = false, justCapped = false, manualCap = false, lock = false, overloadPressed = false, overloading = false, manual = false, CapPressed = false, statusPressed = false, Pressed = false, grabbing = false, stacking = false, blockdropped = false, IngestPressed, Capping = false, blockPickedUp;
+    public boolean quarterSpeedPressed = false, startRegrab = false, justCapped = false, manualCap = false, lock = false, overloadPressed = false, overloading = false, manual = false, CapPressed = false, statusPressed = false, Pressed = false, grabbing = false, stacking = false, blockdropped = false, IngestPressed, Capping = false, blockPickedUp;
 
     public ElapsedTime time;
 
@@ -36,8 +36,12 @@ public class StatesTeleOpMecanum extends StatesConfigure {
         DRIVETRAIN MOVEMENTS START HERE
         */
 
-        if (G1.right_bumper) GAS = 0.25; //Quarter speed option
-        else GAS = 1;
+        if (G1.right_bumper && !quarterSpeedPressed) {
+            if(GAS == 1) GAS = 0.25; //Quarter speed option
+            else GAS = 1;
+            quarterSpeedPressed = true;
+        }
+        else if(!G1.right_bumper) quarterSpeedPressed = false;
         straightGas = sideGas = turnGas = GAS;
         turnGas = Math.abs(turnGas);
 
@@ -411,7 +415,7 @@ public class StatesTeleOpMecanum extends StatesConfigure {
         }
         else if(Math.abs(EXTEND_OUT - ExtendGripper.getCurrentPosition()) < 60){
             if(stack == Stacking.LOCKING) {
-                targetPos = levels[level = nextStack] - (80 * level);
+                targetPos = levels[level = nextStack] - (100 * level);
                 return;
             }
             else if(status == Robot.BALANCED) targetPos = levels[level = nextStack] - level * 38 + 135;
