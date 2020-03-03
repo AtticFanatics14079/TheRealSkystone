@@ -9,7 +9,7 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
 import com.qualcomm.robotcore.util.ElapsedTime;
 
-import org.firstinspires.ftc.teamcode.AtticFanatics2020SeasonPrograms.Referenced.Multithread.MovementAlgorithms;
+//import org.firstinspires.ftc.teamcode.AtticFanatics2020SeasonPrograms.Referenced.Multithread.MovementAlgorithms;
 //import org.firstinspires.ftc.teamcode.NewMultithreadRecord.WritingProcesses.WritingThread;
 
 import java.util.Arrays;
@@ -53,7 +53,7 @@ public class ControllerInput extends LinearOpMode {
 
         while(!isStopRequested()){
             //Main loop of the class
-            if(time.milliseconds() - lastTime >= 1) {
+            if(time.milliseconds() - lastTime >= 5) {
                 lastTime = time.milliseconds();
                 getInput();
             }
@@ -75,6 +75,8 @@ public class ControllerInput extends LinearOpMode {
     }
 
     private void getInput(){
+
+        System.out.println("here");
 
         if(vals.receivedDesiredVals) Arrays.fill(changedParts, false);
 
@@ -100,7 +102,7 @@ public class ControllerInput extends LinearOpMode {
 
         else if(Math.abs(gamepad1.left_stick_x) >= 0.3 && Math.abs(gamepad1.left_stick_y) < 0.3) straightGas = 0; //Enables easier direct sideways movement
 
-        //setPower(move.getPower(gamepad1.left_stick_x * sideGas, -gamepad1.left_stick_y * straightGas, Math.pow(gamepad1.right_stick_x, 3) * turnGas)); //Normal move, no bells and whistles here
+        setPower(move.getPower(gamepad1.left_stick_x * sideGas, -gamepad1.left_stick_y * straightGas, Math.pow(gamepad1.right_stick_x, 3) * turnGas)); //Normal move, no bells and whistles here
 
         //No fancy algorithms atm, just passing velocities.
 

@@ -25,7 +25,11 @@ public class Sequence implements Runnable{
     }
 
     public void run(){
-        if(sequence != null) sequence.run();
+        if(sequence != null) {
+            sequence.run();
+            System.out.println("Howdy");
+        }
+        System.out.println("'Ello");
         Thread t = action.runAction();
         while(t.isAlive()){} //Not sure this works
     }

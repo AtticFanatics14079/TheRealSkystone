@@ -1,5 +1,7 @@
 package org.firstinspires.ftc.teamcode.AtticFanatics2020SeasonPrograms.Referenced.Multithread.DriveObjectLibrary;
 
+import java.util.Arrays;
+
 public class ValueStorage {
 
     private volatile double Time = 0.0; //In milliseconds
@@ -17,6 +19,7 @@ public class ValueStorage {
     public void setup(int size){
         hardwareValues = runValues = new double[size];
         changedParts = new Boolean[size];
+        System.out.println(changedParts.length);
     }
 
     public synchronized double[] hardware(boolean writing, double[] values){
@@ -29,8 +32,12 @@ public class ValueStorage {
 
     public synchronized Boolean[] changedParts(boolean Writing, Boolean[] desiredParts){
         if (Writing) {
-            if(receivedDesiredVals) for(int i = 0; i < changedParts.length; i++) changedParts[i] = false;
-            for(int i = 0; i < desiredParts.length; i++) if(desiredParts[i] != null) changedParts[i] = desiredParts[i];
+            if(receivedDesiredVals) Arrays.fill(changedParts, false);
+            for(int i = 0; i < desiredParts.length; i++) {
+                if(desiredParts[i] != null) {
+                    changedParts[i] = desiredParts[i];
+                }
+            }
             receivedDesiredVals = false;
             return null;
         }
@@ -43,7 +50,6 @@ public class ValueStorage {
             for(int i = 0; i < values.length; i++) if(values[i] != null) runValues[i] = values[i];
             return null;
         }
-        System.out.println(runValues[0]);
         return runValues;
     }
 

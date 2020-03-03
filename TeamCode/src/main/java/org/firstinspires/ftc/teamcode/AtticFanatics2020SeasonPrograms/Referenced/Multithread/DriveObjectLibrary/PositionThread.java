@@ -9,7 +9,7 @@ public class PositionThread implements Runnable{
     private double lastTime;
     private volatile DriveObject[] drive;
     private boolean[] finishedParts;
-    private double[][] pid;
+    private Double[][] PID;
     private boolean stillGoing = true, group = false;
     private volatile boolean stop;
 
@@ -18,10 +18,10 @@ public class PositionThread implements Runnable{
         this.maxSpeed = maxSpeed;
         finishedParts = new boolean[drive.length];
         lastError = totalError = new double[drive.length];
-        pid = new double[drive.length][3];
+        PID = new Double[drive.length][3];
         for(int i = 0; i < drive.length; i++) {
-            pid[i] = drive[i].getPID();
-            pid[i][0] /= 10000;
+            PID[i] = drive[i].getPID().clone();
+            PID[i][0] /= 10000;
         }
         this.drive = drive;
     }
@@ -31,9 +31,9 @@ public class PositionThread implements Runnable{
         this.maxSpeed = new double[]{maxSpeed};
         this.drive = new DriveObject[]{drive};
         finishedParts = new boolean[1];
-        pid = new double[1][3];
-        pid[0] = drive.getPID();
-        pid[0][0] /= 10000;
+        PID = new Double[1][3];
+        PID[0] = drive.getPID().clone();
+        PID[0][0] /= 10000;
         lastError = totalError = new double[1];
     }
 
@@ -42,9 +42,12 @@ public class PositionThread implements Runnable{
         this.maxSpeed = new double[]{maxSpeed};
         this.drive = drive;
         finishedParts = new boolean[1];
-        pid = new double[1][3];
-        pid[0] = drive[0].getPID();
-        pid[0][0] /= 10000;
+        PID = new Double[1][3];
+        PID[0] = drive[0].getPID().clone();
+        PID[0][0] = Math.abs(PID[0][0]) / 1000;
+        System.out.println(PID[0][0] + " " + drive[0].getPID()[0]);
+        PID[0][1] = Math.abs(PID[0][1]) / 1000;
+        PID[0][2] = Math.abs(PID[0][2]) / 1000;
         lastError = totalError = new double[1];
         group = true;
     }
@@ -54,7 +57,7 @@ public class PositionThread implements Runnable{
         lastTime = 0;
         double speed;
         while(!stop && stillGoing) {
-            if(time.milliseconds() - lastTime >= 1) {
+            if(time.milliseconds() - lastTime >= 5) {
                 System.out.println("Hello");
                 lastTime = time.milliseconds();
                 stillGoing = false;
@@ -64,7 +67,7 @@ public class PositionThread implements Runnable{
                     System.out.println(speed);
                     for(DriveObject d : drive) {
                         d.setClassification(DriveObject.classification.Default);
-                        if(speed < 0.05) {
+                        if(Math.abs(speed) < 0.05) {
                             stop = true;
                             d.set(0);
                         }
@@ -78,7 +81,7 @@ public class PositionThread implements Runnable{
                         speed = toPosition(i);
                         drive[i].setClassification(DriveObject.classification.Default);
                         drive[i].set(speed);
-                        if(speed < 0.05) { //This is using speed as an indicator to stop, may change later.
+                        if(Math.abs(speed) < 0.05) { //This is using speed as an indicator to stop, may change later.
                             drive[i].set(0);
                             drive[i] = null;
                             finishedParts[i] = true;
@@ -93,9 +96,9 @@ public class PositionThread implements Runnable{
     private double toPosition(int i){
         double speed = 0, error = pos[i] - drive[i].get();
         totalError[i] += error;
-        speed += pid[i][0] * error;
-        speed += pid[i][1] * totalError[i];
-        speed += pid[i][2] * (error - lastError[i]);
+        speed += PID[i][0] * error;
+        speed += PID[i][1] * totalError[i];
+        speed += PID[i][2] * (error - lastError[i]);
 
         if(speed > 1) speed = 1;
 
@@ -108,16 +111,24 @@ public class PositionThread implements Runnable{
 
     private double groupToPosition(){
         double speed = 0, error = pos[0] - (drive[0].get() + drive[1].get() + drive[2].get() + drive[3].get()) / 4.0;
+        System.out.println(pos[0] + " error: " + error);
+        System.out.println(error * PID[0][0]);
+        System.out.println(PID[0][0]);
         totalError[0] += error;
-        speed += pid[0][0] * error;
-        speed += pid[0][1] * totalError[0];
-        speed += pid[0][2] * (error - lastError[0]);
+        speed += PID[0][0] * error;
+        System.out.println(speed);
+        speed += PID[0][1] * totalError[0];
+        System.out.println(speed);
+        speed += PID[0][2] * (error - lastError[0]);
+        System.out.println(speed);
 
-        if(speed > 1) speed = 1;
+        if(Math.abs(speed) > 1) speed /= Math.abs(speed);
 
-        speed *= maxSpeed[0];
+        speed *= Math.abs(maxSpeed[0]);
 
         lastError[0] = error;
+
+        System.out.println(speed);
 
         return speed;
     }
