@@ -36,8 +36,8 @@ public class StatesTeleOpMecanum extends StatesConfigure {
         DRIVETRAIN MOVEMENTS START HERE
         */
 
-        GAS = 1;
         if (G1.right_bumper) GAS = 0.25; //Quarter speed option
+        else GAS = 1;
         straightGas = sideGas = turnGas = GAS;
         turnGas = Math.abs(turnGas);
 
@@ -166,10 +166,10 @@ public class StatesTeleOpMecanum extends StatesConfigure {
                 ScissorLeft.setPower((targetPos - ScissorLeft.getCurrentPosition()) / 200.0);
             }
         } else if(manual){
-            ScissorRight.setPower(-G2.left_stick_y);
-            ScissorLeft.setPower(-G2.left_stick_y);
+            ScissorRight.setPower(-G2.right_stick_y);
+            ScissorLeft.setPower(-G2.right_stick_y);
             ExtendGripper.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-            ExtendGripper.setPower(-G2.right_stick_y);
+            ExtendGripper.setPower(-G2.left_stick_y);
         }
 
         /*

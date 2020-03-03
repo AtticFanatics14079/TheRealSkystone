@@ -14,7 +14,7 @@ import org.firstinspires.ftc.teamcode.AtticFanatics2020SeasonPrograms.Referenced
 @com.qualcomm.robotcore.eventloop.opmode.TeleOp(name = "States TeleOp", group = "Sensor")
 public class StatesTeleOp extends LinearOpMode {
 
-    StatesTeleOpMecanum Drive = new StatesTeleOpMecanum();
+    private StatesTeleOpMecanum Drive = new StatesTeleOpMecanum();
 
     @Override
     public void runOpMode() {
@@ -54,16 +54,10 @@ public class StatesTeleOp extends LinearOpMode {
             Drive.Move(hardwareMap, gamepad1, gamepad2);
             telemetry.addData("Block Level: ", Drive.level - 2);
             telemetry.addData("NextStack: ", Drive.nextStack);
-            telemetry.addData("Extend: ", Drive.ExtendGripper.getCurrentPosition());
-            telemetry.addData("ScissorLeft: ", Drive.ScissorLeft.getCurrentPosition());
-            telemetry.addData("ScissorRight: ", Drive.ScissorRight.getCurrentPosition());
             telemetry.addData("Macro State: ", Drive.Macro);
             telemetry.addData("Capping Mode: ", Drive.stack);
             telemetry.addData("Robot Role: ", Drive.status);
-            telemetry.addData("Motor1 Current: ", Drive.Motors[1].getCurrent(CurrentUnit.MILLIAMPS));
-            telemetry.addData("Motor2 Current: ", Drive.Motors[2].getCurrent(CurrentUnit.MILLIAMPS));
-            telemetry.addData("Motor3 Current: ", Drive.Motors[3].getCurrent(CurrentUnit.MILLIAMPS));
-            telemetry.addData("Motor4 Current: ", Drive.Motors[4].getCurrent(CurrentUnit.MILLIAMPS));
+            telemetry.addLine("");
             telemetry.addData("Ingester Current: ", Drive.ingester.getCurrent(CurrentUnit.MILLIAMPS));
             telemetry.addData("ScissorLeft Current: ", Drive.ScissorLeft.getCurrent(CurrentUnit.MILLIAMPS));
             telemetry.addData("ScissorRight Current: ", Drive.ScissorRight.getCurrent(CurrentUnit.MILLIAMPS));
