@@ -3,9 +3,11 @@ package org.firstinspires.ftc.teamcode.AtticFanatics2020SeasonPrograms.Reference
 import com.qualcomm.hardware.bosch.BNO055IMU;
 import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.DcMotorImplEx;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
+import com.qualcomm.robotcore.hardware.TouchSensor;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -15,16 +17,19 @@ public class DriveObject {
     private DcMotor motor;
     private Servo servo;
     private CRServo crservo;
+
     private BNO055IMU imu;
-    private ValueStorage vals;
+    private TouchSensor touch;
+
     private int partNum;
     private Double[] pid = {30.0, 0.0, 0.0}; //Default values
     private ArrayList<Thread> threads = new ArrayList<>();
+    private static ValueStorage vals;
 
     private String objectName;
 
     public enum type{
-        DcMotorImplEx, Servo, CRServo, IMU, Null
+        DcMotorImplEx, Servo, CRServo, IMU, TouchSensor, Odometry, Null
     }
 
     public enum classification{
@@ -36,9 +41,19 @@ public class DriveObject {
 
     public DriveObject(type typeName, String objectName, classification classifier, ValueStorage vals, int partNum, HardwareMap hwMap){
 
-        switch(typeName){
+        this.objectName = objectName;
+
+        this.vals = vals;
+
+        this.partNum = partNum;
+
+        thisType = typeName;
+
+        thisClass = classifier;
+
+        switch(thisType){
             case DcMotorImplEx:
-                motor = hwMap.get(DcMotor.class, objectName);
+                motor = hwMap.get(DcMotorImplEx.class, objectName);
                 break;
             case Servo:
                 thisClass = classification.toPosition;
@@ -49,20 +64,19 @@ public class DriveObject {
                 break;
             case IMU:
                 thisClass = classification.Sensor;
-                imu = hwMap.get(BNO055IMU.class, objectName);
+                imu = hwMap.get(BNO055IMU.class, "imu");
+                BNO055IMU.Parameters parameters = new BNO055IMU.Parameters();
+                parameters.angleUnit = BNO055IMU.AngleUnit.RADIANS;
+                imu.initialize(parameters);
                 //Add configuration of IMU here
                 break;
+            case TouchSensor:
+                touch = hwMap.get(TouchSensor.class, objectName);
+                break;
+            case Odometry:
+                motor = hwMap.get(DcMotorImplEx.class, objectName);
+                break;
         }
-
-        this.objectName = objectName;
-
-        this.vals = vals;
-
-        this.partNum = partNum;
-
-        thisType = typeName;
-
-        thisClass = classifier;
     }
 
     public type getType(){
@@ -219,8 +233,11 @@ public class DriveObject {
             case CRServo:
                 return crservo.getPower();
             case IMU:
-                //Return reading.
-                return 0.0;
+                return (double) imu.getAngularOrientation().firstAngle;
+            case TouchSensor:
+                return touch.getValue();
+            case Odometry:
+                return (double) motor.getCurrentPosition();
             default:
                 System.out.println("Invalid type, returning null.");
                 return null;
@@ -246,8 +263,11 @@ public class DriveObject {
             case CRServo:
                 return vals.hardware(false, null)[partNum];
             case IMU:
-                //Return reading.
-                return 0.0;
+                return vals.hardware(false, null)[partNum];
+            case TouchSensor:
+                return vals.hardware(false, null)[partNum];
+            case Odometry:
+                return vals.hardware(false, null)[partNum];
             default:
                 System.out.println("Invalid type, returning null.");
                 return null;
@@ -362,6 +382,23 @@ public class DriveObject {
 
     public void setPID(Double[] pid){
         this.pid = pid;
+    }
+
+    public void setUnitType(BNO055IMU.AngleUnit Unit){
+        if(thisType != type.IMU) {
+            System.out.println("Invalid type.");
+            return;
+        }
+        BNO055IMU.Parameters parameters = new BNO055IMU.Parameters();
+        switch (Unit) {
+            case DEGREES:
+                parameters.angleUnit = BNO055IMU.AngleUnit.DEGREES;
+                break;
+            case RADIANS:
+                parameters.angleUnit = BNO055IMU.AngleUnit.DEGREES;
+                break;
+        }
+        imu.initialize(parameters);
     }
 
     public void endAllThreads(){

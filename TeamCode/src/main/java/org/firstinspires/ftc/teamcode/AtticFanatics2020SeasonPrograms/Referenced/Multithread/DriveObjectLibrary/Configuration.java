@@ -1,8 +1,6 @@
 package org.firstinspires.ftc.teamcode.AtticFanatics2020SeasonPrograms.Referenced.Multithread.DriveObjectLibrary;
 
-//import com.qualcomm.hardware.lynx.LynxModule;
-//import com.qualcomm.robotcore.hardware.DcMotorImplEx;
-//import com.qualcomm.hardware.lynx.LynxModule;
+import com.qualcomm.hardware.lynx.LynxModule;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
 import java.util.ArrayList;
@@ -11,7 +9,7 @@ import java.util.List;
 public class Configuration {
 
     public ArrayList<DriveObject> hardware = new ArrayList<>();
-    //private List<LynxModule> allHubs;
+    private List<LynxModule> allHubs;
 
     public Configuration(HardwareMap hwMap, ValueStorage vals){
         //Add all hardware devices here.
@@ -36,14 +34,12 @@ public class Configuration {
         //Below are other configuration activities that are necessary for writing to file.
         //allHubs = hwMap.getAll(LynxModule.class);
 
-        /*for (LynxModule module : allHubs) {
+        for (LynxModule module : allHubs) {
             module.setBulkCachingMode(LynxModule.BulkCachingMode.AUTO);
         }
-
-         */
     }
 
-    /*public void setBulkCachingManual(){
+    public void setBulkCachingManual(){
         for (LynxModule module : allHubs) {
             module.setBulkCachingMode(LynxModule.BulkCachingMode.MANUAL);
         }
@@ -54,6 +50,4 @@ public class Configuration {
             module.clearBulkCache();
         }
     }
-
-     */
 }

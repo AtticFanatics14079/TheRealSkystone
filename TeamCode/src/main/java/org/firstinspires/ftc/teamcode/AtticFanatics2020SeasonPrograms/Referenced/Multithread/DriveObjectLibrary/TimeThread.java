@@ -4,13 +4,21 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 
 public class TimeThread implements Runnable{
 
-    private double seconds, value;
+    private double seconds, value, endVal;
     private DriveObject drive;
 
     public TimeThread(double Seconds, double value, DriveObject drive){
         seconds = Seconds;
         this.value = value;
         this.drive = drive;
+        endVal = 0;
+    }
+
+    public TimeThread(double Seconds, double value, double endVal, DriveObject drive){
+        seconds = Seconds;
+        this.value = value;
+        this.drive = drive;
+        this.endVal = endVal;
     }
 
     public void run() {
@@ -27,8 +35,11 @@ public class TimeThread implements Runnable{
                 System.out.println("Invalid type for setting power.");
                 return;
         }
-        ElapsedTime time = new ElapsedTime();
-        while(time.seconds() < seconds) {}
+        try {
+            Thread.sleep((long) (seconds * 1000));
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
         drive.set(value);
     }
 }

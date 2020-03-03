@@ -32,7 +32,7 @@ public class HardwareThread extends Thread {
         vals.changedParts(true, desiredVals);
         vals.runValues(true, runValues);
         //voltMult = 13.0/config.voltSense.getVoltage();
-        //config.setBulkCachingManual();
+        config.setBulkCachingManual();
     }
 
     public void run(){
@@ -61,7 +61,7 @@ public class HardwareThread extends Thread {
 
     private void readHardware(Boolean[] changedParts){
 
-        //config.clearBulkCache();
+        config.clearBulkCache();
 
         desiredVals = changedParts.clone();
 
