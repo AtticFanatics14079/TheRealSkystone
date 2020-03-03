@@ -134,7 +134,7 @@ public class BlueSide2StoneVision extends LinearOpMode {
                         return Unit.INSTANCE;
                     })
                     .strafeTo(new Vector2d(middlepassagelower.getX()+40, middlepassagelower.getY()))
-                    .splineTo(new Pose2d(foundationgrablower.getX(), foundationgrablower.getY()-8, foundationgrablower.getHeading()))
+                    .splineTo(new Pose2d(foundationgrablower.getX(), foundationgrablower.getY()+8, foundationgrablower.getHeading()))
                     .strafeTo(new Vector2d(foundationgrablower.getX(),foundationgrablower.getY()))
                     .build();
 
@@ -218,7 +218,7 @@ public class BlueSide2StoneVision extends LinearOpMode {
                     return Unit.INSTANCE;
                 })
                 .strafeTo(new Vector2d(middlepassagemiddle.getX()+40, middlepassagemiddle.getY()))
-                .splineTo(new Pose2d(foundationgrabmiddle.getX(), foundationgrabmiddle.getY()-8, foundationgrabmiddle.getHeading()))
+                .splineTo(new Pose2d(foundationgrabmiddle.getX(), foundationgrabmiddle.getY()+8, foundationgrabmiddle.getHeading()))
                 .strafeTo(new Vector2d(foundationgrabmiddle.getX(),foundationgrabmiddle.getY()))
                 .build();
 
@@ -294,7 +294,7 @@ public class BlueSide2StoneVision extends LinearOpMode {
                         return Unit.INSTANCE;
                     })
                     .strafeTo(new Vector2d(middlepassageupper.getX()+40, middlepassageupper.getY()))
-                    .splineTo(new Pose2d(foundationgrabupper.getX(), foundationgrabupper.getY()-8, foundationgrabupper.getHeading()))
+                    .splineTo(new Pose2d(foundationgrabupper.getX(), foundationgrabupper.getY()+8, foundationgrabupper.getHeading()))
                     .strafeTo(new Vector2d(foundationgrabupper.getX(),foundationgrabupper.getY()))
                     .build();
 
