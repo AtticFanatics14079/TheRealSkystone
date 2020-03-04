@@ -86,6 +86,7 @@ public class NoDriveConfigure {
 
         ScissorLeft.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         ScissorRight.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        ExtendGripper.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         ScissorLeft.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         ScissorRight.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         ExtendGripper.setDirection(DcMotorSimple.Direction.REVERSE);

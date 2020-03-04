@@ -245,7 +245,7 @@ public class StatesTeleOpMecanum extends StatesConfigure {
                 }
                 break;
             case NOACTION:
-                if(G1.a || G2.b || BlockSense.isPressed()){
+                if(G1.a || G2.b){ //|| BlockSense.isPressed()
                     targetPos = levels[level = 0];
                     Gripper.setPosition(GRIPPER_OPEN);
                     Macro = Macros.GRABBING;

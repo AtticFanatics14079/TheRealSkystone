@@ -57,6 +57,7 @@ public class StatesTeleOp extends LinearOpMode {
             telemetry.addData("Macro State: ", Drive.Macro);
             telemetry.addData("Capping Mode: ", Drive.stack);
             telemetry.addData("Robot Role: ", Drive.status);
+            telemetry.addData("Extend Pos: ", Drive.ExtendGripper.getCurrentPosition());
             telemetry.addLine("");
             telemetry.addData("Ingester Current: ", Drive.ingester.getCurrent(CurrentUnit.MILLIAMPS));
             telemetry.addData("ScissorLeft Current: ", Drive.ScissorLeft.getCurrent(CurrentUnit.MILLIAMPS));
