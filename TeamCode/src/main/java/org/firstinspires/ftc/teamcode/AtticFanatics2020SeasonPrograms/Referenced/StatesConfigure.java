@@ -75,7 +75,7 @@ public class StatesConfigure {
     public static final double CAPSTONE_OPEN = 0.8;
     public static final double CAPSTONE_CLOSED = 0.97;
 
-    public static final int[] levels = {0, 700, 1170, /*START OF STACKING LEVELS*/ 820, 1250, 1550, 1950, 2450, 3300, 3900, 4920, 6040, 7240, 8600, 10400, 12220};
+    public static final int[] levels = {0, 700, 1170, /*START OF STACKING LEVELS*/ 820, 1250, 1550, 1950, 2520, 3300, 3980, 5020, 6040, 7240, 8600, 10400, 12220};
 
     public enum Ingester{
         IN, OUT, STOPPEDIN, STOPPEDOUT

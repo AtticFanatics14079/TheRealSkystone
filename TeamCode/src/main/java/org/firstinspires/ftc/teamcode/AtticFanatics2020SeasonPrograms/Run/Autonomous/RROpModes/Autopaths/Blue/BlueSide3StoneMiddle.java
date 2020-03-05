@@ -25,16 +25,16 @@ public class BlueSide3StoneMiddle extends LinearOpMode {
 
         Pose2d startPose = new Pose2d(-30.5,  62.0, Math.toRadians(270.0));// changing this might make the path faster
         Pose2d ingest1 = new Pose2d(-37,25, Math.toRadians(310.0));
-        Pose2d ingest2 = new Pose2d(-41,17, Math.toRadians(270.0));
-        Pose2d ingest2stop = new Pose2d(ingest2.getX()+3.5, ingest2.getY()+2.5, Math.toRadians(175.0));
-        Pose2d ingest2drive = new Pose2d(ingest2.getX()-7.5, ingest2.getY()+2.5, Math.toRadians(175.0));
-        Pose2d ingest3 = new Pose2d(-56, 23, Math.toRadians(170.0));
-        Pose2d foundationgrab = new Pose2d(46.0,25.0,Math.toRadians(90.0));
+        Pose2d ingest2 = new Pose2d(-41,17.5, Math.toRadians(270.0));
+        Pose2d ingest2stop = new Pose2d(ingest2.getX()+3.5, ingest2.getY()+2.5, Math.toRadians(165.0));
+        Pose2d ingest2drive = new Pose2d(ingest2.getX()-10, ingest2.getY()+2.5, Math.toRadians(165.0));
+        Pose2d ingest3 = new Pose2d(-56, 24, Math.toRadians(165.0));
+        Pose2d foundationgrab = new Pose2d(48.0,25.0,Math.toRadians(90.0));
         Pose2d foundationmid = new Pose2d (40.0, 40.0, Math.toRadians(135.0));
         Pose2d foundationdump = new Pose2d(20.0,43.0,Math.toRadians(180.0));
         Pose2d foundationpickup = new Pose2d (21,38, Math.toRadians(180.0));
         Pose2d foundationshove = new Pose2d(51.0,52.0,Math.toRadians(180.0));
-        Pose2d middlepassage = new Pose2d(2.0, 37.5, Math.toRadians(180.0));
+        Pose2d middlepassage = new Pose2d(2.0, 39, Math.toRadians(180.0));
         Pose2d parkposition = new Pose2d(4.0,44.0, Math.toRadians(180.0));
 
 

@@ -23,20 +23,18 @@ public class BlueSide3StoneLower extends LinearOpMode {
         NoDriveConfigure mech = new NoDriveConfigure();
         mech.Configure(hardwareMap);
 
-        Pose2d startPose = new Pose2d(-30.5,  63.0, Math.toRadians(270.0));// changing this might make the path faster
-        Pose2d ingest1 = new Pose2d(-42.5,25.5, Math.toRadians(305.0));
-        Pose2d ingest2 = new Pose2d(-50,17.5, Math.toRadians(270.0));
-        Pose2d ingest2stop = new Pose2d(ingest2.getX()+2.5, ingest2.getY()+3.3, Math.toRadians(175.0));
-        Pose2d ingest2drive = new Pose2d(ingest2.getX()-6.5, ingest2.getY()+5.0, Math.toRadians(175.0));
-        Pose2d ingest3 = new Pose2d(ingest2drive.getX(), ingest2drive.getY() - 1, Math.toRadians(175.0));
-        Pose2d ingest3temp = new Pose2d(-41,17, Math.toRadians(175.0));
-        Pose2d foundationgrab = new Pose2d(48.0,25.0,Math.toRadians(90.0));
+        Pose2d startPose = new Pose2d(-30.5,  62.0, Math.toRadians(270.0));// changing this might make the path faster
+        Pose2d ingest1 = new Pose2d(-42.5,20.5, Math.toRadians(310.0));
+        Pose2d ingest2 = new Pose2d(-49,16, Math.toRadians(270.0));
+        Pose2d ingest2stop = new Pose2d(ingest2.getX()+2.5, ingest2.getY()+2.5, Math.toRadians(170.0));
+        Pose2d ingest2drive = new Pose2d(ingest2.getX()-8, ingest2.getY()+2.5, Math.toRadians(170.0));
+        Pose2d foundationgrab = new Pose2d(46.0,25.0,Math.toRadians(90.0));
         Pose2d foundationmid = new Pose2d (40.0, 40.0, Math.toRadians(135.0));
         Pose2d foundationdump = new Pose2d(20.0,43.0,Math.toRadians(180.0));
-        Pose2d foundationpickup = new Pose2d (22.0,35.0,Math.toRadians(180.0));
-        Pose2d foundationshove = new Pose2d(51.0,44.0,Math.toRadians(180.0));
-        Pose2d middlepassage = new Pose2d(2.0, 37.5, Math.toRadians(180.0));
-        Pose2d parkposition = new Pose2d(4.0,39.0, Math.toRadians(180.0));
+        Pose2d foundationpickup = new Pose2d (22.0,38.0,Math.toRadians(180.0));
+        Pose2d foundationshove = new Pose2d(51.0,52.0,Math.toRadians(180.0));
+        Pose2d middlepassage = new Pose2d(4.0, 38, Math.toRadians(180.0));
+        Pose2d parkposition = new Pose2d(4.0,42.0, Math.toRadians(180.0));
 
 
 //        mech.ingester.setPower(0.8);
@@ -177,7 +175,7 @@ public class BlueSide3StoneLower extends LinearOpMode {
                     mech.ScissorRight.setTargetPosition(mech.levels[4] + 150);
                     return Unit.INSTANCE;
                 })
-                .addMarker(2.4, () ->{
+                .addMarker(3, () ->{
                     mech.ExtendGripper.setTargetPosition(mech.EXTEND_OUT);
                     return Unit.INSTANCE;
                 })
@@ -220,103 +218,25 @@ public class BlueSide3StoneLower extends LinearOpMode {
                 .build();
 
         drive.setPoseEstimate(foundationpickup);
-        Trajectory toStone3 = drive.GasTrajectoryBuilder()
-                .addMarker(() ->{
-                    mech.ExtendGripper.setTargetPosition(0);
-                    return Unit.INSTANCE;
-                })
-                .addMarker(0.4, () ->{
-                    mech.ScissorLeft.setTargetPosition(mech.levels[0]);
-                    mech.ScissorRight.setTargetPosition(mech.levels[0]);
-                    return Unit.INSTANCE;
-                })
-                .splineTo(middlepassage)
-                .splineTo(ingest3)
-                .build();
-
-        drive.setPoseEstimate(ingest3);
-        Trajectory toFoundation3 = drive.GasTrajectoryBuilder()
-                .reverse()
-                .addMarker(0.0, () -> {
-                    mech.Gripper.setPosition(mech.GRIPPER_CLOSED);
-                    return Unit.INSTANCE;
-                })
-                .addMarker(0.4, () -> {
-                    mech.IngesterMotor.setPower(0);
-                    return Unit.INSTANCE;
-                })
-                .addMarker(() -> {
-                    return Unit.INSTANCE;
-                })
-                .splineTo(middlepassage)
-                .addMarker(() -> {
-                    mech.ScissorLeft.setTargetPosition(mech.levels[5]);
-                    mech.ScissorRight.setTargetPosition(mech.levels[5]);
-                    return Unit.INSTANCE;
-                })
-                .splineTo(foundationpickup)
-                .build();
-
-        drive.setPoseEstimate(foundationpickup);
         Trajectory foundationshoving = drive.GasTrajectoryBuilder()
-                .addMarker(() ->{
-                    mech.ExtendGripper.setTargetPosition(mech.EXTEND_OUT);
-                    return Unit.INSTANCE;
-                })
-                .addMarker(0.5, () ->{
+                .addMarker(1, () -> {
                     mech.Gripper.setPosition(mech.GRIPPER_OPEN);
                     return Unit.INSTANCE;
                 })
-                .addMarker(1.2,() ->{
+                .addMarker(1.4, () ->{
                     mech.ExtendGripper.setTargetPosition(0);
                     return Unit.INSTANCE;
                 })
-                .addMarker(1.6,() ->{
-                    mech.ScissorLeft.setTargetPosition(mech.levels[0]);
-                    mech.ScissorRight.setTargetPosition(mech.levels[0]);
-                    return Unit.INSTANCE;
-                })
-                .reverse()
                 .strafeTo(new Vector2d(foundationshove.getX(), foundationshove.getY()))
-                /*.addMarker(() -> {
-                    mech.IngesterMotor.setPower(0);
-                    mech.ScissorLeft.setTargetPosition(mech.levels[2]);
-                    mech.ScissorRight.setTargetPosition(mech.levels[2]);
-                    return Unit.INSTANCE;
-                })
-                .addMarker(1.2,() ->{
-                    mech.ExtendGripper.setTargetPosition(mech.EXTEND_OUT);
-                    return Unit.INSTANCE;
-                })
-                .addMarker(1.4,() ->{
-                    mech.ScissorLeft.setTargetPosition(mech.levels[1]);
-                    mech.ScissorRight.setTargetPosition(mech.levels[1]);
-                    return Unit.INSTANCE;
-                })
-                .addMarker(1.5,() ->{
-                    mech.Gripper.setPosition(mech.GRIPPER_OPEN);
-                    return Unit.INSTANCE;
-                })
-                .addMarker(1.6,() ->{
-                    mech.ScissorLeft.setTargetPosition(mech.levels[2]);
-                    mech.ScissorRight.setTargetPosition(mech.levels[2]);
-                    return Unit.INSTANCE;
-                })
-                .addMarker(2.1,() ->{
-                    mech.ExtendGripper.setTargetPosition(0);
-                    return Unit.INSTANCE;
-                })
-                .addMarker(2.4,() ->{
-                    mech.ScissorLeft.setTargetPosition(mech.levels[0]);
-                    mech.ScissorRight.setTargetPosition(mech.levels[0]);
-                    return Unit.INSTANCE;
-                })
-
-                 */
                 .build();
 
         drive.setPoseEstimate(foundationshove);
         Trajectory park = drive.GasTrajectoryBuilder()
+                .addMarker(() ->{
+                    mech.ScissorLeft.setTargetPosition(mech.levels[0]);
+                    mech.ScissorRight.setTargetPosition(mech.levels[0]);
+                    return Unit.INSTANCE;
+                })
                 .splineTo(parkposition)
                 .build();
 
@@ -362,11 +282,7 @@ public class BlueSide3StoneLower extends LinearOpMode {
         drive.followTrajectorySync(toFoundation2);
         mech.Gripper.setPosition(mech.GRIPPER_OPEN);
         sleep(600);
-            //mech.IngesterMotor.setPower(0.8);
-        mech.IngesterMotor.setPower(0.8);
-        drive.followTrajectorySync(toStone3);
             //mech.Gripper.setPosition(mech.GRIPPER_CLOSED);
-        drive.followTrajectorySync(toFoundation3);
         drive.followTrajectorySync(foundationshoving);
         drive.followTrajectorySync(park);
     }

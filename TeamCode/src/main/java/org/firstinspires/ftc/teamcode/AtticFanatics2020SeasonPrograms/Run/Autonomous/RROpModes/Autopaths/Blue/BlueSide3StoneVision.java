@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.AtticFanatics2020SeasonPrograms.Run.Autonomous.RROpModes.Autopaths.Red;
+package org.firstinspires.ftc.teamcode.AtticFanatics2020SeasonPrograms.Run.Autonomous.RROpModes.Autopaths.Blue;
 
 import com.acmerobotics.dashboard.config.Config;
 import com.acmerobotics.roadrunner.geometry.Pose2d;
@@ -29,7 +29,7 @@ import kotlin.Unit;
 
 @Config
 @Autonomous
-public class RedSide3StoneVision extends LinearOpMode {
+public class BlueSide3StoneVision extends LinearOpMode {
     private ElapsedTime runtime = new ElapsedTime();
 
     //0 means skystone, 1 means yellow stone
@@ -41,8 +41,8 @@ public class RedSide3StoneVision extends LinearOpMode {
     public static float rectHeight = 1.5f / 8f;
     public static float rectWidth = .6f / 8f;
 
-    public static float offsetY = 1.3f / 8f;//changing this moves the three rects and the three circles left or right, range : (-2, 2) not inclusive
-    public static float offsetX = 2f / 8f;//changing this moves the three rects and circles up or down, range: (-4, 4) not inclusive
+    public static float offsetY = -1.3f / 8f;//changing this moves the three rects and the three circles left or right, range : (-2, 2) not inclusive
+    public static float offsetX = 1f / 8f;//changing this moves the three rects and circles up or down, range: (-4, 4) not inclusive
 
     public static float[] midPos = {4f / 8f + offsetX, 4f / 8f + offsetY};//0 = col, 1 = row
     public static float[] leftPos = {4f / 8f + offsetX, 2f / 8f + offsetY};
@@ -68,604 +68,46 @@ public class RedSide3StoneVision extends LinearOpMode {
         //width, height
         //width = height in this case, because camera is in portrait mode.
 
-        Pose2d startPoselower = new Pose2d(-30.5,  -63.0, Math.toRadians(90.0));// changing this might make the path faster
-        Pose2d ingest1lower = new Pose2d(-42.5,-25.5, Math.toRadians(55.0));
-        Pose2d ingest2lower = new Pose2d(-50,-17.5, Math.toRadians(90.0));
-        Pose2d ingest2stoplower = new Pose2d(ingest2lower.getX()+2.5, ingest2lower.getY()-3.3, Math.toRadians(185.0));
-        Pose2d ingest2drivelower = new Pose2d(ingest2lower.getX()-6.5, ingest2lower.getY()-5.0, Math.toRadians(185.0));
-        Pose2d ingest3lower = new Pose2d(ingest2drivelower.getX(), ingest2drivelower.getY() + 1, Math.toRadians(185.0));
-        Pose2d ingest3templower = new Pose2d(-41,-17, Math.toRadians(185.0));
-        Pose2d foundationgrablower = new Pose2d(48.0,-25.0,Math.toRadians(270.0));
-        Pose2d foundationmidlower = new Pose2d (40.0, -40.0, Math.toRadians(225.0));
-        Pose2d foundationdumplower = new Pose2d(20.0,-43.0,Math.toRadians(180.0));
-        Pose2d foundationpickuplower = new Pose2d (22.0,-35.0,Math.toRadians(180.0));
-        Pose2d foundationshovelower = new Pose2d(51.0,-44.0,Math.toRadians(180.0));
-        Pose2d middlepassagelower = new Pose2d(2.0, -37.5, Math.toRadians(180.0));
-        Pose2d parkpositionlower = new Pose2d(4.0,-39.0, Math.toRadians(180.0));
+        Pose2d startPoselower = new Pose2d(-30.5,  62.0, Math.toRadians(270.0));// changing this might make the path faster
+        Pose2d ingest1lower = new Pose2d(-42.5,20.5, Math.toRadians(310.0));
+        Pose2d ingest2lower = new Pose2d(-49,16, Math.toRadians(270.0));
+        Pose2d ingest2stoplower = new Pose2d(ingest2lower.getX()+2.5, ingest2lower.getY()+2.5, Math.toRadians(170.0));
+        Pose2d ingest2drivelower = new Pose2d(ingest2lower.getX()-8, ingest2lower.getY()+2.5, Math.toRadians(170.0));
+        Pose2d foundationgrablower = new Pose2d(46.0,25.0,Math.toRadians(90.0));
+        Pose2d foundationmidlower = new Pose2d (40.0, 40.0, Math.toRadians(135.0));
+        Pose2d foundationdumplower = new Pose2d(20.0,43.0,Math.toRadians(180.0));
+        Pose2d foundationpickuplower = new Pose2d (22.0,38.0,Math.toRadians(180.0));
+        Pose2d foundationshovelower = new Pose2d(51.0,52.0,Math.toRadians(180.0));
+        Pose2d middlepassagelower = new Pose2d(4.0, 38, Math.toRadians(180.0));
+        Pose2d parkpositionlower = new Pose2d(4.0,42.0, Math.toRadians(180.0));
 
-        Pose2d startPosemiddle = new Pose2d(-30.5,  -63.0, Math.toRadians(90.0));// changing this might make the path faster
-        Pose2d ingest1middle = new Pose2d(-34.5,-25, Math.toRadians(55.0));
-        Pose2d ingest2middle = new Pose2d(-41,-16.5, Math.toRadians(90.0));
-        Pose2d ingest2stopmiddle = new Pose2d(ingest2middle.getX()+3.5, ingest2middle.getY()-3.3, Math.toRadians(185.0));
-        Pose2d ingest2drivemiddle = new Pose2d(ingest2middle.getX()-7.5, ingest2middle.getY()-5.0, Math.toRadians(185.0));
-        Pose2d ingest3middle = new Pose2d(-58, -21, Math.toRadians(185.0));
-        Pose2d foundationgrabmiddle = new Pose2d(48.0,-25.0,Math.toRadians(270.0));
-        Pose2d foundationmidmiddle = new Pose2d (40.0, -40.0, Math.toRadians(225.0));
-        Pose2d foundationdumpmiddle = new Pose2d(20.0,-43.0,Math.toRadians(180.0));
-        Pose2d foundationpickupmiddle = new Pose2d (22,-35,Math.toRadians(180.0));
-        Pose2d foundationshovemiddle = new Pose2d(51.0,-44.0,Math.toRadians(180.0));
-        Pose2d middlepassagemiddle = new Pose2d(2.0, -36.5, Math.toRadians(180.0));
-        Pose2d parkpositionmiddle = new Pose2d(4.0,-39.0, Math.toRadians(180.0));
+        Pose2d startPosemiddle = new Pose2d(-30.5,  62.0, Math.toRadians(270.0));// changing this might make the path faster
+        Pose2d ingest1middle = new Pose2d(-37,25, Math.toRadians(310.0));
+        Pose2d ingest2middle = new Pose2d(-41,17.5, Math.toRadians(270.0));
+        Pose2d ingest2stopmiddle = new Pose2d(ingest2middle.getX()+3.5, ingest2middle.getY()+2.5, Math.toRadians(165.0));
+        Pose2d ingest2drivemiddle = new Pose2d(ingest2middle.getX()-10, ingest2middle.getY()+2.5, Math.toRadians(165.0));
+        Pose2d ingest3middle = new Pose2d(-56, 24, Math.toRadians(165.0));
+        Pose2d foundationgrabmiddle = new Pose2d(48.0,25.0,Math.toRadians(90.0));
+        Pose2d foundationmidmiddle = new Pose2d (40.0, 40.0, Math.toRadians(135.0));
+        Pose2d foundationdumpmiddle = new Pose2d(20.0,43.0,Math.toRadians(180.0));
+        Pose2d foundationpickupmiddle = new Pose2d (21,38, Math.toRadians(180.0));
+        Pose2d foundationshovemiddle = new Pose2d(51.0,52.0,Math.toRadians(180.0));
+        Pose2d middlepassagemiddle = new Pose2d(2.0, 39, Math.toRadians(180.0));
+        Pose2d parkpositionmiddle = new Pose2d(4.0,44.0, Math.toRadians(180.0));
 
-        Pose2d startPoseupper = new Pose2d(-30.5,  -63.0, Math.toRadians(90.0));// changing this might make the path faster
-        Pose2d ingest1upper = new Pose2d(-26.5,-25, Math.toRadians(55.0));
-        Pose2d ingest2upper = new Pose2d(-35,-19, Math.toRadians(90.0));
-        Pose2d ingest2stopupper = new Pose2d(ingest2upper.getX()+3.5, ingest2upper.getY()-3, Math.toRadians(185.0));
-        Pose2d ingest2driveupper = new Pose2d(ingest2upper.getX()-6.5, ingest2upper.getY()-5.0, Math.toRadians(185.0));
-        Pose2d ingest3upper = new Pose2d(-49.0, -22, Math.toRadians(185.0));
-        Pose2d foundationgrabupper = new Pose2d(48.0,-25.0,Math.toRadians(270.0));
-        Pose2d foundationmidupper = new Pose2d (40.0, -40.0, Math.toRadians(225.0));
-        Pose2d foundationdumpupper = new Pose2d(20.0,-43.0,Math.toRadians(180.0));
-        Pose2d foundationpickupupper = new Pose2d (22.0,-35.0,Math.toRadians(180.0));
-        Pose2d foundationshoveupper = new Pose2d(51.0,-44.0,Math.toRadians(180.0));
-        Pose2d middlepassageupper = new Pose2d(2.0, -37.5, Math.toRadians(180.0));
-        Pose2d parkpositionupper = new Pose2d(4.0,-39.0, Math.toRadians(180.0));
-
-
-
-        drive.setPoseEstimate(startPoselower);
-        Trajectory toStone1lower = drive.GasTrajectoryBuilder()
-                .strafeTo(new Vector2d(startPoselower.getX()-15.2, startPoselower.getY()+8.0))
-                .splineTo(ingest1lower) // MIDDLE STONE POSITION
-                .build();
-
-        drive.setPoseEstimate(ingest1lower);
-        Trajectory toFoundation1lower = drive.GasTrajectoryBuilder()
-                .addMarker(0.0,() ->{
-                    mech.Gripper.setPosition(mech.GRIPPER_CLOSED);
-                    return Unit.INSTANCE;
-                })
-                .addMarker(0.4,() ->{
-                    mech.IngesterMotor.setPower(0);
-                    return Unit.INSTANCE;
-                })
-                .reverse()
-                .splineTo(middlepassagelower)
-                .addMarker(() -> {
-                    mech.ScissorLeft.setTargetPosition(mech.levels[2]);
-                    mech.ScissorRight.setTargetPosition(mech.levels[2]);
-                    return Unit.INSTANCE;
-                })
-                .strafeTo(new Vector2d(middlepassagelower.getX()+40, middlepassagelower.getY()))
-                .addMarker(() ->{
-                    mech.ExtendGripper.setTargetPosition(mech.EXTEND_OUT);
-                    return Unit.INSTANCE;
-                })
-                .splineTo(new Pose2d(foundationgrablower.getX(), foundationgrablower.getY()-8, foundationgrablower.getHeading()))
-                .strafeTo(new Vector2d(foundationgrablower.getX(),foundationgrablower.getY()))
-                .build();
-
-        drive.setPoseEstimate(foundationgrablower);
-        Trajectory pullFoundationlower = drive.GasTrajectoryBuilder()
-                .addMarker(() ->{
-                    mech.ScissorLeft.setTargetPosition(mech.levels[3]);
-                    mech.ScissorRight.setTargetPosition(mech.levels[3]);
-                    return Unit.INSTANCE;
-                })
-                .addMarker(0.2,() ->{
-                    mech.Gripper.setPosition(mech.GRIPPER_OPEN);
-                    return Unit.INSTANCE;
-                })
-                .addMarker(0.5,() ->{
-                    mech.ScissorLeft.setTargetPosition(mech.levels[2]);
-                    mech.ScissorRight.setTargetPosition(mech.levels[2]);
-                    return Unit.INSTANCE;
-                })
-                .addMarker(0.9,() ->{
-                    mech.ExtendGripper.setTargetPosition(0);
-                    return Unit.INSTANCE;
-                })
-                .addMarker(1.3,() ->{
-                    mech.ScissorLeft.setTargetPosition(mech.levels[0]);
-                    mech.ScissorRight.setTargetPosition(mech.levels[0]);
-                    return Unit.INSTANCE;
-                })
-                /*.addMarker(0.0,() ->{
-                    mech.ExtendGripper.setTargetPosition(mech.EXTEND_OUT);
-                    mech.ExtendGripper.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-                    mech.ExtendGripper.setPower(1);
-                    return Unit.INSTANCE;
-                })
-                .addMarker(0.2,() ->{
-                    mech.ScissorLeft.setTargetPosition(mech.levels[1]);
-                    mech.ScissorRight.setTargetPosition(mech.levels[1]);
-                    return Unit.INSTANCE;
-                })
-                .addMarker(0.3, () ->{
-                    mech.Gripper.setPosition(mech.GRIPPER_OPEN);
-                    return Unit.INSTANCE;
-                })
-                .addMarker(0.4,() ->{
-                    mech.ScissorLeft.setTargetPosition(mech.levels[2]);
-                    mech.ScissorRight.setTargetPosition(mech.levels[2]);
-                    return Unit.INSTANCE;
-                })
-                .addMarker(1.0,() ->{
-                    mech.ExtendGripper.setTargetPosition(0);
-                    return Unit.INSTANCE;
-                })
-                .addMarker(1.3,() -> {
-                    mech.IngesterMotor.setPower(0.8);
-                    mech.ScissorLeft.setTargetPosition(mech.levels[0]);
-                    mech.ScissorRight.setTargetPosition(mech.levels[0]);
-                    return Unit.INSTANCE;
-                })
-               /* .addMarker(new Vector2d(foundationdumplower.getX()+5,foundationdumplower.getY()-15),() ->{
-                    mech.FoundationLeft.setPosition(mech.LEFT_OPEN);
-                    mech.FoundationRight.setPosition(mech.RIGHT_OPEN);
-                    return Unit.INSTANCE;
-                })
-                */
-                .splineTo(foundationmidlower)
-                .splineTo(foundationdumplower)
-                .addMarker(() -> {
-                    mech.IngesterMotor.setPower(-0.8);
-                    mech.FoundationLeft.setPosition(mech.LEFT_OPEN);
-                    mech.FoundationRight.setPosition(mech.RIGHT_OPEN);
-                    return Unit.INSTANCE;
-                })
-                .splineTo(middlepassagelower)
-                .splineTo(ingest2lower) // MIDDLE STONE POSITION
-                .build();
-
-        drive.setPoseEstimate(ingest2lower);
-        Trajectory ingestStone2lower = drive.GasTrajectoryBuilder()
-                .reverse()
-                .splineTo (ingest2stoplower)
-                .build();
-
-        drive.setPoseEstimate(ingest2stoplower);
-        Trajectory ingestStone2Drivelower = drive.GasTrajectoryBuilder()
-                .strafeTo (new Vector2d(ingest2drivelower.getX(), ingest2drivelower.getY()))
-                .build();
-
-        drive.setPoseEstimate(ingest2drivelower);
-        Trajectory toFoundation2lower = drive.GasTrajectoryBuilder()
-                .reverse()
-                .addMarker(() -> {
-                    mech.Gripper.setPosition(mech.GRIPPER_CLOSED);
-                    return Unit.INSTANCE;
-                })
-                .addMarker(0.3, () -> {
-                    mech.ScissorLeft.setTargetPosition(mech.levels[1] + 30);
-                    mech.ScissorRight.setTargetPosition(mech.levels[1] + 30);
-                    return Unit.INSTANCE;
-                })
-                .splineTo(new Pose2d(middlepassagelower.getX()-15, middlepassagelower.getY(), middlepassagelower.getHeading()))
-                .splineTo(middlepassagelower)
-                .addMarker(() -> {
-                    mech.IngesterMotor.setPower(0);
-                    mech.ScissorLeft.setTargetPosition(mech.levels[4] + 150);
-                    mech.ScissorRight.setTargetPosition(mech.levels[4] + 150);
-                    return Unit.INSTANCE;
-                })
-                .addMarker(2.4, () ->{
-                    mech.ExtendGripper.setTargetPosition(mech.EXTEND_OUT);
-                    return Unit.INSTANCE;
-                })
-                .splineTo(foundationpickuplower)
-                /*.addMarker(0.4, () -> {
-                    mech.IngesterMotor.setPower(0);
-                    mech.ScissorLeft.setTargetPosition(mech.levels[2]);
-                    mech.ScissorRight.setTargetPosition(mech.levels[2]);
-                    return Unit.INSTANCE;
-                })
-                .addMarker(0.7,() ->{
-                    mech.ExtendGripper.setTargetPosition(mech.EXTEND_OUT);
-                    return Unit.INSTANCE;
-                })
-                .addMarker(0.9,() ->{
-                    mech.ScissorLeft.setTargetPosition(mech.levels[1]);
-                    mech.ScissorRight.setTargetPosition(mech.levels[1]);
-                    return Unit.INSTANCE;
-                })
-                .addMarker(1.0,() ->{
-                    mech.Gripper.setPosition(mech.GRIPPER_OPEN);
-                    return  Unit.INSTANCE;
-                })
-                .addMarker(1.1,() ->{
-                    mech.ScissorLeft.setTargetPosition(mech.levels[2]);
-                    mech.ScissorRight.setTargetPosition(mech.levels[2]);
-                    return Unit.INSTANCE;
-                })
-                .addMarker(1.6,() ->{
-                    mech.ExtendGripper.setTargetPosition(0);
-                    return Unit.INSTANCE;
-                })
-                .addMarker(1.8,() ->{
-                    mech.ScissorLeft.setTargetPosition(mech.levels[0]);
-                    mech.ScissorRight.setTargetPosition(mech.levels[0]);
-                    return Unit.INSTANCE;
-                })
-
-                 */
-                .build();
-
-        drive.setPoseEstimate(foundationpickuplower);
-        Trajectory toStone3lower = drive.GasTrajectoryBuilder()
-                .addMarker(() ->{
-                    mech.ExtendGripper.setTargetPosition(0);
-                    return Unit.INSTANCE;
-                })
-                .addMarker(0.4, () ->{
-                    mech.ScissorLeft.setTargetPosition(mech.levels[0]);
-                    mech.ScissorRight.setTargetPosition(mech.levels[0]);
-                    return Unit.INSTANCE;
-                })
-                .splineTo(middlepassagelower)
-                .splineTo(ingest3lower)
-                .build();
-
-        drive.setPoseEstimate(ingest3lower);
-        Trajectory toFoundation3lower = drive.GasTrajectoryBuilder()
-                .reverse()
-                .addMarker(0.0, () -> {
-                    mech.Gripper.setPosition(mech.GRIPPER_CLOSED);
-                    return Unit.INSTANCE;
-                })
-                .addMarker(0.4, () -> {
-                    mech.IngesterMotor.setPower(0);
-                    return Unit.INSTANCE;
-                })
-                .addMarker(() -> {
-                    return Unit.INSTANCE;
-                })
-                .splineTo(middlepassagelower)
-                .addMarker(() -> {
-                    mech.ScissorLeft.setTargetPosition(mech.levels[5]);
-                    mech.ScissorRight.setTargetPosition(mech.levels[5]);
-                    return Unit.INSTANCE;
-                })
-                .splineTo(foundationpickuplower)
-                .build();
-
-        drive.setPoseEstimate(foundationpickuplower);
-        Trajectory foundationshovinglower = drive.GasTrajectoryBuilder()
-                .addMarker(() ->{
-                    mech.ExtendGripper.setTargetPosition(mech.EXTEND_OUT);
-                    return Unit.INSTANCE;
-                })
-                .addMarker(0.5, () ->{
-                    mech.Gripper.setPosition(mech.GRIPPER_OPEN);
-                    return Unit.INSTANCE;
-                })
-                .addMarker(1.2,() ->{
-                    mech.ExtendGripper.setTargetPosition(0);
-                    return Unit.INSTANCE;
-                })
-                .addMarker(1.6,() ->{
-                    mech.ScissorLeft.setTargetPosition(mech.levels[0]);
-                    mech.ScissorRight.setTargetPosition(mech.levels[0]);
-                    return Unit.INSTANCE;
-                })
-                .reverse()
-                .strafeTo(new Vector2d(foundationshovelower.getX(), foundationshovelower.getY()))
-                /*.addMarker(() -> {
-                    mech.IngesterMotor.setPower(0);
-                    mech.ScissorLeft.setTargetPosition(mech.levels[2]);
-                    mech.ScissorRight.setTargetPosition(mech.levels[2]);
-                    return Unit.INSTANCE;
-                })
-                .addMarker(1.2,() ->{
-                    mech.ExtendGripper.setTargetPosition(mech.EXTEND_OUT);
-                    return Unit.INSTANCE;
-                })
-                .addMarker(1.4,() ->{
-                    mech.ScissorLeft.setTargetPosition(mech.levels[1]);
-                    mech.ScissorRight.setTargetPosition(mech.levels[1]);
-                    return Unit.INSTANCE;
-                })
-                .addMarker(1.5,() ->{
-                    mech.Gripper.setPosition(mech.GRIPPER_OPEN);
-                    return Unit.INSTANCE;
-                })
-                .addMarker(1.6,() ->{
-                    mech.ScissorLeft.setTargetPosition(mech.levels[2]);
-                    mech.ScissorRight.setTargetPosition(mech.levels[2]);
-                    return Unit.INSTANCE;
-                })
-                .addMarker(2.1,() ->{
-                    mech.ExtendGripper.setTargetPosition(0);
-                    return Unit.INSTANCE;
-                })
-                .addMarker(2.4,() ->{
-                    mech.ScissorLeft.setTargetPosition(mech.levels[0]);
-                    mech.ScissorRight.setTargetPosition(mech.levels[0]);
-                    return Unit.INSTANCE;
-                })
-
-                 */
-                .build();
-
-        drive.setPoseEstimate(foundationshovelower);
-        Trajectory parklower = drive.GasTrajectoryBuilder()
-                .splineTo(parkpositionlower)
-                .build();
-
-
-        drive.setPoseEstimate(startPosemiddle);
-        Trajectory toStone1middle = drive.GasTrajectoryBuilder()
-                .splineTo(ingest1middle) // MIDDLE STONE POSITION
-                .build();
-
-        drive.setPoseEstimate(ingest1middle);
-        Trajectory toFoundation1middle = drive.GasTrajectoryBuilder()
-                .addMarker(0.0,() ->{
-                    mech.Gripper.setPosition(mech.GRIPPER_CLOSED);
-                    return Unit.INSTANCE;
-                })
-                .addMarker(0.4,() ->{
-                    mech.IngesterMotor.setPower(0);
-                    return Unit.INSTANCE;
-                })
-                .reverse()
-                .splineTo(middlepassagemiddle)
-                .addMarker(() -> {
-                    mech.ScissorLeft.setTargetPosition(mech.levels[2]);
-                    mech.ScissorRight.setTargetPosition(mech.levels[2]);
-                    return Unit.INSTANCE;
-                })
-                .strafeTo(new Vector2d(middlepassagemiddle.getX()+40, middlepassagemiddle.getY()))
-                .addMarker(() ->{
-                    mech.ExtendGripper.setTargetPosition(mech.EXTEND_OUT);
-                    return Unit.INSTANCE;
-                })
-                .splineTo(new Pose2d(foundationgrabmiddle.getX(), foundationgrabmiddle.getY()-8, foundationgrabmiddle.getHeading()))
-                .strafeTo(new Vector2d(foundationgrabmiddle.getX(),foundationgrabmiddle.getY()))
-                .build();
-
-        drive.setPoseEstimate(foundationgrabmiddle);
-        Trajectory pullFoundationmiddle = drive.GasTrajectoryBuilder()
-                .addMarker(() ->{
-                    mech.ScissorLeft.setTargetPosition(mech.levels[3]);
-                    mech.ScissorRight.setTargetPosition(mech.levels[3]);
-                    return Unit.INSTANCE;
-                })
-                .addMarker(0.2,() ->{
-                    mech.Gripper.setPosition(mech.GRIPPER_OPEN);
-                    return Unit.INSTANCE;
-                })
-                .addMarker(0.5,() ->{
-                    mech.ScissorLeft.setTargetPosition(mech.levels[2]);
-                    mech.ScissorRight.setTargetPosition(mech.levels[2]);
-                    return Unit.INSTANCE;
-                })
-                .addMarker(0.9,() ->{
-                    mech.ExtendGripper.setTargetPosition(0);
-                    return Unit.INSTANCE;
-                })
-                .addMarker(1.3,() ->{
-                    mech.ScissorLeft.setTargetPosition(mech.levels[0]);
-                    mech.ScissorRight.setTargetPosition(mech.levels[0]);
-                    return Unit.INSTANCE;
-                })
-                /*.addMarker(0.0,() ->{
-                    mech.ExtendGripper.setTargetPosition(mech.EXTEND_OUT);
-                    mech.ExtendGripper.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-                    mech.ExtendGripper.setPower(1);
-                    return Unit.INSTANCE;
-                })
-                .addMarker(0.2,() ->{
-                    mech.ScissorLeft.setTargetPosition(mech.levels[1]);
-                    mech.ScissorRight.setTargetPosition(mech.levels[1]);
-                    return Unit.INSTANCE;
-                })
-                .addMarker(0.3, () ->{
-                    mech.Gripper.setPosition(mech.GRIPPER_OPEN);
-                    return Unit.INSTANCE;
-                })
-                .addMarker(0.4,() ->{
-                    mech.ScissorLeft.setTargetPosition(mech.levels[2]);
-                    mech.ScissorRight.setTargetPosition(mech.levels[2]);
-                    return Unit.INSTANCE;
-                })
-                .addMarker(1.0,() ->{
-                    mech.ExtendGripper.setTargetPosition(0);
-                    return Unit.INSTANCE;
-                })
-                .addMarker(1.3,() -> {
-                    mech.IngesterMotor.setPower(0.8);
-                    mech.ScissorLeft.setTargetPosition(mech.levels[0]);
-                    mech.ScissorRight.setTargetPosition(mech.levels[0]);
-                    return Unit.INSTANCE;
-                })
-               /* .addMarker(new Vector2d(foundationdumpmiddle.getX()+5,foundationdumpmiddle.getY()-15),() ->{
-                    mech.FoundationLeft.setPosition(mech.LEFT_OPEN);
-                    mech.FoundationRight.setPosition(mech.RIGHT_OPEN);
-                    return Unit.INSTANCE;
-                })
-                */
-                .splineTo(foundationmidmiddle)
-                .splineTo(foundationdumpmiddle)
-                .addMarker(() -> {
-                    mech.IngesterMotor.setPower(-0.8);
-                    mech.FoundationLeft.setPosition(mech.LEFT_OPEN);
-                    mech.FoundationRight.setPosition(mech.RIGHT_OPEN);
-                    return Unit.INSTANCE;
-                })
-                .splineTo(middlepassagemiddle)
-                .splineTo(ingest2middle) // MIDDLE STONE POSITION
-                .build();
-
-        drive.setPoseEstimate(ingest2middle);
-        Trajectory ingestStone2middle = drive.GasTrajectoryBuilder()
-                .reverse()
-                .splineTo (ingest2stopmiddle)
-                .build();
-
-        drive.setPoseEstimate(ingest2stopmiddle);
-        Trajectory ingestStone2Drivemiddle = drive.GasTrajectoryBuilder()
-                .strafeTo (new Vector2d(ingest2drivemiddle.getX(), ingest2drivemiddle.getY()))
-                .build();
-
-        drive.setPoseEstimate(ingest2drivemiddle);
-        Trajectory toFoundation2middle = drive.GasTrajectoryBuilder()
-                .reverse()
-                .addMarker(() -> {
-                    mech.Gripper.setPosition(mech.GRIPPER_CLOSED);
-                    return Unit.INSTANCE;
-                })
-                .addMarker(0.3, () -> {
-                    mech.ScissorLeft.setTargetPosition(mech.levels[1] + 30);
-                    mech.ScissorRight.setTargetPosition(mech.levels[1] + 30);
-                    return Unit.INSTANCE;
-                })
-                .splineTo(middlepassagemiddle)
-                .addMarker(() -> {
-                    mech.IngesterMotor.setPower(0);
-                    mech.ScissorLeft.setTargetPosition(mech.levels[4]);
-                    mech.ScissorRight.setTargetPosition(mech.levels[4]);
-                    return Unit.INSTANCE;
-                })
-                .addMarker(2.4, () ->{
-                    mech.ExtendGripper.setTargetPosition(mech.EXTEND_OUT);
-                    return Unit.INSTANCE;
-                })
-                .splineTo(foundationpickupmiddle)
-                /*.addMarker(0.4, () -> {
-                    mech.IngesterMotor.setPower(0);
-                    mech.ScissorLeft.setTargetPosition(mech.levels[2]);
-                    mech.ScissorRight.setTargetPosition(mech.levels[2]);
-                    return Unit.INSTANCE;
-                })
-                .addMarker(0.7,() ->{
-                    mech.ExtendGripper.setTargetPosition(mech.EXTEND_OUT);
-                    return Unit.INSTANCE;
-                })
-                .addMarker(0.9,() ->{
-                    mech.ScissorLeft.setTargetPosition(mech.levels[1]);
-                    mech.ScissorRight.setTargetPosition(mech.levels[1]);
-                    return Unit.INSTANCE;
-                })
-                .addMarker(1.0,() ->{
-                    mech.Gripper.setPosition(mech.GRIPPER_OPEN);
-                    return  Unit.INSTANCE;
-                })
-                .addMarker(1.1,() ->{
-                    mech.ScissorLeft.setTargetPosition(mech.levels[2]);
-                    mech.ScissorRight.setTargetPosition(mech.levels[2]);
-                    return Unit.INSTANCE;
-                })
-                .addMarker(1.6,() ->{
-                    mech.ExtendGripper.setTargetPosition(0);
-                    return Unit.INSTANCE;
-                })
-                .addMarker(1.8,() ->{
-                    mech.ScissorLeft.setTargetPosition(mech.levels[0]);
-                    mech.ScissorRight.setTargetPosition(mech.levels[0]);
-                    return Unit.INSTANCE;
-                })
-
-                 */
-                .build();
-
-        drive.setPoseEstimate(foundationpickupmiddle);
-        Trajectory toStone3middle = drive.GasTrajectoryBuilder()
-                .addMarker(() ->{
-                    mech.ExtendGripper.setTargetPosition(0);
-                    return Unit.INSTANCE;
-                })
-                .addMarker(0.4, () ->{
-                    mech.ScissorLeft.setTargetPosition(mech.levels[0]);
-                    mech.ScissorRight.setTargetPosition(mech.levels[0]);
-                    return Unit.INSTANCE;
-                })
-                .splineTo(middlepassagemiddle)
-                .splineTo(ingest3middle)
-                .build();
-
-        drive.setPoseEstimate(ingest3middle);
-        Trajectory toFoundation3middle = drive.GasTrajectoryBuilder()
-                .reverse()
-                .addMarker(0.0, () -> {
-                    mech.Gripper.setPosition(mech.GRIPPER_CLOSED);
-                    return Unit.INSTANCE;
-                })
-                .addMarker(0.4, () -> {
-                    mech.IngesterMotor.setPower(0);
-                    return Unit.INSTANCE;
-                })
-                .splineTo(middlepassagemiddle)
-                .addMarker(() -> {
-                    mech.ScissorLeft.setTargetPosition(mech.levels[5]);
-                    mech.ScissorRight.setTargetPosition(mech.levels[5]);
-                    return Unit.INSTANCE;
-                })
-                .splineTo(foundationpickupmiddle)
-                .build();
-
-        drive.setPoseEstimate(foundationpickupmiddle);
-        Trajectory foundationshovingmiddle = drive.GasTrajectoryBuilder()
-                .addMarker(() ->{
-                    mech.ExtendGripper.setTargetPosition(mech.EXTEND_OUT);
-                    return Unit.INSTANCE;
-                })
-                .addMarker(0.5, () ->{
-                    mech.Gripper.setPosition(mech.GRIPPER_OPEN);
-                    return Unit.INSTANCE;
-                })
-                .addMarker(1.2,() ->{
-                    mech.ExtendGripper.setTargetPosition(0);
-                    return Unit.INSTANCE;
-                })
-                .addMarker(1.6,() ->{
-                    mech.ScissorLeft.setTargetPosition(mech.levels[0]);
-                    mech.ScissorRight.setTargetPosition(mech.levels[0]);
-                    return Unit.INSTANCE;
-                })
-                .reverse()
-                .strafeTo(new Vector2d(foundationshovemiddle.getX(), foundationshovemiddle.getY()))
-                /*.addMarker(() -> {
-                    mech.IngesterMotor.setPower(0);
-                    mech.ScissorLeft.setTargetPosition(mech.levels[2]);
-                    mech.ScissorRight.setTargetPosition(mech.levels[2]);
-                    return Unit.INSTANCE;
-                })
-                .addMarker(1.2,() ->{
-                    mech.ExtendGripper.setTargetPosition(mech.EXTEND_OUT);
-                    return Unit.INSTANCE;
-                })
-                .addMarker(1.4,() ->{
-                    mech.ScissorLeft.setTargetPosition(mech.levels[1]);
-                    mech.ScissorRight.setTargetPosition(mech.levels[1]);
-                    return Unit.INSTANCE;
-                })
-                .addMarker(1.5,() ->{
-                    mech.Gripper.setPosition(mech.GRIPPER_OPEN);
-                    return Unit.INSTANCE;
-                })
-                .addMarker(1.6,() ->{
-                    mech.ScissorLeft.setTargetPosition(mech.levels[2]);
-                    mech.ScissorRight.setTargetPosition(mech.levels[2]);
-                    return Unit.INSTANCE;
-                })
-                .addMarker(2.1,() ->{
-                    mech.ExtendGripper.setTargetPosition(0);
-                    return Unit.INSTANCE;
-                })
-                .addMarker(2.4,() ->{
-                    mech.ScissorLeft.setTargetPosition(mech.levels[0]);
-                    mech.ScissorRight.setTargetPosition(mech.levels[0]);
-                    return Unit.INSTANCE;
-                })
-
-                 */
-                .build();
-
-        drive.setPoseEstimate(foundationshovemiddle);
-        Trajectory parkmiddle = drive.GasTrajectoryBuilder()
-                .splineTo(parkpositionmiddle)
-                .build();
+        Pose2d startPoseupper = new Pose2d(-30.5,  62.0, Math.toRadians(270.0));// changing this might make the path faster
+        Pose2d ingest1upper = new Pose2d(-28.5,25, Math.toRadians(310.0));
+        Pose2d ingest2upper = new Pose2d(-33,19.5, Math.toRadians(270.0));
+        Pose2d ingest2stopupper = new Pose2d(ingest2upper.getX()+4.5, ingest2upper.getY()+3, Math.toRadians(180.0));
+        Pose2d ingest2driveupper = new Pose2d(-40.5, 24, Math.toRadians(175.0));
+        Pose2d ingest3upper = new Pose2d(-48.0, 25, Math.toRadians(170.0));
+        Pose2d foundationgrabupper = new Pose2d(46.0,25.0,Math.toRadians(90.0));
+        Pose2d foundationmidupper = new Pose2d (40.0, 40.0, Math.toRadians(135.0));
+        Pose2d foundationdumpupper = new Pose2d(20.0,43.0,Math.toRadians(180.0));
+        Pose2d foundationpickupupper = new Pose2d (21,38.5,Math.toRadians(180.0));
+        Pose2d foundationshoveupper = new Pose2d(51.0,45.0,Math.toRadians(180.0));
+        Pose2d middlepassageupper = new Pose2d(2.0, 39.0, Math.toRadians(180.0));
+        Pose2d parkpositionupper = new Pose2d(4.0,40.0, Math.toRadians(180.0));
 
 
         drive.setPoseEstimate(startPoseupper);
@@ -674,7 +116,8 @@ public class RedSide3StoneVision extends LinearOpMode {
                 .build();
 
         drive.setPoseEstimate(ingest1upper);
-        Trajectory toFoundation1upper = drive.GasTrajectoryBuilder()
+        Trajectory toFoundation1upper
+                = drive.GasTrajectoryBuilder()
                 .addMarker(0.0,() ->{
                     mech.Gripper.setPosition(mech.GRIPPER_CLOSED);
                     return Unit.INSTANCE;
@@ -695,7 +138,7 @@ public class RedSide3StoneVision extends LinearOpMode {
                     mech.ExtendGripper.setTargetPosition(mech.EXTEND_OUT);
                     return Unit.INSTANCE;
                 })
-                .splineTo(new Pose2d(foundationgrabupper.getX(), foundationgrabupper.getY()-8, foundationgrabupper.getHeading()))
+                .splineTo(new Pose2d(foundationgrabupper.getX(), foundationgrabupper.getY()+8, foundationgrabupper.getHeading()))
                 .strafeTo(new Vector2d(foundationgrabupper.getX(),foundationgrabupper.getY()))
                 .build();
 
@@ -754,7 +197,7 @@ public class RedSide3StoneVision extends LinearOpMode {
                     mech.ScissorRight.setTargetPosition(mech.levels[0]);
                     return Unit.INSTANCE;
                 })
-               /* .addMarker(new Vector2d(foundationdumpupper.getX()+5,foundationdumpupper.getY()-15),() ->{
+               /* .addMarker(new Vector2d(foundationdump.getX()+5,foundationdump.getY()-15),() ->{
                     mech.FoundationLeft.setPosition(mech.LEFT_OPEN);
                     mech.FoundationRight.setPosition(mech.RIGHT_OPEN);
                     return Unit.INSTANCE;
@@ -942,6 +385,487 @@ public class RedSide3StoneVision extends LinearOpMode {
                 .splineTo(parkpositionupper)
                 .build();
 
+
+        drive.setPoseEstimate(startPosemiddle);
+        Trajectory toStone1middle = drive.GasTrajectoryBuilder()
+                .strafeTo(new Vector2d(startPosemiddle.getX()-7.2, startPosemiddle.getY()-8.0))
+                .splineTo(ingest1middle) // MIDDLE STONE POSITION
+                .build();
+
+        drive.setPoseEstimate(ingest1middle);
+        Trajectory toFoundation1middle = drive.GasTrajectoryBuilder()
+                .addMarker(0.0,() ->{
+                    mech.Gripper.setPosition(mech.GRIPPER_CLOSED);
+                    return Unit.INSTANCE;
+                })
+                .addMarker(0.4,() ->{
+                    mech.IngesterMotor.setPower(0);
+                    return Unit.INSTANCE;
+                })
+                .reverse()
+                .splineTo(middlepassagemiddle)
+                .addMarker(() -> {
+                    mech.ScissorLeft.setTargetPosition(mech.levels[2]);
+                    mech.ScissorRight.setTargetPosition(mech.levels[2]);
+                    return Unit.INSTANCE;
+                })
+                .strafeTo(new Vector2d(middlepassagemiddle.getX()+40, middlepassagemiddle.getY()))
+                .addMarker(() ->{
+                    mech.ExtendGripper.setTargetPosition(mech.EXTEND_OUT);
+                    return Unit.INSTANCE;
+                })
+                .splineTo(new Pose2d(foundationgrabmiddle.getX(), foundationgrabmiddle.getY()+8, foundationgrabmiddle.getHeading()))
+                .strafeTo(new Vector2d(foundationgrabmiddle.getX(),foundationgrabmiddle.getY()))
+                .build();
+
+        drive.setPoseEstimate(foundationgrabmiddle);
+        Trajectory pullFoundationmiddle = drive.GasTrajectoryBuilder()
+                .addMarker(() ->{
+                    mech.ScissorLeft.setTargetPosition(mech.levels[3]);
+                    mech.ScissorRight.setTargetPosition(mech.levels[3]);
+                    return Unit.INSTANCE;
+                })
+                .addMarker(0.2,() ->{
+                    mech.Gripper.setPosition(mech.GRIPPER_OPEN);
+                    return Unit.INSTANCE;
+                })
+                .addMarker(0.5,() ->{
+                    mech.ScissorLeft.setTargetPosition(mech.levels[2]);
+                    mech.ScissorRight.setTargetPosition(mech.levels[2]);
+                    return Unit.INSTANCE;
+                })
+                .addMarker(0.9,() ->{
+                    mech.ExtendGripper.setTargetPosition(0);
+                    return Unit.INSTANCE;
+                })
+                .addMarker(1.3,() ->{
+                    mech.ScissorLeft.setTargetPosition(mech.levels[0]);
+                    mech.ScissorRight.setTargetPosition(mech.levels[0]);
+                    return Unit.INSTANCE;
+                })
+                /*.addMarker(0.0,() ->{
+                    mech.ExtendGripper.setTargetPosition(mech.EXTEND_OUT);
+                    mech.ExtendGripper.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+                    mech.ExtendGripper.setPower(1);
+                    return Unit.INSTANCE;
+                })
+                .addMarker(0.2,() ->{
+                    mech.ScissorLeft.setTargetPosition(mech.levels[1]);
+                    mech.ScissorRight.setTargetPosition(mech.levels[1]);
+                    return Unit.INSTANCE;
+                })
+                .addMarker(0.3, () ->{
+                    mech.Gripper.setPosition(mech.GRIPPER_OPEN);
+                    return Unit.INSTANCE;
+                })
+                .addMarker(0.4,() ->{
+                    mech.ScissorLeft.setTargetPosition(mech.levels[2]);
+                    mech.ScissorRight.setTargetPosition(mech.levels[2]);
+                    return Unit.INSTANCE;
+                })
+                .addMarker(1.0,() ->{
+                    mech.ExtendGripper.setTargetPosition(0);
+                    return Unit.INSTANCE;
+                })
+                .addMarker(1.3,() -> {
+                    mech.IngesterMotor.setPower(0.8);
+                    mech.ScissorLeft.setTargetPosition(mech.levels[0]);
+                    mech.ScissorRight.setTargetPosition(mech.levels[0]);
+                    return Unit.INSTANCE;
+                })
+               /* .addMarker(new Vector2d(foundationdump.getX()+5,foundationdump.getY()-15),() ->{
+                    mech.FoundationLeft.setPosition(mech.LEFT_OPEN);
+                    mech.FoundationRight.setPosition(mech.RIGHT_OPEN);
+                    return Unit.INSTANCE;
+                })
+                */
+                .splineTo(foundationmidmiddle)
+                .splineTo(foundationdumpmiddle)
+                .addMarker(() -> {
+                    mech.IngesterMotor.setPower(-0.8);
+                    mech.FoundationLeft.setPosition(mech.LEFT_OPEN);
+                    mech.FoundationRight.setPosition(mech.RIGHT_OPEN);
+                    return Unit.INSTANCE;
+                })
+                .splineTo(middlepassagemiddle)
+                .splineTo(ingest2middle) // MIDDLE STONE POSITION
+                .build();
+
+        drive.setPoseEstimate(ingest2middle);
+        Trajectory ingestStone2middle = drive.GasTrajectoryBuilder()
+                .reverse()
+                .splineTo (ingest2stopmiddle)
+                .build();
+
+        drive.setPoseEstimate(ingest2stopmiddle);
+        Trajectory ingestStone2Drivemiddle = drive.GasTrajectoryBuilder()
+                .strafeTo (new Vector2d(ingest2drivemiddle.getX(), ingest2drivemiddle.getY()))
+                .build();
+
+        drive.setPoseEstimate(ingest2drivemiddle);
+        Trajectory toFoundation2middle = drive.GasTrajectoryBuilder()
+                .reverse()
+                .addMarker(() -> {
+                    mech.Gripper.setPosition(mech.GRIPPER_CLOSED);
+                    return Unit.INSTANCE;
+                })
+                .addMarker(0.3, () -> {
+                    mech.ScissorLeft.setTargetPosition(mech.levels[1] + 30);
+                    mech.ScissorRight.setTargetPosition(mech.levels[1] + 30);
+                    return Unit.INSTANCE;
+                })
+                .splineTo(new Pose2d(middlepassagemiddle.getX()-15, middlepassagemiddle.getY(), middlepassagemiddle.getHeading()))
+                .splineTo(middlepassagemiddle)
+                .addMarker(() -> {
+                    mech.IngesterMotor.setPower(0);
+                    mech.ScissorLeft.setTargetPosition(mech.levels[4]);
+                    mech.ScissorRight.setTargetPosition(mech.levels[4]);
+                    return Unit.INSTANCE;
+                })
+                .addMarker(2.4, () ->{
+                    mech.ExtendGripper.setTargetPosition(mech.EXTEND_OUT);
+                    return Unit.INSTANCE;
+                })
+                .splineTo(foundationpickupmiddle)
+                /*.addMarker(0.4, () -> {
+                    mech.IngesterMotor.setPower(0);
+                    mech.ScissorLeft.setTargetPosition(mech.levels[2]);
+                    mech.ScissorRight.setTargetPosition(mech.levels[2]);
+                    return Unit.INSTANCE;
+                })
+                .addMarker(0.7,() ->{
+                    mech.ExtendGripper.setTargetPosition(mech.EXTEND_OUT);
+                    return Unit.INSTANCE;
+                })
+                .addMarker(0.9,() ->{
+                    mech.ScissorLeft.setTargetPosition(mech.levels[1]);
+                    mech.ScissorRight.setTargetPosition(mech.levels[1]);
+                    return Unit.INSTANCE;
+                })
+                .addMarker(1.0,() ->{
+                    mech.Gripper.setPosition(mech.GRIPPER_OPEN);
+                    return  Unit.INSTANCE;
+                })
+                .addMarker(1.1,() ->{
+                    mech.ScissorLeft.setTargetPosition(mech.levels[2]);
+                    mech.ScissorRight.setTargetPosition(mech.levels[2]);
+                    return Unit.INSTANCE;
+                })
+                .addMarker(1.6,() ->{
+                    mech.ExtendGripper.setTargetPosition(0);
+                    return Unit.INSTANCE;
+                })
+                .addMarker(1.8,() ->{
+                    mech.ScissorLeft.setTargetPosition(mech.levels[0]);
+                    mech.ScissorRight.setTargetPosition(mech.levels[0]);
+                    return Unit.INSTANCE;
+                })
+
+                 */
+                .build();
+
+        drive.setPoseEstimate(foundationpickupmiddle);
+        Trajectory toStone3middle = drive.GasTrajectoryBuilder()
+                .addMarker(() ->{
+                    mech.ExtendGripper.setTargetPosition(0);
+                    return Unit.INSTANCE;
+                })
+                .addMarker(0.4, () ->{
+                    mech.ScissorLeft.setTargetPosition(mech.levels[0]);
+                    mech.ScissorRight.setTargetPosition(mech.levels[0]);
+                    return Unit.INSTANCE;
+                })
+                .splineTo(middlepassagemiddle)
+                .splineTo(ingest3middle)
+                .build();
+
+        drive.setPoseEstimate(ingest3middle);
+        Trajectory toFoundation3middle = drive.GasTrajectoryBuilder()
+                .reverse()
+                .addMarker(0.0, () -> {
+                    mech.Gripper.setPosition(mech.GRIPPER_CLOSED);
+                    return Unit.INSTANCE;
+                })
+                .addMarker(0.4, () -> {
+                    mech.IngesterMotor.setPower(0);
+                    return Unit.INSTANCE;
+                })
+                .addMarker(() -> {
+                    return Unit.INSTANCE;
+                })
+                .splineTo(middlepassagemiddle)
+                .addMarker(() -> {
+                    mech.ScissorLeft.setTargetPosition(mech.levels[5]);
+                    mech.ScissorRight.setTargetPosition(mech.levels[5]);
+                    return Unit.INSTANCE;
+                })
+                .splineTo(foundationpickupmiddle)
+                .build();
+
+        drive.setPoseEstimate(foundationpickupmiddle);
+        Trajectory foundationshovingmiddle = drive.GasTrajectoryBuilder()
+                .addMarker(() ->{
+                    mech.ExtendGripper.setTargetPosition(mech.EXTEND_OUT);
+                    return Unit.INSTANCE;
+                })
+                .addMarker(0.5, () ->{
+                    mech.Gripper.setPosition(mech.GRIPPER_OPEN);
+                    return Unit.INSTANCE;
+                })
+                .addMarker(1.2,() ->{
+                    mech.ExtendGripper.setTargetPosition(0);
+                    return Unit.INSTANCE;
+                })
+                .addMarker(1.6,() ->{
+                    mech.ScissorLeft.setTargetPosition(mech.levels[0]);
+                    mech.ScissorRight.setTargetPosition(mech.levels[0]);
+                    return Unit.INSTANCE;
+                })
+                .reverse()
+                .strafeTo(new Vector2d(foundationshovemiddle.getX(), foundationshovemiddle.getY()))
+                /*.addMarker(() -> {
+                    mech.IngesterMotor.setPower(0);
+                    mech.ScissorLeft.setTargetPosition(mech.levels[2]);
+                    mech.ScissorRight.setTargetPosition(mech.levels[2]);
+                    return Unit.INSTANCE;
+                })
+                .addMarker(1.2,() ->{
+                    mech.ExtendGripper.setTargetPosition(mech.EXTEND_OUT);
+                    return Unit.INSTANCE;
+                })
+                .addMarker(1.4,() ->{
+                    mech.ScissorLeft.setTargetPosition(mech.levels[1]);
+                    mech.ScissorRight.setTargetPosition(mech.levels[1]);
+                    return Unit.INSTANCE;
+                })
+                .addMarker(1.5,() ->{
+                    mech.Gripper.setPosition(mech.GRIPPER_OPEN);
+                    return Unit.INSTANCE;
+                })
+                .addMarker(1.6,() ->{
+                    mech.ScissorLeft.setTargetPosition(mech.levels[2]);
+                    mech.ScissorRight.setTargetPosition(mech.levels[2]);
+                    return Unit.INSTANCE;
+                })
+                .addMarker(2.1,() ->{
+                    mech.ExtendGripper.setTargetPosition(0);
+                    return Unit.INSTANCE;
+                })
+                .addMarker(2.4,() ->{
+                    mech.ScissorLeft.setTargetPosition(mech.levels[0]);
+                    mech.ScissorRight.setTargetPosition(mech.levels[0]);
+                    return Unit.INSTANCE;
+                })
+
+                 */
+                .build();
+
+        drive.setPoseEstimate(foundationshovemiddle);
+        Trajectory parkmiddle = drive.GasTrajectoryBuilder()
+                .splineTo(parkpositionmiddle)
+                .build();
+
+        drive.setPoseEstimate(startPoselower);
+        Trajectory toStone1lower = drive.GasTrajectoryBuilder()
+                .strafeTo(new Vector2d(startPoselower.getX()-15.2, startPoselower.getY()-8.0))
+                .splineTo(ingest1lower) // MIDDLE STONE POSITION
+                .build();
+
+        drive.setPoseEstimate(ingest1lower);
+        Trajectory toFoundation1lower = drive.GasTrajectoryBuilder()
+                .addMarker(0.0,() ->{
+                    mech.Gripper.setPosition(mech.GRIPPER_CLOSED);
+                    return Unit.INSTANCE;
+                })
+                .addMarker(0.4,() ->{
+                    mech.IngesterMotor.setPower(0);
+                    return Unit.INSTANCE;
+                })
+                .reverse()
+                .splineTo(middlepassagelower)
+                .addMarker(() -> {
+                    mech.ScissorLeft.setTargetPosition(mech.levels[2]);
+                    mech.ScissorRight.setTargetPosition(mech.levels[2]);
+                    return Unit.INSTANCE;
+                })
+                .strafeTo(new Vector2d(middlepassagelower.getX()+40, middlepassagelower.getY()))
+                .addMarker(() ->{
+                    mech.ExtendGripper.setTargetPosition(mech.EXTEND_OUT);
+                    return Unit.INSTANCE;
+                })
+                .splineTo(new Pose2d(foundationgrablower.getX(), foundationgrablower.getY()+8, foundationgrablower.getHeading()))
+                .strafeTo(new Vector2d(foundationgrablower.getX(),foundationgrablower.getY()))
+                .build();
+
+        drive.setPoseEstimate(foundationgrablower);
+        Trajectory pullFoundationlower = drive.GasTrajectoryBuilder()
+                .addMarker(() ->{
+                    mech.ScissorLeft.setTargetPosition(mech.levels[3]);
+                    mech.ScissorRight.setTargetPosition(mech.levels[3]);
+                    return Unit.INSTANCE;
+                })
+                .addMarker(0.2,() ->{
+                    mech.Gripper.setPosition(mech.GRIPPER_OPEN);
+                    return Unit.INSTANCE;
+                })
+                .addMarker(0.5,() ->{
+                    mech.ScissorLeft.setTargetPosition(mech.levels[2]);
+                    mech.ScissorRight.setTargetPosition(mech.levels[2]);
+                    return Unit.INSTANCE;
+                })
+                .addMarker(0.9,() ->{
+                    mech.ExtendGripper.setTargetPosition(0);
+                    return Unit.INSTANCE;
+                })
+                .addMarker(1.3,() ->{
+                    mech.ScissorLeft.setTargetPosition(mech.levels[0]);
+                    mech.ScissorRight.setTargetPosition(mech.levels[0]);
+                    return Unit.INSTANCE;
+                })
+                /*.addMarker(0.0,() ->{
+                    mech.ExtendGripper.setTargetPosition(mech.EXTEND_OUT);
+                    mech.ExtendGripper.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+                    mech.ExtendGripper.setPower(1);
+                    return Unit.INSTANCE;
+                })
+                .addMarker(0.2,() ->{
+                    mech.ScissorLeft.setTargetPosition(mech.levels[1]);
+                    mech.ScissorRight.setTargetPosition(mech.levels[1]);
+                    return Unit.INSTANCE;
+                })
+                .addMarker(0.3, () ->{
+                    mech.Gripper.setPosition(mech.GRIPPER_OPEN);
+                    return Unit.INSTANCE;
+                })
+                .addMarker(0.4,() ->{
+                    mech.ScissorLeft.setTargetPosition(mech.levels[2]);
+                    mech.ScissorRight.setTargetPosition(mech.levels[2]);
+                    return Unit.INSTANCE;
+                })
+                .addMarker(1.0,() ->{
+                    mech.ExtendGripper.setTargetPosition(0);
+                    return Unit.INSTANCE;
+                })
+                .addMarker(1.3,() -> {
+                    mech.IngesterMotor.setPower(0.8);
+                    mech.ScissorLeft.setTargetPosition(mech.levels[0]);
+                    mech.ScissorRight.setTargetPosition(mech.levels[0]);
+                    return Unit.INSTANCE;
+                })
+               /* .addMarker(new Vector2d(foundationdump.getX()+5,foundationdump.getY()-15),() ->{
+                    mech.FoundationLeft.setPosition(mech.LEFT_OPEN);
+                    mech.FoundationRight.setPosition(mech.RIGHT_OPEN);
+                    return Unit.INSTANCE;
+                })
+                */
+                .splineTo(foundationmidlower)
+                .splineTo(foundationdumplower)
+                .addMarker(() -> {
+                    mech.IngesterMotor.setPower(-0.8);
+                    mech.FoundationLeft.setPosition(mech.LEFT_OPEN);
+                    mech.FoundationRight.setPosition(mech.RIGHT_OPEN);
+                    return Unit.INSTANCE;
+                })
+                .splineTo(middlepassagelower)
+                .splineTo(ingest2lower) // MIDDLE STONE POSITION
+                .build();
+
+        drive.setPoseEstimate(ingest2lower);
+        Trajectory ingestStone2lower = drive.GasTrajectoryBuilder()
+                .reverse()
+                .splineTo (ingest2stoplower)
+                .build();
+
+        drive.setPoseEstimate(ingest2stoplower);
+        Trajectory ingestStone2Drivelower = drive.GasTrajectoryBuilder()
+                .strafeTo (new Vector2d(ingest2drivelower.getX(), ingest2drivelower.getY()))
+                .build();
+
+        drive.setPoseEstimate(ingest2drivelower);
+        Trajectory toFoundation2lower = drive.GasTrajectoryBuilder()
+                .reverse()
+                .addMarker(() -> {
+                    mech.Gripper.setPosition(mech.GRIPPER_CLOSED);
+                    return Unit.INSTANCE;
+                })
+                .addMarker(0.3, () -> {
+                    mech.ScissorLeft.setTargetPosition(mech.levels[1] + 30);
+                    mech.ScissorRight.setTargetPosition(mech.levels[1] + 30);
+                    return Unit.INSTANCE;
+                })
+                .splineTo(new Pose2d(middlepassagelower.getX()-15, middlepassagelower.getY(), middlepassagelower.getHeading()))
+                .splineTo(middlepassagelower)
+                .addMarker(() -> {
+                    mech.IngesterMotor.setPower(0);
+                    mech.ScissorLeft.setTargetPosition(mech.levels[4] + 150);
+                    mech.ScissorRight.setTargetPosition(mech.levels[4] + 150);
+                    return Unit.INSTANCE;
+                })
+                .addMarker(3, () ->{
+                    mech.ExtendGripper.setTargetPosition(mech.EXTEND_OUT);
+                    return Unit.INSTANCE;
+                })
+                .splineTo(foundationpickuplower)
+                /*.addMarker(0.4, () -> {
+                    mech.IngesterMotor.setPower(0);
+                    mech.ScissorLeft.setTargetPosition(mech.levels[2]);
+                    mech.ScissorRight.setTargetPosition(mech.levels[2]);
+                    return Unit.INSTANCE;
+                })
+                .addMarker(0.7,() ->{
+                    mech.ExtendGripper.setTargetPosition(mech.EXTEND_OUT);
+                    return Unit.INSTANCE;
+                })
+                .addMarker(0.9,() ->{
+                    mech.ScissorLeft.setTargetPosition(mech.levels[1]);
+                    mech.ScissorRight.setTargetPosition(mech.levels[1]);
+                    return Unit.INSTANCE;
+                })
+                .addMarker(1.0,() ->{
+                    mech.Gripper.setPosition(mech.GRIPPER_OPEN);
+                    return  Unit.INSTANCE;
+                })
+                .addMarker(1.1,() ->{
+                    mech.ScissorLeft.setTargetPosition(mech.levels[2]);
+                    mech.ScissorRight.setTargetPosition(mech.levels[2]);
+                    return Unit.INSTANCE;
+                })
+                .addMarker(1.6,() ->{
+                    mech.ExtendGripper.setTargetPosition(0);
+                    return Unit.INSTANCE;
+                })
+                .addMarker(1.8,() ->{
+                    mech.ScissorLeft.setTargetPosition(mech.levels[0]);
+                    mech.ScissorRight.setTargetPosition(mech.levels[0]);
+                    return Unit.INSTANCE;
+                })
+
+                 */
+                .build();
+
+        drive.setPoseEstimate(foundationpickuplower);
+        Trajectory foundationshovinglower = drive.GasTrajectoryBuilder()
+                .addMarker(1, () -> {
+                    mech.Gripper.setPosition(mech.GRIPPER_OPEN);
+                    return Unit.INSTANCE;
+                })
+                .addMarker(1.4, () ->{
+                    mech.ExtendGripper.setTargetPosition(0);
+                    return Unit.INSTANCE;
+                })
+                .strafeTo(new Vector2d(foundationshovelower.getX(), foundationshovelower.getY()))
+                .build();
+
+        drive.setPoseEstimate(foundationshovelower);
+        Trajectory parklower = drive.GasTrajectoryBuilder()
+                .addMarker(() ->{
+                    mech.ScissorLeft.setTargetPosition(mech.levels[0]);
+                    mech.ScissorRight.setTargetPosition(mech.levels[0]);
+                    return Unit.INSTANCE;
+                })
+                .splineTo(parkpositionlower)
+                .build();
+
         telemetry.addLine("Trajectories Done Calculating");
         telemetry.update();
         ElapsedTime time = new ElapsedTime();
@@ -1039,11 +963,7 @@ public class RedSide3StoneVision extends LinearOpMode {
             drive.followTrajectorySync(toFoundation2lower);
             mech.Gripper.setPosition(mech.GRIPPER_OPEN);
             sleep(600);
-            //mech.IngesterMotor.setPower(0.8);
-            mech.IngesterMotor.setPower(0.8);
-            drive.followTrajectorySync(toStone3lower);
             //mech.Gripper.setPosition(mech.GRIPPER_CLOSED);
-            drive.followTrajectorySync(toFoundation3lower);
             drive.followTrajectorySync(foundationshovinglower);
             drive.followTrajectorySync(parklower);
         }
@@ -1186,3 +1106,4 @@ public class RedSide3StoneVision extends LinearOpMode {
 
     }
 }
+

@@ -18,9 +18,9 @@ public class StatesTeleOpMecanum extends StatesConfigure {
 
     public int level = 0, nextStack = 3, targetPos = 0; //0: Lowest point, 1: Resting position (under skybridge), 2: clears crossbeam.
 
-    public double GAS = 1, straightGas, sideGas, turnGas, startTime = 0;
+    public double GAS = 1, straightGas, sideGas, turnGas, startTime = 0, prevGas;
 
-    public boolean quarterSpeedPressed = false, startRegrab = false, justCapped = false, manualCap = false, lock = false, overloadPressed = false, overloading = false, manual = false, CapPressed = false, statusPressed = false, Pressed = false, grabbing = false, stacking = false, blockdropped = false, IngestPressed, Capping = false, blockPickedUp;
+    public boolean firstLock = false, justLocked = false, quarterSpeedPressed = false, startRegrab = false, justCapped = false, manualCap = false, locking = false, overloadPressed = false, overloading = false, manual = false, CapPressed = false, statusPressed = false, Pressed = false, grabbing = false, stacking = false, blockdropped = false, IngestPressed, Capping = false, blockPickedUp;
 
     public ElapsedTime time;
 
@@ -35,13 +35,20 @@ public class StatesTeleOpMecanum extends StatesConfigure {
         /*
         DRIVETRAIN MOVEMENTS START HERE
         */
+        if(locking) GAS = 0.5;
+        else if(justLocked) {
+            GAS = 1;
+            justLocked = false;
+        }
 
-        if (G1.right_bumper && !quarterSpeedPressed) {
+        if (G1.right_bumper && !quarterSpeedPressed && !locking) {
             if(GAS == 1) GAS = 0.25; //Quarter speed option
             else GAS = 1;
             quarterSpeedPressed = true;
         }
         else if(!G1.right_bumper) quarterSpeedPressed = false;
+
+
         straightGas = sideGas = turnGas = GAS;
         turnGas = Math.abs(turnGas);
 
@@ -190,11 +197,14 @@ public class StatesTeleOpMecanum extends StatesConfigure {
                     status = Robot.STACKING;
                     break;
                 case STACKING:
-                    status = Robot.STATIONARY;
-                    break;
-                case STATIONARY:
+                    //status = Robot.STATIONARY;
                     status = Robot.BALANCED;
                     break;
+                /*case STATIONARY:
+                    status = Robot.BALANCED;
+                    break;
+
+                 */
             }
         }
         else if(!G2.back) statusPressed = false;
@@ -242,6 +252,9 @@ public class StatesTeleOpMecanum extends StatesConfigure {
                 }
                 else if(G2.dpad_left) {
                     Macro = Macros.RESETTING;
+                }
+                else if(G2.dpad_right){
+                    Macro = Macros.REGRABBING;
                 }
                 break;
             case NOACTION:
@@ -353,31 +366,36 @@ public class StatesTeleOpMecanum extends StatesConfigure {
 
     private void raiseToStack(){
         Gripper.setPosition(GRIPPER_CLOSED);
-        if(nextStack == 3) { //aka stacking the first block
-            targetPos = levels[level = 2];
-            if(Math.abs(ScissorLeft.getCurrentPosition() - levels[2]) < 200 && Math.abs(ScissorRight.getCurrentPosition() - levels[2]) < 200) {
-                extend(true);
-                if(Math.abs(EXTEND_OUT - ExtendGripper.getCurrentPosition()) < 250) {
-                    targetPos = levels[level = 3];
-                    Pressed = false;
-                    Macro = Macros.LIFTED;
+        if(startTime == 0) startTime = time.milliseconds();
+        if(time.milliseconds() - startTime > 300) {
+            if (nextStack == 3) { //aka stacking the first block
+                targetPos = levels[level = 2];
+                if (Math.abs(ScissorLeft.getCurrentPosition() - levels[2]) < 200 && Math.abs(ScissorRight.getCurrentPosition() - levels[2]) < 200) {
+                    extend(true);
+                    if (Math.abs(EXTEND_OUT - ExtendGripper.getCurrentPosition()) < 250) {
+                        targetPos = levels[level = 3];
+                        Pressed = false;
+                        Macro = Macros.LIFTED;
+                        startTime = 0;
+                    }
                 }
+                return;
             }
-            return;
-        }
-        if(status == Robot.BALANCED){
-            targetPos = levels[level = nextStack] - level * 38 + 135;
-            //THESE ARE THE NUMBERS WE NEED TO MESS WITH, SHOULD BE CONSISTENT BETWEEN THESE TWO LINES.
-            //WE NEED A SCALING VALUE BECAUSE AS THE SCISSORS GET HIGHER THE SAME NUMBER OF TICKS MEANS LESS, AND THE STATIC VALUE IS TO ACCOMMODATE FOR THE LOWER LEVELS.
-        }
-        else {
-            targetPos = levels[level = nextStack];
-        }
-        int heightConfidence = 150;
-        if(status == Robot.STATIONARY && nextStack > 6) heightConfidence = 100 + level * 25; //If stationary, arc up/sideways movement.
-        if(Math.abs(ScissorLeft.getCurrentPosition() - targetPos) < heightConfidence && Math.abs(ScissorRight.getCurrentPosition() - targetPos) < heightConfidence){
-            Pressed = false;
-            Macro = Macros.LIFTED;
+
+            if (status == Robot.BALANCED) {
+                targetPos = levels[level = nextStack] - level * 38 + 135;
+                //THESE ARE THE NUMBERS WE NEED TO MESS WITH, SHOULD BE CONSISTENT BETWEEN THESE TWO LINES.
+                //WE NEED A SCALING VALUE BECAUSE AS THE SCISSORS GET HIGHER THE SAME NUMBER OF TICKS MEANS LESS, AND THE STATIC VALUE IS TO ACCOMMODATE FOR THE LOWER LEVELS.
+            } else {
+                targetPos = levels[level = nextStack];
+            }
+            int heightConfidence = 150;
+            if (status == Robot.STATIONARY && nextStack > 6) heightConfidence = 100 + level * 25; //If stationary, arc up/sideways movement.
+            if (Math.abs(ScissorLeft.getCurrentPosition() - targetPos) < heightConfidence && Math.abs(ScissorRight.getCurrentPosition() - targetPos) < heightConfidence) {
+                Pressed = false;
+                Macro = Macros.LIFTED;
+                startTime = 0;
+            }
         }
     }
 
@@ -416,12 +434,23 @@ public class StatesTeleOpMecanum extends StatesConfigure {
         else if(Math.abs(EXTEND_OUT - ExtendGripper.getCurrentPosition()) < 60){
             if(stack == Stacking.LOCKING) {
                 targetPos = levels[level = nextStack] - (100 * level);
+                locking = true;
+                if(!firstLock){
+                    firstLock = true;
+                    FoundationLeft.setPosition(LEFT_CLOSE);
+                    FoundationRight.setPosition(RIGHT_CLOSE);
+                }
                 return;
             }
             else if(status == Robot.BALANCED) targetPos = levels[level = nextStack] - level * 38 + 135;
                 //THESE ARE THE NUMBERS WE NEED TO MESS WITH, SHOULD BE CONSISTENT BETWEEN THESE TWO LINES.
                 //WE NEED A SCALING VALUE BECAUSE AS THE SCISSORS GET HIGHER THE SAME NUMBER OF TICKS MEANS LESS, AND THE STATIC VALUE IS TO ACCOMMODATE FOR THE LOWER LEVELS.
             else targetPos = levels[level = nextStack];
+            if(locking) {
+                justLocked = true;
+                locking = false;
+                firstLock = false;
+            }
             if(Math.abs(ScissorLeft.getCurrentPosition() - targetPos) < 20 && Math.abs(ScissorRight.getCurrentPosition() - targetPos) < 20) {
                 Gripper.setPosition(GRIPPER_OPEN);
                 if(startTime == 0) startTime = time.milliseconds();
