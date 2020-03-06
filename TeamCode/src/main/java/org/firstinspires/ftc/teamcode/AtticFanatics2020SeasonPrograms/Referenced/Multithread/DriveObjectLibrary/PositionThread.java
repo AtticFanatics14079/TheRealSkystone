@@ -2,50 +2,49 @@ package org.firstinspires.ftc.teamcode.AtticFanatics2020SeasonPrograms.Reference
 
 import com.qualcomm.robotcore.util.ElapsedTime;
 
+import java.util.ArrayList;
+
 public class PositionThread implements Runnable{
 
-    private int[] pos;
-    private double[] maxSpeed, totalError, lastError;
+    private ArrayList<Integer> pos = new ArrayList<>(); //Arrays are all ordered according to partNum.
+    private ArrayList<Double> maxSpeed = new ArrayList<>(), totalError = new ArrayList<>(), lastError = new ArrayList<>();
     private double lastTime;
-    private volatile DriveObject[] drive;
-    private boolean[] finishedParts;
-    private Double[][] PID;
+    private volatile ArrayList<DriveObject> drive = new ArrayList<>();
+    private ArrayList<Boolean> finishedParts = new ArrayList<>();
+    private ArrayList<Double[]> PID = new ArrayList<>();
     private boolean stillGoing = true, group = false;
     private volatile boolean stop;
 
-    public PositionThread(int[] position, double[] maxSpeed, int partNum, DriveObject[] drive){
+    public PositionThread(int[] position, double[] maxSpeed, DriveObject[] drive){
+        int n = 0;
         for(DriveObject d : drive) {
             int i = d.getPartNum();
-            PID[i] = drive[i].getPID().clone();
-            PID[i][0] /= 10000;
+            this.drive.set(i, d);
+            pos.set(i, position[n++]);
+            this.maxSpeed.set(i, maxSpeed[n]);
+            PID.set(i, d.getPID().clone());
+            totalError.set(i, 0.0);
+            lastError.set(i, 0.0);
+            finishedParts.set(i, false);
         }
-        this.drive = drive;
     }
 
     public PositionThread(int position, double maxSpeed, int partNum, DriveObject drive){
-        pos[partNum] = position;
-        this.maxSpeed = new double[]{maxSpeed};
-        this.drive = new DriveObject[]{drive};
-        finishedParts = new boolean[1];
-        PID = new Double[1][3];
-        PID[0] = drive.getPID().clone();
-        PID[0][0] /= 10000;
-        lastError = totalError = new double[1];
+        int i = drive.getPartNum();
+        this.drive.set(i, drive);
+        pos.set(i, position);
+        this.maxSpeed.set(i, maxSpeed);
+        PID.set(i, drive.getPID().clone());
     }
 
     public PositionThread(int position, double maxSpeed, int partNum, DriveObject[] drive){
-        pos = new int[]{position};
-        this.maxSpeed = new double[]{maxSpeed};
-        this.drive = drive;
-        finishedParts = new boolean[1];
-        PID = new Double[1][3];
-        PID[0] = drive[0].getPID().clone();
-        PID[0][0] = Math.abs(PID[0][0]) / 1000;
-        System.out.println(PID[0][0] + " " + drive[0].getPID()[0]);
-        PID[0][1] = Math.abs(PID[0][1]) / 1000;
-        PID[0][2] = Math.abs(PID[0][2]) / 1000;
-        lastError = totalError = new double[1];
-        group = true;
+        for(DriveObject d : drive) {
+            int i = d.getPartNum();
+            this.drive.set(i, d);
+            pos.set(i, position);
+            this.maxSpeed.set(i, maxSpeed);
+            PID.set(i, d.getPID().clone());
+        }
     }
 
     public void run(){
@@ -54,13 +53,11 @@ public class PositionThread implements Runnable{
         double speed;
         while(!stop && stillGoing) {
             if(time.milliseconds() - lastTime >= 5) {
-                System.out.println("Hello");
                 lastTime = time.milliseconds();
                 stillGoing = false;
                 if(group){
                     stillGoing = true;
                     speed = groupToPosition();
-                    System.out.println(speed);
                     for(DriveObject d : drive) {
                         d.setClassification(DriveObject.classification.Default);
                         if(Math.abs(speed) < 0.05) {
@@ -90,11 +87,11 @@ public class PositionThread implements Runnable{
     }
 
     private double toPosition(int i){
-        double speed = 0, error = pos[i] - drive[i].get();
-        totalError[i] += error;
-        speed += PID[i][0] * error;
-        speed += PID[i][1] * totalError[i];
-        speed += PID[i][2] * (error - lastError[i]);
+        double speed = 0, error = pos.get(i) - drive.get(i).get();
+        totalError.set(i, totalError.get(i) + error);
+        speed += PID.get(i)[0] * error;
+        speed += PID.get(i)[1] * totalError.get(i);
+        speed += PID.get(i)[2] * (error - lastError.get(i));
 
         if(speed > 1) speed = 1;
 
@@ -130,16 +127,17 @@ public class PositionThread implements Runnable{
     }
 
     public void stopPart(int partNum){
-        for(int i = 0; i < drive.length; i++){
-            if(drive[i].getPartNum() == partNum){
-                drive[i] = null;
-                return;
-            }
-        }
+        if(drive.get(partNum) == null) return;
+        pos.set(partNum, null);
+        maxSpeed.set(partNum, null);
+        totalError.set(partNum, null);
+        lastError.set(partNum, null);
+        finishedParts.set(partNum, null);
+        PID.set(partNum, null);
+        drive.set(partNum, null);
     }
 
-    public void setPart(int targetPos, double maxSpeed, int partNum, DriveObject d){
-        drive[partNum] = d;
+    public void setPart(int targetPos, double maxSpeed, DriveObject d){
 
     }
 
