@@ -13,21 +13,17 @@ public class PositionThread implements Runnable{
     private boolean stillGoing = true, group = false;
     private volatile boolean stop;
 
-    public PositionThread(int[] position, double[] maxSpeed, DriveObject[] drive){
-        pos = position;
-        this.maxSpeed = maxSpeed;
-        finishedParts = new boolean[drive.length];
-        lastError = totalError = new double[drive.length];
-        PID = new Double[drive.length][3];
-        for(int i = 0; i < drive.length; i++) {
+    public PositionThread(int[] position, double[] maxSpeed, int partNum, DriveObject[] drive){
+        for(DriveObject d : drive) {
+            int i = d.getPartNum();
             PID[i] = drive[i].getPID().clone();
             PID[i][0] /= 10000;
         }
         this.drive = drive;
     }
 
-    public PositionThread(int position, double maxSpeed, DriveObject drive){
-        pos = new int[]{position};
+    public PositionThread(int position, double maxSpeed, int partNum, DriveObject drive){
+        pos[partNum] = position;
         this.maxSpeed = new double[]{maxSpeed};
         this.drive = new DriveObject[]{drive};
         finishedParts = new boolean[1];
@@ -37,7 +33,7 @@ public class PositionThread implements Runnable{
         lastError = totalError = new double[1];
     }
 
-    public PositionThread(int position, double maxSpeed, DriveObject[] drive){
+    public PositionThread(int position, double maxSpeed, int partNum, DriveObject[] drive){
         pos = new int[]{position};
         this.maxSpeed = new double[]{maxSpeed};
         this.drive = drive;
@@ -140,6 +136,11 @@ public class PositionThread implements Runnable{
                 return;
             }
         }
+    }
+
+    public void setPart(int targetPos, double maxSpeed, int partNum, DriveObject d){
+        drive[partNum] = d;
+
     }
 
     public void Stop(){

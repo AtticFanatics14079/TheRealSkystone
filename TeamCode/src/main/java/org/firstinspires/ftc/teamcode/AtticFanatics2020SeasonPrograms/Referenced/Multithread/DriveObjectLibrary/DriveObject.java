@@ -23,7 +23,7 @@ public class DriveObject {
 
     private int partNum;
     private Double[] pid = {30.0, 0.0, 0.0}; //Default values
-    private ArrayList<Thread> threads = new ArrayList<>();
+    private static Thread posThread, timeThread;
     private static ValueStorage vals;
 
     private String objectName;
@@ -166,8 +166,7 @@ public class DriveObject {
                         break;
                     case toPosition:
                         //if(pos.isAlive()) pos.stopPart(partNum); //Currently starting a new thread breaks a part
-                        Thread pos = new Thread(new PositionThread((int) Value, 1, this));
-                        threads.add(pos);
+                        if(!posThread.isAlive())
                         pos.start();
                         return pos;
                     case Default:

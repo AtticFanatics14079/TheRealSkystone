@@ -1,3 +1,4 @@
+- Make a single thread for position and a single thread for time-based actions (Halfway through changing PositionThread AND DriveObject).
 - Get IMU set up, possibly incorporate IMU turning
 - Get touch sensors set up
 - Get odometry set up
