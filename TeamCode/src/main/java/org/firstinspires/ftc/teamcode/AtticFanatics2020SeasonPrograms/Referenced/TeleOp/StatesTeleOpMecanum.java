@@ -448,8 +448,13 @@ public class StatesTeleOpMecanum extends StatesConfigure {
             else targetPos = levels[level = nextStack];
             if(locking) {
                 justLocked = true;
-                locking = false;
-                firstLock = false;
+                if(startTime == 0) startTime = time.milliseconds();
+                if(time.milliseconds() - startTime > 1000) {
+                    locking = false;
+                    firstLock = false;
+                    startTime = 0;
+                }
+                return;
             }
             if(Math.abs(ScissorLeft.getCurrentPosition() - targetPos) < 20 && Math.abs(ScissorRight.getCurrentPosition() - targetPos) < 20) {
                 Gripper.setPosition(GRIPPER_OPEN);
