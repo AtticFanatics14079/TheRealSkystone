@@ -70,39 +70,37 @@ public class RedSide3StoneVision extends LinearOpMode {
 
         Pose2d startPoselower = new Pose2d(-30.5,  -63.0, Math.toRadians(90.0));// changing this might make the path faster
         Pose2d ingest1lower = new Pose2d(-42.5,-25.5, Math.toRadians(55.0));
-        Pose2d ingest2lower = new Pose2d(-50,-17.5, Math.toRadians(90.0));
-        Pose2d ingest2stoplower = new Pose2d(ingest2lower.getX()+2.5, ingest2lower.getY()-3.3, Math.toRadians(185.0));
-        Pose2d ingest2drivelower = new Pose2d(ingest2lower.getX()-6.5, ingest2lower.getY()-5.0, Math.toRadians(185.0));
-        Pose2d ingest3lower = new Pose2d(ingest2drivelower.getX(), ingest2drivelower.getY() + 1, Math.toRadians(185.0));
-        Pose2d ingest3templower = new Pose2d(-41,-17, Math.toRadians(185.0));
+        Pose2d ingest2lower = new Pose2d(-50,-17, Math.toRadians(90.0));
+        Pose2d ingest2stoplower = new Pose2d(ingest2lower.getX()+2.5, ingest2lower.getY()-3.0, Math.toRadians(190.0));
+        Pose2d ingest2drivelower = new Pose2d(ingest2lower.getX()-6.5, ingest2lower.getY()-3.0, Math.toRadians(190.0));
         Pose2d foundationgrablower = new Pose2d(48.0,-25.0,Math.toRadians(270.0));
         Pose2d foundationmidlower = new Pose2d (40.0, -40.0, Math.toRadians(225.0));
         Pose2d foundationdumplower = new Pose2d(20.0,-43.0,Math.toRadians(180.0));
-        Pose2d foundationpickuplower = new Pose2d (22.0,-35.0,Math.toRadians(180.0));
+        Pose2d foundationpickuplower = new Pose2d (22.0,-38.0,Math.toRadians(180.0));
         Pose2d foundationshovelower = new Pose2d(51.0,-44.0,Math.toRadians(180.0));
-        Pose2d middlepassagelower = new Pose2d(2.0, -37.5, Math.toRadians(180.0));
-        Pose2d parkpositionlower = new Pose2d(4.0,-39.0, Math.toRadians(180.0));
+        Pose2d middlepassagelower = new Pose2d(2.0, -38, Math.toRadians(180.0));
+        Pose2d parkpositionlower = new Pose2d(4.0,-38.0, Math.toRadians(180.0));
 
         Pose2d startPosemiddle = new Pose2d(-30.5,  -63.0, Math.toRadians(90.0));// changing this might make the path faster
-        Pose2d ingest1middle = new Pose2d(-34.5,-25, Math.toRadians(55.0));
-        Pose2d ingest2middle = new Pose2d(-41,-16.5, Math.toRadians(90.0));
+        Pose2d ingest1middle = new Pose2d(-33.5,-25, Math.toRadians(55.0));
+        Pose2d ingest2middle = new Pose2d(-39,-17, Math.toRadians(90.0));
         Pose2d ingest2stopmiddle = new Pose2d(ingest2middle.getX()+3.5, ingest2middle.getY()-3.3, Math.toRadians(185.0));
         Pose2d ingest2drivemiddle = new Pose2d(ingest2middle.getX()-7.5, ingest2middle.getY()-5.0, Math.toRadians(185.0));
-        Pose2d ingest3middle = new Pose2d(-58, -21, Math.toRadians(185.0));
+        Pose2d ingest3middle = new Pose2d(-58, -21.5, Math.toRadians(185.0));
         Pose2d foundationgrabmiddle = new Pose2d(48.0,-25.0,Math.toRadians(270.0));
         Pose2d foundationmidmiddle = new Pose2d (40.0, -40.0, Math.toRadians(225.0));
         Pose2d foundationdumpmiddle = new Pose2d(20.0,-43.0,Math.toRadians(180.0));
-        Pose2d foundationpickupmiddle = new Pose2d (22,-35,Math.toRadians(180.0));
-        Pose2d foundationshovemiddle = new Pose2d(51.0,-44.0,Math.toRadians(180.0));
-        Pose2d middlepassagemiddle = new Pose2d(2.0, -36.5, Math.toRadians(180.0));
+        Pose2d foundationpickupmiddle = new Pose2d (22,-37,Math.toRadians(180.0));
+        Pose2d foundationshovemiddle = new Pose2d(51.0,-47.0,Math.toRadians(180.0));
+        Pose2d middlepassagemiddle = new Pose2d(2.0, -37, Math.toRadians(180.0));
         Pose2d parkpositionmiddle = new Pose2d(4.0,-39.0, Math.toRadians(180.0));
 
-        Pose2d startPoseupper = new Pose2d(-30.5,  -63.0, Math.toRadians(90.0));// changing this might make the path faster
+        Pose2d startPoseupper = new Pose2d(-30.5,  -64.0, Math.toRadians(90.0));// changing this might make the path faster
         Pose2d ingest1upper = new Pose2d(-26.5,-25, Math.toRadians(55.0));
-        Pose2d ingest2upper = new Pose2d(-35,-19, Math.toRadians(90.0));
-        Pose2d ingest2stopupper = new Pose2d(ingest2upper.getX()+3.5, ingest2upper.getY()-3, Math.toRadians(185.0));
-        Pose2d ingest2driveupper = new Pose2d(ingest2upper.getX()-6.5, ingest2upper.getY()-5.0, Math.toRadians(185.0));
-        Pose2d ingest3upper = new Pose2d(-49.0, -22, Math.toRadians(185.0));
+        Pose2d ingest2upper = new Pose2d(-34.5,-18.5, Math.toRadians(90.0));
+        Pose2d ingest2stopupper = new Pose2d(ingest2upper.getX()+3.5, ingest2upper.getY()-4.0, Math.toRadians(185.0));
+        Pose2d ingest2driveupper = new Pose2d(ingest2upper.getX()-6.5, ingest2upper.getY()-4.0, Math.toRadians(185.0));
+        Pose2d ingest3upper = new Pose2d(-49.0, -21.5, Math.toRadians(190.0));
         Pose2d foundationgrabupper = new Pose2d(48.0,-25.0,Math.toRadians(270.0));
         Pose2d foundationmidupper = new Pose2d (40.0, -40.0, Math.toRadians(225.0));
         Pose2d foundationdumpupper = new Pose2d(20.0,-43.0,Math.toRadians(180.0));
@@ -292,58 +290,16 @@ public class RedSide3StoneVision extends LinearOpMode {
                 .build();
 
         drive.setPoseEstimate(foundationpickuplower);
-        Trajectory toStone3lower = drive.GasTrajectoryBuilder()
-                .addMarker(() ->{
-                    mech.ExtendGripper.setTargetPosition(0);
-                    return Unit.INSTANCE;
-                })
-                .addMarker(0.4, () ->{
-                    mech.ScissorLeft.setTargetPosition(mech.levels[0]);
-                    mech.ScissorRight.setTargetPosition(mech.levels[0]);
-                    return Unit.INSTANCE;
-                })
-                .splineTo(middlepassagelower)
-                .splineTo(ingest3lower)
-                .build();
-
-        drive.setPoseEstimate(ingest3lower);
-        Trajectory toFoundation3lower = drive.GasTrajectoryBuilder()
-                .reverse()
-                .addMarker(0.0, () -> {
-                    mech.Gripper.setPosition(mech.GRIPPER_CLOSED);
-                    return Unit.INSTANCE;
-                })
-                .addMarker(0.4, () -> {
-                    mech.IngesterMotor.setPower(0);
-                    return Unit.INSTANCE;
-                })
-                .addMarker(() -> {
-                    return Unit.INSTANCE;
-                })
-                .splineTo(middlepassagelower)
-                .addMarker(() -> {
-                    mech.ScissorLeft.setTargetPosition(mech.levels[5]);
-                    mech.ScissorRight.setTargetPosition(mech.levels[5]);
-                    return Unit.INSTANCE;
-                })
-                .splineTo(foundationpickuplower)
-                .build();
-
-        drive.setPoseEstimate(foundationpickuplower);
         Trajectory foundationshovinglower = drive.GasTrajectoryBuilder()
-                .addMarker(() ->{
-                    mech.ExtendGripper.setTargetPosition(mech.EXTEND_OUT);
-                    return Unit.INSTANCE;
-                })
-                .addMarker(0.5, () ->{
+                .addMarker(() -> {
                     mech.Gripper.setPosition(mech.GRIPPER_OPEN);
                     return Unit.INSTANCE;
                 })
-                .addMarker(1.2,() ->{
+                .addMarker(0.8, () ->{
                     mech.ExtendGripper.setTargetPosition(0);
                     return Unit.INSTANCE;
                 })
-                .addMarker(1.6,() ->{
+                .addMarker(1.6, () ->{
                     mech.ScissorLeft.setTargetPosition(mech.levels[0]);
                     mech.ScissorRight.setTargetPosition(mech.levels[0]);
                     return Unit.INSTANCE;
@@ -982,7 +938,7 @@ public class RedSide3StoneVision extends LinearOpMode {
             drive.followTrajectorySync(toFoundation1upper);
             mech.FoundationLeft.setPosition(mech.LEFT_CLOSE);
             mech.FoundationRight.setPosition(mech.RIGHT_CLOSE);
-            sleep(500);
+            sleep(690);
             drive.followTrajectorySync(pullFoundationupper);
             drive.followTrajectorySync(ingestStone2upper);
             mech.IngesterMotor.setPower(0.8);
@@ -990,7 +946,7 @@ public class RedSide3StoneVision extends LinearOpMode {
             //mech.Gripper.setPosition(mech.GRIPPER_CLOSED);
             drive.followTrajectorySync(toFoundation2upper);
             mech.Gripper.setPosition(mech.GRIPPER_OPEN);
-            sleep(600);
+            sleep(690);
             //mech.IngesterMotor.setPower(0.8);
             mech.IngesterMotor.setPower(0.8);
             drive.followTrajectorySync(toStone3upper);
@@ -1037,13 +993,7 @@ public class RedSide3StoneVision extends LinearOpMode {
             drive.followTrajectorySync(ingestStone2Drivelower);
             //mech.Gripper.setPosition(mech.GRIPPER_CLOSED);
             drive.followTrajectorySync(toFoundation2lower);
-            mech.Gripper.setPosition(mech.GRIPPER_OPEN);
-            sleep(600);
             //mech.IngesterMotor.setPower(0.8);
-            mech.IngesterMotor.setPower(0.8);
-            drive.followTrajectorySync(toStone3lower);
-            //mech.Gripper.setPosition(mech.GRIPPER_CLOSED);
-            drive.followTrajectorySync(toFoundation3lower);
             drive.followTrajectorySync(foundationshovinglower);
             drive.followTrajectorySync(parklower);
         }
