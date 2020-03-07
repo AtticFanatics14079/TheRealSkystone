@@ -468,6 +468,8 @@ public class StatesTeleOpMecanum extends StatesConfigure {
     }
 
     private void cap(){
+        FoundationLeft.setPosition(LEFT_OPEN);
+        FoundationRight.setPosition(RIGHT_OPEN);
         extendCap();
         if(justCapped){
             targetPos = levels[level];
