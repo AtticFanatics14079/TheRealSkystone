@@ -69,7 +69,7 @@ public class BlueSide3StoneVision extends LinearOpMode {
         //width = height in this case, because camera is in portrait mode.
 
         Pose2d startPoselower = new Pose2d(-30.5,  61.0, Math.toRadians(270.0));// changing this might make the path faster
-        Pose2d ingest1lower = new Pose2d(-42.5,20.5, Math.toRadians(305.0));
+        Pose2d ingest1lower = new Pose2d(-44.5,20.5, Math.toRadians(305.0));
         Pose2d ingest2lower = new Pose2d(-47,16, Math.toRadians(270.0));
         Pose2d ingest2stoplower = new Pose2d(ingest2lower.getX()+2.5, ingest2lower.getY()+2.5, Math.toRadians(170.0));
         Pose2d ingest2drivelower = new Pose2d(ingest2lower.getX()-8, ingest2lower.getY()+2.5, Math.toRadians(170.0));
@@ -83,31 +83,31 @@ public class BlueSide3StoneVision extends LinearOpMode {
 
         Pose2d startPosemiddle = new Pose2d(-30.5,  62.0, Math.toRadians(270.0));// changing this might make the path faster
         Pose2d ingest1middle = new Pose2d(-37,25, Math.toRadians(305.0));
-        Pose2d ingest2middle = new Pose2d(-39,18.5, Math.toRadians(270.0));
+        Pose2d ingest2middle = new Pose2d(-41,18.5, Math.toRadians(270.0));
         Pose2d ingest2stopmiddle = new Pose2d(ingest2middle.getX()+3.5, ingest2middle.getY()+2.5, Math.toRadians(165.0));
         Pose2d ingest2drivemiddle = new Pose2d(ingest2middle.getX()-10, ingest2middle.getY()+2.5, Math.toRadians(165.0));
-        Pose2d ingest3middle = new Pose2d(-56, 26, Math.toRadians(165.0));
+        Pose2d ingest3middle = new Pose2d(-56, 26.5, Math.toRadians(165.0));
         Pose2d foundationgrabmiddle = new Pose2d(48.0,25.0,Math.toRadians(90.0));
         Pose2d foundationmidmiddle = new Pose2d (40.0, 40.0, Math.toRadians(135.0));
         Pose2d foundationdumpmiddle = new Pose2d(20.0,43.0,Math.toRadians(180.0));
         Pose2d foundationpickupmiddle = new Pose2d (21,38, Math.toRadians(180.0));
         Pose2d foundationshovemiddle = new Pose2d(51.0,52.0,Math.toRadians(180.0));
         Pose2d middlepassagemiddle = new Pose2d(2.0, 39, Math.toRadians(180.0));
-        Pose2d parkpositionmiddle = new Pose2d(4.0,44.0, Math.toRadians(180.0));
+        Pose2d parkpositionmiddle = new Pose2d(4.0,46.0, Math.toRadians(180.0));
 
         Pose2d startPoseupper = new Pose2d(-30.5,  60.0, Math.toRadians(270.0));// changing this might make the path faster
         Pose2d ingest1upper = new Pose2d(-28.5,25, Math.toRadians(305.0));
-        Pose2d ingest2upper = new Pose2d(-30,20.5, Math.toRadians(270.0));
+        Pose2d ingest2upper = new Pose2d(-33,20.5, Math.toRadians(270.0));
         Pose2d ingest2stopupper = new Pose2d(ingest2upper.getX()+4.5, ingest2upper.getY()+3, Math.toRadians(175.0));
         Pose2d ingest2driveupper = new Pose2d(-40.5, 23.5, Math.toRadians(175.0));
-        Pose2d ingest3upper = new Pose2d(-48.0, 24, Math.toRadians(170.0));
+        Pose2d ingest3upper = new Pose2d(-48.0, 25, Math.toRadians(170.0));
         Pose2d foundationgrabupper = new Pose2d(48.0,25.0,Math.toRadians(90.0));
         Pose2d foundationmidupper = new Pose2d (40.0, 40.0, Math.toRadians(135.0));
         Pose2d foundationdumpupper = new Pose2d(20.0,43.0,Math.toRadians(180.0));
-        Pose2d foundationpickupupper = new Pose2d (21,39,Math.toRadians(180.0));
+        Pose2d foundationpickupupper = new Pose2d (21,40, Math.toRadians(180.0));
         Pose2d foundationshoveupper = new Pose2d(51.0,50.0,Math.toRadians(180.0));
-        Pose2d middlepassageupper = new Pose2d(2.0, 39.0, Math.toRadians(180.0));
-        Pose2d parkpositionupper = new Pose2d(4.0,43.0, Math.toRadians(180.0));
+        Pose2d middlepassageupper = new Pose2d(2.0, 40.0, Math.toRadians(180.0));
+        Pose2d parkpositionupper = new Pose2d(4.0,46.0, Math.toRadians(180.0));
 
 
         drive.setPoseEstimate(startPoseupper);
@@ -868,6 +868,7 @@ public class BlueSide3StoneVision extends LinearOpMode {
 
         telemetry.addLine("Trajectories Done Calculating");
         telemetry.update();
+        mech.Gripper.setPosition(mech.GRIPPER_OPEN);
         ElapsedTime time = new ElapsedTime();
         double prevTime = time.seconds();
         while(time.seconds() - prevTime < 1) {

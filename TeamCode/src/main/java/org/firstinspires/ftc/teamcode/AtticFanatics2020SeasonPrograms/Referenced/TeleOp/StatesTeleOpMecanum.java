@@ -449,7 +449,7 @@ public class StatesTeleOpMecanum extends StatesConfigure {
             if(locking) {
                 justLocked = true;
                 if(startTime == 0) startTime = time.milliseconds();
-                if(time.milliseconds() - startTime > 1000) {
+                if(time.milliseconds() - startTime > 3000) {
                     locking = false;
                     firstLock = false;
                     startTime = 0;

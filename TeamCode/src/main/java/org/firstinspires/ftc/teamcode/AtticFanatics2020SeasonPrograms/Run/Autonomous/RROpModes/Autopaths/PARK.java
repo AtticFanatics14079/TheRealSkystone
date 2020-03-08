@@ -33,7 +33,7 @@ public class PARK extends LinearOpMode {
         drive.setPoseEstimate(startPose);
 
         waitForStart();
-        sleep(2000);
+        //sleep(2000);
         drive.followTrajectorySync(parkGANG);
     }
 }
