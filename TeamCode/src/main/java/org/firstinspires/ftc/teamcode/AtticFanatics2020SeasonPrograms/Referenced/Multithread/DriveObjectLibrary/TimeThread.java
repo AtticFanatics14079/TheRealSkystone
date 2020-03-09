@@ -2,7 +2,7 @@ package org.firstinspires.ftc.teamcode.AtticFanatics2020SeasonPrograms.Reference
 
 import com.qualcomm.robotcore.util.ElapsedTime;
 
-public class TimeThread implements Runnable{
+public class TimeThread extends Thread{
 
     private double seconds, value, endVal;
     private DriveObject drive;

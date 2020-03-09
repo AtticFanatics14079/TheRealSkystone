@@ -23,7 +23,8 @@ public class DriveObject {
 
     private int partNum;
     private Double[] pid = {30.0, 0.0, 0.0}; //Default values
-    private static Thread posThread, timeThread;
+    private PositionThread posThread;
+    private TimeThread timeThread;
     private static ValueStorage vals;
 
     private String objectName;
@@ -166,9 +167,10 @@ public class DriveObject {
                         break;
                     case toPosition:
                         //if(pos.isAlive()) pos.stopPart(partNum); //Currently starting a new thread breaks a part
-                        if(!posThread.isAlive())
-                        pos.start();
-                        return pos;
+                        if(posThread.isAlive()) posThread.stopPart(partNum);
+                        posThread = new PositionThread((int) Value, 1.0, this);
+                        posThread.start();
+                        return posThread;
                     case Default:
                         p[partNum] = Value;
                         b[partNum] = true;
@@ -290,8 +292,16 @@ public class DriveObject {
     }
 
     public void setPower(double Power){
-        if(thisClass == classification.Default || thisClass == classification.Drivetrain) set(Power);
-        else System.out.println("Invalid type for setting power.");
+        Double[] p = new Double[partNum + 1];
+        Boolean[] b = new Boolean[partNum + 1];
+        for(int i = 0; i <= partNum; i++) {
+            p[i] = null;
+            b[i] = null;
+        }
+        p[partNum] = Power;
+        b[partNum] = true;
+        vals.changedParts(true, b);
+        vals.runValues(true, p);
     }
 
     public Thread setPower(double Power, double Seconds){
@@ -299,11 +309,9 @@ public class DriveObject {
             System.out.println("Invalid type for setting power.");
             return null;
         }
-        TimeThread time = new TimeThread(Seconds, Power, this);
-        Thread t = new Thread(time);
-        threads.add(t);
-        t.start();
-        return t;
+        timeThread = new TimeThread(Power, Seconds, this);
+        timeThread.start();
+        return timeThread;
     }
 
     public Thread setTargetPosition(double targetPosition, double maxSpeed){
@@ -326,47 +334,33 @@ public class DriveObject {
                 return null;
             case DcMotorImplEx:
                 //if(pos.isAlive()) pos.stopPart(partNum); //Currently starting a new thread breaks a part
-                Thread pos = new Thread(new PositionThread((int) targetPosition, maxSpeed, this));
-                threads.add(pos);
-                pos.start();
-                return pos;
+                if(posThread.isAlive()) posThread.stopPart(partNum);
+                posThread = new PositionThread((int) targetPosition, maxSpeed, this);
+                posThread.start();
+                return posThread;
         }
         return null;
-    }
-
-    public Thread groupSetTargetPosition(int[] targetPos, double[] maxSpeed, DriveObject ...drive){
-        Boolean[] b = new Boolean[partNum + 1];
-        for(int i = 0; i < partNum; i++) b[i] = null;
-        for(DriveObject d : drive) {
-            if(d.getClassification() != classification.toPosition) return null;
-            b[d.getPartNum()] = true;
-        }
-        vals.changedParts(true, b);
-        //if(pos.isAlive()) pos.stopPart(partNum); //Currently starting a new thread breaks a part
-        Thread pos = new Thread(new PositionThread(targetPos, maxSpeed, drive));
-        threads.add(pos);
-        pos.start();
-        return pos;
     }
 
     public Thread groupSetTargetPosition(int targetPos, double maxSpeed, DriveObject ...drive){
         for(DriveObject d : drive) if(d.getClassification() != classification.toPosition) return null;
         //if(pos.isAlive()) pos.stopPart(partNum); //Currently starting a new thread breaks a part
-        Thread pos = new Thread(new PositionThread(targetPos, maxSpeed, drive));
-        threads.add(pos);
-        pos.start();
-        return pos;
+        if(posThread.isAlive()) posThread.stopPart(partNum);
+        posThread = new PositionThread(targetPos, maxSpeed, drive);
+        posThread.start();
+        return posThread;
     }
 
     public Thread groupSetTargetPosition(int targetPos, double maxSpeed, ArrayList<DriveObject> drive){
         for(DriveObject d : drive) if(d.getClassification() != classification.toPosition) return null;
         //if(pos.isAlive()) pos.stopPart(partNum); //Currently starting a new thread breaks a part
+        if(posThread.isAlive()) posThread.stopPart(partNum);
         DriveObject[] d = new DriveObject[drive.size()];
-        for(int i = 0; i < drive.size(); i++) d[i] = drive.get(i);
-        Thread pos = new Thread(new PositionThread(targetPos, maxSpeed, d));
-        threads.add(pos);
-        pos.start();
-        return pos;
+        int i = 0;
+        for(DriveObject a : drive) d[i++] = a;
+        posThread = new PositionThread(targetPos, maxSpeed, d);
+        posThread.start();
+        return posThread;
     }
 
     public Double[] getPID(){
@@ -401,6 +395,7 @@ public class DriveObject {
     }
 
     public void endAllThreads(){
-        for(Thread t : threads) {if(t != null && t.isAlive()) t.stop();}
+        if(posThread.isAlive()) posThread.stop();
+        if(timeThread.isAlive()) timeThread.stop();
     }
 }
