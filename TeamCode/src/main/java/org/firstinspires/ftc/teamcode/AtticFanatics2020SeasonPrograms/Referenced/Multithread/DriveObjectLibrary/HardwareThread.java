@@ -1,5 +1,7 @@
 package org.firstinspires.ftc.teamcode.AtticFanatics2020SeasonPrograms.Referenced.Multithread.DriveObjectLibrary;
 
+import android.support.v4.util.Pair;
+
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
@@ -11,9 +13,9 @@ public class HardwareThread extends Thread {
 
     ElapsedTime time;
     private ValueStorage vals;
-    double[] readVals; //See hardwareValues in ValueStorage for each value.
-    Boolean[] desiredVals; //See hardwareValues in ValueStorage for each value.
-    Double[] runValues; //See hardwareValues in ValueStorage for each value.
+    Pair<Double, Double>[] hardwareVals; //See hardwareValues in ValueStorage for each value.
+    Boolean[] changedParts; //See hardwareValues in ValueStorage for each value.
+    Double[] runVals; //See hardwareValues in ValueStorage for each value.
     public Configuration config;
     private volatile boolean stop;
     private boolean setTime = false;
@@ -23,14 +25,14 @@ public class HardwareThread extends Thread {
         this.vals = valStorage;
         config = new Configuration(hwMap, vals);
         vals.setup(config.hardware.size());
-        runValues = new Double[config.hardware.size()];
-        readVals = new double[config.hardware.size()];
-        desiredVals = new Boolean[config.hardware.size()];
-        Arrays.fill(desiredVals, false);
-        Arrays.fill(runValues, 0.0);
+        runVals = new Double[config.hardware.size()];
+        hardwareVals = new Pair[config.hardware.size()];
+        changedParts = new Boolean[config.hardware.size()];
+        Arrays.fill(changedParts, false);
+        Arrays.fill(runVals, 0.0);
         vals.time(true, 0.0);
-        vals.changedParts(true, desiredVals);
-        vals.runValues(true, runValues);
+        vals.changedParts(true, changedParts);
+        vals.runValues(true, runVals);
         //voltMult = 13.0/config.voltSense.getVoltage();
         config.setBulkCachingManual();
     }
@@ -42,7 +44,7 @@ public class HardwareThread extends Thread {
                 lastTime = time.milliseconds();
                 vals.time(true, time.milliseconds());
                 readHardware(vals.changedParts(false, null));
-                vals.hardware(true, readVals);
+                vals.hardware(true, hardwareVals);
                 runHardware(vals.runValues(false, null), vals.changedParts(false, null));
             }
         }
@@ -63,23 +65,23 @@ public class HardwareThread extends Thread {
 
         config.clearBulkCache();
 
-        desiredVals = changedParts.clone();
+        this.changedParts = changedParts.clone();
 
         for(int i = 0; i < config.hardware.size(); i++) {
-            if (desiredVals[i])
-                readVals[i] = config.hardware.get(i).getHardware();
+            if (changedParts[i])
+                hardwareVals[i] = config.hardware.get(i).getHardware();
         }
     }
 
-    private void runHardware(double[] Values, Boolean[] desiredVals) {
-        //Same values for desiredParts as above's desiredVals.
+    private void runHardware(double[] Values, Boolean[] changedParts) {
+        //Same values for desiredParts as above's changedParts.
 
-        for(int i = 0; i < Values.length; i++) runValues[i] = Values[i];
-        this.desiredVals = desiredVals.clone();
+        for(int i = 0; i < Values.length; i++) runVals[i] = Values[i];
+        this.changedParts = changedParts.clone();
 
         for(int i = 0; i < config.hardware.size(); i++) {
-            if (this.desiredVals[i])
-                config.hardware.get(i).setHardware(runValues[i]);
+            if (this.changedParts[i])
+                config.hardware.get(i).setHardware(runVals[i]);
         }
     }
 

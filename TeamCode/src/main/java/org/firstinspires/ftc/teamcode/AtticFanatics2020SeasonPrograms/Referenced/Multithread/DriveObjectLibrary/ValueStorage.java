@@ -1,12 +1,14 @@
 package org.firstinspires.ftc.teamcode.AtticFanatics2020SeasonPrograms.Referenced.Multithread.DriveObjectLibrary;
 
+import android.support.v4.util.Pair;
+
 import java.util.Arrays;
 
 public class ValueStorage {
 
     private volatile double Time = 0.0; //In milliseconds
 
-    private double[] hardwareValues;
+    private Pair<Double, Double>[] hardwareValues;
 
     private double[] runValues; //Same values as above, but used after algorithms
     //determine what the power should be.
@@ -17,12 +19,13 @@ public class ValueStorage {
     public volatile boolean receivedDesiredVals = false;
 
     public void setup(int size){
-        hardwareValues = runValues = new double[size];
+        runValues = new double[size];
+        hardwareValues = new Pair[size];
         changedParts = new Boolean[size];
         System.out.println(changedParts.length);
     }
 
-    public synchronized double[] hardware(boolean writing, double[] values){
+    public synchronized Pair<Double, Double>[] hardware(boolean writing, Pair[] values){
         if(writing) {
             hardwareValues = values.clone();
             return null;
