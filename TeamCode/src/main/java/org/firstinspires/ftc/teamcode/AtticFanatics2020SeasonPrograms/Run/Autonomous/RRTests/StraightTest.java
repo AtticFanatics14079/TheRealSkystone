@@ -13,7 +13,7 @@ import org.firstinspires.ftc.teamcode.AtticFanatics2020SeasonPrograms.Referenced
 @Config
 @Autonomous(group = "tuning")
 public class StraightTest extends LinearOpMode {
-    private static double distance = 72;
+    private static double distance = 60;
     ;
 
     @Override
@@ -21,7 +21,7 @@ public class StraightTest extends LinearOpMode {
         SampleMecanumDriveBase drive = new SampleMecanumDriveREV(hardwareMap);
 
         Trajectory trajectory = drive.trajectoryBuilder()
-                .strafeLeft(distance)
+                .forward(distance)
                 .build();
 
         waitForStart();

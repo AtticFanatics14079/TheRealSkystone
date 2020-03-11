@@ -36,11 +36,11 @@ public class NoDriveConfigure {
     public static final double RIGHT_CLOSE = 0.87;
 
     public static final double GRIPPER_CLOSED = 1;
-    public static final double GRIPPER_OPEN = 0.2;
+    public static final double GRIPPER_OPEN = 0.45;
 
     public static final int EXTEND_OUT = 1100;
 
-    public static final int[] levels = {0,600,900,1500,1900,2300,2700, 3100, 3500, 3900};
+    public static final int[] levels = {0, 700, 1170, /*START OF STACKING LEVELS*/ 820, 1150, 1400, 1900, 2380, 3250, 3900, 4920, 6040, 7240, 8600, 10400, 12220};
 
     public enum Ingester{
         IN, OUT, STOPPEDIN, STOPPEDOUT
@@ -86,6 +86,7 @@ public class NoDriveConfigure {
 
         ScissorLeft.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         ScissorRight.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        ExtendGripper.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         ScissorLeft.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         ScissorRight.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         ExtendGripper.setDirection(DcMotorSimple.Direction.REVERSE);

@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.AtticFanatics2020SeasonPrograms.Run.Autonomous.RROpModes.Autopaths.WIP;
+package org.firstinspires.ftc.teamcode.AtticFanatics2020SeasonPrograms.Run.Autonomous.RROpModes.Autopaths.Red;
 
 import com.acmerobotics.roadrunner.geometry.Pose2d;
 import com.acmerobotics.roadrunner.geometry.Vector2d;
@@ -20,17 +20,18 @@ import kotlin.Unit;
 //import org.firstinspires.ftc.teamcode.AtticFanatics2020SeasonPrograms.Referenced.RoadRunner.SampleMecanumDriveBase;
 
 @Autonomous(group = "drive")
-public class RedSide2StoneMiddle extends LinearOpMode {
+public class RedSide2StoneLower extends LinearOpMode {
     @Override
     public void runOpMode() throws InterruptedException {
         SampleMecanumDriveREV drive = new SampleMecanumDriveREV(hardwareMap);
         NoDriveConfigure mech = new NoDriveConfigure();
         mech.Configure(hardwareMap);
         Pose2d startPose = new Pose2d(-20.0,  -63.0, Math.toRadians(90.0));// changing this might make the path faster
-        Pose2d ingest1 = new Pose2d(-35.0,-26.0, Math.toRadians(90.0));
-        Pose2d ingest1stop = new Pose2d(-37, -13, Math.toRadians(90.0));
-        Pose2d ingest2 = new Pose2d(-55.0,-24.0, Math.toRadians(90.0));
-        Pose2d ingest2stop = new Pose2d(-55.0,-14.0, Math.toRadians(90.0));
+        Pose2d ingest1 = new Pose2d(-43.0,-26.0, Math.toRadians(80.0));
+        Pose2d ingest1stop = new Pose2d(-44, -13, Math.toRadians(90.0));
+        Pose2d ingest2 = new Pose2d(-50.0,-18.0, Math.toRadians(90.0));
+        Pose2d ingest2stop = new Pose2d(-46.0,-22.0, Math.toRadians(180.0));
+        Pose2d ingest2drive = new Pose2d(-54.0, -23.0, Math.toRadians(180.0));
         Pose2d foundationgrab = new Pose2d(48.0,-25.0,Math.toRadians(270.0));
         Pose2d foundationmid = new Pose2d (40.0, -40.0, Math.toRadians(225.0));
         Pose2d foundationdump = new Pose2d(20.0,-45.0,Math.toRadians(180.0));
@@ -59,8 +60,8 @@ public class RedSide2StoneMiddle extends LinearOpMode {
                 .splineTo(middlepassage)
                 .addMarker(() -> {
                     mech.IngesterMotor.setPower(0);
-                    mech.ScissorLeft.setTargetPosition(NoDriveConfigure.levels[2]);
-                    mech.ScissorRight.setTargetPosition(NoDriveConfigure.levels[2]);
+                    mech.ScissorLeft.setTargetPosition(NoDriveConfigure.levels[1]);
+                    mech.ScissorRight.setTargetPosition(NoDriveConfigure.levels[1]);
                     mech.ScissorLeft.setMode(DcMotor.RunMode.RUN_TO_POSITION);
                     mech.ScissorRight.setMode(DcMotor.RunMode.RUN_TO_POSITION);
                     mech.ScissorLeft.setPower(1);
@@ -77,7 +78,7 @@ public class RedSide2StoneMiddle extends LinearOpMode {
         Trajectory pullFoundation = drive.trajectoryBuilder()
                 .splineTo(foundationmid)
                 .addMarker(() -> {
-                    mech.IngesterMotor.setPower(0.6);
+                    mech.IngesterMotor.setPower(0.5);
                     mech.ScissorLeft.setTargetPosition(NoDriveConfigure.levels[0]);
                     mech.ScissorRight.setTargetPosition(NoDriveConfigure.levels[0]);
                     return Unit.INSTANCE;
@@ -93,18 +94,23 @@ public class RedSide2StoneMiddle extends LinearOpMode {
 
         drive.setPoseEstimate(ingest2);
         Trajectory ingestStone2 = drive.trajectoryBuilder()
-                .strafeTo (new Vector2d(ingest2stop.getX(), ingest2stop.getY()))
+                .reverse()
+                .splineTo (ingest2stop)
                 .build();
 
-
         drive.setPoseEstimate(ingest2stop);
+        Trajectory ingestStone2Drive = drive.trajectoryBuilder()
+                .splineTo (ingest2drive)
+                .build();
+
+        drive.setPoseEstimate(ingest2drive);
         Trajectory toFoundation2 = drive.trajectoryBuilder()
                 .reverse()
                 .splineTo(middlepassage)
                 .addMarker(() -> {
                     mech.IngesterMotor.setPower(0);
-                    mech.ScissorLeft.setTargetPosition(NoDriveConfigure.levels[2]);
-                    mech.ScissorRight.setTargetPosition(NoDriveConfigure.levels[2]);
+                    mech.ScissorLeft.setTargetPosition(NoDriveConfigure.levels[3]);
+                    mech.ScissorRight.setTargetPosition(NoDriveConfigure.levels[3]);
                     return Unit.INSTANCE;
                 })
                 .splineTo(foundationpickup)
@@ -125,39 +131,40 @@ public class RedSide2StoneMiddle extends LinearOpMode {
         drive.setPoseEstimate(startPose);
         mech.Gripper.setPosition(NoDriveConfigure.GRIPPER_OPEN);
         waitForStart();
-        mech.IngesterMotor.setPower(0.6); //Off is the same but setPower(0)
+            mech.IngesterMotor.setPower(0.5); //Off is the same but setPower(0)
         drive.followTrajectorySync(toStone1);
         drive.followTrajectorySync(ingestStone1);
-        mech.Gripper.setPosition(NoDriveConfigure.GRIPPER_CLOSED);
-        sleep(300);
+            mech.Gripper.setPosition(NoDriveConfigure.GRIPPER_CLOSED);
+            sleep(300);
         drive.followTrajectorySync(toFoundation1);
-        mech.ExtendGripper.setTargetPosition(NoDriveConfigure.EXTEND_OUT);
-        mech.ExtendGripper.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        mech.ExtendGripper.setPower(1);
-        mech.FoundationLeft.setPosition(NoDriveConfigure.LEFT_CLOSE);
-        mech.FoundationRight.setPosition(NoDriveConfigure.RIGHT_CLOSE);
-        sleep(500);
-        mech.Gripper.setPosition(NoDriveConfigure.GRIPPER_OPEN);
-        sleep(600);
-        mech.ExtendGripper.setTargetPosition(0);
+            mech.ExtendGripper.setTargetPosition(NoDriveConfigure.EXTEND_OUT);
+            mech.ExtendGripper.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+            mech.ExtendGripper.setPower(0.8);
+            mech.FoundationLeft.setPosition(NoDriveConfigure.LEFT_CLOSE);
+            mech.FoundationRight.setPosition(NoDriveConfigure.RIGHT_CLOSE);
+            sleep(300);
+            mech.Gripper.setPosition(NoDriveConfigure.GRIPPER_OPEN);
+            sleep(400);
+            mech.ExtendGripper.setTargetPosition(0);
         drive.followTrajectorySync(pullFoundation);
-        mech.FoundationLeft.setPosition(NoDriveConfigure.LEFT_OPEN);
-        mech.FoundationRight.setPosition(NoDriveConfigure.RIGHT_OPEN);
-        sleep(500);
+            mech.FoundationLeft.setPosition(NoDriveConfigure.LEFT_OPEN);
+            mech.FoundationRight.setPosition(NoDriveConfigure.RIGHT_OPEN);
+            sleep(500);
         drive.followTrajectorySync(toStone2);
         drive.followTrajectorySync(ingestStone2);
-        mech.Gripper.setPosition(NoDriveConfigure.GRIPPER_CLOSED);
-        sleep(300);
+        drive.followTrajectorySync(ingestStone2Drive);
+            mech.Gripper.setPosition(NoDriveConfigure.GRIPPER_CLOSED);
+            sleep(300);
         drive.followTrajectorySync(toFoundation2);
-        mech.ExtendGripper.setTargetPosition(NoDriveConfigure.EXTEND_OUT);
-        sleep(200);
-        mech.Gripper.setPosition(NoDriveConfigure.GRIPPER_OPEN);
-        sleep(600);
-        mech.ExtendGripper.setTargetPosition(0);
-        sleep(400);
+            mech.ExtendGripper.setTargetPosition(NoDriveConfigure.EXTEND_OUT);
+            sleep(300);
+            mech.Gripper.setPosition(NoDriveConfigure.GRIPPER_OPEN);
+            sleep(300);
+            mech.ExtendGripper.setTargetPosition(0);
+            sleep(300);
         drive.followTrajectorySync(park);
-        mech.Gripper.setPosition(NoDriveConfigure.GRIPPER_OPEN);
-        sleep(1000);
+            mech.Gripper.setPosition(NoDriveConfigure.GRIPPER_OPEN);
+            sleep(1000);
 
 
     }
