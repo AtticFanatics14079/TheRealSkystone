@@ -18,7 +18,7 @@ public class Test extends LinearOpMode {
         hardware.start();
         for(DriveObject d : hardware.config.hardware) {
             d.setClassification(DriveObject.classification.toPosition);
-            d.setPID(3, 0.005, 1);
+            d.setPID(0.003, 0.005, 1);
         }
         System.out.println(hardware.config.hardware.get(0).getPID()[0] + " hf");
         hardware.startTime(new ElapsedTime());
@@ -26,8 +26,6 @@ public class Test extends LinearOpMode {
         Sequence s2 = new Sequence(() -> hardware.config.hardware.get(0).groupSetTargetPosition(0, 1, hardware.config.hardware), s);
         Thread t = new Thread(s2);
         t.start();
-        ElapsedTime time = new ElapsedTime();
-        double lastTime = time.milliseconds();
         while (!isStopRequested()){}
         hardware.Stop();
     }
