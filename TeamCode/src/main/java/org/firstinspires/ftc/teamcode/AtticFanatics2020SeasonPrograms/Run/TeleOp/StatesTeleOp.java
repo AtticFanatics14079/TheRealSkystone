@@ -22,6 +22,7 @@ public class StatesTeleOp extends LinearOpMode {
         Drive.setBulkCachingManual();
         //Running scissors down to keep starting position consistent
         ElapsedTime time = new ElapsedTime();
+        telemetry.setMsTransmissionInterval(40);
         double prevTime = time.seconds();
         while(time.seconds() - prevTime < 1) {
             Drive.ScissorLeft.setPower(-0.2);

@@ -71,6 +71,11 @@ public class DriveConstants {
             Math.toRadians(120.0), Math.toRadians(90.0), 0.0
     );
 
+    public static DriveConstraints GAS_CONSTRAINTS = new DriveConstraints(
+            50.0, 30.0, 0.0,
+            Math.toRadians(180.0), Math.toRadians(90.0), 0.0
+    );
+
 
     public static double encoderTicksToInches(double ticks) {
         return WHEEL_RADIUS * 2 * Math.PI * GEAR_RATIO * ticks / MOTOR_CONFIG.getTicksPerRev();
