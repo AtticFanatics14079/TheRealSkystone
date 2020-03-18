@@ -12,18 +12,19 @@ public class PositionThread extends Thread {
 
     private ArrayList<Integer> pos = new ArrayList<>(); //Arrays are all ordered according to partNum.
     private ArrayList<Double> maxSpeed = new ArrayList<>(), totalError = new ArrayList<>(), lastError = new ArrayList<>();
-    private double lastTime;
+    private double lastTime, tolerance, error;
     private volatile ArrayList<Pair<DriveObject, DriveObject>> drive = new ArrayList<>();
     private volatile ArrayList<Double[]> PID = new ArrayList<>();
     private boolean stillGoing = true, group = false;
     private volatile boolean stop;
 
-    public PositionThread(int position, double maxSpeed, DriveObject drive){
+    public PositionThread(int position, double maxSpeed, double tolerance, DriveObject drive){
         int i = drive.getPartNum();
         this.drive.set(i, new Pair(drive, drive));
         pos.set(i, position);
         this.maxSpeed.set(i, Math.abs(maxSpeed));
         PID.set(i, drive.getPID().clone());
+        this.tolerance = tolerance;
     }
 
     public PositionThread(int position, double maxSpeed, DriveObject[] drive){
@@ -61,7 +62,7 @@ public class PositionThread extends Thread {
                     stillGoing = true;
                     speed = toPosition();
                     drive.get(0).first.setPower(speed);
-                    if(Math.abs(speed) < 0.05) { //This is using speed as an indicator to stop, may change later.
+                    if(Math.abs(error) < tolerance) { //This is using speed as an indicator to stop, may change later.
                         drive.get(0).first.set(0);
                         drive.set(0, null);
                     }
@@ -71,13 +72,14 @@ public class PositionThread extends Thread {
     }
 
     private double toPosition(){
-        double speed = 0, error = pos.get(0) - drive.get(0).second.get();
+        double speed = 0;
+        error = pos.get(0) - drive.get(0).second.get();
         totalError.set(0, totalError.get(0) + error);
         speed += PID.get(0)[0] * error;
         speed += PID.get(0)[1] * totalError.get(0);
         speed += PID.get(0)[2] * (error - lastError.get(0));
 
-        if(speed > 1) speed = 1;
+        if(speed > PID.get(0)[3]) speed = PID.get(0)[3];
 
         speed *= maxSpeed.get(0);
 
@@ -87,7 +89,8 @@ public class PositionThread extends Thread {
     }
 
     private double groupToPosition(){
-        double speed = 0, error = pos.get(0);
+        double speed = 0;
+        error = pos.get(0);
         for(Pair<DriveObject, DriveObject> n : drive) error -= n.second.get()/4.0;
         totalError.set(0, totalError.get(0) + error);
         speed += PID.get(0)[0] * error;

@@ -24,7 +24,7 @@ public class DriveObject {
     private TouchSensor touch;
 
     private int partNum;
-    private Double[] pid = {30.0, 0.0, 0.0}; //Default values
+    private Double[] pid = {30.0, 0.0, 0.0, 3000.0}; //Default values
     private PositionThread posThread;
     private TimeThread timeThread;
     private static ValueStorage vals;
@@ -168,11 +168,7 @@ public class DriveObject {
                         //Maybe apply something to limit acceleration, but for now, just set power.
                         break;
                     case toPosition:
-                        //if(pos.isAlive()) pos.stopPart(partNum); //Currently starting a new thread breaks a part
-                        if(posThread.isAlive()) posThread.stopPart(partNum);
-                        posThread = new PositionThread((int) Value, 1.0, this);
-                        posThread.start();
-                        return posThread;
+                        setTargetPosition((int) Value, 1.0);
                     case Default:
                         p[partNum] = Value;
                         b[partNum] = true;
@@ -367,7 +363,35 @@ public class DriveObject {
             case DcMotorImplEx:
                 //if(pos.isAlive()) pos.stopPart(partNum); //Currently starting a new thread breaks a part
                 if(posThread.isAlive()) posThread.stopPart(partNum);
-                posThread = new PositionThread((int) targetPosition, maxSpeed, this);
+                posThread = new PositionThread((int) targetPosition, maxSpeed, 50, this);
+                posThread.start();
+                return posThread;
+        }
+        return null;
+    }
+
+    public Thread setTargetPosition(double targetPosition, double tolerance, double maxSpeed){
+        if(thisClass != classification.toPosition){
+            System.out.println("Invalid call.");
+            return null;
+        }
+        switch(thisType){
+            case Servo:
+                Double[] p = new Double[partNum + 1];
+                Boolean[] b = new Boolean[partNum + 1];
+                for(int i = 0; i < partNum; i++) {
+                    p[i] = null;
+                    b[i] = null;
+                }
+                p[partNum] = targetPosition;
+                b[partNum] = true;
+                vals.changedParts(true, b);
+                vals.runValues(true, p);
+                return null;
+            case DcMotorImplEx:
+                //if(pos.isAlive()) pos.stopPart(partNum); //Currently starting a new thread breaks a part
+                if(posThread.isAlive()) posThread.stopPart(partNum);
+                posThread = new PositionThread((int) targetPosition, maxSpeed, tolerance, this);
                 posThread.start();
                 return posThread;
         }
@@ -404,6 +428,13 @@ public class DriveObject {
         pid[1] = i;
         pid[2] = d;
     }
+    public void setPID(double p, double i, double d, double maxVelocity){
+        pid[0] = p;
+        pid[1] = i;
+        pid[2] = d;
+        pid[3] = maxVelocity;
+    }
+
 
     public void setPID(Double[] pid){
         this.pid = pid;

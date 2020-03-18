@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.AtticFanatics2020SeasonPrograms.Run.Autonomous.RROpModes.Autopaths;
+package org.firstinspires.ftc.teamcode.AtticFanatics2020SeasonPrograms.Run.Autonomous.RROpModes.Autopaths.Red;
 
 import com.acmerobotics.roadrunner.geometry.Pose2d;
 import com.acmerobotics.roadrunner.geometry.Vector2d;
@@ -27,7 +27,7 @@ public class RedSide2StoneUpper extends LinearOpMode {
         NoDriveConfigure mech = new NoDriveConfigure();
         mech.Configure(hardwareMap);
         Pose2d startPose = new Pose2d(-20.0,  -63.0, Math.toRadians(90.0));// changing this might make the path faster
-        Pose2d ingest1 = new Pose2d(-27.0,-26.0, Math.toRadians(90.0));
+        Pose2d ingest1 = new Pose2d(-28.0,-26.0, Math.toRadians(80.0));
         Pose2d ingest1stop = new Pose2d(-29, -13, Math.toRadians(90.0));
         Pose2d ingest2 = new Pose2d(-47.0,-24.0, Math.toRadians(90.0));
         Pose2d ingest2stop = new Pose2d(-47.0,-14.0, Math.toRadians(90.0));
@@ -77,7 +77,7 @@ public class RedSide2StoneUpper extends LinearOpMode {
         Trajectory pullFoundation = drive.trajectoryBuilder()
                 .splineTo(foundationmid)
                 .addMarker(() -> {
-                    mech.IngesterMotor.setPower(0.6);
+                    mech.IngesterMotor.setPower(0.5);
                     mech.ScissorLeft.setTargetPosition(NoDriveConfigure.levels[0]);
                     mech.ScissorRight.setTargetPosition(NoDriveConfigure.levels[0]);
                     return Unit.INSTANCE;
@@ -123,41 +123,41 @@ public class RedSide2StoneUpper extends LinearOpMode {
 
         //Trajectory dragFoundation = drive.trajectoryBuilder()
         drive.setPoseEstimate(startPose);
-            mech.Gripper.setPosition(NoDriveConfigure.GRIPPER_OPEN);
+        mech.Gripper.setPosition(NoDriveConfigure.GRIPPER_OPEN);
         waitForStart();
-            mech.IngesterMotor.setPower(0.6); //Off is the same but setPower(0)
+        mech.IngesterMotor.setPower(0.5); //Off is the same but setPower(0)
         drive.followTrajectorySync(toStone1);
         drive.followTrajectorySync(ingestStone1);
-            mech.Gripper.setPosition(NoDriveConfigure.GRIPPER_CLOSED);
-            sleep(300);
+        mech.Gripper.setPosition(NoDriveConfigure.GRIPPER_CLOSED);
+        sleep(300);
         drive.followTrajectorySync(toFoundation1);
-            mech.ExtendGripper.setTargetPosition(NoDriveConfigure.EXTEND_OUT);
-            mech.ExtendGripper.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-            mech.ExtendGripper.setPower(1);
-            mech.FoundationLeft.setPosition(NoDriveConfigure.LEFT_CLOSE);
-            mech.FoundationRight.setPosition(NoDriveConfigure.RIGHT_CLOSE);
-            sleep(500);
-            mech.Gripper.setPosition(NoDriveConfigure.GRIPPER_OPEN);
-            sleep(600);
-            mech.ExtendGripper.setTargetPosition(0);
+        mech.ExtendGripper.setTargetPosition(NoDriveConfigure.EXTEND_OUT);
+        mech.ExtendGripper.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        mech.ExtendGripper.setPower(1);
+        mech.FoundationLeft.setPosition(NoDriveConfigure.LEFT_CLOSE);
+        mech.FoundationRight.setPosition(NoDriveConfigure.RIGHT_CLOSE);
+        sleep(500);
+        mech.Gripper.setPosition(NoDriveConfigure.GRIPPER_OPEN);
+        sleep(600);
+        mech.ExtendGripper.setTargetPosition(0);
         drive.followTrajectorySync(pullFoundation);
-            mech.FoundationLeft.setPosition(NoDriveConfigure.LEFT_OPEN);
-            mech.FoundationRight.setPosition(NoDriveConfigure.RIGHT_OPEN);
-            sleep(500);
+        mech.FoundationLeft.setPosition(NoDriveConfigure.LEFT_OPEN);
+        mech.FoundationRight.setPosition(NoDriveConfigure.RIGHT_OPEN);
+        sleep(500);
         drive.followTrajectorySync(toStone2);
         drive.followTrajectorySync(ingestStone2);
-            mech.Gripper.setPosition(NoDriveConfigure.GRIPPER_CLOSED);
-            sleep(300);
+        mech.Gripper.setPosition(NoDriveConfigure.GRIPPER_CLOSED);
+        sleep(300);
         drive.followTrajectorySync(toFoundation2);
-            mech.ExtendGripper.setTargetPosition(NoDriveConfigure.EXTEND_OUT);
-            sleep(200);
-            mech.Gripper.setPosition(NoDriveConfigure.GRIPPER_OPEN);
-            sleep(600);
-            mech.ExtendGripper.setTargetPosition(0);
-            sleep(400);
+        mech.ExtendGripper.setTargetPosition(NoDriveConfigure.EXTEND_OUT);
+        sleep(200);
+        mech.Gripper.setPosition(NoDriveConfigure.GRIPPER_OPEN);
+        sleep(600);
+        mech.ExtendGripper.setTargetPosition(0);
+        sleep(400);
         drive.followTrajectorySync(park);
-            mech.Gripper.setPosition(NoDriveConfigure.GRIPPER_OPEN);
-            sleep(1000);
+        mech.Gripper.setPosition(NoDriveConfigure.GRIPPER_OPEN);
+        sleep(1000);
 
 
     }

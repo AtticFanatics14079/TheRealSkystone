@@ -1,4 +1,5 @@
-- Make a single thread for position and a single thread for time-based actions (Halfway through changing PositionThread AND DriveObject).
+- Add 4th PID term that is max velocity (default 3000)
+- Fix PositionThread to work with groups using tolerance
 - Get IMU set up, possibly incorporate IMU turning
 - Get touch sensors set up
 - Get odometry set up

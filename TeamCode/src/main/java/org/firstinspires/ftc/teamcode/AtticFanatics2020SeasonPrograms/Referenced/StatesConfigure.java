@@ -9,6 +9,7 @@ import com.qualcomm.robotcore.hardware.DcMotorImplEx;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
+import com.qualcomm.robotcore.hardware.TouchSensor;
 import com.qualcomm.robotcore.hardware.VoltageSensor;
 
 import org.firstinspires.ftc.robotcore.external.Func;
@@ -54,6 +55,8 @@ public class StatesConfigure {
 
     public DcMotorImplEx ingester;
 
+    public TouchSensor BlockSense;
+
     public boolean Configured = false;
 
     public static final int TOLERANCE = 10;
@@ -62,17 +65,17 @@ public class StatesConfigure {
     public static final double LEFT_CLOSE = 0.19;
     public static final double RIGHT_OPEN = 0.4;
     public static final double RIGHT_CLOSE = 0.87;
-    public static final int EXTEND_OUT = 1100;
+    public static final int EXTEND_OUT = 1090;
     public static final int EXTEND_TO_CAP = 710;
-    public static final int EXTEND_TO_REST = 430;
+    public static final int EXTEND_TO_REST = 500;
 
     public static final double GRIPPER_CLOSED = 1;
-    public static final double GRIPPER_LOOSE = 0.7;
-    public static final double GRIPPER_OPEN = 0.55;
+    public static final double GRIPPER_LOOSE = 0.65;
+    public static final double GRIPPER_OPEN = 0.45;
     public static final double CAPSTONE_OPEN = 0.8;
     public static final double CAPSTONE_CLOSED = 0.97;
 
-    public static final int[] levels = {0, 760, 1170, /*START OF STACKING LEVELS*/ 700, 1150, 1470, 1880, 2380, 3250, 3900, 4920, 6040, 7240, 8600, 10400, 12220};
+    public static final int[] levels = {0, 700, 1170, /*START OF STACKING LEVELS*/ 820, 1250, 1550, 1950, 2520, 3300, 3980, 5020, 6040, 7240, 8600, 10400, 12220};
 
     public enum Ingester{
         IN, OUT, STOPPEDIN, STOPPEDOUT
@@ -87,7 +90,7 @@ public class StatesConfigure {
     public Robot status = Robot.BALANCED;
 
     public enum Macros{
-        GRABBING, STACKING, GRABBED, LIFTING, LIFTED, NOACTION, RESETTING
+        GRABBING, STACKING, GRABBED, LIFTING, LIFTED, NOACTION, RESETTING, REGRABBING
     }
 
     public Macros Macro = Macros.NOACTION;
@@ -188,6 +191,7 @@ public class StatesConfigure {
         Gripper = hwMap.get(Servo.class, "gripper");
         ExtendGripper = hwMap.get(DcMotorImplEx.class, "extend_gripper");
         Capstone = hwMap.get(Servo.class, "capstone_servo");
+        //BlockSense = hwMap.get(TouchSensor.class, "block_sensor");
         //voltSense = hwMap.get(VoltageSensor.class, "Motor Controller 1"); //I have no idea what the voltage sensor name is so...
 
         Motors[1].setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
@@ -196,10 +200,11 @@ public class StatesConfigure {
         Motors[4].setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         ScissorLeft.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         ScissorRight.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        ExtendGripper.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
         Motors[3].setDirection(DcMotor.Direction.REVERSE);
         Motors[4].setDirection(DcMotor.Direction.REVERSE);
-        ExtendGripper.setDirection(DcMotorSimple.Direction.REVERSE);
+        ExtendGripper.setDirection(DcMotor.Direction.REVERSE);
 
         /*imu = hwMap.get(BNO055IMU.class, "imu");
         BNO055IMU.Parameters parameters = new BNO055IMU.Parameters();
