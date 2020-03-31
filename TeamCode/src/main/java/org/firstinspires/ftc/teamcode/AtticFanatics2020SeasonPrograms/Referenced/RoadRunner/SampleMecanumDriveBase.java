@@ -58,7 +58,7 @@ public abstract class SampleMecanumDriveBase extends MecanumDrive {
     private MotionProfile turnProfile;
     private double turnStart;
 
-    private DriveConstraints constraints, gasconstraints;
+    private DriveConstraints constraints, gasConstraints;
     private TrajectoryFollower follower;
 
     private List<Double> lastWheelPositions;
@@ -78,15 +78,12 @@ public abstract class SampleMecanumDriveBase extends MecanumDrive {
         turnController.setInputBounds(0, 2 * Math.PI);
 
         constraints = new MecanumConstraints(BASE_CONSTRAINTS, TRACK_WIDTH);
-        gasconstraints = new MecanumConstraints(GAS_CONSTRAINTS,TRACK_WIDTH);
+        gasConstraints = new MecanumConstraints(GAS_CONSTRAINTS,TRACK_WIDTH);
         follower = new HolonomicPIDVAFollower(TRANSLATIONAL_PID, TRANSLATIONAL_PID, HEADING_PID);
     }
 
     public TrajectoryBuilder trajectoryBuilder() {
         return new TrajectoryBuilder(getPoseEstimate(), constraints);
-    }
-    public TrajectoryBuilder GasTrajectoryBuilder() {
-        return new TrajectoryBuilder(getPoseEstimate(), gasconstraints);
     }
 
     public TrajectoryBuilder GasTrajectoryBuilder() {
